@@ -21,16 +21,8 @@ public class ProjectConfig extends ResourceConfig {
         // Todo Initialiser la ressource ici
         HeartbeatResource heartbeatResource = new HeartbeatResource();
 
-        register(new Root());
         // Todo Enregistrer la ressource ici
         register(heartbeatResource);
-    }
 
-    @Path("/")
-    public static class Root {
-        @GET
-        public Response ping() {
-            return Response.ok("Game Api is alive", MediaType.TEXT_PLAIN).build();
-        }
     }
 }
