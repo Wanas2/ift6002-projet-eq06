@@ -18,17 +18,13 @@ public class ProjectConfig extends ResourceConfig {
         TurnFactory turnFactory = new TurnFactory();
         Game game = new Game(turnFactory);
 
-        // Todo Initialiser les assemblers ici
         TurnAssembler turnAssembler = new TurnAssembler();
 
-        // Todo Initialiser les services ici
         GameService gameService = new GameService(turnAssembler, game);
 
-        // Todo Initialiser les ressources ici
         HeartbeatResource heartbeatResource = new HeartbeatResource();
         GameResource gameResource = new GameResource(gameService);
 
-        // Todo Enregistrer les ressources ici
         register(heartbeatResource);
         register(gameResource);
     }
