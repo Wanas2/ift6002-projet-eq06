@@ -25,6 +25,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <junit.version>5.7.2</junit.version>
         <surefire.version>2.22.2</surefire.version>
+        <mockito.version>3.5.10</mockito.version>
 
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
         <checkstyle.version>8.42</checkstyle.version>
@@ -53,6 +54,11 @@
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

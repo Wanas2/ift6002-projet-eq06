@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest;
+package ca.ulaval.glo4002.game.interfaces.rest.heartbeat;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

@@ -16,7 +16,8 @@ public class GameServer implements Runnable {
     public void run() {
         Server server = new Server(PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
-        ResourceConfig packageConfig = new ResourceConfig().packages("ca.ulaval.glo4002.game");
+        ResourceConfig packageConfig = new ProjectConfig();
+
         ServletContainer container = new ServletContainer(packageConfig);
         ServletHolder servletHolder = new ServletHolder(container);
 
