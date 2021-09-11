@@ -15,6 +15,7 @@ public class GameService {
 
     public TurnNumberDTO playTurn() {
         int turnNumber = game.playTurn();
+
         return turnAssembler.assembleTurnNumber(turnNumber);
     }
 

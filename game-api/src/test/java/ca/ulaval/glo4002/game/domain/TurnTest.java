@@ -16,22 +16,22 @@ class TurnTest {
 
     @Test
     public void givenTheCurrentNumber_whenPlay_thenTurnNumberShouldIncrementedByOne() {
-        int initialTurnNumber = turn.getTurnNumber();
+        int initialTurnNumber = turn.play();
         int expectedTurnNumber = initialTurnNumber + 1;
 
-        turn.play();
+        int turnNumber = turn.play();
 
-        assertEquals(expectedTurnNumber, turn.getTurnNumber());
+        assertEquals(expectedTurnNumber, turnNumber);
     }
 
     @Test
-    public void givenTheCurrentTurnNumberGreaterThanZero_whenReset_thenTurnNumberShouldSetToZero() {
+    public void givenPlayedSeveralTimes_whenReset_thenTurnNumberShouldBeOneAfterFirstPlay() {
         turn.play();
-        int expectedTurnNumber = 0;
+        turn.play();
+        int expectedTurnNumber = 1;
 
         turn.reset();
 
-        int resetTurnNumber = turn.getTurnNumber();
-        assertEquals(expectedTurnNumber, resetTurnNumber);
+        assertEquals(expectedTurnNumber, turn.play());
     }
 }

@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.game;
 
 import ca.ulaval.glo4002.game.applicationService.GameService;
-import ca.ulaval.glo4002.game.domain.Turn;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,6 +30,7 @@ public class GameResource {
     @Path("/reset")
     public Response reset() {
         gameService.reset();
+
         return Response.ok().build();
     }
 }
