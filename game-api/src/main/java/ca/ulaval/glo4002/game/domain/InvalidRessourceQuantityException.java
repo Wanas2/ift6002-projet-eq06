@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.domain;
 
-import ca.ulaval.glo4002.game.interfaces.exceptions.GeneralBadRequestException;
+import ca.ulaval.glo4002.game.interfaces.rest.exceptions.GeneralBadRequestException;
 
 public class InvalidRessourceQuantityException extends GeneralBadRequestException {
 

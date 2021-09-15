@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.game.interfaces.rest.mappers;
 
-import ca.ulaval.glo4002.game.interfaces.exceptions.GeneralBadRequestException;
-import ca.ulaval.glo4002.game.interfaces.exceptions.dto.ExceptionDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.exceptions.GeneralBadRequestException;
+import ca.ulaval.glo4002.game.interfaces.rest.exceptions.dto.ExceptionDTO;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

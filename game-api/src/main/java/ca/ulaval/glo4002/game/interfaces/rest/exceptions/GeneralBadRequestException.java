@@ -1,9 +1,8 @@
-package ca.ulaval.glo4002.game.interfaces.exceptions;
+package ca.ulaval.glo4002.game.interfaces.rest.exceptions;
 
 public class GeneralBadRequestException extends RuntimeException {
 
     private final String error;
-
     private final String description;
 
     public GeneralBadRequestException(String error, String description) {

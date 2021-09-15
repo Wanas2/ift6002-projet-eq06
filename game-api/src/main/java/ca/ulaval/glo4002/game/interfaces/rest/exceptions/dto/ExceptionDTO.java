@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.exceptions.dto;
+package ca.ulaval.glo4002.game.interfaces.rest.exceptions.dto;
 
 public class ExceptionDTO {
 
