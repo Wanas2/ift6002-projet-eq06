@@ -3,7 +3,7 @@
 Il existe trois [modules maven](https://maven.apache.org/guides/mini/guide-multiple-modules.html) dans le projet :
 
 * `external-service-api` : ce projet offre un API codé avec Spring Boot.
-* `game-api`
+* `game-api` : Un jeu à base de tours
 * `application` : permet de démarrer les 2 API simultanément.
 
 ## Les technologies utilisées

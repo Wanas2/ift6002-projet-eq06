@@ -1,23 +1,37 @@
 package ca.ulaval.glo4002.game.domain;
 
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class Turn {
+public class Turn implements Playable {
 
-    private List<Action> actions;
+    private int turnNumber = 0;
+    private Queue<Action> actions = new LinkedList<>();
 
-    public Turn(List<Action> actions) {
-        this.actions = actions;
-    }
-
-    public void play() {
-        for(Action action: actions) {
+    @Override
+    public int play() {
+        while(hasActions()){
+            Action action = actions.remove();
             action.execute();
         }
+
+        turnNumber++;
+        return turnNumber;
     }
 
-    public boolean emptyActions() {
-//        actions.clear();
-        return true;
+    @Override
+    public void reset() {
+        turnNumber = 0;
+        actions.clear();
+    }
+
+    @Override
+    public boolean hasActions() {
+        return !actions.isEmpty();
+    }
+
+    @Override
+    public void addAction(Action action) {
+        actions.add(action);
     }
 }
