@@ -34,10 +34,10 @@ class GameServiceTest {
     public void givenATurnNumber_whenPlayTurn_thenTheAppropriateTurnNumberDTOIsReturned() {
         int aTurnNumber = 143;
         willReturn(aTurnNumber).given(game).playTurn();
+
         gameService.playTurn();
 
         TurnNumberDTO turnNumberDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
-
         assertEquals(aTurnNumber, turnNumberDTO.turnNumber);
     }
 

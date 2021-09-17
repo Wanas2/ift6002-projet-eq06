@@ -41,14 +41,6 @@ class TurnTest {
     }
 
     @Test
-    public void givenMultipleActions_whenAddAction_thenAllActionsAreAddedToTurn() {
-        turn.addAction(firstAction);
-        turn.addAction(secondAction);
-
-
-    }
-
-    @Test
     public void givenActions_whenPlay_thenTurnShouldHaveNoActionsLeft() {
         turn.play();
 
