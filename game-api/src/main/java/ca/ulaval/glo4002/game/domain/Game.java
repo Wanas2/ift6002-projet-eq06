@@ -2,9 +2,9 @@ package ca.ulaval.glo4002.game.domain;
 
 public class Game {
 
-    private final Playable turn;
+    private final Turn turn;
 
-    public Game(Playable turn) {
+    public Game(Turn turn) {
         this.turn = turn;
     }
 

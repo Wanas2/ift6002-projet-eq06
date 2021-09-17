@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.*;
 
 class GameTest {
 
-    private Playable turn;
+    private Turn turn;
     private Game game;
 
     @BeforeEach

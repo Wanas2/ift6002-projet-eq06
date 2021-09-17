@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.game.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -14,13 +13,14 @@ class TurnTest {
 
     private Action firstAction;
     private Action secondAction;
-    private Queue<Action> actions = new LinkedList<>();
-    private Playable turn;
+    private Queue<Action> actions;
+    private Turn turn;
 
     @BeforeEach
     void setUp() {
         firstAction = mock(Action.class);
         secondAction = mock(Action.class);
+        actions = new LinkedList<>();
         actions.add(firstAction);
         actions.add(secondAction);
         turn = new Turn();
@@ -46,37 +46,6 @@ class TurnTest {
         turn.addAction(secondAction);
 
 
-    }
-
-//    @Test
-//    public void givenActions_whenPlay_ThenAllActionsAreExecuted() {
-//        turn.play();
-//
-//        verify(firstAction).execute();
-//        verify(secondAction).execute();
-//    }
-
-    // Todo Question: How to test this?
-    @Test
-    public void givenActions_whenPlay_ThenAllActionsAreExecutedInAFIFOrder() {
-        turn.play();
-
-
-//        verify()
-    }
-
-    // Todo Question: Et si les deux ensemble d'actions sont les même par coincidence?
-    @Disabled
-    @Test
-    public void givenActions_whenPlayTwice_thenActionsExecutedInSecondTurnIsDifferentFromThoseOfFirstTurn() {
-        Action firstActionOfSecondTurn = mock(Action.class);
-        Action secondActionOfSecondTurn = mock(Action.class);
-        Queue<Action> actionsOfSecondTurn = new LinkedList<>();
-        actionsOfSecondTurn.add(firstAction);
-        actionsOfSecondTurn.add(secondAction);
-
-        turn.play();
-        turn.play();
     }
 
     @Test

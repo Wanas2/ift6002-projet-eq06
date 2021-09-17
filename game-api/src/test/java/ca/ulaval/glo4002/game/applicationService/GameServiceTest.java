@@ -43,11 +43,6 @@ class GameServiceTest {
 
 
     @Test
-    public void whenPlayTurn_thenPantryShouldBeUpdated() {
-        
-    }
-
-    @Test
     public void whenReset_thenTurnIsReset() {
         game.reset();
 
