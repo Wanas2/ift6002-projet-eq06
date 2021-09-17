@@ -18,18 +18,18 @@ class GameTest {
 
 
     @Test
-    public void whenPlay_thenTurnIsPlayed() {
-        game.play();
+    public void whenPlayTurn_thenTurnIsPlayed() {
+        game.playTurn();
 
         verify(turn).play();
     }
 
     @Test
-    public void whenPlay_thenShouldReturnTheTurnNumber() {
+    public void whenPlayTurn_thenShouldReturnTheTurnNumber() {
         int expectedTurnNumber = 12;
         willReturn(expectedTurnNumber).given(turn).play();
 
-        int turnNumber = game.play();
+        int turnNumber = game.playTurn();
 
         assertSame(expectedTurnNumber, turnNumber);
     }

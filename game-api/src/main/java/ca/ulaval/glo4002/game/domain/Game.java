@@ -11,7 +11,7 @@ public class Game {
         this.turn = turn;
     }
 
-    public int play() {
+    public int playTurn() {
         return turn.play();
     }
 
