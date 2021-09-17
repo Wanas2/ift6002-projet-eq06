@@ -15,8 +15,8 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerResources() {
-        Turn turnFactory = new Turn();
-        Game game = new Game(turnFactory);
+        Turn turn = new Turn();
+        Game game = new Game(turn);
 
         TurnAssembler turnAssembler = new TurnAssembler();
 

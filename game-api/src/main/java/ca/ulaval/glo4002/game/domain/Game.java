@@ -1,18 +1,16 @@
 package ca.ulaval.glo4002.game.domain;
 
-import java.util.List;
-import java.util.Queue;
-
 public class Game {
 
-    private Playable turn;
+    private final Playable turn;
 
     public Game(Playable turn) {
         this.turn = turn;
     }
 
     public int playTurn() {
-        return turn.play();
+        int turnNumber = turn.play();
+        return turnNumber;
     }
 
     public void reset() {
