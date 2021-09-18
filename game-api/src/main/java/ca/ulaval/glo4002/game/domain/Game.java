@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.game.domain;
 
+import ca.ulaval.glo4002.game.domain.Turn.Turn;
+
 public class Game {
 
     private final Turn turn;

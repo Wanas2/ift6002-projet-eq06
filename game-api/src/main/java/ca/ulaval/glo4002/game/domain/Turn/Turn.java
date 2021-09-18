@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.domain;
+package ca.ulaval.glo4002.game.domain.Turn;
 
 import java.util.LinkedList;
 import java.util.Queue;
