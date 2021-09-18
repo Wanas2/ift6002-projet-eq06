@@ -16,7 +16,6 @@ class GameTest {
         game = new Game(turn);
     }
 
-
     @Test
     public void whenPlayTurn_thenTurnIsPlayed() {
         game.playTurn();

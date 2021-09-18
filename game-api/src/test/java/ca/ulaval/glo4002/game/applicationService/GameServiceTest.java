@@ -18,7 +18,7 @@ class GameServiceTest {
 
     @BeforeEach
     void setUp() {
-        turnAssembler = new TurnAssembler();
+        turnAssembler = mock(TurnAssembler.class);
         game = mock(Game.class);
         gameService = new GameService(turnAssembler, game);
     }
@@ -31,16 +31,14 @@ class GameServiceTest {
     }
 
     @Test
-    public void givenATurnNumber_whenPlayTurn_thenTheAppropriateTurnNumberDTOIsReturned() {
-        int aTurnNumber = 143;
+    public void givenATurnNumber_whenPlayTurn_thenTheTurnNumberDTOIsAssembled() {
+        int aTurnNumber = 138;
         willReturn(aTurnNumber).given(game).playTurn();
 
         gameService.playTurn();
 
-        TurnNumberDTO turnNumberDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
-        assertEquals(aTurnNumber, turnNumberDTO.turnNumber);
+        verify(turnAssembler).assembleTurnNumber(aTurnNumber);
     }
-
 
     @Test
     public void whenReset_thenTurnIsReset() {
