@@ -1,12 +1,16 @@
 package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
-import ca.ulaval.glo4002.game.domain.parkResources.TurnResources;
+import ca.ulaval.glo4002.game.domain.parkResources.Food;
+import ca.ulaval.glo4002.game.domain.parkResources.FoodsFactory;
+import ca.ulaval.glo4002.game.domain.parkResources.Pantry;
+import ca.ulaval.glo4002.game.domain.parkResources.PantryRepository;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
@@ -15,17 +19,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameServiceTest {
 
+    private Game game;
+    private Pantry pantry;
     private TurnAssembler turnAssembler;
     private ResourceAssembler resourceAssembler;
-    private Game game;
-    GameService gameService;
+    private FoodsFactory foodsFactory;
+    private PantryRepository pantryRepository;
+    private GameService gameService;
 
     @BeforeEach
     void setUp() {
         turnAssembler = new TurnAssembler();
         resourceAssembler = new ResourceAssembler();
         game = mock(Game.class);
-        gameService = new GameService(turnAssembler, game);
+        pantry = mock(Pantry.class);
+        foodsFactory = mock(FoodsFactory.class);
+        pantryRepository = mock(PantryRepository.class);
+        gameService = new GameService(turnAssembler, foodsFactory, pantryRepository, game, pantry);
     }
 
     @Test
@@ -44,14 +54,6 @@ class GameServiceTest {
 
         TurnNumberDTO turnNumberDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
         assertEquals(aTurnNumber, turnNumberDTO.turnNumber);
-    }
-
-    @Test
-    public void givenResources_whenPlayTurn_thenResourcesAreAssembled() {
-        ArrayList<TurnResources> turnResources = new ArrayList<>();
-
-        
-        verify(resourceAssembler).assembleResourceDTO(turnResources);
     }
 
     @Test
