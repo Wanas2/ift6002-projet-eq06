@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.game.domain.parkResources;
 
-import ca.ulaval.glo4002.game.interfaces.rest.game.FoodsDTO;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +26,7 @@ public class FoodsFactory {
     private void createSalads(int quantitySalad) {
         for(int saladCount = 0; saladCount < quantitySalad; saladCount++){
             String id = UUID.randomUUID().toString();
-            FoodType foodType = FoodType.BURGER;
+            FoodType foodType = FoodType.SALAD;
             foods.add(new Food(id, foodType));
         }
     }
@@ -36,7 +34,7 @@ public class FoodsFactory {
     private void createWater(int quantityWater) {
         for(int waterCount = 0; waterCount < quantityWater; waterCount++){
             String id = UUID.randomUUID().toString();
-            FoodType foodType = FoodType.BURGER;
+            FoodType foodType = FoodType.WATER;
             foods.add(new Food(id, foodType));
         }
     }

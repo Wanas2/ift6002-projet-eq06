@@ -16,7 +16,7 @@ public class Food {
     }
 
     boolean isExpired() {
-        return currentAgeInNumberOfTurns >= FoodType.BURGER.getNumberOfTurnBeforeExpiry();
+        return currentAgeInNumberOfTurns >= type.getNumberOfTurnBeforeExpiry();
     }
 
     public String getId() {
