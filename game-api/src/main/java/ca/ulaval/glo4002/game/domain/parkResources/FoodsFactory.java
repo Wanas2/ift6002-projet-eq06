@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class FoodsFactory {
 
-    List<Food> foods = new ArrayList<>();
+    private final List<Food> foods = new ArrayList<>();
 
     public List<Food> create(int quantityBurger, int quantitySalad, int quantityWater) {
         createBurgers(quantityBurger);
