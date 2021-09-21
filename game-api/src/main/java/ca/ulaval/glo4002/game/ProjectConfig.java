@@ -19,8 +19,8 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerResources() {
-        Turn turn = new Turn();
         Pantry pantry = new Pantry();
+        Turn turn = new Turn(pantry);
         Game game = new Game(turn);
 
         FoodsFactory foodsFactory = new FoodsFactory();

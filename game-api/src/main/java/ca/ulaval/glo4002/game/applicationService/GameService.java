@@ -28,14 +28,12 @@ public class GameService {
     }
 
     public TurnNumberDTO playTurn() {
-        int turnNumber = game.playTurn();
-
         // Todo Get this DTO from a resource object that returns a DTO
         FoodsDTO  foodsDTO = new FoodsDTO(100, 250, 10);
-
-        List<Food> foods = foodsFactory.create(foodsDTO.qtyBurger, foodsDTO.qtySalad, foodsDTO.qtyWater);
-        pantry.addFood(foods);
-        pantryRepository.save(foods);
+//        List<Food> foodsPurchased = pantry.orderFood();
+        List<Food> foodsForOneTurn = foodsFactory.create(foodsDTO.qtyBurger, foodsDTO.qtySalad, foodsDTO.qtyWater);
+        int turnNumber = game.playTurn(foodsForOneTurn);
+        pantryRepository.save(foodsForOneTurn);
 
         return turnAssembler.assembleTurnNumber(turnNumber);
     }

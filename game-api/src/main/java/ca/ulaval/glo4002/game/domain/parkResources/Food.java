@@ -4,18 +4,18 @@ public class Food {
 
     private String id;
     private FoodType type;
-    int currentAgeInNumberOfTurns = 0;
+    private int currentAgeInNumberOfTurns = 0;
 
     public Food(String id, FoodType type) {
         this.id = id;
         this.type = type;
     }
 
-    void updateCurrentAge() {
+    public void updateCurrentAge() {
         currentAgeInNumberOfTurns += 1;
     }
 
-    boolean isExpired() {
+    public boolean isExpired() {
         return currentAgeInNumberOfTurns >= type.getNumberOfTurnBeforeExpiry();
     }
 

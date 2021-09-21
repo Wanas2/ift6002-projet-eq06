@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class PantryRepositoryInMemory implements PantryRepository {
 
-    private Map<String, Food> foods = new HashMap<>();
+    private Map<String, Food> foods = new HashMap<>(); // Todo Refactor
 
     @Override
     public void save(List<Food> foods) {
