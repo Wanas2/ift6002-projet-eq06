@@ -93,7 +93,7 @@ class TurnTest {
     }
 
     @Test
-    public void givenATurnNumberGreaterThanZero_whenResetThenPlay_thenTheTurnNumberIsSetToOne() {
+    public void whenReset_thenTheNextPlay_thenTheTurnNumberIsSetToOne() { // Todo
         int expectedTurnNumber = 1;
         turn.play(foods);
         turn.play(foods);
