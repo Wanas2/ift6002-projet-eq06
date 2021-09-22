@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.domain.parkResources;
+package ca.ulaval.glo4002.game.domain.food;
 
 public enum FoodType {
 

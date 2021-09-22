@@ -2,56 +2,86 @@ package ca.ulaval.glo4002.game.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ca.ulaval.glo4002.game.domain.Turn.Turn;
-import ca.ulaval.glo4002.game.domain.parkResources.Food;
-import ca.ulaval.glo4002.game.domain.parkResources.FoodsFactory;
+import ca.ulaval.glo4002.game.domain.food.FoodType;
+import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.domain.turn.Turn;
+import ca.ulaval.glo4002.game.domain.food.Food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.BDDMockito.*;
 
 class GameTest {
 
-    private final int QUANTITY_OF_BURGER_FOR_A_TURN = 100;
-    private final int QUANTITY_OF_SALAD_FOR_A_TURN = 250;
-    private final int QUANTITY_OF_WATER_FOR_A_TURN = 10;
-
     private Turn turn;
-    private FoodsFactory foodsFactory;
     private Game game;
-    private Food aFoodItem;
-    private Food anotherFoodItem;
-    List<Food> foods;
+    private Pantry pantry;
+    private Food aFoodItem1;
+    private Food aFoodItem2;
+    private Food aFoodItem3;
+    private Map<FoodType, Food> foods;
 
     @BeforeEach
     void setUp() {
-        aFoodItem = mock(Food.class);
-        anotherFoodItem = mock(Food.class);
-        foods = new ArrayList<>();
+        aFoodItem1 = mock(Food.class);
+        aFoodItem2 = mock(Food.class);
+        aFoodItem3 = mock(Food.class);
+        foods = new HashMap<>();
+        foods.put(FoodType.BURGER, aFoodItem1);
+        foods.put(FoodType.SALAD, aFoodItem2);
+        foods.put(FoodType.WATER, aFoodItem3);
         turn = mock(Turn.class);
-        foodsFactory = mock(FoodsFactory.class);
-        game = new Game(turn);
+        pantry = mock(Pantry.class);
+        game = new Game(turn, pantry);
     }
 
+    @Test
+    public void initiallyTheGameHasNoOrderedFood(){
+        boolean hasFoodWaiting = game.hasFoodWaitingForPantry();
+
+        assertFalse(hasFoodWaiting);
+    }
+
+    @Test
+    public void whenOrderFood_thenFoodIsAddedToFoodWaitingForPantry() {
+        game.orderFood(foods);
+        boolean hasFoodWaiting = game.hasFoodWaitingForPantry();
+
+        assertTrue(hasFoodWaiting);
+    }
 
     @Test
     public void whenPlayTurn_thenTurnIsPlayed() {
         game.playTurn(foods);
 
-        verify(turn).play(foods);
+        verify(turn).play();
     }
 
     @Test
     public void whenPlayTurn_thenShouldReturnTheTurnNumber() {
         int expectedTurnNumber = 12;
-        willReturn(expectedTurnNumber).given(turn).play(foods);
+        willReturn(expectedTurnNumber).given(turn).play();
 
         int turnNumber = game.playTurn(foods);
 
         assertSame(expectedTurnNumber, turnNumber);
+    }
+
+    @Test
+    public void givenFoods_whenPlayTurn_thenAddDefaultFoodForATurnToPantry() {
+        game.playTurn(foods);
+
+        verify(pantry).addFood(foods);
+    }
+
+    @Test
+    public void whenPlayTurn_thenAgeOfFoodGetUpdated() {
+        game.playTurn(foods);
+
+        verify(pantry).updateAgeOfFoods();
     }
 
     @Test

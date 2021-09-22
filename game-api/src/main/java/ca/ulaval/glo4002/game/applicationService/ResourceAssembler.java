@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.applicationService;
 
-import ca.ulaval.glo4002.game.domain.parkResources.Food;
+import ca.ulaval.glo4002.game.domain.food.Food;
 
 import java.util.List;
 
