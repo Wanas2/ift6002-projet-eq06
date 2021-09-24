@@ -22,11 +22,11 @@ public class Game {
         freshFoodWaitingForPantry.add(foods);
     }
 
-    public int playTurn(Map<FoodType, Food> foods) {
+    public int playTurn(Map<FoodType, Food> defaultFoodsForATurn) {
         int turnNumber = turn.play();
-        pantry.addFood(foods);
-        pantry.addFood(freshFoodWaitingForPantry); // Todo vérifier avec staff du cours
-        pantry.updateAgeOfFoods();
+        pantry.addFood(defaultFoodsForATurn);
+        pantry.addFood(freshFoodWaitingForPantry);
+        pantry.updateFoodsExpiryDate();
         return turnNumber;
     }
 

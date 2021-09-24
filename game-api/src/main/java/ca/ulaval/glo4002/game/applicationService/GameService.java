@@ -25,17 +25,20 @@ public class GameService {
     }
 
     public void orderFood() { //Todo
-//        Map food= create
+//        // Todo
+//        FoodsDTO  foodsDTO = new FoodsDTO(1, 0, 0);
+//        Map food = create()
 //        game.orderFood(foods);
     }
 
     public TurnNumberDTO playTurn() {
-        // Todo Get this DTO from a resource object that returns a DTO
-        FoodsDTO  foodsDTO = new FoodsDTO(100, 250, 10);
+
         // Todo Créer Food avec un créateur
         Map<FoodType, Food> foods = new HashMap<>();
-
         int turnNumber = game.playTurn(foods);
+
+        // Todo Créer Dino avec un créateur
+
 
         return turnAssembler.assembleTurnNumber(turnNumber);
     }

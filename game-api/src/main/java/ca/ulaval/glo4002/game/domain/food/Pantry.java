@@ -28,7 +28,7 @@ public class Pantry {
         return false;
     }
 
-    public void updateAgeOfFoods() {
+    public void updateFoodsExpiryDate() {
 
     }
 }

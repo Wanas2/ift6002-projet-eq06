@@ -81,7 +81,7 @@ class GameTest {
     public void whenPlayTurn_thenAgeOfFoodGetUpdated() {
         game.playTurn(foods);
 
-        verify(pantry).updateAgeOfFoods();
+        verify(pantry).updateFoodsExpiryDate();
     }
 
     @Test
