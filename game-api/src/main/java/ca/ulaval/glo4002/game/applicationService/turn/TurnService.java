@@ -15,22 +15,21 @@ public class TurnService {
 
     private final TurnAssembler turnAssembler;
     private final Game game;
-    private final Pantry pantry;
 
-    public TurnService(TurnAssembler turnAssembler, Game game, Pantry pantry) {
+    public TurnService(TurnAssembler turnAssembler, Game game) {
         this.turnAssembler = turnAssembler;
         this.game = game;
-        this.pantry = pantry;
     }
+
+
 
     public TurnNumberDTO playTurn() {
 
         // Todo Créer Food avec un créateur
         Map<FoodType, Food> foods = new HashMap<>();
-        int turnNumber = game.playTurn(foods);
+        int turnNumber = game.playTurn();
 
         // Todo Créer Dino avec un créateur
-
 
         return turnAssembler.assembleTurnNumber(turnNumber);
     }

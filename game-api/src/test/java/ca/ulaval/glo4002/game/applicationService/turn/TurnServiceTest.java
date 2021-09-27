@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.applicationService;
+package ca.ulaval.glo4002.game.applicationService.turn;
 
 import ca.ulaval.glo4002.game.applicationService.turn.TurnService;
 import ca.ulaval.glo4002.game.applicationService.turn.TurnAssembler;
@@ -44,7 +44,7 @@ class TurnServiceTest {
         game = mock(Game.class);
         pantry = mock(Pantry.class);
         turnAssembler = new TurnAssembler();
-        turnService = new TurnService(turnAssembler, game, pantry);
+        turnService = new TurnService(turnAssembler, game);
     }
 
     @Disabled
@@ -52,13 +52,13 @@ class TurnServiceTest {
     public void givenFoods_whenPlayTurn_thenGameIsPlayed() {
         turnService.playTurn();
 
-        verify(game).playTurn(foods);
+        verify(game).playTurn();
     }
 
     @Test
     public void givenATurnNumber_whenPlayTurn_thenTheAppropriateTurnNumberDTOIsReturned() {
         int aTurnNumber = 143;
-        willReturn(aTurnNumber).given(game).playTurn(foods);
+        willReturn(aTurnNumber).given(game).playTurn();
 
         turnService.playTurn();
 
@@ -68,11 +68,12 @@ class TurnServiceTest {
 
     @Test
     public void givenFoodsDTO_whenPlayTurn_thenTheFoodIsAddedToThePantry() {
-        FoodDTO foodDTO =
-                new FoodDTO(QUANTITY_OF_BURGER_FOR_A_TURN, QUANTITY_OF_SALAD_FOR_A_TURN, QUANTITY_OF_WATER_FOR_A_TURN);
+        FoodDTO foodDTO = new FoodDTO();
+        foodDTO.qtyBurger = QUANTITY_OF_BURGER_FOR_A_TURN;
+        foodDTO.qtySalad = QUANTITY_OF_SALAD_FOR_A_TURN;
+        foodDTO.qtyWater = QUANTITY_OF_WATER_FOR_A_TURN;
 
         turnService.playTurn();
-
 //        pantry.addFood(foodsDTO);
     }
 

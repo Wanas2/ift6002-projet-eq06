@@ -1,14 +1,15 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class FoodDTO {
 
-    public final int qtyBurger;
-    public final int qtySalad;
-    public final int qtyWater;
+//    @JsonProperty(value = "qtyBurger")
+    public int qtyBurger;
 
-    public FoodDTO(int qtyBurger, int qtySalad, int qtyWater) {
-        this.qtyBurger = qtyBurger;
-        this.qtySalad = qtySalad;
-        this.qtyWater = qtyWater;
-    }
+//    @JsonProperty(value = "qtySalad")
+    public int qtySalad;
+
+//    @JsonProperty(value = "qtyWater")
+    public int qtyWater;
 }
