@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
-import ca.ulaval.glo4002.game.interfaces.rest.game.FoodsDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -68,8 +68,8 @@ class TurnServiceTest {
 
     @Test
     public void givenFoodsDTO_whenPlayTurn_thenTheFoodIsAddedToThePantry() {
-        FoodsDTO foodsDTO =
-                new FoodsDTO(QUANTITY_OF_BURGER_FOR_A_TURN, QUANTITY_OF_SALAD_FOR_A_TURN, QUANTITY_OF_WATER_FOR_A_TURN);
+        FoodDTO foodDTO =
+                new FoodDTO(QUANTITY_OF_BURGER_FOR_A_TURN, QUANTITY_OF_SALAD_FOR_A_TURN, QUANTITY_OF_WATER_FOR_A_TURN);
 
         turnService.playTurn();
 
