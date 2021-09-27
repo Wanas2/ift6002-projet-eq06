@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.game.applicationService;
 
+import ca.ulaval.glo4002.game.applicationService.turn.TurnAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

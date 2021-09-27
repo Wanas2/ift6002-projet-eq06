@@ -24,9 +24,6 @@ public class Game {
 
     public int playTurn(Map<FoodType, Food> defaultFoodsForATurn) {
         int turnNumber = turn.play();
-        pantry.addFood(defaultFoodsForATurn);
-        pantry.addFood(freshFoodWaitingForPantry);
-        pantry.updateFoodsExpiryDate();
         return turnNumber;
     }
 

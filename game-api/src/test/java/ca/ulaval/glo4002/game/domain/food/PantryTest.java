@@ -1,56 +1,69 @@
 package ca.ulaval.glo4002.game.domain.food;
 
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class PantryTest {
+
+    private final int A_QUANTITY_OF_BURGER_ORDERED = 3;
+    private final int A_QUANTITY_OF_SALAD_ORDERED = 2;
+    private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private Food aFoodItem1;
     private Food aFoodItem2;
     private Food aFoodItem3;
-    private Map<FoodType, Food> foods;
+    private Map<FoodType, Food> someFood;
+    private CookItSubscription cookItSubscription;
     private Pantry pantry;
 
     @BeforeEach
     void setUp() {
-        aFoodItem1 = mock(Food.class);
-        aFoodItem2 = mock(Food.class);
-        aFoodItem3 = mock(Food.class);
-        foods = new HashMap<>();
-        foods.put(FoodType.BURGER, aFoodItem1);
-        foods.put(FoodType.SALAD, aFoodItem2);
-        foods.put(FoodType.WATER, aFoodItem3);
+        initializeSomeFood();
+        cookItSubscription = mock(CookItSubscription.class);
         pantry = new Pantry();
     }
 
-    @Disabled
     @Test
-    void whenAddFood_thenFoodShouldBeAvailable() {
-        pantry.addFood(foods);
+    public void whenOrderFood_thenPantryIsAbleToProvideFood() {
+        pantry.orderFood();
 
-        boolean isThereFood = pantry.provideFood();
-        assertTrue(isThereFood);
+        assertTrue(pantry.provideFood(someFood));
     }
 
     @Test
-    public void whenProvideFood_then() {
+    public void whenAddNewBatchToFreshFood_thenCookItSubscriptionShouldProvideFoodToPantry() {
+        pantry.addNewBatchOfFoodToFreshFood(cookItSubscription);
 
+        verify(cookItSubscription).provideFood();
     }
 
     @Test
-    void testAddFood() {
+    public void givenFoodRequested_whenAddNewBatchToFreshFood_thenPantryIsAbleToProvideFood() {
+        pantry.addNewBatchOfFoodToFreshFood(cookItSubscription);
 
+        assertTrue(pantry.provideFood(someFood));
     }
 
     @Test
-    void updateAgeOfFoods() {
+    public void givenNotEnoughFreshFood_whenProvideFood_thenShouldInformTheRequester() {
+//        pantry.addNewBatchOfFoodToFreshFood();
+    }
 
+    private void initializeSomeFood() {
+        aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_BURGER_ORDERED);
+        aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
+        aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
+        someFood = new HashMap<>();
+        someFood.put(FoodType.BURGER, aFoodItem1);
+        someFood.put(FoodType.SALAD, aFoodItem2);
+        someFood.put(FoodType.WATER, aFoodItem3);
     }
 }

@@ -2,18 +2,11 @@ package ca.ulaval.glo4002.game.domain.food;
 
 public class Food {
 
-    FoodType type;
-    int qtt;
+    private FoodType type;
+    private int quantity;
 
-    boolean isSame(){
-        return false;
-    }
-
-    void add(){
-
-    }
-
-    void substract() {
-
+    public Food(FoodType type, int quantity) {
+        this.type = type;
+        this.quantity = quantity;
     }
 }

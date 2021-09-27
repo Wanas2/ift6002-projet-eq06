@@ -19,7 +19,7 @@ public enum FoodType {
         return name;
     }
 
-    public int getNumberOfTurnBeforeExpiry() {
+    public int numberOfTurnBeforeExpiry() {
         return numberOfTurnBeforeExpiry;
     }
 }

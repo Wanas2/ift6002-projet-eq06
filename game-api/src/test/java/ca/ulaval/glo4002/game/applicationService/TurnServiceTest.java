@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.game.applicationService;
 
+import ca.ulaval.glo4002.game.applicationService.turn.TurnService;
+import ca.ulaval.glo4002.game.applicationService.turn.TurnAssembler;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
@@ -10,9 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.mockito.BDDMockito.willReturn;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameServiceTest {
+class TurnServiceTest {
 
     private final int QUANTITY_OF_BURGER_FOR_A_TURN = 100;
     private final int QUANTITY_OF_SALAD_FOR_A_TURN = 250;
@@ -32,8 +32,7 @@ class GameServiceTest {
     private Game game;
     private Pantry pantry;
     private TurnAssembler turnAssembler;
-    private ResourceAssembler resourceAssembler;
-    private GameService gameService;
+    private TurnService turnService;
 
     @BeforeEach
     void setUp() {
@@ -45,14 +44,13 @@ class GameServiceTest {
         game = mock(Game.class);
         pantry = mock(Pantry.class);
         turnAssembler = new TurnAssembler();
-        resourceAssembler = new ResourceAssembler();
-        gameService = new GameService(turnAssembler, game, pantry);
+        turnService = new TurnService(turnAssembler, game, pantry);
     }
 
     @Disabled
     @Test
     public void givenFoods_whenPlayTurn_thenGameIsPlayed() {
-        gameService.playTurn();
+        turnService.playTurn();
 
         verify(game).playTurn(foods);
     }
@@ -62,7 +60,7 @@ class GameServiceTest {
         int aTurnNumber = 143;
         willReturn(aTurnNumber).given(game).playTurn(foods);
 
-        gameService.playTurn();
+        turnService.playTurn();
 
         TurnNumberDTO turnNumberDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
         assertEquals(aTurnNumber, turnNumberDTO.turnNumber);
@@ -73,7 +71,7 @@ class GameServiceTest {
         FoodsDTO foodsDTO =
                 new FoodsDTO(QUANTITY_OF_BURGER_FOR_A_TURN, QUANTITY_OF_SALAD_FOR_A_TURN, QUANTITY_OF_WATER_FOR_A_TURN);
 
-        gameService.playTurn();
+        turnService.playTurn();
 
 //        pantry.addFood(foodsDTO);
     }

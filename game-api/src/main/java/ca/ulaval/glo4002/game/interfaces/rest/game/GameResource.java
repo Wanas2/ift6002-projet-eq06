@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.game;
 
-import ca.ulaval.glo4002.game.applicationService.GameService;
+import ca.ulaval.glo4002.game.applicationService.turn.TurnService;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -12,16 +12,16 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class GameResource {
 
-    private final GameService gameService;
+    private final TurnService turnService;
 
-    public GameResource(GameService gameService) {
-        this.gameService = gameService;
+    public GameResource(TurnService turnService) {
+        this.turnService = turnService;
     }
 
     @POST
     @Path("/turn")
     public Response playTurn() {
-        TurnNumberDTO turnDTO = gameService.playTurn();
+        TurnNumberDTO turnDTO = turnService.playTurn();
 
         return Response.ok().entity(turnDTO).build();
     }
@@ -29,7 +29,7 @@ public class GameResource {
     @POST
     @Path("/reset")
     public Response reset() {
-        gameService.reset();
+        turnService.reset();
 
         return Response.ok().build();
     }

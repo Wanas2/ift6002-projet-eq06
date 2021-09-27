@@ -71,20 +71,6 @@ class GameTest {
     }
 
     @Test
-    public void givenFoods_whenPlayTurn_thenAddDefaultFoodForATurnToPantry() {
-        game.playTurn(foods);
-
-        verify(pantry).addFood(foods);
-    }
-
-    @Test
-    public void whenPlayTurn_thenAgeOfFoodGetUpdated() {
-        game.playTurn(foods);
-
-        verify(pantry).updateFoodsExpiryDate();
-    }
-
-    @Test
     public void whenReset_thenTurnIsReset() {
         game.reset();
 

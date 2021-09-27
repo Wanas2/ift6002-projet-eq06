@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.domain;
+package ca.ulaval.glo4002.game.domain.turn;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +22,7 @@ class TurnTest {
     private Action secondAction;
     private Food aFoodItem;
     private Food anotherFoodItem;
-    List<Food> foods;
+    private List<Food> foods;
     private Pantry pantry;
     private Queue<Action> actions;
     private Turn turn;

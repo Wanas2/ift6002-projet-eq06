@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.game;
 
-import ca.ulaval.glo4002.game.applicationService.GameService;
-import ca.ulaval.glo4002.game.applicationService.TurnAssembler;
+import ca.ulaval.glo4002.game.applicationService.turn.TurnService;
+import ca.ulaval.glo4002.game.applicationService.turn.TurnAssembler;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.turn.Turn;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
@@ -22,10 +22,10 @@ public class ProjectConfig extends ResourceConfig {
 
         TurnAssembler turnAssembler = new TurnAssembler();
 
-        GameService gameService = new GameService(turnAssembler, game, pantry);
+        TurnService turnService = new TurnService(turnAssembler, game, pantry);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();
-        GameResource gameResource = new GameResource(gameService);
+        GameResource gameResource = new GameResource(turnService);
 
         register(heartbeatResource);
         register(gameResource);
