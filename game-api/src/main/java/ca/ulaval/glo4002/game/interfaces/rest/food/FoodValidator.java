@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
-import ca.ulaval.glo4002.game.domain.InvalidRessourceQuantityException;
-
 public class FoodValidator {
 
     public void validateFoodEntries(FoodDTO foodDTO) {

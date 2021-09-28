@@ -1,5 +1,6 @@
-package ca.ulaval.glo4002.game.applicationService.food;
+package ca.ulaval.glo4002.game.applicationService;
 
+import ca.ulaval.glo4002.game.applicationService.FoodAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;

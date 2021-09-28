@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.domain.turn;
+package ca.ulaval.glo4002.game.domain.action;
 
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;

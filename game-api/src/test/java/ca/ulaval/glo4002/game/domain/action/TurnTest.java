@@ -1,7 +1,8 @@
-package ca.ulaval.glo4002.game.domain.turn;
+package ca.ulaval.glo4002.game.domain.action;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,8 +76,6 @@ class TurnTest {
 
         assertEquals(expectedTurnNumber, currentTurnNumber);
     }
-
-
 
     @Test
     public void whenReset_thenTheNextPlay_thenTheTurnNumberIsSetToOne() { // Todo Redo

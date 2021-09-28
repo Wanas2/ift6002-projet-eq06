@@ -1,8 +1,7 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
-import ca.ulaval.glo4002.game.applicationService.food.PantryService;
-import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.FoodType;
+import ca.ulaval.glo4002.game.applicationService.GameService;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -20,7 +19,7 @@ class FoodResourceTest {
 
     private FoodDTO aFoodDTO;
     private FoodValidator foodValidator;
-    private PantryService pantryService;
+    private GameService gameService;
     private FoodResource foodResource;
 
     @BeforeEach
@@ -31,8 +30,8 @@ class FoodResourceTest {
         aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
 
         foodValidator = new FoodValidator();
-        pantryService = mock(PantryService.class);
-        foodResource = new FoodResource(pantryService, foodValidator);
+        gameService = mock(GameService.class);
+        foodResource = new FoodResource(gameService, foodValidator);
     }
 
     @Test
@@ -46,16 +45,16 @@ class FoodResourceTest {
     public void givenAFoodDTO_whenOrderFood_thenPantryServiceShouldOrderTheAppropriateFood() {
         foodResource.orderFood(aFoodDTO);
 
-        verify(pantryService).orderFood(aFoodDTO);
+        verify(gameService).orderFood(aFoodDTO);
     }
 
     @Disabled
     @Test
-    public void whenOrderFood_thenShouldReturnAppropriateResponse() { // Todo Ce test ne passe pas
+    public void whenOrderFood_thenShouldReturnAppropriateResponse() {
         Response expectedResponse = Response.ok().build();
 
         Response response = foodResource.orderFood(aFoodDTO);
 
-        assertSame(expectedResponse, response);
+        assertEquals(expectedResponse, response);
     }
 }

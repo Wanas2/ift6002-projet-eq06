@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.domain;
+package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.interfaces.rest.exceptions.GeneralBadRequestException;
 

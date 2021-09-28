@@ -1,17 +1,12 @@
-package ca.ulaval.glo4002.game.domain.turn;
+package ca.ulaval.glo4002.game.domain.action;
 
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AddFoodActionTest {
 

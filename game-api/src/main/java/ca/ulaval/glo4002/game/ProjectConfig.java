@@ -1,9 +1,8 @@
 package ca.ulaval.glo4002.game;
 
-import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
-import ca.ulaval.glo4002.game.applicationService.food.PantryService;
-import ca.ulaval.glo4002.game.applicationService.turn.TurnService;
-import ca.ulaval.glo4002.game.applicationService.turn.TurnAssembler;
+import ca.ulaval.glo4002.game.applicationService.FoodAssembler;
+import ca.ulaval.glo4002.game.applicationService.GameService;
+import ca.ulaval.glo4002.game.applicationService.TurnAssembler;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
@@ -19,6 +18,7 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerResources() {
+        // Todo Creer Turn ici
         Pantry pantry = new Pantry();
         Game game = new Game(pantry);
 
@@ -27,12 +27,11 @@ public class ProjectConfig extends ResourceConfig {
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
 
-        TurnService turnService = new TurnService(turnAssembler, game);
-        PantryService pantryService = new PantryService(foodAssembler, pantry);
+        GameService gameService = new GameService(game, turnAssembler, foodAssembler);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();
-        GameResource gameResource = new GameResource(turnService);
-        FoodResource foodResource = new FoodResource(pantryService, foodValidator);
+        GameResource gameResource = new GameResource(gameService);
+        FoodResource foodResource = new FoodResource(gameService, foodValidator);
 
         register(heartbeatResource);
         register(gameResource);

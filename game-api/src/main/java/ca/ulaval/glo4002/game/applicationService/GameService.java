@@ -1,9 +1,10 @@
-package ca.ulaval.glo4002.game.applicationService.turn;
+package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 
 import java.util.HashMap;
@@ -11,26 +12,28 @@ import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 
-public class TurnService {
+public class GameService {
 
     private final TurnAssembler turnAssembler;
+    private final FoodAssembler foodAssembler;
     private final Game game;
 
-    public TurnService(TurnAssembler turnAssembler, Game game) {
+    public GameService(Game game, TurnAssembler turnAssembler, FoodAssembler foodAssembler) {
         this.turnAssembler = turnAssembler;
+        this.foodAssembler = foodAssembler;
         this.game = game;
     }
 
+    public void orderFood(FoodDTO foodDTO) {
+        Map<FoodType, Food> food = foodAssembler.create(foodDTO);
+        game.orderFood(food);
+    }
+
+    // Todo Order Dinosaure ici
 
 
     public TurnNumberDTO playTurn() {
-
-        // Todo Créer Food avec un créateur
-        Map<FoodType, Food> foods = new HashMap<>();
         int turnNumber = game.playTurn();
-
-        // Todo Créer Dino avec un créateur
-
         return turnAssembler.assembleTurnNumber(turnNumber);
     }
 

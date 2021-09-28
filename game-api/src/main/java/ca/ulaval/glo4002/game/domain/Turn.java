@@ -1,4 +1,6 @@
-package ca.ulaval.glo4002.game.domain.turn;
+package ca.ulaval.glo4002.game.domain;
+
+import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
 
 import java.util.Queue;
 

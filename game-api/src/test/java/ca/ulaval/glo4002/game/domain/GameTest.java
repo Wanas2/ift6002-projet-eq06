@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
-import ca.ulaval.glo4002.game.domain.turn.Turn;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

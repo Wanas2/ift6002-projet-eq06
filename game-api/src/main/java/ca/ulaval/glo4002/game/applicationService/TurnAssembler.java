@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.applicationService.turn;
+package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 
