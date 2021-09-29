@@ -15,24 +15,24 @@ public class Game {
     private Pantry pantry;
     private Queue<ExecutableAction> actions = new LinkedList<>();
 
-    public Game(Pantry pantry) {
+    public Game(Pantry pantry, Turn turn) {
         this.pantry = pantry;
-        turn = new Turn(); // Todo Créer Turn dans la config
+        this.turn = turn;
     }
 
-    public void orderFood(Map<FoodType, Food> foods) {
-        pantry.orderFood(foods);
-        ExecutableAction addFoodCommand = new AddFoodAction(pantry, foods);
-        actions.add(addFoodCommand);
+    public void addFood(Map<FoodType, Food> foods) {
+        ExecutableAction addFoodAction = new AddFoodAction(pantry, foods);
+        turn.acquireNewAction(addFoodAction);
     }
 
     public void addDinosaur() {
-        ExecutableAction addDinosaureCommand = new AddDinosaureAction();
-        actions.add(addDinosaureCommand);
+        ExecutableAction addDinosaureAction = new AddDinosaureAction();
     }
 
     public int playTurn() {
-        return turn.play(actions);
+        int turnNumber = turn.playActions();
+        pantry.addNewFoodToFreshFood();
+        return turnNumber;
     }
 
     public void reset() {

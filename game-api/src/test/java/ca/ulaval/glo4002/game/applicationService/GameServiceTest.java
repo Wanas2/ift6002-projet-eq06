@@ -61,7 +61,7 @@ class GameServiceTest {
 
         gameService.orderFood(aFoodDTO);
 
-        verify(game).orderFood(someFoodCreated);
+        verify(game).addFood(someFoodCreated);
     }
 
     @Disabled

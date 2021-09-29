@@ -47,30 +47,29 @@ class PantryTest {
         pantry = new Pantry();
     }
 
-    @Test
-    public void givenAFoodRequestButNoFoodAddedToFreshFoodStorage_whenProvideFood_thenNoFoodIsProvided() {
-        pantry.orderFood(foodWithOnlyTwoBurgers);
+//    @Test
+//    public void givenAFoodRequestButNoFoodAddedToFreshFoodStorage_whenProvideFood_thenNoFoodIsProvided() {
+//        pantry.orderFood(foodWithOnlyTwoBurgers);
+//
+//        assertFalse(pantry.provideFood(foodWithOnlyOneBurger));
+//    }
 
-        assertFalse(pantry.provideFood(foodWithOnlyOneBurger));
-    }
+//    @Test
+//    public void givenAFoodRequestAndEnoughFoodIsAddedToFreshFoodStorage_whenProvideFood_thenPantryProvideTheFood() {
+//        pantry.orderFood(foodWithOnlyTwoBurgers);
+//        pantry.addNewFoodToFreshFoodStorage();
+//
+//        boolean isThereEnoughFoodInStorage = pantry.provideFood(foodWithOnlyOneBurger);
+//
+//        assertTrue(isThereEnoughFoodInStorage);
+//    }
 
-    @Disabled
-    @Test
-    public void givenAFoodRequestAndEnoughFoodIsAddedToFreshFoodStorage_whenProvideFood_thenPantryProvideTheFood() {
-        pantry.orderFood(foodWithOnlyTwoBurgers);
-        pantry.addNewFoodToFreshFoodStorage();
-
-        boolean isThereEnoughFoodInStorage = pantry.provideFood(foodWithOnlyOneBurger);
-
-        assertTrue(isThereEnoughFoodInStorage);
-    }
-
-    @Test
-    public void givenNotEnoughFood_whenProvideFood_thenReturnFalse() { // Todo the name
-        pantry.orderFood(foodWithOnlyOneBurger);
-
-        assertFalse(pantry.provideFood(foodWithOnlyTwoBurgers));
-    }
+//    @Test
+//    public void givenNotEnoughFood_whenProvideFood_thenReturnFalse() { // Todo the name
+//        pantry.orderFood(foodWithOnlyOneBurger);
+//
+//        assertFalse(pantry.provideFood(foodWithOnlyTwoBurgers));
+//    }
 
     private void initializeFoodWithOnlyOneBurger() {
         aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_ONE_BURGER_ORDERED);

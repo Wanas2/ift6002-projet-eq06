@@ -1,37 +1,41 @@
 package ca.ulaval.glo4002.game.domain.food;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class Pantry {
 
-    private Map<FoodType, Food> orderedFoodForATurn = new HashMap<>();
-    private final Queue<Map<FoodType, Food>> allBatchesOfFreshFoodForEachTurn = new LinkedList<>();
+    private final Map<FoodType, Food> newBatchOfFreshFood = new HashMap<>();
+    private final Queue<Map<FoodType, Food>> freshFoodStored = new LinkedList<>();
     private final Map<FoodType, Food> expiredFood = new HashMap<>();
 
     public Pantry() {
-        initializePantry();
+        initiateNewBatchOfFreshFood();
     }
 
-    private void initializePantry() {
-        Food burgersOfQuantityZero = new Food(FoodType.BURGER, 0);
+    private void initiateNewBatchOfFreshFood() {
+        Food burgersOfQuantityZero = new Food(FoodType.BURGER, 0); // Todo Mettre zero dans une variable?
         Food saladsOfQuantityZero = new Food(FoodType.SALAD, 0);
         Food waterOfQuantityZero = new Food(FoodType.WATER, 0);
 
-        orderedFoodForATurn.put(FoodType.BURGER, burgersOfQuantityZero);
-        orderedFoodForATurn.put(FoodType.SALAD, saladsOfQuantityZero);
-        orderedFoodForATurn.put(FoodType.WATER, waterOfQuantityZero);
+        newBatchOfFreshFood.put(FoodType.BURGER, burgersOfQuantityZero);
+        newBatchOfFreshFood.put(FoodType.SALAD, saladsOfQuantityZero);
+        newBatchOfFreshFood.put(FoodType.WATER, waterOfQuantityZero);
     }
 
-    public void orderFood(Map<FoodType, Food> freshFoodOrdered) {
-        addUpTwoSetsOfFood(orderedFoodForATurn, freshFoodOrdered);
+    public void addToNewBatchOfFreshFood(Map<FoodType, Food> food) { // Todo Le faire avec une boucle
+        newBatchOfFreshFood.get(FoodType.BURGER).increaseQuantity(food.get(FoodType.BURGER));
+        newBatchOfFreshFood.get(FoodType.SALAD).increaseQuantity(food.get(FoodType.SALAD));
+        newBatchOfFreshFood.get(FoodType.WATER).increaseQuantity(food.get(FoodType.WATER));
     }
 
+    public void addNewFoodToFreshFood() {
+        freshFoodStored.add(newBatchOfFreshFood);
+    }
+
+    /**************************/
     public boolean provideFood(Map<FoodType, Food> requestedFood) {
-        for(Map.Entry<FoodType, Food> requestedFoodEntry: requestedFood.entrySet()) { // Todo DINO
-            allBatchesOfFreshFoodForEachTurn.stream()
+        for(Map.Entry<FoodType, Food> requestedFoodEntry: requestedFood.entrySet()) {
+            freshFoodStored.stream()
                     .forEach(storedFreshFoodTurnBatch -> {
 
                     });
@@ -39,25 +43,8 @@ public class Pantry {
         return false;
     }
 
-    public void addNewFoodToFreshFoodStorage() {
-        allBatchesOfFreshFoodForEachTurn.add(orderedFoodForATurn);
-    }
-
-    private void provideOneFoodType(FoodType foodType, Food food) { // Todo DINO
-
-    }
-
-    private void addUpTwoSetsOfFood(Map<FoodType, Food> foodTo, Map<FoodType, Food> foodFrom) {
-        foodTo.get(FoodType.BURGER)
-                .increaseQuantity(foodFrom.get(FoodType.BURGER));
-        foodTo.get(FoodType.SALAD)
-                .increaseQuantity(foodFrom.get(FoodType.SALAD));
-        foodTo.get(FoodType.WATER)
-                .increaseQuantity(foodFrom.get(FoodType.WATER));
-    }
-
     public void verifyExpiryDate() {
-        for(Map<FoodType, Food> aBatchOfFoodOfATurn: allBatchesOfFreshFoodForEachTurn) {
+        for(Map<FoodType, Food> aBatchOfFoodOfATurn: freshFoodStored) {
             aBatchOfFoodOfATurn.entrySet()
                     .forEach(food -> {
                         if (food.getValue().isExpired())

@@ -24,9 +24,7 @@ public class Food {
             this.quantity = 0;
             return false;
         }
-
         this.quantity -= food.quantity;
-
         return false;
     }
 

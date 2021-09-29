@@ -1,8 +1,11 @@
-package ca.ulaval.glo4002.game.domain.action;
+package ca.ulaval.glo4002.game.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4002.game.domain.Turn;
+import ca.ulaval.glo4002.game.domain.action.AddDinosaureAction;
+import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
+import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,19 +43,19 @@ class TurnTest {
 
     @Test
     public void givenAnAction_whenPlay_thenShouldExecuteTheAction() {
-        actions.add(aFirstAction);
+        turn.acquireNewAction(aFirstAction);
 
-        turn.play(actions);
+        turn.playActions();
 
         verify(aFirstAction).execute();
     }
 
     @Test
     public void givenMultipleActions_whenPlay_thenShouldExecuteAllActions() {
-        actions.add(aFirstAction);
-        actions.add(aSecondAction);
+        turn.acquireNewAction(aFirstAction);
+        turn.acquireNewAction(aSecondAction);
 
-        turn.play(actions);
+        turn.playActions();
 
         verify(aFirstAction).execute();
         verify(aSecondAction).execute();
@@ -62,7 +65,7 @@ class TurnTest {
     public void whenPlayForTheFirstTime_thenTheTurnNumberIsOne() {
         int expectedTurnNumber = 1;
 
-        int turnNumber = turn.play(actions);
+        int turnNumber = turn.playActions();
 
         assertEquals(expectedTurnNumber, turnNumber);
     }
@@ -71,8 +74,8 @@ class TurnTest {
     public void whenPlayMultipleTimes_thenTheTurnNumberShouldIncreaseByOneAfterEachPlay() {
         int expectedTurnNumber = 2;
 
-        turn.play(actions);
-        int currentTurnNumber = turn.play(actions);
+        turn.playActions();
+        int currentTurnNumber = turn.playActions();
 
         assertEquals(expectedTurnNumber, currentTurnNumber);
     }
@@ -80,10 +83,10 @@ class TurnTest {
     @Test
     public void whenReset_thenTheNextPlay_thenTheTurnNumberIsSetToOne() { // Todo Redo
         int expectedTurnNumber = 1;
-        turn.play(actions);
+        turn.playActions();
 
         turn.reset();
-        int turnNumberAfterReset = turn.play(actions);
+        int turnNumberAfterReset = turn.playActions();
 
         assertEquals(expectedTurnNumber, turnNumberAfterReset);
     }

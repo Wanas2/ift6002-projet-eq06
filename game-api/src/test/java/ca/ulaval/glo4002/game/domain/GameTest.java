@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.game.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
+import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.domain.food.Food;
@@ -22,46 +24,61 @@ class GameTest {
     private Food aFoodItem1;
     private Food aFoodItem2;
     private Food aFoodItem3;
-    private Map<FoodType, Food> foods;
+    private Map<FoodType, Food> food;
 
     @BeforeEach
     void setUp() {
-        aFoodItem1 = mock(Food.class);
-        aFoodItem2 = mock(Food.class);
-        aFoodItem3 = mock(Food.class);
-        foods = new HashMap<>();
-        foods.put(FoodType.BURGER, aFoodItem1);
-        foods.put(FoodType.SALAD, aFoodItem2);
-        foods.put(FoodType.WATER, aFoodItem3);
+        initializesFood();
         turn = mock(Turn.class);
         pantry = mock(Pantry.class);
-        game = new Game(pantry);
+        game = new Game(pantry, turn);
     }
 
-    @Disabled
     @Test
-    public void whenPlayTurn_thenTurnIsPlayed() {
+    public void whenAddFood_thenTurnShouldAcquireANewAction() {
+        game.addFood(food);
+
+        verify(turn).acquireNewAction(any(AddFoodAction.class));
+    }
+
+    @Test
+    public void whenPlayTurn_thenTurnShouldPlayActions() {
         game.playTurn();
 
-//        verify(turn).play(actions);
+        verify(turn).playActions();
     }
 
-    @Disabled
+    @Test
+    public void whenPlayTurn_thenPantryShouldAddNewFoodToFreshFood() {
+        game.playTurn();
+
+        verify(pantry).addNewFoodToFreshFood();
+    }
+
     @Test
     public void whenPlayTurn_thenShouldReturnTheTurnNumber() {
         int expectedTurnNumber = 12;
-//        willReturn(expectedTurnNumber).given(turn).play(actions);
+        willReturn(expectedTurnNumber).given(turn).playActions();
 
         int turnNumber = game.playTurn();
 
         assertSame(expectedTurnNumber, turnNumber);
     }
 
-    @Disabled
     @Test
     public void whenReset_thenTurnIsReset() {
         game.reset();
 
         verify(turn).reset();
+    }
+
+    private void initializesFood() {
+        aFoodItem1 = mock(Food.class);
+        aFoodItem2 = mock(Food.class);
+        aFoodItem3 = mock(Food.class);
+        food = new HashMap<>();
+        food.put(FoodType.BURGER, aFoodItem1);
+        food.put(FoodType.SALAD, aFoodItem2);
+        food.put(FoodType.WATER, aFoodItem3);
     }
 }
