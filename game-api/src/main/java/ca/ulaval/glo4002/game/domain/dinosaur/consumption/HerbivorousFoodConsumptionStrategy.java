@@ -1,15 +1,18 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
 public class HerbivorousFoodConsumptionStrategy implements FoodConsumptionStrategy {
-    private SaladWaterStorage storage;
-    public HerbivorousFoodConsumptionStrategy(SaladWaterStorage storage){
+    private HerbivorousFoodStorage storage;
+    private final int STARVING_FACTOR = 2;
+    private final double WATER_FACTOR = 0.6;
+    private final double FOOD_FACTOR = 0.005;
+    public HerbivorousFoodConsumptionStrategy(HerbivorousFoodStorage storage){
         this.storage = storage;
     }
     @Override
     public boolean consumeFood(int weight, int entryTurn, int currentTurn) {
-        int starvingFactor = entryTurn == currentTurn ? 2 : 1;
-        int waterNeeded = (int) Math.ceil(starvingFactor * weight * 0.6);
-        int foodNeeded = (int) Math.ceil(starvingFactor * weight * 0.5 / 200);
+        int starvingFactor = entryTurn == currentTurn ? STARVING_FACTOR : 1;
+        int waterNeeded = (int) Math.ceil(starvingFactor * weight * WATER_FACTOR);
+        int foodNeeded = (int) Math.ceil(starvingFactor * weight * FOOD_FACTOR);
 
         int foodConsumed = storage.giveExactOrMostPossibleSaladDesired(foodNeeded);
         int waterConsumed = storage.giveExactOrMostPossibleWaterDesired(waterNeeded);

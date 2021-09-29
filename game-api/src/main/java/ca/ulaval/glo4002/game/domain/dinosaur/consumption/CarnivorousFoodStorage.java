@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
-public interface SaladWaterStorage {
+public interface CarnivorousFoodStorage {
     int giveExactOrMostPossibleWaterDesired(int quantity);
-    int giveExactOrMostPossibleSaladDesired(int quantity);
+    int giveExactOrMostPossibleBurgerDesired(int quantity);
 }
