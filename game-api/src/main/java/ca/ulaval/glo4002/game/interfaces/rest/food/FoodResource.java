@@ -2,13 +2,11 @@ package ca.ulaval.glo4002.game.interfaces.rest.food;
 
 import ca.ulaval.glo4002.game.applicationService.GameService;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/")
+@Path("/resources")
 public class FoodResource {
 
     private final GameService gameService;
@@ -20,11 +18,18 @@ public class FoodResource {
     }
 
     @POST
-    @Path("/resources")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response orderFood(FoodDTO foodDTO) {
         foodValidator.validateFoodEntries(foodDTO);
         gameService.orderFood(foodDTO);
         return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFoodQuantitySummary() {
+        FoodSummaryDTO foodSummaryDTO = gameService.getFoodQuantitySummary();
+
+        return Response.ok().entity(foodSummaryDTO).build();
     }
 }

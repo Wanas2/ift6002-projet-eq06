@@ -42,19 +42,34 @@ class FoodResourceTest {
     }
 
     @Test
-    public void givenAFoodDTO_whenOrderFood_thenPantryServiceShouldOrderTheAppropriateFood() {
+    public void givenAFoodDTO_whenOrderFood_thenGameServiceShouldOrderTheAppropriateFood() {
         foodResource.orderFood(aFoodDTO);
 
         verify(gameService).orderFood(aFoodDTO);
     }
 
-    @Disabled
     @Test
-    public void whenOrderFood_thenShouldReturnAppropriateResponse() {
-        Response expectedResponse = Response.ok().build();
+    public void whenOrderFood_thenShouldReturnAppropriateResponseCode() {
+        int expectedResponseCode = 200;
 
         Response response = foodResource.orderFood(aFoodDTO);
 
-        assertEquals(expectedResponse, response);
+        assertEquals(expectedResponseCode, response.getStatus());
+    }
+
+    @Test
+    public void whenGetFoodQuantitySummary_theGameServiceShouldGetFoodQuantitySummary() {
+        foodResource.getFoodQuantitySummary();
+
+        verify(gameService).getFoodQuantitySummary();
+    }
+
+    @Test
+    public void whenGetFoodQuantitySummary_thenShouldReturnAppropriateResponseCode() {
+        int expectedResponseCode = 200;
+
+        Response response = foodResource.getFoodQuantitySummary();
+
+        assertEquals(expectedResponseCode, response.getStatus());
     }
 }

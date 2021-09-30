@@ -4,7 +4,7 @@ public class Food {
 
     private final FoodType type;
     private int quantity;
-    int currentNumberOfTurns = 0;
+    private int currentNumberOfTurns = 0;
 
     public Food(FoodType type, int quantity) {
         this.type = type;
@@ -12,7 +12,7 @@ public class Food {
     }
 
     public void increaseQuantity(Food food) {
-
+        quantity += food.quantity;
     }
 
     public void incrementCurrentNumberOfTurns() {
@@ -34,5 +34,9 @@ public class Food {
 
     public boolean isCompletelyConsumed() {
         return quantity <= 0;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }

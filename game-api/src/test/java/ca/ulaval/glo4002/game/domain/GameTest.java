@@ -3,12 +3,11 @@ package ca.ulaval.glo4002.game.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
-import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
+import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -18,6 +17,7 @@ import static org.mockito.BDDMockito.*;
 
 class GameTest {
 
+    private CookItSubscription cookItSubscription;
     private Turn turn;
     private Game game;
     private Pantry pantry;
@@ -31,7 +31,8 @@ class GameTest {
         initializesFood();
         turn = mock(Turn.class);
         pantry = mock(Pantry.class);
-        game = new Game(pantry, turn);
+        cookItSubscription = mock(CookItSubscription.class);
+        game = new Game(pantry, turn, cookItSubscription);
     }
 
     @Test
@@ -49,10 +50,24 @@ class GameTest {
     }
 
     @Test
+    public void whenPlayTurn_thenPantryShouldAddFoodFromCookItToFreshFood() {
+        game.playTurn();
+
+        verify(pantry).addFoodFromCookITToNewFood(cookItSubscription);
+    }
+
+    @Test
     public void whenPlayTurn_thenPantryShouldAddNewFoodToFreshFood() {
         game.playTurn();
 
         verify(pantry).addNewFoodToFreshFood();
+    }
+
+    @Test
+    public void whenPlayTurn_thenShouldRemoveExpiredFoodFromFreshFood() {
+        game.playTurn();
+
+        verify(pantry).removeExpiredFoodFromFreshFood();
     }
 
     @Test
@@ -70,6 +85,13 @@ class GameTest {
         game.reset();
 
         verify(turn).reset();
+    }
+
+    @Test
+    public void whenReset_thenPantryShouldBeReset() {
+        game.reset();
+
+        verify(pantry).reset();
     }
 
     private void initializesFood() {

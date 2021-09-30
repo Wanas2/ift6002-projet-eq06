@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.game.domain.food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CookItSubscriptionTest {
@@ -13,6 +15,4 @@ class CookItSubscriptionTest {
     void setUp() {
         cookItSubscription = new CookItSubscription();
     }
-    
-    
 }

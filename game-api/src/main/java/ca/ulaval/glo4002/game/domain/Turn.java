@@ -8,21 +8,28 @@ import java.util.Queue;
 public class Turn {
 
     private int turnNumber = 0;
-    private final Queue<ExecutableAction> actions = new LinkedList<>();
+    private Queue<ExecutableAction> actions = new LinkedList<>();
 
     public void acquireNewAction(ExecutableAction action) {
         actions.add(action);
     }
 
     public int playActions() {
-        for(ExecutableAction action : actions) {
+        while(hasActions()) {
+            ExecutableAction action = actions.remove();
             action.execute();
         }
+
         turnNumber++;
         return turnNumber;
     }
 
+    public boolean hasActions() {
+        return !actions.isEmpty();
+    }
+
     public void reset() {
+        actions = new LinkedList<>();
         turnNumber = 0;
     }
 }

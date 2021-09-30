@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import static org.mockito.BDDMockito.*;
 
 import javax.validation.constraints.AssertTrue;
 import java.util.HashMap;
@@ -42,9 +43,17 @@ class PantryTest {
         aFoodDTO.qtyBurger = A_QUANTITY_OF_ONE_BURGER_ORDERED;
         aFoodDTO.qtySalad =  A_QUANTITY_OF_SALAD_ORDERED;
         aFoodDTO.qtyWater =  A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
-
         cookItSubscription = mock(CookItSubscription.class);
         pantry = new Pantry();
+    }
+
+    @Test
+    public void givenFood_whenAddFoodFromCookITToNewFood_thenCooItShouldProvideFood() {
+        willReturn(someFood).given(cookItSubscription).provideFood();
+
+        pantry.addFoodFromCookITToNewFood(cookItSubscription);
+
+        verify(cookItSubscription).provideFood();
     }
 
 //    @Test
@@ -102,5 +111,11 @@ class PantryTest {
         someFood.put(FoodType.BURGER, aFoodItem1);
         someFood.put(FoodType.SALAD, aFoodItem2);
         someFood.put(FoodType.WATER, aFoodItem3);
+    }
+
+    @Test
+    public void testToDelete() {
+        Map<String, Map<FoodType, Integer>> foodQuantitySummary = pantry.getFoodQuantitySummary();
+        System.out.println(foodQuantitySummary.get("expired"));
     }
 }

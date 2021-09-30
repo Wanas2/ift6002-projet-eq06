@@ -34,6 +34,7 @@ class GameServiceTest {
     private Pantry pantry;
     private TurnAssembler turnAssembler;
     private FoodAssembler foodAssembler;
+    private FoodSummaryAssembler foodSummaryAssembler;
     private GameService gameService;
 
     @BeforeEach
@@ -43,7 +44,8 @@ class GameServiceTest {
         pantry = mock(Pantry.class);
         turnAssembler = new TurnAssembler();
         foodAssembler = mock(FoodAssembler.class);
-        gameService = new GameService(game, turnAssembler, foodAssembler);
+        foodSummaryAssembler = mock(FoodSummaryAssembler.class);
+        gameService = new GameService(game, pantry, turnAssembler, foodAssembler, foodSummaryAssembler);
     }
 
     @Test
@@ -52,7 +54,6 @@ class GameServiceTest {
 
         verify(foodAssembler).create(aFoodDTO);
     }
-
 
     @Test
     public void givenCreatedFood_whenOrderFood_thenShouldOrderTheAppropriateFood() {
@@ -84,9 +85,18 @@ class GameServiceTest {
     }
 
     @Test
-    public void givenAFoodDTO_whenPlayTurn_thenTheFoodIsAddedToThePantry() {
-        gameService.playTurn();
-//        pantry.addFood(foodsDTO);
+    public void whenGetFoodQuantitySummary_PantryShouldGetFoodQuantitySummary() {
+        gameService.getFoodQuantitySummary();
+
+        verify(pantry).getFoodQuantitySummary();
+    }
+
+    @Disabled
+    @Test
+    public void whenGetFoodQuantitySummary_thenAssemblerShouldCreateTheDTOWithAppropriateSummary() { // Todo Finish this test
+//        Map<String, Map<FoodType, Integer>> foodQuantitySummary = gameService.getFoodQuantitySummary();
+
+//        verify(foodSummaryAssembler).createDTO();
     }
 
     @Test
