@@ -19,4 +19,8 @@ public enum Species {
         this.consumptionType = consumptionType;
         this.name = name;
     }
+
+    public String getName(){
+        return name;
+    }
 }

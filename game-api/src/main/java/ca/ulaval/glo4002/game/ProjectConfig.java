@@ -6,6 +6,8 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.interfaces.rest.game.GameResource;
 import ca.ulaval.glo4002.game.interfaces.rest.heartbeat.HeartbeatResource;
+import ca.ulaval.glo4002.game.interfaces.rest.mappers.BadRequestExceptionMapper;
+import ca.ulaval.glo4002.game.interfaces.rest.mappers.NotFoundExceptionMapper;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class ProjectConfig extends ResourceConfig {
@@ -27,5 +29,8 @@ public class ProjectConfig extends ResourceConfig {
 
         register(heartbeatResource);
         register(gameResource);
+
+        register(new BadRequestExceptionMapper());
+        register(new NotFoundExceptionMapper());
     }
 }
