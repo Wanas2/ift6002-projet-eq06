@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.game.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.action.AddDinosaureAction;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
 import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
@@ -59,6 +58,13 @@ class TurnTest {
 
         verify(aFirstAction).execute();
         verify(aSecondAction).execute();
+    }
+
+    @Test
+    public void givenActions_whenPlay_thenTurnShouldHaveNoActionsLeft() {
+        turn.playActions();
+
+        assertFalse(turn.hasActions());
     }
 
     @Test
