@@ -93,11 +93,11 @@ public class Pantry implements FoodStorage {
         int requestedSalads = allRequestedFood.get(FoodType.SALAD).quantity();
         int requestedWater = allRequestedFood.get(FoodType.WATER).quantity();
 
-        while(requestedBurgers >= 0) {
-            allFreshFood.forEach((foodBatchOfATurn) -> {
-//                foodBatchOfATurn.get(FoodType.BURGER).decreaseQuantity();
-            });
-        }
+//        while(requestedBurgers >= 0) {
+//            allFreshFood.forEach((foodBatchOfATurn) -> {
+////                foodBatchOfATurn.get(FoodType.BURGER).decreaseQuantity();
+//            });
+//        }
 
         return false;
     }

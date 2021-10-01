@@ -62,7 +62,7 @@ class PantryTest {
         pantry.addNewFoodToFreshFood();
 
         boolean hasEnoughFood = pantry.provideFood(someFood);
-
+//
         assertFalse(hasEnoughFood);
     }
 
