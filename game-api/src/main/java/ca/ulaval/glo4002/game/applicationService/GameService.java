@@ -10,8 +10,6 @@ import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 
 import java.util.Map;
 
-import static org.mockito.Mockito.mock;
-
 public class GameService {
 
     private final Game game;

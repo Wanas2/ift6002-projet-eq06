@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.game.domain.food.Pantry;
 
 import java.util.Map;
 
-public class AddFoodAction implements ExecutableAction{
+public class AddFoodAction implements ExecutableAction {
 
     private final Pantry pantry;
     private final Map<FoodType, Food> foods;

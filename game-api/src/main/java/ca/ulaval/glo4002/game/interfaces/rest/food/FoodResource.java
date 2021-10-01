@@ -29,7 +29,6 @@ public class FoodResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFoodQuantitySummary() {
         FoodSummaryDTO foodSummaryDTO = gameService.getFoodQuantitySummary();
-
         return Response.ok().entity(foodSummaryDTO).build();
     }
 }

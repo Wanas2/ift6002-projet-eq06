@@ -1,12 +1,15 @@
 package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.applicationService.FoodAssembler;
+import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 class FoodAssemblerTest {
 
@@ -28,9 +31,9 @@ class FoodAssemblerTest {
     }
 
     @Test
-    public void givenAFoodDTO_whenCreate_thenShouldCreateFood() { // Todo C'est bon? Je ne peux pas brier l'encapsulation
-        Object food = foodAssembler.create(aFoodDTO);
+    public void givenAFoodDTO_whenCreate_thenShouldCreateTheAppropriateFoodAndFoodType() {
+        Map<FoodType, Food> food = foodAssembler.create(aFoodDTO);
 
-        assertEquals(HashMap.class, food.getClass());
+//        assertEquals(food.get());
     }
 }

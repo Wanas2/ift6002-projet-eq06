@@ -4,39 +4,49 @@ public class Food {
 
     private final FoodType type;
     private int quantity;
-    private int currentNumberOfTurns = 0;
+    private int age = 0;
 
     public Food(FoodType type, int quantity) {
         this.type = type;
         this.quantity = quantity;
     }
 
-    public void increaseQuantity(Food food) {
-        quantity += food.quantity;
+    public void increase(Food food) {
+        if((food.type).equals(type))
+            quantity += food.quantity; // Todo doit-on ajouter un else. comment dire à classe client que ce n'est pas le bon type? Peut-être lancer une exception. Qui va la catch?
     }
 
-    public void incrementCurrentNumberOfTurns() {
-        currentNumberOfTurns += 1;
+    public void incrementAgeByOne() {
+        age += 1;
     }
 
-    public boolean subtractQuantity(Food food) {
+    public boolean decrease(Food food) {
         if(food.quantity > this.quantity) {
             this.quantity = 0;
             return false;
         }
         this.quantity -= food.quantity;
-        return false;
+        return true;
+    }
+
+    public boolean decreaseQuantity(int quantity) {
+        if(quantity > this.quantity) {
+            this.quantity = 0;
+            return false;
+        }
+        this.quantity -= quantity;
+        return true;
     }
 
     public boolean isExpired() {
-        return currentNumberOfTurns > type.numberOfTurnBeforeExpiry();
+        return age >= type.numberOfTurnBeforeExpiry();
     }
 
     public boolean isCompletelyConsumed() {
         return quantity <= 0;
     }
 
-    public int getQuantity() {
+    public int quantity() {
         return quantity;
     }
 }

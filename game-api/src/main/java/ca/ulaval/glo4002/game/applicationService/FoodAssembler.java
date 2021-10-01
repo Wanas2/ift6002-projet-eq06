@@ -14,7 +14,7 @@ public class FoodAssembler {
 
         Food burgers = new Food(FoodType.BURGER, foodDTO.qtyBurger);
         Food salads = new Food(FoodType.SALAD, foodDTO.qtySalad);
-        Food water = new Food(FoodType.WATER, foodDTO.qtySalad);
+        Food water = new Food(FoodType.WATER, foodDTO.qtyWater);
 
         food.put(FoodType.BURGER, burgers);
         food.put(FoodType.SALAD, salads);

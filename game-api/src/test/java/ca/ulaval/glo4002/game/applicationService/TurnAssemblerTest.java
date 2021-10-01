@@ -15,7 +15,7 @@ class TurnAssemblerTest {
     void setUp() {
         turnAssembler = new TurnAssembler();
     }
-
+    
     @Test
     void givenATurnNumber_whenAssembleTurnNumber_thenTheAppropriateTurnNumberDTOIsReturned() {
         int aTurnNumber = 132;

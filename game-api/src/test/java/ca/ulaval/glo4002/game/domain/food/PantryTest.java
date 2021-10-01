@@ -9,7 +9,9 @@ import static org.mockito.BDDMockito.*;
 
 import javax.validation.constraints.AssertTrue;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -23,19 +25,17 @@ class PantryTest {
     private final int A_QUANTITY_OF_SALAD_ORDERED = 2;
     private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
-    private Food aFoodItem1;
-    private Food aFoodItem2;
-    private Food aFoodItem3;
-
     private FoodDTO aFoodDTO;
-    private Map<FoodType, Food> someFood;
+    private Map<FoodType, Food> foodWithQuantityZero;
     private Map<FoodType, Food> foodWithOnlyOneBurger;
     private Map<FoodType, Food> foodWithOnlyTwoBurgers;
+    private Map<FoodType, Food> someFood;
     private CookItSubscription cookItSubscription;
     private Pantry pantry;
 
     @BeforeEach
     void setUp() {
+        initializeFoodWithQuantityZero();
         initializeFoodWithOnlyOneBurger();
         initializeFoodWithOnlyTwoBurgers();
         initializeSomeFood();
@@ -54,6 +54,26 @@ class PantryTest {
         pantry.addFoodFromCookITToNewFood(cookItSubscription);
 
         verify(cookItSubscription).provideFood();
+    }
+
+    @Test
+    public void givenPantryHasNoFood_whenProvideFood_thenShouldReturnFalse() { // Todo ReturnFalse dans le nom?
+        pantry.addToNewBatchOfFreshFood(foodWithQuantityZero);
+        pantry.addNewFoodToFreshFood();
+
+        boolean hasEnoughFood = pantry.provideFood(someFood);
+
+        assertFalse(hasEnoughFood);
+    }
+
+    @Test
+    public void givenPantryHasEnoughFood_whenProvide_thenReturnTrue() {
+//        pantry.addToNewBatchOfFreshFood(foodWithOnlyTwoBurgers);
+//        pantry.addNewFoodToFreshFood();
+
+//        boolean hasEnoughFood = pantry.provideFood(foodWithOnlyOneBurger);
+
+//        assertTrue(hasEnoughFood);
     }
 
 //    @Test
@@ -80,10 +100,21 @@ class PantryTest {
 //        assertFalse(pantry.provideFood(foodWithOnlyTwoBurgers));
 //    }
 
+    private void initializeFoodWithQuantityZero() {
+        Food aFoodItem1 = new Food(FoodType.BURGER, QUANTITY_OF_FOOD_OF_ZERO);
+        Food aFoodItem2 = new Food(FoodType.SALAD, QUANTITY_OF_FOOD_OF_ZERO);
+        Food aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
+        foodWithQuantityZero = new HashMap<>();
+
+        foodWithQuantityZero.put(FoodType.BURGER, aFoodItem1);
+        foodWithQuantityZero.put(FoodType.SALAD, aFoodItem2);
+        foodWithQuantityZero.put(FoodType.WATER, aFoodItem3);
+    }
+
     private void initializeFoodWithOnlyOneBurger() {
-        aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_ONE_BURGER_ORDERED);
-        aFoodItem2 = new Food(FoodType.SALAD, QUANTITY_OF_FOOD_OF_ZERO);
-        aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
+        Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_ONE_BURGER_ORDERED);
+        Food aFoodItem2 = new Food(FoodType.SALAD, QUANTITY_OF_FOOD_OF_ZERO);
+        Food aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
         foodWithOnlyOneBurger = new HashMap<>();
 
         foodWithOnlyOneBurger.put(FoodType.BURGER, aFoodItem1);
@@ -92,9 +123,9 @@ class PantryTest {
     }
 
     private void initializeFoodWithOnlyTwoBurgers() {
-        aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_TWO_BURGER_ORDERED);
-        aFoodItem2 = new Food(FoodType.SALAD, QUANTITY_OF_FOOD_OF_ZERO);
-        aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
+        Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_TWO_BURGER_ORDERED);
+        Food aFoodItem2 = new Food(FoodType.SALAD, QUANTITY_OF_FOOD_OF_ZERO);
+        Food aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
         foodWithOnlyTwoBurgers = new HashMap<>();
 
         foodWithOnlyOneBurger.put(FoodType.BURGER, aFoodItem1);
@@ -103,19 +134,13 @@ class PantryTest {
     }
 
     private void initializeSomeFood() {
-        aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_ONE_BURGER_ORDERED);
-        aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
-        aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
+        Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_ONE_BURGER_ORDERED);
+        Food aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
+        Food aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
         someFood = new HashMap<>();
 
         someFood.put(FoodType.BURGER, aFoodItem1);
         someFood.put(FoodType.SALAD, aFoodItem2);
         someFood.put(FoodType.WATER, aFoodItem3);
-    }
-
-    @Test
-    public void testToDelete() {
-        Map<String, Map<FoodType, Integer>> foodQuantitySummary = pantry.getFoodQuantitySummary();
-        System.out.println(foodQuantitySummary.get("expired"));
     }
 }

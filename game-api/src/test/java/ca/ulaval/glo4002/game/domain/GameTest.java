@@ -50,6 +50,13 @@ class GameTest {
     }
 
     @Test
+    public void whenPlayTurn_pantryShouldIncrementAllFreshFoodAges() {
+        game.playTurn();
+
+        verify(pantry).incrementFreshFoodAges();
+    }
+
+    @Test
     public void whenPlayTurn_thenPantryShouldAddFoodFromCookItToFreshFood() {
         game.playTurn();
 

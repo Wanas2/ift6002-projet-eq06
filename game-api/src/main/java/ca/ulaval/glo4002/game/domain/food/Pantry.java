@@ -2,105 +2,123 @@ package ca.ulaval.glo4002.game.domain.food;
 
 import java.util.*;
 
-public class Pantry {
+public class Pantry implements FoodStorage {
 
-    private final Map<FoodType, Food> newFreshFood = new HashMap<>();
-    private Queue<Map<FoodType, Food>> freshFood = new LinkedList<>();
-    private Map<FoodType, Food> expiredFood = new HashMap<>();
-    private Map<FoodType, Food> consumedFood = new HashMap<>();
+    private Map<FoodType, Food> newFreshFood;
+    private Queue<Map<FoodType, Food>> allFreshFood = new LinkedList<>();
+    private Map<FoodType, Food> allExpiredFood = new HashMap<>();
+    private Map<FoodType, Food> allConsumedFood = new HashMap<>();
 
     public Pantry() {
-        initiatePantryFood();
+        initializeNewBatchOFreshFood();
+        initializeExpiredFood();
+        initiateConsumedFood();
     }
 
-    private void initiatePantryFood() {
+    private void initializeNewBatchOFreshFood() {
+        newFreshFood = new HashMap<>();
         Food freshNewBurgersOfQuantityZero = new Food(FoodType.BURGER, 0); // Todo Mettre zero dans une variable?
         Food freshNewSaladsOfQuantityZero = new Food(FoodType.SALAD, 0);
         Food freshNewWaterOfQuantityZero = new Food(FoodType.WATER, 0);
         newFreshFood.put(FoodType.BURGER, freshNewBurgersOfQuantityZero);
         newFreshFood.put(FoodType.SALAD, freshNewSaladsOfQuantityZero);
         newFreshFood.put(FoodType.WATER, freshNewWaterOfQuantityZero);
+    }
 
-        Food expiredBurgersOfQuantityZero = new Food(FoodType.BURGER, 0); // Todo Mettre zero dans une variable?
+    private void initializeExpiredFood() {
+        Food expiredBurgersOfQuantityZero = new Food(FoodType.BURGER, 0);
         Food expiredSaladsOfQuantityZero = new Food(FoodType.SALAD, 0);
         Food expiredWaterOfQuantityZero = new Food(FoodType.WATER, 0);
 
-        expiredFood.put(FoodType.BURGER, expiredBurgersOfQuantityZero);
-        expiredFood.put(FoodType.SALAD, expiredSaladsOfQuantityZero);
-        expiredFood.put(FoodType.WATER, expiredWaterOfQuantityZero);
-
-        Food burgersOfQuantityZero = new Food(FoodType.BURGER, 0); // Todo Mettre zero dans une variable?
-        Food saladsOfQuantityZero = new Food(FoodType.SALAD, 0);
-        Food waterOfQuantityZero = new Food(FoodType.WATER, 0);
-        consumedFood.put(FoodType.BURGER, burgersOfQuantityZero);
-        consumedFood.put(FoodType.SALAD, saladsOfQuantityZero);
-        consumedFood.put(FoodType.WATER, waterOfQuantityZero);
+        allExpiredFood.put(FoodType.BURGER, expiredBurgersOfQuantityZero);
+        allExpiredFood.put(FoodType.SALAD, expiredSaladsOfQuantityZero);
+        allExpiredFood.put(FoodType.WATER, expiredWaterOfQuantityZero);
     }
 
-    public void addToNewBatchOfFreshFood(Map<FoodType, Food> food) { // Todo Le faire avec une boucle
-        newFreshFood.get(FoodType.BURGER).increaseQuantity(food.get(FoodType.BURGER));
-        newFreshFood.get(FoodType.SALAD).increaseQuantity(food.get(FoodType.SALAD));
-        newFreshFood.get(FoodType.WATER).increaseQuantity(food.get(FoodType.WATER));
+    private void initiateConsumedFood() {
+        Food consumedBurgersOfQuantityZero = new Food(FoodType.BURGER, 0);
+        Food consumedSaladsOfQuantityZero = new Food(FoodType.SALAD, 0);
+        Food consumedWaterOfQuantityZero = new Food(FoodType.WATER, 0);
+        allConsumedFood.put(FoodType.BURGER, consumedBurgersOfQuantityZero);
+        allConsumedFood.put(FoodType.SALAD, consumedSaladsOfQuantityZero);
+        allConsumedFood.put(FoodType.WATER, consumedWaterOfQuantityZero);
     }
 
-    public void addFoodFromCookITToNewFood(CookItSubscription cookItSubscription) { // Todo Rename?
+    public void addToNewBatchOfFreshFood(Map<FoodType, Food> allFoodToBeAdded) {
+        newFreshFood.forEach((foodType, food) -> {
+            if(newFreshFood.containsKey(foodType))
+                food.increase(allFoodToBeAdded.get(foodType));
+        });
+    }
+
+    public void addFoodFromCookITToNewFood(CookItSubscription cookItSubscription) {
         Map<FoodType, Food> foodFromCookIt = cookItSubscription.provideFood();
         addToNewBatchOfFreshFood(foodFromCookIt);
     }
 
-    public void addNewFoodToFreshFood() { // Todo Rename?
-        freshFood.add(newFreshFood);
+    public void addNewFoodToFreshFood() {
+        allFreshFood.add(newFreshFood);
+        initializeNewBatchOFreshFood();
     }
 
-    public void removeExpiredFoodFromFreshFood() { // Todo Ce n'est pas clean
-        for(Map<FoodType, Food> foodOfATurn: freshFood) {
-            foodOfATurn.forEach((foodType, food) -> {
-                if (food.isExpired()) {
-                    expiredFood.get(foodType).increaseQuantity(food);
-                    foodOfATurn.remove(foodType);
+    public void removeExpiredFoodFromFreshFood() {
+        for(Iterator<Map<FoodType, Food>> iterator = allFreshFood.iterator(); iterator.hasNext(); ) {
+            Map<FoodType, Food> foodBatchOfATurn = iterator.next();
+            List<FoodType> allFoodTypesToRemoveFromBatch = new ArrayList<>();
+
+            foodBatchOfATurn.forEach(((foodType, food) -> {
+                if(food.isExpired()) {
+                    allExpiredFood.get(foodType).increase(food);
+                    allFoodTypesToRemoveFromBatch.add(foodType);
                 }
+            }));
+
+            allFoodTypesToRemoveFromBatch.forEach(foodBatchOfATurn::remove);
+        }
+    }
+
+    public void incrementFreshFoodAges() {
+        allFreshFood.forEach((foodBatch) ->
+                foodBatch.forEach((foodType, food) ->
+                        food.incrementAgeByOne()));
+    }
+
+    @Override
+    public boolean provideFood(Map<FoodType, Food> allRequestedFood) {
+        int availableFreshBurgersQuantity = availableQuantityOf(FoodType.BURGER);
+        int availableFreshSaladsQuantity = availableQuantityOf(FoodType.SALAD);
+        int availableFreshWaterQuantity = availableQuantityOf(FoodType.WATER);
+
+        int requestedBurgers = allRequestedFood.get(FoodType.BURGER).quantity();
+        int requestedSalads = allRequestedFood.get(FoodType.SALAD).quantity();
+        int requestedWater = allRequestedFood.get(FoodType.WATER).quantity();
+
+        while(requestedBurgers >= 0) {
+            allFreshFood.forEach((foodBatchOfATurn) -> {
+//                foodBatchOfATurn.get(FoodType.BURGER).decreaseQuantity();
             });
         }
-    }
 
-    public void reset() {
-        freshFood = new LinkedList<>();
-        expiredFood = new HashMap<>();
-        consumedFood = new HashMap<>();
-    }
-
-    public boolean provideFood(Map<FoodType, Food> requestedFood) { // Todo For Dino
-        for(Map.Entry<FoodType, Food> requestedFoodEntry: requestedFood.entrySet()) {
-            freshFood.stream()
-                    .forEach(storedFreshFoodTurnBatch -> {
-
-                    });
-        }
         return false;
     }
 
-    public Map<String, Map<FoodType, Integer>> getFoodQuantitySummary() {
-        Map<String, Map<FoodType, Integer>> allFoodsSummary = new HashMap();
-        Map<FoodType, Integer> expiredFoodSummary = addUpFoodQuantitiesOfOneGroupOfFood(expiredFood);
-        Map<FoodType, Integer> consumedFoodSummary = addUpFoodQuantitiesOfOneGroupOfFood(consumedFood);
+    private int availableQuantityOf(FoodType foodType) {
+        int availableFoodQuantity = 0;
 
-        Map<FoodType, Integer> freshFoodSummary = new HashMap<>();
-        freshFoodSummary.put(FoodType.BURGER, 0);
-        freshFoodSummary.put(FoodType.SALAD, 0);
-        freshFoodSummary.put(FoodType.WATER, 0);
-        int quantityBurger = 0;
-        int quantitySalad = 0;
-        int quantityWater = 0;
-        for(Map<FoodType, Food> foodBatch : freshFood) {
-            Map<FoodType, Integer> foodBatchSummary = addUpFoodQuantitiesOfOneGroupOfFood(foodBatch);
-            quantityBurger += foodBatchSummary.get(FoodType.BURGER);
-            quantitySalad += foodBatchSummary.get(FoodType.SALAD);
-            quantityWater += foodBatchSummary.get(FoodType.WATER);
-
-            freshFoodSummary.replace(FoodType.BURGER, quantityBurger);
-            freshFoodSummary.replace(FoodType.SALAD, quantitySalad);
-            freshFoodSummary.replace(FoodType.WATER, quantityWater);
+        for(Map<FoodType, Food> foodBatchOfATurn : allFreshFood) {
+            availableFoodQuantity += foodBatchOfATurn.get(foodType).quantity();
         }
+
+        return availableFoodQuantity;
+    }
+
+    public Map<String, Map<FoodType, Integer>> getFoodQuantitySummary() {
+        Map<String, Map<FoodType, Integer>> allFoodsSummary = new HashMap<>();
+        Map<FoodType, Integer> expiredFoodSummary = createQuantitySummaryForFood(allExpiredFood);
+        Map<FoodType, Integer> consumedFoodSummary = createQuantitySummaryForFood(allConsumedFood);
+
+        Map<FoodType, Food> mergeAllBatchedOfFreshFood = mergeAllBatchedOfFreshFood();
+        Map<FoodType, Integer> freshFoodSummary = createQuantitySummaryForFood(mergeAllBatchedOfFreshFood);
 
         allFoodsSummary.put("fresh", freshFoodSummary);
         allFoodsSummary.put("expired", expiredFoodSummary);
@@ -109,17 +127,37 @@ public class Pantry {
         return allFoodsSummary;
     }
 
-    private Map<FoodType, Integer> addUpFoodQuantitiesOfOneGroupOfFood(Map<FoodType, Food> food) { // Todo Rename
+    private Map<FoodType, Food> mergeAllBatchedOfFreshFood() {
+        Map<FoodType, Food> freshFoodMerged = new HashMap<>();
+
+        Food burgersOfQuantityZero = new Food(FoodType.BURGER, 0);
+        Food saladsOfQuantityZero = new Food(FoodType.SALAD, 0);
+        Food waterOfQuantityZero = new Food(FoodType.WATER, 0);
+        freshFoodMerged.put(FoodType.BURGER, burgersOfQuantityZero);
+        freshFoodMerged.put(FoodType.SALAD, saladsOfQuantityZero);
+        freshFoodMerged.put(FoodType.WATER, waterOfQuantityZero);
+
+        allFreshFood.forEach((foodBatchOfATurn) ->
+                foodBatchOfATurn.forEach((foodType, food) ->
+                        freshFoodMerged.get(foodType).increase(food)
+                )
+        );
+
+        return  freshFoodMerged;
+    }
+
+    private Map<FoodType, Integer> createQuantitySummaryForFood(Map<FoodType, Food> foodNeedingSummary) {
         Map<FoodType, Integer> foodQuantitySummary = new HashMap<>();
 
-        int quantityBurger = food.get(FoodType.BURGER).getQuantity();
-        int quantitySalad = food.get(FoodType.SALAD).getQuantity();
-        int quantityWater = food.get(FoodType.WATER).getQuantity();
-
-        foodQuantitySummary.put(FoodType.BURGER, quantityBurger);
-        foodQuantitySummary.put(FoodType.SALAD, quantitySalad);
-        foodQuantitySummary.put(FoodType.WATER, quantityWater);
+        foodNeedingSummary.forEach((foodType, food) ->
+                foodQuantitySummary.put(foodType, food.quantity()));
 
         return foodQuantitySummary;
+    }
+
+    public void reset() {
+        allFreshFood = new LinkedList<>();
+        initializeExpiredFood();
+        initiateConsumedFood();
     }
 }
