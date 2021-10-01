@@ -19,6 +19,7 @@ public class FoodResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response orderFood(FoodDTO foodDTO) {
         foodValidator.validateFoodEntries(foodDTO);
         gameService.orderFood(foodDTO);

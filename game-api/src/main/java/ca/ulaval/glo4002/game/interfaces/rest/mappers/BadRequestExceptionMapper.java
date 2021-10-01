@@ -10,7 +10,6 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-@Produces(MediaType.APPLICATION_JSON)
 public class BadRequestExceptionMapper implements ExceptionMapper<GeneralBadRequestException> {
 
     @Override
