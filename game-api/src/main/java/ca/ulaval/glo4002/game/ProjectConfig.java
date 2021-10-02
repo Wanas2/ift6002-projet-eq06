@@ -5,7 +5,8 @@ import ca.ulaval.glo4002.game.applicationService.GameService;
 import ca.ulaval.glo4002.game.applicationService.TurnAssembler;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
-import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurRepositoryImplementation;
+import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurRepository;
+import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurRequestsValidator;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
@@ -23,12 +24,13 @@ public class ProjectConfig extends ResourceConfig {
 
     private void registerResources() {
         Turn turn = new Turn();
-        Herd herd = new Herd();
+        DinosaurRepository dinosaurRepositoryImplementation = new DinosaurRepositoryInMemoryImpl();
+        Herd herd = new Herd(dinosaurRepositoryImplementation);
         Game game = new Game(turn, herd);
 
         TurnAssembler turnAssembler = new TurnAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
-        DinosaurRepositoryImplementation dinosaurRepositoryImplementation = new DinosaurRepositoryImplementation(herd);
+
 
         GameService gameService = new GameService(turnAssembler, dinosaurAssembler, game);
         DinosaurRequestsValidator requestValidator = new DinosaurRequestsValidator(dinosaurRepositoryImplementation);

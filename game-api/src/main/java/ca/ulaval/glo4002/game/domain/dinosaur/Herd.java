@@ -6,8 +6,13 @@ import java.util.List;
 public class Herd {
 
     private List<Dinosaur> dinosaurs = new ArrayList<>();
+    private DinosaurRepositoryInMemoryImpl dinosaurRepositoryInMemory;
 
-    public boolean existsByName(String name){
+    public Herd(DinosaurRepository dinosaurRepositoryInMemory){
+        this.dinosaurRepositoryInMemory = (DinosaurRepositoryInMemoryImpl)dinosaurRepositoryInMemory;
+    }
+
+    private boolean existsByName(String name){
         for (Dinosaur dino: dinosaurs) {
             if(dino.getName().equals(name)){
                 return true;
@@ -15,12 +20,12 @@ public class Herd {
         }
         return false;
     }
-    public int getSize(){
-        return dinosaurs.size();
-    }
 
     public void add(Dinosaur dinosaur){
-        dinosaurs.add(dinosaur);
+        if (!existsByName(dinosaur.getName())){
+            dinosaurs.add(dinosaur);
+            dinosaurRepositoryInMemory.syncAll(dinosaurs);
+        }
     }
 
     public void increaseAge(){

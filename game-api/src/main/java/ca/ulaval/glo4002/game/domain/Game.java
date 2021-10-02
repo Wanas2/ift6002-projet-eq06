@@ -17,6 +17,7 @@ public class Game {
 
     public int playTurn() {
         int turnNumber = turn.play();
+        herd.increaseAge();
         return turnNumber;
     }
 

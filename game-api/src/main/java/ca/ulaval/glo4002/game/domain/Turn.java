@@ -11,9 +11,11 @@ public class Turn {
     private Queue<ExecutableAction> actions = new LinkedList<>();
 
     public int play() {
-        for(ExecutableAction action : actions) {
+        while(hasActions()){
+            ExecutableAction action = actions.remove();
             action.execute();
         }
+
         turnNumber++;
         return turnNumber;
     }
