@@ -83,35 +83,6 @@ public class Pantry implements FoodStorage {
                         food.incrementAgeByOne()));
     }
 
-    @Override
-    public boolean provideFood(Map<FoodType, Food> allRequestedFood) {
-        int availableFreshBurgersQuantity = availableQuantityOf(FoodType.BURGER);
-        int availableFreshSaladsQuantity = availableQuantityOf(FoodType.SALAD);
-        int availableFreshWaterQuantity = availableQuantityOf(FoodType.WATER);
-
-        int requestedBurgers = allRequestedFood.get(FoodType.BURGER).quantity();
-        int requestedSalads = allRequestedFood.get(FoodType.SALAD).quantity();
-        int requestedWater = allRequestedFood.get(FoodType.WATER).quantity();
-
-//        while(requestedBurgers >= 0) {
-//            allFreshFood.forEach((foodBatchOfATurn) -> {
-////                foodBatchOfATurn.get(FoodType.BURGER).decreaseQuantity();
-//            });
-//        }
-
-        return false;
-    }
-
-    private int availableQuantityOf(FoodType foodType) {
-        int availableFoodQuantity = 0;
-
-        for(Map<FoodType, Food> foodBatchOfATurn : allFreshFood) {
-            availableFoodQuantity += foodBatchOfATurn.get(foodType).quantity();
-        }
-
-        return availableFoodQuantity;
-    }
-
     public Map<String, Map<FoodType, Integer>> getFoodQuantitySummary() {
         Map<String, Map<FoodType, Integer>> allFoodsSummary = new HashMap<>();
         Map<FoodType, Integer> expiredFoodSummary = createQuantitySummaryForFood(allExpiredFood);
@@ -159,5 +130,20 @@ public class Pantry implements FoodStorage {
         allFreshFood = new LinkedList<>();
         initializeExpiredFood();
         initiateConsumedFood();
+    }
+
+    @Override
+    public int giveExactOrMostPossibleBurgerDesired(int quantity) {
+        return 0;
+    }
+
+    @Override
+    public int giveExactOrMostPossibleSaladDesired(int quantity) {
+        return 0;
+    }
+
+    @Override
+    public int giveExactOrMostPossibleWaterDesired(int quantity) {
+        return 0;
     }
 }

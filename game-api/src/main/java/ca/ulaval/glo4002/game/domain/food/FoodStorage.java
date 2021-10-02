@@ -1,8 +1,9 @@
 package ca.ulaval.glo4002.game.domain.food;
 
-import java.util.Map;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.CarnivorousFoodStorage;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.HerbivorousFoodStorage;
 
-public interface FoodStorage {
+public interface FoodStorage extends CarnivorousFoodStorage, HerbivorousFoodStorage {
 
-    boolean provideFood(Map<FoodType, Food> allRequestedFood);
+    int giveExactOrMostPossibleWaterDesired(int quantity);
 }

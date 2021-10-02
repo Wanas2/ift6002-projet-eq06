@@ -57,48 +57,14 @@ class PantryTest {
     }
 
     @Test
-    public void givenPantryHasNoFood_whenProvideFood_thenShouldReturnFalse() { // Todo ReturnFalse dans le nom?
-        pantry.addToNewBatchOfFreshFood(foodWithQuantityZero);
-        pantry.addNewFoodToFreshFood();
+    public void givenADiredNumberOfBurgersAndPantryHasNoBurger_whenGiveExactOrMostPossibleBurgerDesired_thenReturnZero() {
+        int aDesiredNumberOfBurgers = 2;
+        int expectedReturnedNumberOfBurgers = 0;
 
-        boolean hasEnoughFood = pantry.provideFood(someFood);
-//
-        assertFalse(hasEnoughFood);
+        int returnedNumberOfBurgers = pantry.giveExactOrMostPossibleBurgerDesired(aDesiredNumberOfBurgers);
+
+        assertEquals(expectedReturnedNumberOfBurgers, returnedNumberOfBurgers);
     }
-
-    @Test
-    public void givenPantryHasEnoughFood_whenProvide_thenReturnTrue() {
-//        pantry.addToNewBatchOfFreshFood(foodWithOnlyTwoBurgers);
-//        pantry.addNewFoodToFreshFood();
-
-//        boolean hasEnoughFood = pantry.provideFood(foodWithOnlyOneBurger);
-
-//        assertTrue(hasEnoughFood);
-    }
-
-//    @Test
-//    public void givenAFoodRequestButNoFoodAddedToFreshFoodStorage_whenProvideFood_thenNoFoodIsProvided() {
-//        pantry.orderFood(foodWithOnlyTwoBurgers);
-//
-//        assertFalse(pantry.provideFood(foodWithOnlyOneBurger));
-//    }
-
-//    @Test
-//    public void givenAFoodRequestAndEnoughFoodIsAddedToFreshFoodStorage_whenProvideFood_thenPantryProvideTheFood() {
-//        pantry.orderFood(foodWithOnlyTwoBurgers);
-//        pantry.addNewFoodToFreshFoodStorage();
-//
-//        boolean isThereEnoughFoodInStorage = pantry.provideFood(foodWithOnlyOneBurger);
-//
-//        assertTrue(isThereEnoughFoodInStorage);
-//    }
-
-//    @Test
-//    public void givenNotEnoughFood_whenProvideFood_thenReturnFalse() { // Todo the name
-//        pantry.orderFood(foodWithOnlyOneBurger);
-//
-//        assertFalse(pantry.provideFood(foodWithOnlyTwoBurgers));
-//    }
 
     private void initializeFoodWithQuantityZero() {
         Food aFoodItem1 = new Food(FoodType.BURGER, QUANTITY_OF_FOOD_OF_ZERO);
