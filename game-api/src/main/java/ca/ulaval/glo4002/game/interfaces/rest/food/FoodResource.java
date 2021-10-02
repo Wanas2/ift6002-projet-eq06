@@ -22,6 +22,13 @@ public class FoodResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response orderFood(FoodDTO foodDTO) {
         foodValidator.validateFoodEntries(foodDTO);
+        System.out.println("********************************************************************************");
+        System.out.println("********************************************************************************");
+        System.out.println("********************************************************************************");
+        System.out.println(foodDTO.qtyWater);
+        System.out.println("********************************************************************************");
+        System.out.println("********************************************************************************");
+        System.out.println("********************************************************************************");
         gameService.orderFood(foodDTO);
         return Response.ok().build();
     }
