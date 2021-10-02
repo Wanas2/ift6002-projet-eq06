@@ -9,8 +9,8 @@ public class CarnivorousFoodConsumptionStrategy implements FoodConsumptionStrate
         this.storage = storage;
     }
     @Override
-    public boolean consumeFood(int weight, int entryTurn, int currentTurn) {
-        int starvingFactor = entryTurn == currentTurn ? STARVING_FACTOR : 1;
+    public boolean consumeFood(int weight, int age) {
+        int starvingFactor = age == 0 ? STARVING_FACTOR : 1;
         int waterNeeded = (int) Math.ceil(starvingFactor * weight * WATER_FACTOR);
         int foodNeeded = (int) Math.ceil(starvingFactor * weight * FOOD_FACTOR);
 

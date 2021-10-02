@@ -4,28 +4,33 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrateg
 
 public class Dinosaur {
     private Species species;
-    private int entryTurn;
     private boolean isAlive = true;
     private int weight;
     private String name;
     private Gender gender;
     private FoodConsumptionStrategy foodConsumptionStrategy;
+    private int age;
 
-    public Dinosaur(Species species, int entryTurn,
-                    int weight, String name, Gender gender,FoodConsumptionStrategy foodConsumptionStrategy) {
+    public Dinosaur(Species species, int weight, String name, Gender gender,
+                    FoodConsumptionStrategy foodConsumptionStrategy) {
         this.species = species;
-        this.entryTurn = entryTurn;
         this.weight = weight;
         this.name = name;
         this.gender = gender;
         this.foodConsumptionStrategy = foodConsumptionStrategy;
+        this.age = 0;
+
     }
 
     public boolean isAlive(){
         return isAlive;
     }
 
-    public void eat(int currentTurn){
-        isAlive = foodConsumptionStrategy.consumeFood(weight,entryTurn,currentTurn);
+    public void eat(){
+        isAlive = foodConsumptionStrategy.consumeFood(weight, age);
+    }
+
+    public void age(){
+        age++;
     }
 }
