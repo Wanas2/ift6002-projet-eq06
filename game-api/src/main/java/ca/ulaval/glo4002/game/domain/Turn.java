@@ -10,6 +10,7 @@ public class Turn {
     private int turnNumber = 0;
     private Queue<ExecutableAction> actions = new LinkedList<>();
 
+
     public void acquireNewAction(ExecutableAction action) {
         actions.add(action);
     }
@@ -27,6 +28,7 @@ public class Turn {
     public boolean hasActions() {
         return !actions.isEmpty();
     }
+
 
     public void reset() {
         actions = new LinkedList<>();

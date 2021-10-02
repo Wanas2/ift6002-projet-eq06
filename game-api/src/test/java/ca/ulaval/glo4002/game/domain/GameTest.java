@@ -2,7 +2,9 @@ package ca.ulaval.glo4002.game.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
+import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
@@ -19,6 +21,7 @@ class GameTest {
 
     private CookItSubscription cookItSubscription;
     private Turn turn;
+    private Herd herd;
     private Game game;
     private Pantry pantry;
     private Food aFoodItem1;
@@ -30,9 +33,10 @@ class GameTest {
     void setUp() {
         initializesFood();
         turn = mock(Turn.class);
+
         pantry = mock(Pantry.class);
         cookItSubscription = mock(CookItSubscription.class);
-        game = new Game(pantry, turn, cookItSubscription);
+        game = new Game(herd, pantry, turn, cookItSubscription);
     }
 
     @Test

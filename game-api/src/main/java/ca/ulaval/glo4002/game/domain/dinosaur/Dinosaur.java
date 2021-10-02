@@ -33,4 +33,8 @@ public class Dinosaur {
     public void age(){
         age++;
     }
+
+    public String getName(){
+        return name;
+    }
 }

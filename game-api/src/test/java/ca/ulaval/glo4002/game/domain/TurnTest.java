@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.game.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import ca.ulaval.glo4002.game.domain.action.AddDinosaureAction;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
 import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 class TurnTest {
 
+
     private ExecutableAction aFirstAction;
     private ExecutableAction aSecondAction;
     private Food aFoodItem;
@@ -30,6 +32,7 @@ class TurnTest {
 
     @BeforeEach
     void setUp() {
+
         aFirstAction = mock(AddFoodAction.class);
         aSecondAction = mock(AddDinosaureAction.class);
         actions = new LinkedList<>();
@@ -50,6 +53,7 @@ class TurnTest {
     }
 
     @Test
+
     public void givenMultipleActions_whenPlay_thenShouldExecuteAllActions() {
         turn.acquireNewAction(aFirstAction);
         turn.acquireNewAction(aSecondAction);
@@ -96,4 +100,15 @@ class TurnTest {
 
         assertEquals(expectedTurnNumber, turnNumberAfterReset);
     }
+
+    @Test
+    public void whenReset_thenTurnShouldHaveNoActions() {
+        turn.acquireNewAction(aFirstAction);
+        turn.acquireNewAction(aSecondAction);
+
+        turn.reset();
+
+        assertFalse(turn.hasActions());
+    }
+
 }

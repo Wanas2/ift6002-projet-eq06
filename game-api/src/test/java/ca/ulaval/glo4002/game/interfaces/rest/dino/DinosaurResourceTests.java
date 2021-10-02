@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.game.interfaces.rest.dino;
 
+import ca.ulaval.glo4002.game.applicationService.GameService;
+import ca.ulaval.glo4002.game.domain.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +18,13 @@ public class DinosaurResourceTests {
     String SPECIES = "Ankylosaurus";
     DinosaurResource dinosaurResource;
     DinosaurRequestsValidator requestsValidator;
+    GameService gameService;
 
     @BeforeEach
     public void setup(){
         requestsValidator = mock(DinosaurRequestsValidator.class);
-        dinosaurResource = new DinosaurResource(requestsValidator);
+        gameService = mock(GameService.class);
+        dinosaurResource = new DinosaurResource(gameService, requestsValidator);
     }
 
     @Test
