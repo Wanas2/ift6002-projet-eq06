@@ -103,8 +103,8 @@ class TurnTest {
 
     @Test
     public void whenReset_thenTurnShouldHaveNoActions() {
-        turn.acquireNewAction(firstAction);
-        turn.acquireNewAction(secondAction);
+        turn.acquireNewAction(aFirstAction);
+        turn.acquireNewAction(aSecondAction);
 
         turn.reset();
 

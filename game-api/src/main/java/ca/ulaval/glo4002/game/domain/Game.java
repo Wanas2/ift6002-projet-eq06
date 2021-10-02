@@ -1,6 +1,9 @@
 package ca.ulaval.glo4002.game.domain;
 
 
+import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
@@ -13,13 +16,20 @@ import java.util.*;
 public class Game {
 
     private final Turn turn;
+    private final Herd herd;
     private final CookItSubscription cookItSubscription;
     private final Pantry pantry;
 
-    public Game(Pantry pantry, Turn turn, CookItSubscription cookItSubscription) {
+    public Game(Herd herd, Pantry pantry, Turn turn, CookItSubscription cookItSubscription) {
+        this.herd = herd;
         this.pantry = pantry;
         this.turn = turn;
         this.cookItSubscription = cookItSubscription;
+    }
+
+    public void addDinosaur(Dinosaur dinosaur){
+        ExecutableAction addDinosaurAction = new AddDinosaurAction(herd, dinosaur);
+        turn.acquireNewAction(addDinosaurAction);
     }
 
     public void addFood(Map<FoodType, Food> foods) {
@@ -29,6 +39,7 @@ public class Game {
 
     public int playTurn() {
         int turnNumber = turn.playActions();
+        herd.increaseAge();
         pantry.incrementFreshFoodAges();
         pantry.addFoodFromCookITToNewFood(cookItSubscription);
         pantry.addNewFoodToFreshFood();
@@ -36,13 +47,9 @@ public class Game {
         return turnNumber;
     }
 
-    public void addDinosaur(Dinosaur dinosaur){
-        ExecutableAction addDinosaurAction = new AddDinosaurAction(herd, dinosaur);
-        turn.acquireNewAction(addDinosaurAction);
-    }
-
     public void reset() {
         turn.reset();
+        herd.reset();
         pantry.reset();
     }
 }
