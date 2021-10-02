@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.game.interfaces.rest.exceptions;
 
-
 public class GeneralNotFoundException extends RuntimeException {
 
     private final String error;

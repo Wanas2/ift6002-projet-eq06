@@ -10,8 +10,13 @@ public class Turn {
     private int turnNumber = 0;
     private Queue<ExecutableAction> actions = new LinkedList<>();
 
-    public int play() {
-        while(hasActions()){
+
+    public void acquireNewAction(ExecutableAction action) {
+        actions.add(action);
+    }
+
+    public int playActions() {
+        while(hasActions()) {
             ExecutableAction action = actions.remove();
             action.execute();
         }
@@ -20,16 +25,13 @@ public class Turn {
         return turnNumber;
     }
 
-    public void reset() {
-        turnNumber = 0;
-        actions.clear();
-    }
-
     public boolean hasActions() {
         return !actions.isEmpty();
     }
 
-    public void acquireNewAction(ExecutableAction action) {
-        actions.add(action);
+
+    public void reset() {
+        actions = new LinkedList<>();
+        turnNumber = 0;
     }
 }

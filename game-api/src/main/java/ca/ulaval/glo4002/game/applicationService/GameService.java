@@ -1,31 +1,50 @@
 package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
-import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
+import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodType;
+import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.food.FoodSummaryDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
+
+import java.util.Map;
 
 public class GameService {
 
     private final TurnAssembler turnAssembler;
     private final DinosaurAssembler dinosaurAssembler;
     private final Game game;
+    private final Pantry pantry;
+    private final TurnAssembler turnAssembler;
+    private final FoodAssembler foodAssembler;
+    private final FoodSummaryAssembler foodSummaryAssembler;
 
-    public GameService(TurnAssembler turnAssembler, DinosaurAssembler dinosaurAssembler, Game game) {
-        this.turnAssembler = turnAssembler;
-        this.dinosaurAssembler = dinosaurAssembler;
+    public GameService(Game game, Pantry pantry,TurnAssembler turnAssembler, FoodAssembler foodAssembler,
+                       FoodSummaryAssembler foodSummaryAssembler) {
         this.game = game;
+        this.pantry = pantry;
+        this.turnAssembler = turnAssembler;
+        this.foodAssembler = foodAssembler;
+        this.foodSummaryAssembler = foodSummaryAssembler;
     }
+
+    public void orderFood(FoodDTO foodDTO) {
+        Map<FoodType, Food> food = foodAssembler.create(foodDTO);
+        game.addFood(food);
+    }
+
+    // Todo Order Dinosaure ici
+
 
     public TurnNumberDTO playTurn() {
         int turnNumber = game.playTurn();
-
         return turnAssembler.assembleTurnNumber(turnNumber);
     }
 
-    public void addDinosaur(DinosaurDTO dinosaurDTO) {
-        Dinosaur dinosaur = dinosaurAssembler.create(dinosaurDTO);
-        game.addDinosaur(dinosaur);
+    public FoodSummaryDTO getFoodQuantitySummary() {
+        Map<String, Map<FoodType, Integer>> allFoodSummary = pantry.getFoodQuantitySummary();
+        return foodSummaryAssembler.createDTO(allFoodSummary, foodAssembler);
     }
 
     public void reset() {
