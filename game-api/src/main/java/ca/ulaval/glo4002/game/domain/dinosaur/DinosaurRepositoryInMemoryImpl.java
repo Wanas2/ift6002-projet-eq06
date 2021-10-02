@@ -29,4 +29,8 @@ public class DinosaurRepositoryInMemoryImpl implements DinosaurRepository{
     public void syncAll(List<Dinosaur> dinosaurs){
         this.dinoStorage = dinosaurs;
     }
+
+    public void deleteAll(){
+        this.dinoStorage = new ArrayList<>();
+    }
 }

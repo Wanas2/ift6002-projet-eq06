@@ -5,11 +5,12 @@ import java.util.List;
 
 public class Herd {
 
-    private List<Dinosaur> dinosaurs = new ArrayList<>();
-    private DinosaurRepositoryInMemoryImpl dinosaurRepositoryInMemory;
+    private List<Dinosaur> dinosaurs;
+    private DinosaurRepository dinosaurRepository;
 
-    public Herd(DinosaurRepository dinosaurRepositoryInMemory){
-        this.dinosaurRepositoryInMemory = (DinosaurRepositoryInMemoryImpl)dinosaurRepositoryInMemory;
+    public Herd(DinosaurRepository dinosaurRepository){
+        this.dinosaurs =  new ArrayList<>();
+        this.dinosaurRepository = (DinosaurRepositoryInMemoryImpl)dinosaurRepository;
     }
 
     private boolean existsByName(String name){
@@ -24,7 +25,7 @@ public class Herd {
     public void add(Dinosaur dinosaur){
         if (!existsByName(dinosaur.getName())){
             dinosaurs.add(dinosaur);
-            dinosaurRepositoryInMemory.syncAll(dinosaurs);
+            dinosaurRepository.syncAll(dinosaurs);
         }
     }
 
@@ -35,6 +36,7 @@ public class Herd {
     }
     public void reset(){
         dinosaurs.clear();
+        dinosaurRepository.deleteAll();
     }
 
 }

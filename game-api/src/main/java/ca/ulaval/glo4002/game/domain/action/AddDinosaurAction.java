@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.game.domain.action;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.exceptions.DuplicateNameException;
 
 public class AddDinosaurAction implements ExecutableAction {
 
