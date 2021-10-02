@@ -13,8 +13,7 @@ public class DinosaurTests {
     FoodConsumptionStrategy CARNIVOROUS_STRATEGY;
     Dinosaur AN_HERBIVOROUS_DINOSAUR;
     FoodConsumptionStrategy HERBIVOROUS_STRATEGY;
-    int ENTRY_TURN = 1;
-    int OTHER_TURN = 3;
+    int AGE = 0;
     int WEIGHT = 81;
     String CARNIVOROUS_NAME = "Bob";
     String HERBIVOROUS_NAME = "Bobi";
@@ -22,10 +21,10 @@ public class DinosaurTests {
     @BeforeEach
     public void setup(){
         CARNIVOROUS_STRATEGY = mock(FoodConsumptionStrategy.class);
-        A_CARNIVOROUS_DINOSAUR = new Dinosaur(Species.Spinosaurus,ENTRY_TURN,WEIGHT,CARNIVOROUS_NAME,Gender.M,
+        A_CARNIVOROUS_DINOSAUR = new Dinosaur(Species.Spinosaurus,WEIGHT,CARNIVOROUS_NAME,Gender.M,
                 CARNIVOROUS_STRATEGY);
         HERBIVOROUS_STRATEGY = mock(FoodConsumptionStrategy.class);
-        AN_HERBIVOROUS_DINOSAUR = new Dinosaur(Species.Ankylosaurus,ENTRY_TURN,WEIGHT,HERBIVOROUS_NAME,Gender.F,
+        AN_HERBIVOROUS_DINOSAUR = new Dinosaur(Species.Ankylosaurus,WEIGHT,HERBIVOROUS_NAME,Gender.F,
                 HERBIVOROUS_STRATEGY);
     }
 
@@ -36,18 +35,18 @@ public class DinosaurTests {
 
     @Test
     public void givenADinosaur_whenItCanNotEatEnough_thenItShouldDie(){
-        when(HERBIVOROUS_STRATEGY.consumeFood(WEIGHT,ENTRY_TURN,OTHER_TURN)).thenReturn(false);
+        when(HERBIVOROUS_STRATEGY.consumeFood(WEIGHT, AGE)).thenReturn(false);
 
-        AN_HERBIVOROUS_DINOSAUR.eat(OTHER_TURN);
+        AN_HERBIVOROUS_DINOSAUR.eat();
 
         assertFalse(AN_HERBIVOROUS_DINOSAUR.isAlive());
     }
 
     @Test
     public void givenAnDinosaur_whenItCanEatEnough_thenItShouldStayAlive(){
-        when(HERBIVOROUS_STRATEGY.consumeFood(WEIGHT,ENTRY_TURN,OTHER_TURN)).thenReturn(true);
+        when(HERBIVOROUS_STRATEGY.consumeFood(WEIGHT, AGE)).thenReturn(true);
 
-        AN_HERBIVOROUS_DINOSAUR.eat(OTHER_TURN);
+        AN_HERBIVOROUS_DINOSAUR.eat();
 
         assertTrue(AN_HERBIVOROUS_DINOSAUR.isAlive());
     }

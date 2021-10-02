@@ -11,8 +11,7 @@ import static org.mockito.Mockito.verify;
 public class CarnivorousFoodConsumptionStrategyTests {
     CarnivorousFoodConsumptionStrategy strategy;
     CarnivorousFoodStorage foodStorage;
-    int ENTRY_TURN = 1;
-    int OTHER_TURN = 3;
+    int OTHER_AGE = 4;
     int WEIGHT = 81;
     int EXPECTED_NORMAL_BURGERS = 1;
     int EXPECTED_NORMAL_WATER = 49;
@@ -26,16 +25,16 @@ public class CarnivorousFoodConsumptionStrategyTests {
     }
 
     @Test
-    public void givenCurrentTurnIsNotEntryTurn_whenConsumingFood_thenItShouldTakeTheRightAmount(){
-        strategy.consumeFood(WEIGHT,ENTRY_TURN,OTHER_TURN);
+    public void givenAgeIsNot0_whenConsumingFood_thenItShouldTakeTheRightAmount(){
+        strategy.consumeFood(WEIGHT,OTHER_AGE);
 
         verify(foodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_NORMAL_BURGERS);
         verify(foodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_NORMAL_WATER);
     }
 
     @Test
-    public void givenCurrentTurnIsEntryTurn_whenConsumingFood_thenItShouldTakeTheDoubleOfRightAmount(){
-        strategy.consumeFood(WEIGHT,ENTRY_TURN,ENTRY_TURN);
+    public void givenAgeIs0_whenConsumingFood_thenItShouldTakeTheDoubleOfRightAmount(){
+        strategy.consumeFood(WEIGHT,0);
 
         verify(foodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_DOUBLE_BURGERS);
         verify(foodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_DOUBLE_WATER);
