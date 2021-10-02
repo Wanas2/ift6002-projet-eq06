@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.game.interfaces.rest.dino;
 
+import ca.ulaval.glo4002.game.applicationService.GameService;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -9,16 +11,18 @@ import javax.ws.rs.core.Response;
 public class DinosaurResource {
 
     private DinosaurRequestsValidator requestValidator;
+    private GameService gameService;
 
-    public  DinosaurResource(DinosaurRequestsValidator requestValidator){
+    public  DinosaurResource(GameService gameService, DinosaurRequestsValidator requestValidator){
         this.requestValidator = requestValidator;
+        this.gameService = gameService;
     }
 
     @POST
     @Path("/dinosaurs")
     public Response addDino(DinosaurDTO dinosaurDTO) {
         requestValidator.validateAddRequest(dinosaurDTO);
-        //TODO : creer et ajouter l'action au Turn (service)
+        gameService.addDinosaur(dinosaurDTO);
         return Response.ok().build();
     }
 

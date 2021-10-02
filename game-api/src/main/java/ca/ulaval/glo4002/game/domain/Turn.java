@@ -1,19 +1,19 @@
 package ca.ulaval.glo4002.game.domain;
 
+import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Turn {
 
     private int turnNumber = 0;
-    private Queue<Action> actions = new LinkedList<>();
+    private Queue<ExecutableAction> actions = new LinkedList<>();
 
     public int play() {
-        while(hasActions()){
-            Action action = actions.remove();
+        for(ExecutableAction action : actions) {
             action.execute();
         }
-
         turnNumber++;
         return turnNumber;
     }
@@ -27,7 +27,7 @@ public class Turn {
         return !actions.isEmpty();
     }
 
-    public void addAction(Action action) {
+    public void acquireNewAction(ExecutableAction action) {
         actions.add(action);
     }
 }

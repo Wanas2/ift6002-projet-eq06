@@ -1,6 +1,10 @@
 package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
+import ca.ulaval.glo4002.game.domain.dinosaur.Species;
+import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,14 +17,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameServiceTest {
 
     private TurnAssembler turnAssembler;
+    private DinosaurAssembler dinosaurAssembler;
     private Game game;
     GameService gameService;
 
     @BeforeEach
     void setUp() {
         turnAssembler = mock(TurnAssembler.class);
+        dinosaurAssembler = mock(DinosaurAssembler.class);
         game = mock(Game.class);
-        gameService = new GameService(turnAssembler, game);
+        gameService = new GameService(turnAssembler, dinosaurAssembler, game);
     }
 
     @Test
@@ -46,4 +52,5 @@ class GameServiceTest {
 
         verify(game).reset();
     }
+
 }

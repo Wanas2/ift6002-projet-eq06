@@ -1,6 +1,8 @@
 package ca.ulaval.glo4002.game.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,15 +13,15 @@ import static org.mockito.Mockito.*;
 
 class TurnTest {
 
-    private Action firstAction;
-    private Action secondAction;
-    private Queue<Action> actions;
+    private ExecutableAction firstAction;
+    private ExecutableAction secondAction;
+    private Queue<ExecutableAction> actions;
     private Turn turn;
 
     @BeforeEach
     void setUp() {
-        firstAction = mock(Action.class);
-        secondAction = mock(Action.class);
+        firstAction = mock(ExecutableAction.class);
+        secondAction = mock(ExecutableAction.class);
         actions = new LinkedList<>();
         actions.add(firstAction);
         actions.add(secondAction);
@@ -35,7 +37,7 @@ class TurnTest {
 
     @Test
     public void givenAnAction_whenAddAction_thenTheActionIsAddedToTurn() {
-        turn.addAction(firstAction);
+        turn.acquireNewAction(firstAction);
 
         assertTrue(turn.hasActions());
     }
@@ -81,8 +83,8 @@ class TurnTest {
 
     @Test
     public void whenReset_thenTurnShouldHaveNoActions() {
-        turn.addAction(firstAction);
-        turn.addAction(secondAction);
+        turn.acquireNewAction(firstAction);
+        turn.acquireNewAction(secondAction);
 
         turn.reset();
 
