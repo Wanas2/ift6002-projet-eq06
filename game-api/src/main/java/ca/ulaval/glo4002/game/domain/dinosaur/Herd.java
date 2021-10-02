@@ -1,7 +1,8 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static java.util.stream.Collectors.toMap;
 
 public class Herd {
 
@@ -9,7 +10,7 @@ public class Herd {
     private DinosaurRepository dinosaurRepository;
 
     public Herd(DinosaurRepository dinosaurRepository){
-        this.dinosaurRepository = (DinosaurRepositoryInMemoryImpl)dinosaurRepository;
+        this.dinosaurRepository = dinosaurRepository;
         this.dinosaurs =  dinosaurRepository.findAll();
     }
 
@@ -27,6 +28,36 @@ public class Herd {
             dinosaurs.add(dinosaur);
             dinosaurRepository.syncAll(dinosaurs);
         }
+    }
+
+    public void feed() {
+        List<Dinosaur> dinosaursByPriority = new ArrayList<>(sortDinosaursByStrength().keySet());
+        for (Dinosaur dinosaur : dinosaursByPriority) {
+            dinosaur.eat();
+        }
+        removeFastingDinosaurs(dinosaursByPriority);
+    }
+
+    private void removeFastingDinosaurs(List<Dinosaur> allDinosaurs){
+        for(Dinosaur dinosaur : allDinosaurs){
+            if(!dinosaur.isAlive())
+                dinosaurs.remove(dinosaur);
+        }
+
+        dinosaurRepository.syncAll(dinosaurs);
+    }
+
+    private Map<Dinosaur, Float> sortDinosaursByStrength(){
+        Map<Dinosaur, Float> dinosaursStrength = new HashMap<>();
+        for(Dinosaur dinosaur : dinosaurs){
+            dinosaursStrength.put(dinosaur, dinosaur.calculateStrength());
+        }
+        return dinosaursStrength.entrySet().stream()
+                .sorted(Map.Entry.<Dinosaur, Float>comparingByValue()
+                        .reversed()
+                        .thenComparing(Map.Entry.comparingByKey()))
+                .collect(
+                        toMap(Map.Entry::getKey, Map.Entry::getValue, (dinosaur, strength) -> dinosaur, LinkedHashMap::new));
     }
 
     public void increaseAge(){

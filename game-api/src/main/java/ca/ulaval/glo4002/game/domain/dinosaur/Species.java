@@ -23,4 +23,8 @@ public enum Species {
     public String getName(){
         return name;
     }
+
+    public FoodConsumption getConsumptionType() {
+        return consumptionType;
+    }
 }
