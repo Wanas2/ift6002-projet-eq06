@@ -9,8 +9,8 @@ public class Herd {
     private DinosaurRepository dinosaurRepository;
 
     public Herd(DinosaurRepository dinosaurRepository){
-        this.dinosaurs =  new ArrayList<>();
         this.dinosaurRepository = (DinosaurRepositoryInMemoryImpl)dinosaurRepository;
+        this.dinosaurs =  dinosaurRepository.findAll();
     }
 
     private boolean existsByName(String name){
