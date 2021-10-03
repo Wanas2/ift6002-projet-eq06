@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.game.applicationService;
 
+import ca.ulaval.glo4002.game.applicationService.TurnAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,20 +9,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TurnAssemblerTest {
 
-    private static final int A_TURN_NUMBER = 2;
     private TurnAssembler turnAssembler;
 
     @BeforeEach
     void setUp() {
         turnAssembler = new TurnAssembler();
     }
-
+    
     @Test
-    public void givenATurnNumber_whenAssembleTurnNumber_thenTurnNumberIsAssembled() {
-        TurnNumberDTO turnNumberDTO = turnAssembler.assembleTurnNumber(A_TURN_NUMBER);
+    void givenATurnNumber_whenAssembleTurnNumber_thenTheAppropriateTurnNumberDTOIsReturned() {
+        int aTurnNumber = 132;
 
-        assertNotNull(turnNumberDTO);
+        TurnNumberDTO createdDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
+
+        assertEquals(aTurnNumber, createdDTO.turnNumber);
     }
-
-    // Todo Tester que le DTO est créé avec le bon turnNumber
 }

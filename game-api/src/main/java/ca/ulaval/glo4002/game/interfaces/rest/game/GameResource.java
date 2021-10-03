@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class GameResource {
 
-    private GameService gameService;
+    private final GameService gameService;
 
     public GameResource(GameService gameService) {
         this.gameService = gameService;
