@@ -30,8 +30,8 @@ public class Dinosaur implements Comparable<Dinosaur>{
         isAlive = foodConsumptionStrategy.consumeFood(weight, age);
     }
 
-    public float calculateStrength(){
-        return weight * getGenderFactor() * getTypeFactor();
+    public int calculateStrength(){
+        return (int)Math.ceil(weight * getGenderFactor() * getTypeFactor());
     }
 
     private float getGenderFactor(){
