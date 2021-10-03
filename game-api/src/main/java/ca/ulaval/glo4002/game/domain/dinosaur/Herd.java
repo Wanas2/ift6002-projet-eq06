@@ -47,13 +47,13 @@ public class Herd {
         dinosaurRepository.syncAll(dinosaurs);
     }
 
-    private Map<Dinosaur, Float> sortDinosaursByStrength(){
-        Map<Dinosaur, Float> dinosaursStrength = new HashMap<>();
+    private Map<Dinosaur, Integer> sortDinosaursByStrength(){
+        Map<Dinosaur, Integer> dinosaursStrength = new HashMap<>();
         for(Dinosaur dinosaur : dinosaurs){
             dinosaursStrength.put(dinosaur, dinosaur.calculateStrength());
         }
         return dinosaursStrength.entrySet().stream()
-                .sorted(Map.Entry.<Dinosaur, Float>comparingByValue()
+                .sorted(Map.Entry.<Dinosaur, Integer>comparingByValue()
                         .reversed()
                         .thenComparing(Map.Entry.comparingByKey()))
                 .collect(

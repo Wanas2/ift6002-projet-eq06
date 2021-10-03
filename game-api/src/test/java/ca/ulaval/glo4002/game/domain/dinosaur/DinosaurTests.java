@@ -54,9 +54,9 @@ public class DinosaurTests {
 
     @Test
     public void givenADinosaur_whenCalculateStrength_thenStrengthShouldBeCalculated(){
-        float expectedStrength = WEIGHT * MALE_FACTOR * CARNIVOROUS_FACTOR;
+        int expectedStrength = (int)Math.ceil(WEIGHT * MALE_FACTOR * CARNIVOROUS_FACTOR);
 
-        float strength = A_CARNIVOROUS_DINOSAUR.calculateStrength();
+        int strength = A_CARNIVOROUS_DINOSAUR.calculateStrength();
 
         assertEquals(expectedStrength, strength);
     }
