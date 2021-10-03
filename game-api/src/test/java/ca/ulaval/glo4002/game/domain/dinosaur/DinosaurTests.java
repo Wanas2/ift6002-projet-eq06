@@ -4,8 +4,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrateg
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class DinosaurTests {
@@ -17,6 +16,8 @@ public class DinosaurTests {
     int WEIGHT = 81;
     String CARNIVOROUS_NAME = "Bob";
     String HERBIVOROUS_NAME = "Bobi";
+    private final static float MALE_FACTOR = 1.0f;
+    private final static float CARNIVOROUS_FACTOR = 1.5f;
 
     @BeforeEach
     public void setup(){
@@ -49,5 +50,14 @@ public class DinosaurTests {
         AN_HERBIVOROUS_DINOSAUR.eat();
 
         assertTrue(AN_HERBIVOROUS_DINOSAUR.isAlive());
+    }
+
+    @Test
+    public void givenADinosaur_whenCalculateStrength_thenStrengthShouldBeCalculated(){
+        float expectedStrength = WEIGHT * MALE_FACTOR * CARNIVOROUS_FACTOR;
+
+        float strength = A_CARNIVOROUS_DINOSAUR.calculateStrength();
+
+        assertEquals(expectedStrength, strength);
     }
 }
