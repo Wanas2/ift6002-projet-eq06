@@ -128,41 +128,48 @@ public class Pantry implements FoodStorage {
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
         int quantityOfBurgerToProvide = quantityOfFoodToProvide(FoodType.BURGER, requestedBurgerQuantity);
-        moveFreshFoodToConsumedFood(requestedBurgerQuantity, FoodType.BURGER);
+        moveFreshFoodToConsumedFood(quantityOfBurgerToProvide, FoodType.BURGER);
         return quantityOfBurgerToProvide;
     }
 
     @Override
     public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
         int quantityOfSaladToProvide = quantityOfFoodToProvide(FoodType.SALAD, requestedSaladQuantity);
-        moveFreshFoodToConsumedFood(requestedSaladQuantity, FoodType.SALAD);
+        moveFreshFoodToConsumedFood(quantityOfSaladToProvide, FoodType.SALAD);
         return quantityOfSaladToProvide;
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesired(int requestedWaterQuantity) {
         int quantityOfWaterToProvide = quantityOfFoodToProvide(FoodType.WATER, requestedWaterQuantity);
-        moveFreshFoodToConsumedFood(requestedWaterQuantity, FoodType.WATER);
+        moveFreshFoodToConsumedFood(quantityOfWaterToProvide, FoodType.WATER);
         return quantityOfWaterToProvide;
     }
 
     private void moveFreshFoodToConsumedFood (int quantityToMove, FoodType foodType) {
+        int quantityMoved;
         for(Map<FoodType, Food> foodBatchOfATurn : allFreshFood) {
             if(foodBatchOfATurn.containsKey(foodType)) {
-                moveFoodFromOneBatchOfATurn(quantityToMove, foodBatchOfATurn, foodType);
+                quantityMoved = moveFoodFromOneBatchOfATurn(quantityToMove, foodBatchOfATurn, foodType);
+                quantityToMove -= quantityMoved;
             }
+            if(quantityToMove <= 0)
+                break;
         }
     }
 
-    private void moveFoodFromOneBatchOfATurn(int quantityToMove, Map<FoodType, Food> foodBatchOfATurn,
+    private int moveFoodFromOneBatchOfATurn(int quantityToMove, Map<FoodType, Food> foodBatchOfATurn,
                                              FoodType foodType) {
+        int quantityMoved = quantityToMove;
         if(quantityToMove <= foodBatchOfATurn.get(foodType).quantity()) {
             foodBatchOfATurn.get(foodType).decreaseQuantity(quantityToMove);
             allConsumedFood.get(foodType).increaseQuantity(quantityToMove);
         } else {
+            quantityMoved = foodBatchOfATurn.get(foodType).quantity();
             Food removedFood = foodBatchOfATurn.remove(foodType);
             allConsumedFood.get(foodType).increase(removedFood);
         }
+        return quantityMoved;
     }
 
     private int quantityOfFoodToProvide(FoodType foodType,  int requestedFoodQuantity) {
