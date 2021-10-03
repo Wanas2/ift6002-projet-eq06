@@ -3,15 +3,11 @@ package ca.ulaval.glo4002.game.domain.food;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.mockito.BDDMockito.*;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -22,6 +18,7 @@ class PantryTest {
     private final int QUANTITY_OF_FOOD_OF_ZERO = 0;
     private final int A_QUANTITY_OF_ONE_BURGER_ORDERED = 1;
     private final int A_QUANTITY_OF_TWO_BURGER_ORDERED = 2;
+    private final int A_QUANTITY_OF_SIX_BURGER_ORDERED = 6;
     private final int A_QUANTITY_OF_SALAD_ORDERED = 2;
     private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
@@ -29,7 +26,7 @@ class PantryTest {
     private Map<FoodType, Food> foodWithQuantityZero;
     private Map<FoodType, Food> foodWithOnlyOneBurger;
     private Map<FoodType, Food> foodWithOnlyTwoBurgers;
-    private Map<FoodType, Food> someFood;
+    private Map<FoodType, Food> foodWithOnlySixBurgers;
     private CookItSubscription cookItSubscription;
     private Pantry pantry;
 
@@ -38,7 +35,7 @@ class PantryTest {
         initializeFoodWithQuantityZero();
         initializeFoodWithOnlyOneBurger();
         initializeFoodWithOnlyTwoBurgers();
-        initializeSomeFood();
+        initializeFoodWithOnlySixBurgers();
         aFoodDTO = new FoodDTO();
         aFoodDTO.qtyBurger = A_QUANTITY_OF_ONE_BURGER_ORDERED;
         aFoodDTO.qtySalad =  A_QUANTITY_OF_SALAD_ORDERED;
@@ -49,7 +46,7 @@ class PantryTest {
 
     @Test
     public void givenFood_whenAddFoodFromCookITToNewFood_thenCooItShouldProvideFood() {
-        willReturn(someFood).given(cookItSubscription).provideFood();
+        willReturn(foodWithOnlySixBurgers).given(cookItSubscription).provideFood();
 
         pantry.addFoodFromCookITToNewFood(cookItSubscription);
 
@@ -57,13 +54,54 @@ class PantryTest {
     }
 
     @Test
-    public void givenADiredNumberOfBurgersAndPantryHasNoBurger_whenGiveExactOrMostPossibleBurgerDesired_thenReturnZero() {
+    public void givenNotEnoughBurgersToProvide_whenGiveExactOrMostPossibleBurgerDesired_thenAllFreshBurgersAreConsumed() { // Todo Les longues lignes sont aussi pas bons dans le tests?
         int aDesiredNumberOfBurgers = 2;
-        int expectedReturnedNumberOfBurgers = 0;
+        pantry.addToNewBatchOfFreshFood(foodWithOnlyOneBurger);
+        pantry.addNewFoodToFreshFood();
+        int expectedRemainingFreshBurgers = 0;
+        int expectedConsumedBurgers = 1;
 
-        int returnedNumberOfBurgers = pantry.giveExactOrMostPossibleBurgerDesired(aDesiredNumberOfBurgers);
+        pantry.giveExactOrMostPossibleBurgerDesired(aDesiredNumberOfBurgers);
+        Map<String, Map<FoodType, Integer>> allFoodQuantities = pantry.getFoodQuantitySummary();
 
-        assertEquals(expectedReturnedNumberOfBurgers, returnedNumberOfBurgers);
+        int freshBurgersQuantity = allFoodQuantities.get("fresh").get(FoodType.BURGER);
+        int consumedBurgersQuantity = allFoodQuantities.get("consumed").get(FoodType.BURGER);
+        assertEquals(expectedRemainingFreshBurgers, freshBurgersQuantity);
+        assertEquals(expectedConsumedBurgers, consumedBurgersQuantity);
+    }
+
+    @Test
+    public void givenEnoughBurgersToProvide_whenGiveExactOrMostPossibleBurgerDesired_thenOnlyRequestedBurgerQuantityIsConsumed() {
+        int requestedQuantityOfBurgers = 1;
+        int expectedFreshBurgerQuantityRemaining = 1;
+        pantry.addToNewBatchOfFreshFood(foodWithOnlyTwoBurgers);
+        pantry.addNewFoodToFreshFood();
+
+        pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
+        Map<String, Map<FoodType, Integer>>  allFoodQuantities = pantry.getFoodQuantitySummary();
+        int freshBurgersQuantityAfter = allFoodQuantities.get("fresh").get(FoodType.BURGER);
+        int consumedBurgersQuantity = allFoodQuantities.get("consumed").get(FoodType.BURGER);
+
+        assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
+        assertEquals( expectedFreshBurgerQuantityRemaining, freshBurgersQuantityAfter);
+    }
+
+    @Test
+    public void givenManyBatchedOfFreshFood_whenGiveExactOrMostPossibleBurgerDesired_thenTheAppropriateQuantityOfFoodIsConsumed() {
+        int requestedQuantityOfBurgers = 5;
+        pantry.addToNewBatchOfFreshFood(foodWithOnlyTwoBurgers);
+        pantry.addNewFoodToFreshFood();
+        pantry.addToNewBatchOfFreshFood(foodWithOnlySixBurgers);
+        pantry.addNewFoodToFreshFood();
+        int expectedFreshBurgerQuantityRemaining = 3;
+
+        pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
+        Map<String, Map<FoodType, Integer>>  allFoodQuantities = pantry.getFoodQuantitySummary();
+        int freshBurgersQuantityAfter = allFoodQuantities.get("fresh").get(FoodType.BURGER);
+        int consumedBurgersQuantity = allFoodQuantities.get("consumed").get(FoodType.BURGER);
+
+        assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
+        assertEquals( expectedFreshBurgerQuantityRemaining, freshBurgersQuantityAfter);
     }
 
     private void initializeFoodWithQuantityZero() {
@@ -94,19 +132,19 @@ class PantryTest {
         Food aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
         foodWithOnlyTwoBurgers = new HashMap<>();
 
-        foodWithOnlyOneBurger.put(FoodType.BURGER, aFoodItem1);
-        foodWithOnlyOneBurger.put(FoodType.SALAD, aFoodItem2);
-        foodWithOnlyOneBurger.put(FoodType.WATER, aFoodItem3);
+        foodWithOnlyTwoBurgers.put(FoodType.BURGER, aFoodItem1);
+        foodWithOnlyTwoBurgers.put(FoodType.SALAD, aFoodItem2);
+        foodWithOnlyTwoBurgers.put(FoodType.WATER, aFoodItem3);
     }
 
-    private void initializeSomeFood() {
-        Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_ONE_BURGER_ORDERED);
+    private void initializeFoodWithOnlySixBurgers() {
+        Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_SIX_BURGER_ORDERED);
         Food aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
         Food aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
-        someFood = new HashMap<>();
+        foodWithOnlySixBurgers = new HashMap<>();
 
-        someFood.put(FoodType.BURGER, aFoodItem1);
-        someFood.put(FoodType.SALAD, aFoodItem2);
-        someFood.put(FoodType.WATER, aFoodItem3);
+        foodWithOnlySixBurgers.put(FoodType.BURGER, aFoodItem1);
+        foodWithOnlySixBurgers.put(FoodType.SALAD, aFoodItem2);
+        foodWithOnlySixBurgers.put(FoodType.WATER, aFoodItem3);
     }
 }

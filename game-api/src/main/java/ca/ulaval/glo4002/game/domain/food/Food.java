@@ -29,13 +29,12 @@ public class Food {
         return true;
     }
 
-    public boolean decreaseQuantity(int quantity) {
+    public void decreaseQuantity(int quantity) {
         if(quantity > this.quantity) {
             this.quantity = 0;
-            return false;
+            return;
         }
         this.quantity -= quantity;
-        return true;
     }
 
     public boolean isExpired() {
@@ -48,5 +47,9 @@ public class Food {
 
     public int quantity() {
         return quantity;
+    }
+
+    public void increaseQuantity(int quantity) {
+        this.quantity += quantity;
     }
 }
