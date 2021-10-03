@@ -39,11 +39,16 @@ public class Game {
 
     public int playTurn() {
         int turnNumber = turn.playActions();
-        herd.increaseAge();
+
         pantry.incrementFreshFoodAges();
         pantry.addFoodFromCookITToNewFood(cookItSubscription);
         pantry.addNewFoodToFreshFood();
+
         pantry.removeExpiredFoodFromFreshFood();
+
+        herd.feed();
+        herd.increaseAge();
+
         return turnNumber;
     }
 

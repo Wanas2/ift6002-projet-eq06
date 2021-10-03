@@ -33,4 +33,13 @@ public class DinosaurRepositoryInMemoryImpl implements DinosaurRepository{
     public void deleteAll(){
         this.dinoStorage = new ArrayList<>();
     }
+
+    public Dinosaur findByName(String name){
+        for (Dinosaur dino: dinoStorage){
+            if (dino.getName().equals(name)){
+                return dino;
+            }
+        }
+        throw new IllegalArgumentException("Not found");
+    }
 }

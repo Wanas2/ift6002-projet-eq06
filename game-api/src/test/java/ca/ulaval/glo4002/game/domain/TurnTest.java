@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.game.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-import ca.ulaval.glo4002.game.domain.action.AddDinosaureAction;
+import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
 import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
 import ca.ulaval.glo4002.game.domain.food.Food;
@@ -34,7 +34,7 @@ class TurnTest {
     void setUp() {
 
         aFirstAction = mock(AddFoodAction.class);
-        aSecondAction = mock(AddDinosaureAction.class);
+        aSecondAction = mock(AddDinosaurAction.class);
         actions = new LinkedList<>();
         pantry = mock(Pantry.class);
         aFoodItem = mock(Food.class);

@@ -68,4 +68,17 @@ public class Dinosaur implements Comparable<Dinosaur>{
     public String getName(){
         return name;
     }
+
+    //TODO : getters ou une methode qui renvoie l'etat du dinosaur ?
+    public int getWeight() {
+        return weight;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public Species getSpecies() {
+        return species;
+    }
 }
