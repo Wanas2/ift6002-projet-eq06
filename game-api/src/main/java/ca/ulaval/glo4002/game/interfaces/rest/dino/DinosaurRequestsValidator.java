@@ -17,7 +17,7 @@ public class DinosaurRequestsValidator {
         if (!dinosaurDTO.gender.equals("m") && !dinosaurDTO.gender.equals("f")){
             throw new InvalidGenderException();
         }
-        else if (dinosaurDTO.weight < 0){
+        else if (dinosaurDTO.weight <= 0){
             throw new InvalidWeightException();
         }
         else if (Arrays.stream(Species.values())
