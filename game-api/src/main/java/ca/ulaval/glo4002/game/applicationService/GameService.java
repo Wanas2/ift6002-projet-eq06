@@ -11,7 +11,9 @@ import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodSummaryDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GameService {
 
@@ -33,7 +35,7 @@ public class GameService {
         this.foodAssembler = foodAssembler;
         this.foodSummaryAssembler = foodSummaryAssembler;
     }
-
+    //TODO : Utilisation du repository food/dino pour pantry/herd
     public void orderFood(FoodDTO foodDTO) {
         Map<FoodType, Food> food = foodAssembler.create(foodDTO);
         game.addFood(food);
@@ -47,6 +49,18 @@ public class GameService {
     public void addDinosaur(DinosaurDTO dinosaurDTO) {
         Dinosaur dinosaur = dinosaurAssembler.create(dinosaurDTO);
         game.addDinosaur(dinosaur);
+    }
+
+    public DinosaurDTO showDinosaur(String dinosaurName){
+        Dinosaur dino =  herd.find(dinosaurName);
+        return dinosaurAssembler.format(dino);
+    }
+
+    public List<DinosaurDTO> showAllDinosaurs(){
+        List<Dinosaur> dinos = herd.findAll();
+        return dinos.stream()
+                .map(dinosaurAssembler::format)
+                .collect(Collectors.toList());
     }
 
     public FoodSummaryDTO getFoodQuantitySummary() {

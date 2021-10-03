@@ -33,7 +33,7 @@ class GameTest {
     void setUp() {
         initializesFood();
         turn = mock(Turn.class);
-
+        herd = mock(Herd.class);
         pantry = mock(Pantry.class);
         cookItSubscription = mock(CookItSubscription.class);
         game = new Game(herd, pantry, turn, cookItSubscription);

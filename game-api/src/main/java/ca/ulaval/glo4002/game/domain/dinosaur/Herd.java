@@ -4,6 +4,7 @@ import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
 
+//TODO : sortir repository de Herd
 public class Herd {
 
     private List<Dinosaur> dinosaurs;
@@ -26,7 +27,6 @@ public class Herd {
     public void add(Dinosaur dinosaur){
         if (!existsByName(dinosaur.getName())){
             dinosaurs.add(dinosaur);
-            dinosaurRepository.syncAll(dinosaurs);
         }
     }
 
@@ -64,10 +64,19 @@ public class Herd {
         for(Dinosaur dino: dinosaurs){
             dino.age();
         }
+        dinosaurRepository.syncAll(dinosaurs);
     }
     public void reset(){
         dinosaurs.clear();
         dinosaurRepository.deleteAll();
+    }
+
+    public Dinosaur find(String dinosaurName){
+        return dinosaurRepository.findByName(dinosaurName);
+    }
+
+    public List<Dinosaur> findAll(){
+        return dinosaurRepository.findAll();
     }
 
 }

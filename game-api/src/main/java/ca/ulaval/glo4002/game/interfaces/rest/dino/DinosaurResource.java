@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.game.applicationService.GameService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,6 +22,7 @@ public class DinosaurResource {
     @POST
     @Path("/dinosaurs")
     public Response addDino(DinosaurDTO dinosaurDTO) {
+        //TODO : validation dans le domaine
         requestValidator.validateAddRequest(dinosaurDTO);
         gameService.addDinosaur(dinosaurDTO);
         return Response.ok().build();
@@ -30,14 +32,14 @@ public class DinosaurResource {
     @Path("/dinosaurs/{name}")
     public Response showDino(@PathParam("name") String name) {
         requestValidator.validateShowRequest(name);
-        //TODO : recuperer le dinosaure et le renvoyer (service)
-        return Response.ok().build();
+        DinosaurDTO dinosaurDTO = gameService.showDinosaur(name);
+        return Response.ok().entity(dinosaurDTO).build();
     }
 
     @GET
     @Path("/dinosaurs")
     public Response showAllDino() {
-        //TODO : recuperer tous les dinosaures et les renvoyer (service)
-        return Response.ok().build();
+        List<DinosaurDTO> dinos = gameService.showAllDinosaurs();
+        return Response.ok().entity(dinos).build();
     }
 }

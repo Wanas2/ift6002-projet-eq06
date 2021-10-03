@@ -38,7 +38,7 @@ public class ProjectConfig extends ResourceConfig {
 
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
-        DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
+        DinosaurAssembler dinosaurAssembler = new DinosaurAssembler(pantry,pantry);
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
 
         GameService gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler, foodSummaryAssembler);
