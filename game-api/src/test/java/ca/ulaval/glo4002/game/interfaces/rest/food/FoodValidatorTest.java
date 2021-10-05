@@ -7,9 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FoodValidatorTest {
 
-    private final int A_NEGATIVE_QUANTITY_OF_BURGER = -3;
-    private final int A_POSITIVE_QUANTITY_OF_SALAD = 2;
-    private final int A_POSITIVE_QUANTITY_OF_WATER_IN_LITERS = 103;
+    private final static int A_NEGATIVE_QUANTITY = -3;
+    private final static int A_POSITIVE_QUANTITY_OF_BURGER = 4;
+    private final static int A_POSITIVE_QUANTITY_OF_SALAD = 2;
+    private final static int A_POSITIVE_QUANTITY_OF_WATER_IN_LITERS = 103;
 
     private FoodDTO foodDTO;
     private FoodValidator foodValidator;
@@ -20,15 +21,39 @@ class FoodValidatorTest {
     }
 
     @Test
-    public void givenANegativeQuantityOfFood_whenValidateFoodEntries_thenShouldThrowException() {
-        initiateFoodWithANegativeQuantity();
+    public void givenANegativeQuantityOfBurger_whenValidateFoodEntries_thenShouldThrowException() {
+        initiateFoodWithCorrectQuantity();
+        foodDTO.qtyBurger = A_NEGATIVE_QUANTITY;
 
         assertThrows(InvalidRessourceQuantityException.class, () -> foodValidator.validateFoodEntries(foodDTO));
     }
 
-    private void initiateFoodWithANegativeQuantity() {
+    @Test
+    public void givenANegativeQuantityOfSalad_whenValidateFoodEntries_thenShouldThrowException() {
+        initiateFoodWithCorrectQuantity();
+        foodDTO.qtySalad = A_NEGATIVE_QUANTITY;
+
+        assertThrows(InvalidRessourceQuantityException.class, () -> foodValidator.validateFoodEntries(foodDTO));
+    }
+
+    @Test
+    public void givenANegativeQuantityOfWater_whenValidateFoodEntries_thenShouldThrowException() {
+        initiateFoodWithCorrectQuantity();
+        foodDTO.qtyWater = A_NEGATIVE_QUANTITY;
+
+        assertThrows(InvalidRessourceQuantityException.class, () -> foodValidator.validateFoodEntries(foodDTO));
+    }
+
+    @Test
+    public void givenCorrectQuantityOfFood_whenValidateFoodEntries_thenShouldNotThrowException() {
+        initiateFoodWithCorrectQuantity();
+
+        assertDoesNotThrow(() -> foodValidator.validateFoodEntries(foodDTO));
+    }
+
+    private void initiateFoodWithCorrectQuantity() {
         foodDTO = new FoodDTO();
-        foodDTO.qtyBurger = A_NEGATIVE_QUANTITY_OF_BURGER;
+        foodDTO.qtyBurger = A_POSITIVE_QUANTITY_OF_BURGER;
         foodDTO.qtySalad = A_POSITIVE_QUANTITY_OF_SALAD;
         foodDTO.qtyWater = A_POSITIVE_QUANTITY_OF_WATER_IN_LITERS;
     }
