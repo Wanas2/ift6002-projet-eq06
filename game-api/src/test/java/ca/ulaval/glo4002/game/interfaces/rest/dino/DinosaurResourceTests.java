@@ -11,14 +11,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTests {
-    String NON_EXISTENT_NAME = "Bob";
-    String EXISTENT_NAME = "Bobi";
-    int WEIGHT = 17;
-    String GENDER = "f";
-    String SPECIES = "Ankylosaurus";
-    DinosaurResource dinosaurResource;
-    DinosaurRequestsValidator requestsValidator;
-    GameService gameService;
+    private final static String NON_EXISTENT_NAME = "Bob";
+    private final static String EXISTENT_NAME = "Bobi";
+    private final static int WEIGHT = 17;
+    private final static String GENDER = "f";
+    private final static String SPECIES = "Ankylosaurus";
+    private final static int CORRECT_STATUS = 200;
+    private DinosaurResource dinosaurResource;
+    private DinosaurRequestsValidator requestsValidator;
+    private GameService gameService;
 
     @BeforeEach
     public void setup(){
@@ -28,7 +29,7 @@ public class DinosaurResourceTests {
     }
 
     @Test
-    public void whenAddingDinosaur_thenShouldAskForValidation(){
+    public void givenARequest_whenAddingDinosaur_thenShouldAskForValidation(){
         DinosaurDTO request = new DinosaurDTO(NON_EXISTENT_NAME,WEIGHT,GENDER,SPECIES);
 
         dinosaurResource.addDino(request);
@@ -49,21 +50,33 @@ public class DinosaurResourceTests {
 
         Response response = dinosaurResource.addDino(request);
 
-        assertEquals(200,response.getStatus());
+        assertEquals(CORRECT_STATUS,response.getStatus());
     }
 
     @Test
     public void givenRequestNameMatchingAliveDino_whenShowingDinosaur_thenShouldBeStatus200(){
         Response response = dinosaurResource.showDino(EXISTENT_NAME);
 
-        assertEquals(200,response.getStatus());
+        assertEquals(CORRECT_STATUS,response.getStatus());
     }
 
     @Test
     public void whenShowingAllDinosaurs_thenShouldBeStatus200(){
         Response response = dinosaurResource.showAllDino();
-        assertEquals(200,response.getStatus());
+        assertEquals(CORRECT_STATUS,response.getStatus());
     }
 
-    //TODO : les tests pour vérifier que la resource appelle bien les services
+    @Test
+    public void whenShowingADino_thenTheServiceShouldBeCalled(){
+        dinosaurResource.showDino(EXISTENT_NAME);
+
+        verify(gameService).showDinosaur(EXISTENT_NAME);
+    }
+
+    @Test
+    public void whenShowingAllDino_thenTheServiceShouldBeCalled(){
+        dinosaurResource.showAllDino();
+
+        verify(gameService).showAllDinosaurs();
+    }
 }
