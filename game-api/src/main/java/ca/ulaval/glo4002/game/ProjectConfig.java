@@ -14,8 +14,7 @@ import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodValidator;
 import ca.ulaval.glo4002.game.interfaces.rest.game.GameResource;
 import ca.ulaval.glo4002.game.interfaces.rest.heartbeat.HeartbeatResource;
-import ca.ulaval.glo4002.game.interfaces.rest.mappers.BadRequestExceptionMapper;
-import ca.ulaval.glo4002.game.interfaces.rest.mappers.NotFoundExceptionMapper;
+import ca.ulaval.glo4002.game.interfaces.rest.mappers.*;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class ProjectConfig extends ResourceConfig {
@@ -55,7 +54,11 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerExceptionMappers() {
-        register(new BadRequestExceptionMapper());
-        register(new NotFoundExceptionMapper());
+        register(new DuplicateNameExceptionMapper());
+        register(new InvalidGenderExceptionMapper());
+        register(new InvalidSpeciesExceptionMapper());
+        register(new InvalidWeightExceptionMapper());
+        register(new NonExistentNameExceptionMapper());
+        register(new InvalidRessourceQuantityExceptionMapper());
     }
 }

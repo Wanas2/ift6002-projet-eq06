@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest.exceptions.dto;
+package ca.ulaval.glo4002.game.interfaces.rest.mappers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
