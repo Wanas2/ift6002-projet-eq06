@@ -13,35 +13,19 @@ import java.util.Map;
 class AddFoodActionTest {
 
     private Pantry pantry;
-    private Map<FoodType, Food> food;
+    private Map<FoodType, Food> foods;
     private AddFoodAction addFoodAction;
 
     @BeforeEach
     void setUp() {
         pantry = mock(Pantry.class);
-        food = new HashMap<>();
-        addFoodAction = new AddFoodAction(pantry, food);
+        foods = new HashMap<>();
+        addFoodAction = new AddFoodAction(pantry, foods);
     }
 
     @Test
     public void givenFood_whenExecute_thenAddTheFoodToNewBatchOfFreshFood() {
         addFoodAction.execute();
-
-        verify(pantry).addToNewBatchOfFreshFood(food);
+        verify(pantry).addToNewBatchOfFreshFood(foods);
     }
-
-//    @Test
-//    public void whenExecute_thenPantryShouldAddNewBatchOfFoodToFreshFood() {
-//        addFoodAction.execute();
-//
-//        verify(pantry).addNewFoodToFreshFoodStorage();
-//    }
-
-//    @Disabled
-//    @Test
-//    public void whenExecute_thenPantryShouldVerifyExpiryDate() {
-//        addFoodAction.execute();
-//
-//        verify(pantry).verifyExpiryDate();
-//    }
 }
