@@ -30,12 +30,6 @@ class FoodTest {
     }
 
     @Test
-    public void whenQuantity_thenTheQuantityShouldBeReturned() {
-        int expectedQuantity = A_QUANTITY;
-        assertEquals(expectedQuantity, food.quantity());
-    }
-
-    @Test
     public void whenIncrease_thenQuantityShouldBeIncreased() {
         final int ADDED_QUANTITY = 5;
         food.increaseQuantity(ADDED_QUANTITY);
