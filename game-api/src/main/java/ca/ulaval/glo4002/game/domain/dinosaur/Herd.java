@@ -79,4 +79,7 @@ public class Herd {
         return dinosaurRepository.findAll();
     }
 
+    public boolean isEmpty() {
+        return this.dinosaurs.isEmpty();
+    }
 }
