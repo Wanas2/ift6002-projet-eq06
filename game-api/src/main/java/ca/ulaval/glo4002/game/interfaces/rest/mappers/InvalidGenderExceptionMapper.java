@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.mappers;
 
-import ca.ulaval.glo4002.game.interfaces.rest.dino.exceptions.InvalidGenderException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
