@@ -125,25 +125,25 @@ public class Pantry implements FoodStorage {
         return foodQuantitySummary;
     }
 
-    private int giveExactOrMostPossibleResourceDesired(FoodType foodType, int requestedResourceQuantity) {
-        int quantityOfRessourceToProvide = quantityOfFoodToProvide(foodType, requestedResourceQuantity);
-        moveFreshFoodToConsumedFood(quantityOfRessourceToProvide, foodType);
-        return quantityOfRessourceToProvide;
+    private int giveExactOrMostPossibleFoodDesired(FoodType foodType, int requestedResourceQuantity) {
+        int quantityOfFoodToProvide = quantityOfFoodToProvide(foodType, requestedResourceQuantity);
+        moveFreshFoodToConsumedFood(quantityOfFoodToProvide, foodType);
+        return quantityOfFoodToProvide;
     }
 
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
-        return giveExactOrMostPossibleResourceDesired(FoodType.BURGER, requestedBurgerQuantity);
+        return giveExactOrMostPossibleFoodDesired(FoodType.BURGER, requestedBurgerQuantity);
     }
 
     @Override
     public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        return giveExactOrMostPossibleResourceDesired(FoodType.SALAD, requestedSaladQuantity);
+        return giveExactOrMostPossibleFoodDesired(FoodType.SALAD, requestedSaladQuantity);
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesired(int requestedWaterQuantity) {
-        return giveExactOrMostPossibleResourceDesired(FoodType.WATER, requestedWaterQuantity);
+        return giveExactOrMostPossibleFoodDesired(FoodType.WATER, requestedWaterQuantity);
     }
 
     private void moveFreshFoodToConsumedFood (int quantityToMove, FoodType foodType) {
