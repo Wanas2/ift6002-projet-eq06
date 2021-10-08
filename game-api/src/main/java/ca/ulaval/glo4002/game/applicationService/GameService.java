@@ -30,8 +30,10 @@ public class GameService {
     private final DinosaurFactory dinosaurFactory;
     private final HerdRepository herdRepository;
 
-    public GameService(Game game, Herd herd, Pantry pantry, TurnAssembler turnAssembler, DinosaurAssembler dinosaurAssembler, FoodAssembler foodAssembler,
-                       FoodSummaryAssembler foodSummaryAssembler, DinosaurFactory dinosaurFactory, HerdRepository herdRepository) {
+    public GameService(Game game, Herd herd, Pantry pantry, TurnAssembler turnAssembler,
+                       DinosaurAssembler dinosaurAssembler, FoodAssembler foodAssembler,
+                       FoodSummaryAssembler foodSummaryAssembler, DinosaurFactory dinosaurFactory,
+                       HerdRepository herdRepository) {
         this.game = game;
         this.herd = herd;
         this.pantry = pantry;
@@ -55,7 +57,7 @@ public class GameService {
     }
 
     public void addDinosaur(DinosaurDTO dinosaurDTO) {
-        if (herd.existsByName(dinosaurDTO.name))
+        if (herd.hasDinoosaurWithName(dinosaurDTO.name))
             throw new DuplicateNameException();
         Dinosaur dinosaur = dinosaurFactory.create(dinosaurDTO.gender,dinosaurDTO.weight,dinosaurDTO.name,
                 dinosaurDTO.name);
@@ -63,12 +65,12 @@ public class GameService {
     }
 
     public DinosaurDTO showDinosaur(String dinosaurName){
-        Dinosaur dino =  herd.find(dinosaurName);
+        Dinosaur dino =  herd.getDinosaurWithName(dinosaurName);
         return dinosaurAssembler.toDTO(dino);
     }
 
     public List<DinosaurDTO> showAllDinosaurs(){
-        List<Dinosaur> dinos = herd.findAll();
+        List<Dinosaur> dinos = herd.getAllDinosaurs();
         return dinos.stream()
                 .map(dinosaurAssembler::toDTO)
                 .collect(Collectors.toList());

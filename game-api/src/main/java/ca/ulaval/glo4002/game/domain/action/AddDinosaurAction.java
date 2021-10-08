@@ -14,6 +14,6 @@ public class AddDinosaurAction implements ExecutableAction {
     }
     @Override
     public void execute() {
-        herd.add(dinosaur);
+        herd.addDinosaur(dinosaur);
     }
 }

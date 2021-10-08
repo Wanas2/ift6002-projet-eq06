@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class DinosaurFactoryTests {
-    String A_NAME = "Bobi";
-    int A_WEIGHT = 17;
-    String A_GENDER = "f";
-    String A_SPECIES = "Ankylosaurus";
+    private String A_NAME = "Bobi";
+    private int A_WEIGHT = 17;
+    private String A_GENDER = "f";
+    private String A_SPECIES = "Ankylosaurus";
 
     DinosaurFactory dinosaurFactory;
 
@@ -28,30 +28,30 @@ public class DinosaurFactoryTests {
 
     @Test
     public void givenGenderIsNeitherMNorF_whenCreatingDinosaur_thenShouldThrowInvalidGenderException(){
-        String invalidGender = "X";
+        String anInvalidGender = "X";
 
         assertThrows(InvalidGenderException.class,
-                () -> dinosaurFactory.create(invalidGender,A_WEIGHT,A_SPECIES,A_NAME));
+                () -> dinosaurFactory.create(anInvalidGender,A_WEIGHT,A_SPECIES,A_NAME));
     }
 
     @Test
-    public void givenACorrect_whenCreatingDinosaur_thenShouldNotThrow(){
+    public void givenCorrectParameters_whenCreatingDinosaur_thenShouldNotThrow(){
         assertDoesNotThrow(() -> dinosaurFactory.create(A_GENDER,A_WEIGHT,A_SPECIES,A_NAME));
     }
 
     @Test
     public void givenWeightIsNotStrictlyPositive_whenCreatingDinosaur_thenShouldThrowInvalidWeightException(){
-        int invalidWeight = -5;
+        int anInvalidWeight = -5;
 
         assertThrows(InvalidWeightException.class,
-                () -> dinosaurFactory.create(A_GENDER,invalidWeight,A_SPECIES,A_NAME));
+                () -> dinosaurFactory.create(A_GENDER,anInvalidWeight,A_SPECIES,A_NAME));
     }
 
     @Test
     public void givenSpeciesIsNotSupported_whenCreatingDinosaur_thenShouldThrowInvalidSpeciesException(){
-        String invalidSpecies = "Labrador";
+        String anInvalidSpecies = "Labrador";
 
         assertThrows(InvalidSpeciesException.class,
-                () -> dinosaurFactory.create(A_GENDER,A_WEIGHT,invalidSpecies,A_NAME));
+                () -> dinosaurFactory.create(A_GENDER,A_WEIGHT,anInvalidSpecies,A_NAME));
     }
 }

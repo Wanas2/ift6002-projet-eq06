@@ -13,7 +13,7 @@ public class Herd {
         this.dinosaurs =  dinosaurs;
     }
 
-    public boolean existsByName(String name){
+    public boolean hasDinoosaurWithName(String name){
         for (Dinosaur dino: dinosaurs) {
             if(dino.getName().equals(name)){
                 return true;
@@ -22,13 +22,13 @@ public class Herd {
         return false;
     }
 
-    public void add(Dinosaur dinosaur){
-        if (!existsByName(dinosaur.getName())){
+    public void addDinosaur(Dinosaur dinosaur){
+        if (!hasDinoosaurWithName(dinosaur.getName())){
             dinosaurs.add(dinosaur);
         }
     }
 
-    public void feed() {
+    public void feedDinosaurs() {
         List<Dinosaur> dinosaursByPriority = new ArrayList<>(sortDinosaursByStrength().keySet());
         for (Dinosaur dinosaur : dinosaursByPriority) {
             dinosaur.eat();
@@ -56,7 +56,7 @@ public class Herd {
                         toMap(Map.Entry::getKey, Map.Entry::getValue, (dinosaur, strength) -> dinosaur, LinkedHashMap::new));
     }
 
-    public void increaseAge(){
+    public void increaseDinosaursAge(){
         for(Dinosaur dino: dinosaurs){
             dino.age();
         }
@@ -65,7 +65,7 @@ public class Herd {
         dinosaurs.clear();
     }
 
-    public Dinosaur find(String dinosaurName){
+    public Dinosaur getDinosaurWithName(String dinosaurName){
         for (Dinosaur dino: dinosaurs) {
             if(dino.getName().equals(dinosaurName)){
                 return dino;
@@ -74,7 +74,7 @@ public class Herd {
         throw new NonExistentNameException();
     }
 
-    public List<Dinosaur> findAll(){
+    public List<Dinosaur> getAllDinosaurs(){
         return new ArrayList<>(dinosaurs);
     }
 }
