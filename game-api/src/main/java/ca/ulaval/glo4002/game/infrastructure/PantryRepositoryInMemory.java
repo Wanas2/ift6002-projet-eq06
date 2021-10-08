@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.game.domain.food.PantryRepository;
 
 public class PantryRepositoryInMemory implements PantryRepository {
 
-    private Pantry pantry;
+    private Pantry pantry; // Todo Le mettre dans une liste
 
     @Override
     public void update(Pantry pantry) {
