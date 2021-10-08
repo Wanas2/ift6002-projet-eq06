@@ -33,13 +33,13 @@ class FoodTest {
     public void whenIncrease_thenQuantityShouldBeIncreased() {
         final int ADDED_QUANTITY = 5;
         food.increaseQuantity(ADDED_QUANTITY);
-        int expectedQuantity = ADDED_QUANTITY + A_QUANTITY;
+        int expectedQuantity = 9;
 
         assertEquals(expectedQuantity, food.quantity());
     }
 
     @Test
-    public void ifRemovedQuantityLowerOrEqualThanQuantity_whenDecrease_thenQuantityShouldBeDecrease() {
+    public void whenDecreaseRemovedQuantityLowerOrEqualThanQuantity_thenQuantityShouldBeDecrease() {
         final int REMOVED_QUANTITY = A_QUANTITY - 1;
         food.decreaseQuantity(REMOVED_QUANTITY);
         int expectedQuantity = A_QUANTITY - REMOVED_QUANTITY;
@@ -47,7 +47,7 @@ class FoodTest {
     }
 
     @Test
-    public void ifRemovedQuantityGreaterThanQuantity_whenDecrease_thenQuantityShouldBeZero() {
+    public void whenDecreaseRemovedQuantityGreaterThanQuantity_thenQuantityShouldBeZero() {
         final int REMOVED_QUANTITY = A_QUANTITY + 2;
         food.decreaseQuantity(REMOVED_QUANTITY);
         int expectedQuantity = 0;
