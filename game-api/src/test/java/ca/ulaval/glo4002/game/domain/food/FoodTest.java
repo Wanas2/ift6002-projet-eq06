@@ -21,7 +21,7 @@ class FoodTest {
     public void givenSomeMoreFood_whenIncrease_thenQuantityShouldBeIncreasedAccordingly() {
         int expectedQuantity = someFoodOfTypeBurger.quantity() + someMoreFoodOfTypeBurger.quantity(); // Todo C'est bon ou pas?
 
-        someFoodOfTypeBurger.increase(someMoreFoodOfTypeBurger);
+        someFoodOfTypeBurger.increaseQuantity(someMoreFoodOfTypeBurger);
 
         assertEquals(expectedQuantity, someFoodOfTypeBurger.quantity());
     }

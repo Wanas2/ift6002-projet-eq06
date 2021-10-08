@@ -3,9 +3,7 @@ package ca.ulaval.glo4002.game.applicationService;
 import ca.ulaval.glo4002.game.domain.Game;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.FoodType;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,10 +34,12 @@ class GameServiceTest {
     private Game game;
     private Herd herd;
     private Pantry pantry;
+    private FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
     private TurnAssembler turnAssembler;
     private DinosaurAssembler dinosaurAssembler;
     private FoodAssembler foodAssembler;
     private FoodSummaryAssembler foodSummaryAssembler;
+    private PantryRepository pantryRepository;
     private GameService gameService;
 
     @BeforeEach
@@ -48,16 +48,19 @@ class GameServiceTest {
         initiateAFoodDTO();
         game = mock(Game.class);
         pantry = mock(Pantry.class);
+        foodQuantitySummaryCalculator = mock(FoodQuantitySummaryCalculator.class);
         turnAssembler = new TurnAssembler();
         dinosaurAssembler = mock(DinosaurAssembler.class);
         foodAssembler = mock(FoodAssembler.class);
         foodSummaryAssembler = mock(FoodSummaryAssembler.class);
-        gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler, foodSummaryAssembler);
+        pantryRepository = mock(PantryRepository.class);
+        gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler,
+                foodSummaryAssembler, pantryRepository);
     }
 
     @Test
     public void givenAFoodDTO_whenOrderFood_thenShouldCreateTheAppropriateFood() {
-        gameService.orderFood(aFoodDTO);
+        gameService.addFood(aFoodDTO);
 
         verify(foodAssembler).create(aFoodDTO);
     }
@@ -67,7 +70,7 @@ class GameServiceTest {
         initializeSomeFood();
         willReturn(someFoodCreated).given(foodAssembler).create(aFoodDTO);
 
-        gameService.orderFood(aFoodDTO);
+        gameService.addFood(aFoodDTO);
 
         verify(game).addFood(someFoodCreated);
     }
@@ -78,6 +81,13 @@ class GameServiceTest {
         gameService.playTurn();
 
         verify(game).playTurn();
+    }
+
+    @Test
+    public void whenPlayTurn_thenPantryIsUpdated() {
+        gameService.playTurn();
+
+        verify(pantryRepository).update(pantry);
     }
 
     @Test
@@ -92,10 +102,17 @@ class GameServiceTest {
     }
 
     @Test
-    public void whenGetFoodQuantitySummary_PantryShouldGetFoodQuantitySummary() {
+    public void whenGetFoodQuantitySummary_PantryRepositoryShouldGetPantry() {
         gameService.getFoodQuantitySummary();
 
-        verify(pantry).getFoodQuantitySummary();
+        verify(pantryRepository).getPantry();
+    }
+
+    @Test
+    public void whenGetFoodQuantitySummary_thenSummaryShouldBeCalculated() {
+        gameService.getFoodQuantitySummary();
+
+//        verify(foodQuantitySummaryCalculator).computeSummaries();
     }
 
     @Disabled

@@ -64,14 +64,14 @@ class GameTest {
     public void whenPlayTurn_thenPantryShouldAddFoodFromCookItToFreshFood() {
         game.playTurn();
 
-        verify(pantry).addFoodFromCookITToNewFood(cookItSubscription);
+        verify(pantry).addFoodFromCookITToCurrentTurnFoodBatch(cookItSubscription);
     }
 
     @Test
     public void whenPlayTurn_thenPantryShouldAddNewFoodToFreshFood() {
         game.playTurn();
 
-        verify(pantry).addNewFoodToFreshFood();
+        verify(pantry).addCurrentTurnFoodBatchToFreshFood();
     }
 
     @Test

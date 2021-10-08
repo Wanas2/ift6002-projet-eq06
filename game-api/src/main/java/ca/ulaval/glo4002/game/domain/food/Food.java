@@ -11,22 +11,17 @@ public class Food {
         this.quantity = quantity;
     }
 
-    public void increase(Food food) {
+    public void increaseQuantity(Food food) {
         if((food.type).equals(type))
             quantity += food.quantity; // Todo doit-on ajouter un else. comment dire à classe client que ce n'est pas le bon type? Peut-être lancer une exception. Qui va la catch?
     }
 
-    public void incrementAgeByOne() {
-        age += 1;
+    public void increaseQuantity(int quantity) {
+        this.quantity += quantity;
     }
 
-    public boolean decrease(Food food) {
-        if(food.quantity > this.quantity) {
-            this.quantity = 0;
-            return false;
-        }
-        this.quantity -= food.quantity;
-        return true;
+    public void incrementAgeByOne() {
+        age += 1;
     }
 
     public void decreaseQuantity(int quantity) {
@@ -41,15 +36,7 @@ public class Food {
         return age >= type.numberOfTurnBeforeExpiry();
     }
 
-    public boolean isCompletelyConsumed() {
-        return quantity <= 0;
-    }
-
     public int quantity() {
         return quantity;
-    }
-
-    public void increaseQuantity(int quantity) {
-        this.quantity += quantity;
     }
 }

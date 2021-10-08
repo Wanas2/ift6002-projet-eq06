@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.domain.food.PantryRepository;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodSummaryDTO;
@@ -24,9 +25,11 @@ public class GameService {
     private final Herd herd;
     private final FoodAssembler foodAssembler;
     private final FoodSummaryAssembler foodSummaryAssembler;
+    private final PantryRepository pantryRepository;
 
-    public GameService(Game game, Herd herd, Pantry pantry,TurnAssembler turnAssembler, DinosaurAssembler dinosaurAssembler, FoodAssembler foodAssembler,
-                       FoodSummaryAssembler foodSummaryAssembler) {
+    public GameService(Game game, Herd herd, Pantry pantry, TurnAssembler turnAssembler,
+                       DinosaurAssembler dinosaurAssembler, FoodAssembler foodAssembler,
+                       FoodSummaryAssembler foodSummaryAssembler, PantryRepository pantryRepository) {
         this.game = game;
         this.herd = herd;
         this.pantry = pantry;
@@ -34,21 +37,23 @@ public class GameService {
         this.dinosaurAssembler = dinosaurAssembler;
         this.foodAssembler = foodAssembler;
         this.foodSummaryAssembler = foodSummaryAssembler;
+        this.pantryRepository = pantryRepository;
     }
     //TODO : Utilisation du repository food/dino pour pantry/herd
-    public void orderFood(FoodDTO foodDTO) {
+    public void addFood(FoodDTO foodDTO) {
         Map<FoodType, Food> food = foodAssembler.create(foodDTO);
         game.addFood(food);
-    }
-
-    public TurnNumberDTO playTurn() {
-        int turnNumber = game.playTurn();
-        return turnAssembler.assembleTurnNumber(turnNumber);
     }
 
     public void addDinosaur(DinosaurDTO dinosaurDTO) {
         Dinosaur dinosaur = dinosaurAssembler.create(dinosaurDTO);
         game.addDinosaur(dinosaur);
+    }
+
+    public TurnNumberDTO playTurn() {
+        int turnNumber = game.playTurn();
+        pantryRepository.update(pantry);
+        return turnAssembler.assembleTurnNumber(turnNumber);
     }
 
     public DinosaurDTO showDinosaur(String dinosaurName){
@@ -64,8 +69,10 @@ public class GameService {
     }
 
     public FoodSummaryDTO getFoodQuantitySummary() {
-        Map<String, Map<FoodType, Integer>> allFoodSummary = pantry.getFoodQuantitySummary();
-        return foodSummaryAssembler.createDTO(allFoodSummary, foodAssembler);
+        Pantry pantry = pantryRepository.getPantry();
+
+//        return foodSummaryAssembler.createDTO(allFoodSummary, foodAssembler);
+        return null;
     }
 
     public void reset() {

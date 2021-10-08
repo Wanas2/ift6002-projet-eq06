@@ -41,9 +41,8 @@ public class Game {
         int turnNumber = turn.playActions();
 
         pantry.incrementFreshFoodAges();
-        pantry.addFoodFromCookITToNewFood(cookItSubscription);
-        pantry.addNewFoodToFreshFood();
-
+        pantry.addFoodFromCookITToCurrentTurnFoodBatch(cookItSubscription);
+        pantry.addCurrentTurnFoodBatchToFreshFood();
         pantry.removeExpiredFoodFromFreshFood();
 
         herd.feed();

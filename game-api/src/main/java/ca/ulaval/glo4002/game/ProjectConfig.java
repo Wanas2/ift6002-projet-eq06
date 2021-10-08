@@ -8,6 +8,8 @@ import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.domain.food.PantryRepository;
+import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemory;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurRequestsValidator;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
@@ -25,6 +27,8 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerResources() {
+        PantryRepository pantryRepositoryInMemory = new PantryRepositoryInMemory();
+
         CookItSubscription cookItSubscription = new CookItSubscription();
         DinosaurRepository dinosaurRepositoryImplementation = new DinosaurRepositoryInMemoryImpl();
         Turn turn = new Turn();
@@ -40,7 +44,8 @@ public class ProjectConfig extends ResourceConfig {
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler(pantry,pantry);
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
 
-        GameService gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler, foodSummaryAssembler);
+        GameService gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler,
+                foodSummaryAssembler, pantryRepositoryInMemory);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();
         GameResource gameResource = new GameResource(gameService);

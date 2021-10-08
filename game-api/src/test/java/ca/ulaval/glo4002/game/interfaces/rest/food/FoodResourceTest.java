@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.game.applicationService.GameService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
@@ -36,23 +35,23 @@ class FoodResourceTest {
 
     @Test
     public void givenAFoodDTO_whenOrderFood_thenShouldValidateTheFoodDTO() {
-        foodResource.orderFood(aFoodDTO);
+        foodResource.addFood(aFoodDTO);
 
 //        verify(foodValidator).validateFoodEntries(aFoodDTO);
     }
 
     @Test
     public void givenAFoodDTO_whenOrderFood_thenGameServiceShouldOrderTheAppropriateFood() {
-        foodResource.orderFood(aFoodDTO);
+        foodResource.addFood(aFoodDTO);
 
-        verify(gameService).orderFood(aFoodDTO);
+        verify(gameService).addFood(aFoodDTO);
     }
 
     @Test
     public void whenOrderFood_thenShouldReturnAppropriateResponseCode() {
         int expectedResponseCode = 200;
 
-        Response response = foodResource.orderFood(aFoodDTO);
+        Response response = foodResource.addFood(aFoodDTO);
 
         assertEquals(expectedResponseCode, response.getStatus());
     }
