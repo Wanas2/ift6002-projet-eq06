@@ -6,10 +6,7 @@ import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurRepository;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
-import ca.ulaval.glo4002.game.domain.food.FoodQuantitySummaryCalculator;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
-import ca.ulaval.glo4002.game.domain.food.PantryRepository;
+import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemory;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurRequestsValidator;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
@@ -34,7 +31,8 @@ public class ProjectConfig extends ResourceConfig {
         DinosaurRepository dinosaurRepositoryImplementation = new DinosaurRepositoryInMemoryImpl();
         Turn turn = new Turn();
         Herd herd = new Herd(dinosaurRepositoryImplementation);
-        Pantry pantry = new Pantry();
+        PantryFactory pantryFactory = new PantryFactory();
+        Pantry pantry = pantryFactory.create();
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
         Game game = new Game(herd, pantry, turn, cookItSubscription);
 
