@@ -18,30 +18,12 @@ public class DinosaurResourceTests {
     private final static String SPECIES = "Ankylosaurus";
     private final static int CORRECT_STATUS = 200;
     private DinosaurResource dinosaurResource;
-    private DinosaurRequestsValidator requestsValidator;
     private GameService gameService;
 
     @BeforeEach
     public void setup(){
-        requestsValidator = mock(DinosaurRequestsValidator.class);
         gameService = mock(GameService.class);
-        dinosaurResource = new DinosaurResource(gameService, requestsValidator);
-    }
-
-    @Test
-    public void givenARequest_whenAddingDinosaur_thenShouldAskForValidation(){
-        DinosaurDTO request = new DinosaurDTO(NON_EXISTENT_NAME,WEIGHT,GENDER,SPECIES);
-
-        dinosaurResource.addDino(request);
-
-        verify(requestsValidator).validateAddRequest(request);
-    }
-
-    @Test
-    public void whenShowingDinosaur_thenShouldAskForValidation(){
-        dinosaurResource.showDino(EXISTENT_NAME);
-
-        verify(requestsValidator).validateShowRequest(EXISTENT_NAME);
+        dinosaurResource = new DinosaurResource(gameService);
     }
 
     @Test

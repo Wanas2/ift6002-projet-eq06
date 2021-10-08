@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.mappers;
 
-import ca.ulaval.glo4002.game.interfaces.rest.dino.exceptions.DuplicateNameException;
+import ca.ulaval.glo4002.game.applicationService.exceptions.DuplicateNameException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

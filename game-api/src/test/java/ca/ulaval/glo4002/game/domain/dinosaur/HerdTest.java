@@ -41,9 +41,7 @@ public class HerdTest {
         herbivorous_dinosaur_1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_WEIGHT_1, HERBIVOROUS_NAME_1, Gender.F, HERBIVOROUS_STRATEGY_1);
         herbivorous_dinosaur_2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_WEIGHT_2, HERBIVOROUS_NAME_2, Gender.F, HERBIVOROUS_STRATEGY_2);
         Collections.addAll(dinosaurs, carnivorous_dinosaur_1, herbivorous_dinosaur_1, herbivorous_dinosaur_2);
-        DinosaurRepository dinosaurRepository = mock(DinosaurRepository.class);
-        when(dinosaurRepository.findAll()).thenReturn(dinosaurs);
-        herd = new Herd(dinosaurRepository);
+        herd = new Herd(dinosaurs);
         herbivorous_dinosaur_1.age();
         herbivorous_dinosaur_2.age();
         herbivorous_dinosaur_2.age();
