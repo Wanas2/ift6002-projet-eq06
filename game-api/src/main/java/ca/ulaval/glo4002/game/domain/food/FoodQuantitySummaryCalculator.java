@@ -7,14 +7,12 @@ import java.util.Queue;
 
 public class FoodQuantitySummaryCalculator {
 
-    public Map<String, Map<FoodType, Integer>> computeSummaries(Queue<Map<FoodType, Food>> allFreshFood,
-                                                                Map<FoodType, Food> allExpiredFood,
-                                                                Map<FoodType, Food> allConsumedFood) {
+    public Map<String, Map<FoodType, Integer>> computeSummaries(Pantry pantry) {
         Map<String, Map<FoodType, Integer>> allFoodsSummary = new HashMap<>();
-        Map<FoodType, Integer> expiredFoodSummary = createQuantitySummaryForFood(allExpiredFood);
-        Map<FoodType, Integer> consumedFoodSummary = createQuantitySummaryForFood(allConsumedFood);
+        Map<FoodType, Integer> expiredFoodSummary = createQuantitySummaryForFood(pantry.getAllExpiredFood());
+        Map<FoodType, Integer> consumedFoodSummary = createQuantitySummaryForFood(pantry.getAllConsumedFood());
 
-        Map<FoodType, Food> mergeAllBatchedOfFreshFood = mergeAllBatchedOfFreshFood(allFreshFood);
+        Map<FoodType, Food> mergeAllBatchedOfFreshFood = mergeAllBatchedOfFreshFood(pantry.getAllFreshFood());
         Map<FoodType, Integer> freshFoodSummary = createQuantitySummaryForFood(mergeAllBatchedOfFreshFood);
 
         allFoodsSummary.put("fresh", freshFoodSummary);

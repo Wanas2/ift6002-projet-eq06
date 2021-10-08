@@ -15,6 +15,18 @@ public class Pantry implements FoodStorage {
         initiateConsumedFood();
     }
 
+    public Queue<Map<FoodType, Food>> getAllFreshFood() {
+        return allFreshFood;
+    }
+
+    public Map<FoodType, Food> getAllExpiredFood() {
+        return allExpiredFood;
+    }
+
+    public Map<FoodType, Food> getAllConsumedFood() {
+        return allConsumedFood;
+    }
+
     private void initializeNewBatchOFreshFood() {
         CurrentTurnFoodBatch = new HashMap<>();
         Food freshNewBurgersOfQuantityZero = new Food(FoodType.BURGER, 0);

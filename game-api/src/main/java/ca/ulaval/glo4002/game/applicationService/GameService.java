@@ -3,10 +3,7 @@ package ca.ulaval.glo4002.game.applicationService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.FoodType;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
-import ca.ulaval.glo4002.game.domain.food.PantryRepository;
+import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodSummaryDTO;
@@ -26,10 +23,12 @@ public class GameService {
     private final FoodAssembler foodAssembler;
     private final FoodSummaryAssembler foodSummaryAssembler;
     private final PantryRepository pantryRepository;
+    private final FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
 
     public GameService(Game game, Herd herd, Pantry pantry, TurnAssembler turnAssembler,
                        DinosaurAssembler dinosaurAssembler, FoodAssembler foodAssembler,
-                       FoodSummaryAssembler foodSummaryAssembler, PantryRepository pantryRepository) {
+                       FoodSummaryAssembler foodSummaryAssembler, PantryRepository pantryRepository,
+                       FoodQuantitySummaryCalculator foodQuantitySummaryCalculator) {
         this.game = game;
         this.herd = herd;
         this.pantry = pantry;
@@ -38,6 +37,7 @@ public class GameService {
         this.foodAssembler = foodAssembler;
         this.foodSummaryAssembler = foodSummaryAssembler;
         this.pantryRepository = pantryRepository;
+        this.foodQuantitySummaryCalculator = foodQuantitySummaryCalculator;
     }
     //TODO : Utilisation du repository food/dino pour pantry/herd
     public void addFood(FoodDTO foodDTO) {
@@ -70,9 +70,9 @@ public class GameService {
 
     public FoodSummaryDTO getFoodQuantitySummary() {
         Pantry pantry = pantryRepository.getPantry();
+        Map<String, Map<FoodType, Integer>> allFoodSummary = foodQuantitySummaryCalculator.computeSummaries(pantry);
 
-//        return foodSummaryAssembler.createDTO(allFoodSummary, foodAssembler);
-        return null;
+        return foodSummaryAssembler.createDTO(allFoodSummary, foodAssembler);
     }
 
     public void reset() {

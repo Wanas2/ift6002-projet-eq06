@@ -30,11 +30,12 @@ class GameServiceTest {
     private Food aFoodItem2;
     private Food aFoodItem3;
     private Map<FoodType, Food> someFoodCreated;
+    private Map<String, Map<FoodType, Integer>> allFoodSummaryExample;
 
     private Game game;
+    private FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
     private Herd herd;
     private Pantry pantry;
-    private FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
     private TurnAssembler turnAssembler;
     private DinosaurAssembler dinosaurAssembler;
     private FoodAssembler foodAssembler;
@@ -47,6 +48,7 @@ class GameServiceTest {
 
         initiateAFoodDTO();
         game = mock(Game.class);
+        foodQuantitySummaryCalculator = mock(FoodQuantitySummaryCalculator.class);
         pantry = mock(Pantry.class);
         foodQuantitySummaryCalculator = mock(FoodQuantitySummaryCalculator.class);
         turnAssembler = new TurnAssembler();
@@ -55,7 +57,7 @@ class GameServiceTest {
         foodSummaryAssembler = mock(FoodSummaryAssembler.class);
         pantryRepository = mock(PantryRepository.class);
         gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler,
-                foodSummaryAssembler, pantryRepository);
+                foodSummaryAssembler, pantryRepository, foodQuantitySummaryCalculator);
     }
 
     @Test
@@ -110,17 +112,21 @@ class GameServiceTest {
 
     @Test
     public void whenGetFoodQuantitySummary_thenSummaryShouldBeCalculated() {
+        willReturn(pantry).given(pantryRepository).getPantry();
+
         gameService.getFoodQuantitySummary();
 
-//        verify(foodQuantitySummaryCalculator).computeSummaries();
+        verify(foodQuantitySummaryCalculator).computeSummaries(pantry);
     }
 
-    @Disabled
     @Test
-    public void whenGetFoodQuantitySummary_thenAssemblerShouldCreateTheDTOWithAppropriateSummary() { // Todo Finish this test
-//        Map<String, Map<FoodType, Integer>> foodQuantitySummary = gameService.getFoodQuantitySummary();
+    public void whenGetFoodQuantitySummary_thenAssemblerShouldCreateTheDTOWithAppropriateSummary() {
+        willReturn(pantry).given(pantryRepository).getPantry();
+        willReturn(allFoodSummaryExample).given(foodQuantitySummaryCalculator).computeSummaries(pantry);
 
-//        verify(foodSummaryAssembler).createDTO();
+        gameService.getFoodQuantitySummary();
+
+        verify(foodSummaryAssembler).createDTO(allFoodSummaryExample, foodAssembler);
     }
 
     @Test
@@ -146,5 +152,16 @@ class GameServiceTest {
         someFoodCreated.put(FoodType.BURGER, aFoodItem1);
         someFoodCreated.put(FoodType.SALAD, aFoodItem2);
         someFoodCreated.put(FoodType.WATER, aFoodItem3);
+    }
+
+    private void createSomeFoodSummary() {
+        Map<FoodType, Integer> expiredFoodSummary = new HashMap<>();
+        Map<FoodType, Integer> consumedFoodSummary = new HashMap<>();
+        Map<FoodType, Integer> freshFoodSummary = new HashMap<>();
+
+        allFoodSummaryExample = new HashMap<>();
+        allFoodSummaryExample.put("fresh", freshFoodSummary);
+        allFoodSummaryExample.put("expired", expiredFoodSummary);
+        allFoodSummaryExample.put("consumed", consumedFoodSummary);
     }
 }
