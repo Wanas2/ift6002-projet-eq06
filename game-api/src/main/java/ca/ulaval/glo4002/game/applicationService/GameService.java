@@ -1,9 +1,15 @@
 package ca.ulaval.glo4002.game.applicationService;
 
+import ca.ulaval.glo4002.game.applicationService.exceptions.DuplicateNameException;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
+import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodType;
+import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodSummaryDTO;
@@ -24,11 +30,14 @@ public class GameService {
     private final FoodSummaryAssembler foodSummaryAssembler;
     private final PantryRepository pantryRepository;
     private final FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
+    private final DinosaurFactory dinosaurFactory;
+    private final HerdRepository herdRepository;
 
     public GameService(Game game, Herd herd, Pantry pantry, TurnAssembler turnAssembler,
                        DinosaurAssembler dinosaurAssembler, FoodAssembler foodAssembler,
                        FoodSummaryAssembler foodSummaryAssembler, PantryRepository pantryRepository,
-                       FoodQuantitySummaryCalculator foodQuantitySummaryCalculator) {
+                       FoodQuantitySummaryCalculator foodQuantitySummaryCalculator, DinosaurFactory dinosaurFactory,
+                       HerdRepository herdRepository) {
         this.game = game;
         this.herd = herd;
         this.pantry = pantry;
@@ -38,6 +47,8 @@ public class GameService {
         this.foodSummaryAssembler = foodSummaryAssembler;
         this.pantryRepository = pantryRepository;
         this.foodQuantitySummaryCalculator = foodQuantitySummaryCalculator;
+        this.dinosaurFactory = dinosaurFactory;
+        this.herdRepository = herdRepository;
     }
 
     public void addFood(FoodDTO foodDTO) {
@@ -46,25 +57,29 @@ public class GameService {
     }
 
     public void addDinosaur(DinosaurDTO dinosaurDTO) {
-        Dinosaur dinosaur = dinosaurAssembler.create(dinosaurDTO);
+        if (herd.hasDinoosaurWithName(dinosaurDTO.name))
+            throw new DuplicateNameException();
+        Dinosaur dinosaur = dinosaurFactory.create(dinosaurDTO.gender,dinosaurDTO.weight,dinosaurDTO.name,
+                dinosaurDTO.name);
         game.addDinosaur(dinosaur);
     }
 
     public TurnNumberDTO playTurn() {
         int turnNumber = game.playTurn();
         pantryRepository.update(pantry);
+        herdRepository.save(herd);
         return turnAssembler.assembleTurnNumber(turnNumber);
     }
 
     public DinosaurDTO showDinosaur(String dinosaurName){
-        Dinosaur dino =  herd.find(dinosaurName);
-        return dinosaurAssembler.format(dino);
+        Dinosaur dino =  herd.getDinosaurWithName(dinosaurName);
+        return dinosaurAssembler.toDTO(dino);
     }
 
     public List<DinosaurDTO> showAllDinosaurs(){
-        List<Dinosaur> dinos = herd.findAll();
+        List<Dinosaur> dinos = herd.getAllDinosaurs();
         return dinos.stream()
-                .map(dinosaurAssembler::format)
+                .map(dinosaurAssembler::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -77,5 +92,6 @@ public class GameService {
 
     public void reset() {
         game.reset();
+        herdRepository.delete();
     }
 }

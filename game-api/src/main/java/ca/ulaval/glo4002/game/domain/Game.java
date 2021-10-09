@@ -41,8 +41,8 @@ public class Game {
         pantry.addCurrentTurnFoodBatchToFreshFood();
         pantry.removeExpiredFoodFromFreshFood();
 
-        herd.feed();
-        herd.increaseAge();
+        herd.feedDinosaurs();
+        herd.increaseDinosaursAge();
 
         return turnNumber;
     }

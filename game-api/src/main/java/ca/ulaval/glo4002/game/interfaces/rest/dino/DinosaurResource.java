@@ -11,19 +11,15 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class DinosaurResource {
 
-    private DinosaurRequestsValidator requestValidator;
     private GameService gameService;
 
-    public  DinosaurResource(GameService gameService, DinosaurRequestsValidator requestValidator){
-        this.requestValidator = requestValidator;
+    public  DinosaurResource(GameService gameService){
         this.gameService = gameService;
     }
 
     @POST
     @Path("/dinosaurs")
     public Response addDino(DinosaurDTO dinosaurDTO) {
-        //TODO : validation dans le domaine
-        requestValidator.validateAddRequest(dinosaurDTO);
         gameService.addDinosaur(dinosaurDTO);
         return Response.ok().build();
     }
@@ -31,7 +27,6 @@ public class DinosaurResource {
     @GET
     @Path("/dinosaurs/{name}")
     public Response showDino(@PathParam("name") String name) {
-        requestValidator.validateShowRequest(name);
         DinosaurDTO dinosaurDTO = gameService.showDinosaur(name);
         return Response.ok().entity(dinosaurDTO).build();
     }

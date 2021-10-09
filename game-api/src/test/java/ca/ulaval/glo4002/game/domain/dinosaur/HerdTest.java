@@ -41,9 +41,7 @@ public class HerdTest {
         herbivorous_dinosaur_1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_WEIGHT_1, HERBIVOROUS_NAME_1, Gender.F, HERBIVOROUS_STRATEGY_1);
         herbivorous_dinosaur_2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_WEIGHT_2, HERBIVOROUS_NAME_2, Gender.F, HERBIVOROUS_STRATEGY_2);
         Collections.addAll(dinosaurs, carnivorous_dinosaur_1, herbivorous_dinosaur_1, herbivorous_dinosaur_2);
-        DinosaurRepository dinosaurRepository = mock(DinosaurRepository.class);
-        when(dinosaurRepository.findAll()).thenReturn(dinosaurs);
-        herd = new Herd(dinosaurRepository);
+        herd = new Herd(dinosaurs);
         herbivorous_dinosaur_1.age();
         herbivorous_dinosaur_2.age();
         herbivorous_dinosaur_2.age();
@@ -54,7 +52,7 @@ public class HerdTest {
     public void givenADinosaur_whenAddingNotExistingDinosaur_thenDinosaurShouldBeAdded(){
         Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, NAME_DINOSAUR, Gender.F, CARNIVOROUS_STRATEGY);
 
-        herd.add(dinosaur);
+        herd.addDinosaur(dinosaur);
 
         assertTrue(dinosaurs.contains(dinosaur));
     }
@@ -63,7 +61,7 @@ public class HerdTest {
     public void givenADinosaur_whenAddingExistingDinosaur_thenDinosaurShouldNotBeAdded(){
         Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M, CARNIVOROUS_STRATEGY);
 
-        herd.add(dinosaur);
+        herd.addDinosaur(dinosaur);
 
         assertFalse(dinosaurs.contains(dinosaur));
     }
@@ -74,7 +72,7 @@ public class HerdTest {
         when(HERBIVOROUS_STRATEGY_1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(true);
         when(HERBIVOROUS_STRATEGY_2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
 
-        herd.feed();
+        herd.feedDinosaurs();
 
         assertTrue(dinosaurs.contains(carnivorous_dinosaur_1));
         assertTrue(dinosaurs.contains(herbivorous_dinosaur_1));
@@ -87,7 +85,7 @@ public class HerdTest {
         when(HERBIVOROUS_STRATEGY_1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(false);
         when(HERBIVOROUS_STRATEGY_2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
 
-        herd.feed();
+        herd.feedDinosaurs();
 
         assertTrue(dinosaurs.contains(carnivorous_dinosaur_1));
         assertFalse(dinosaurs.contains(herbivorous_dinosaur_1));

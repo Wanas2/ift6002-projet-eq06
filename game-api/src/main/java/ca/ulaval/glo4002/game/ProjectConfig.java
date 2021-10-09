@@ -3,12 +3,14 @@ package ca.ulaval.glo4002.game;
 import ca.ulaval.glo4002.game.applicationService.*;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
-import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurRepository;
-import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurRepositoryInMemoryImpl;
+import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemory;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurRequestsValidator;
+import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
+import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
+import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.infrastructure.HerdRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodValidator;
@@ -16,6 +18,8 @@ import ca.ulaval.glo4002.game.interfaces.rest.game.GameResource;
 import ca.ulaval.glo4002.game.interfaces.rest.heartbeat.HeartbeatResource;
 import ca.ulaval.glo4002.game.interfaces.rest.mappers.*;
 import org.glassfish.jersey.server.ResourceConfig;
+
+import java.util.ArrayList;
 
 public class ProjectConfig extends ResourceConfig {
 
@@ -26,30 +30,32 @@ public class ProjectConfig extends ResourceConfig {
 
     private void registerResources() {
         PantryRepository pantryRepositoryInMemory = new PantryRepositoryInMemory();
+        HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
 
-        DinosaurRepository dinosaurRepositoryImplementation = new DinosaurRepositoryInMemoryImpl();
         Turn turn = new Turn();
-        Herd herd = new Herd(dinosaurRepositoryImplementation);
         PantryFactory pantryFactory = new PantryFactory();
         Pantry pantry = pantryFactory.create();
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
+        Herd herd = herdRepository.find()
+                .orElse(new Herd(new ArrayList<>()));
         Game game = new Game(herd, pantry, turn);
-
         FoodValidator foodValidator = new FoodValidator();
-        DinosaurRequestsValidator requestValidator = new DinosaurRequestsValidator(dinosaurRepositoryImplementation);
+
+        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry,pantry);
 
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
-        DinosaurAssembler dinosaurAssembler = new DinosaurAssembler(pantry,pantry);
+        DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
 
         GameService gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler,
-                foodSummaryAssembler, pantryRepositoryInMemory, foodQuantitySummaryCalculator);
+                foodSummaryAssembler, pantryRepositoryInMemory, foodQuantitySummaryCalculator, dinosaurFactory,
+                herdRepository);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();
         GameResource gameResource = new GameResource(gameService);
         FoodResource foodResource = new FoodResource(gameService, foodValidator);
-        DinosaurResource dinosaurResource = new DinosaurResource(gameService, requestValidator);
+        DinosaurResource dinosaurResource = new DinosaurResource(gameService);
 
         register(heartbeatResource);
         register(gameResource);

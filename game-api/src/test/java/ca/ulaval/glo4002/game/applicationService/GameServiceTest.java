@@ -2,8 +2,13 @@ package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
+import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodType;
+import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +44,9 @@ class GameServiceTest {
     private FoodAssembler foodAssembler;
     private FoodSummaryAssembler foodSummaryAssembler;
     private PantryRepository pantryRepository;
+    private HerdRepository herdRepository;
     private GameService gameService;
+    private DinosaurFactory dinosaurFactory;
 
     @BeforeEach
     void setUp() {
@@ -54,8 +61,10 @@ class GameServiceTest {
         foodAssembler = mock(FoodAssembler.class);
         foodSummaryAssembler = mock(FoodSummaryAssembler.class);
         pantryRepository = mock(PantryRepository.class);
-        gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler,
-                foodSummaryAssembler, pantryRepository, foodQuantitySummaryCalculator);
+        herdRepository = mock(HerdRepository.class);
+
+        gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler, foodSummaryAssembler,
+            pantryRepository, foodQuantitySummaryCalculator, dinosaurFactory, herdRepository);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dino.exceptions;
+package ca.ulaval.glo4002.game.applicationService.exceptions;
 
 public class DuplicateNameException extends RuntimeException {
 
