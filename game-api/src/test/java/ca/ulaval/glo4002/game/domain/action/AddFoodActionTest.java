@@ -26,6 +26,7 @@ class AddFoodActionTest {
     @Test
     public void givenFood_whenExecute_thenAddTheFoodToNewBatchOfFreshFood() {
         addFoodAction.execute();
+
         verify(pantry).addToNewBatchOfFreshFood(foods);
     }
 }
