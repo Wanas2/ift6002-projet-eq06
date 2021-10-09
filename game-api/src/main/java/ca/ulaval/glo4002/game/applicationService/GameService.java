@@ -67,16 +67,16 @@ public class GameService {
     public TurnNumberDTO playTurn() {
         int turnNumber = game.playTurn();
         pantryRepository.update(pantry);
-        herdRepository.save(herd);
+        herdRepository.save(herd); // Todo Devrait-on appeler ceci "save" ou "update". Ça ressemble à un "update"
         return turnAssembler.assembleTurnNumber(turnNumber);
     }
 
-    public DinosaurDTO showDinosaur(String dinosaurName){
+    public DinosaurDTO showDinosaur(String dinosaurName) {
         Dinosaur dino =  herd.getDinosaurWithName(dinosaurName);
         return dinosaurAssembler.toDTO(dino);
     }
 
-    public List<DinosaurDTO> showAllDinosaurs(){
+    public List<DinosaurDTO> showAllDinosaurs() {
         List<Dinosaur> dinos = herd.getAllDinosaurs();
         return dinos.stream()
                 .map(dinosaurAssembler::toDTO)
@@ -84,7 +84,6 @@ public class GameService {
     }
 
     public FoodSummaryDTO getFoodQuantitySummary() {
-        Pantry pantry = pantryRepository.getPantry();
         Map<String, Map<FoodType, Integer>> allFoodSummary = foodQuantitySummaryCalculator.computeSummaries(pantry);
 
         return foodSummaryAssembler.createDTO(allFoodSummary, foodAssembler);
@@ -93,5 +92,6 @@ public class GameService {
     public void reset() {
         game.reset();
         herdRepository.delete();
+        pantryRepository.delete();
     }
 }

@@ -2,17 +2,14 @@ package ca.ulaval.glo4002.game.infrastructure;
 
 import ca.ulaval.glo4002.game.domain.food.PantryRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class PantryRepositoryInMemoryTest {
+class PantryRepositoryInMemoryImplTest {
 
     private PantryRepository pantryRepositoryInMemory;
 
     @BeforeEach
     void setUp() {
-        pantryRepositoryInMemory = new PantryRepositoryInMemory();
+        pantryRepositoryInMemory = new PantryRepositoryInMemoryImpl();
     }
 
 }

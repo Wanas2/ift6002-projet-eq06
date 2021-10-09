@@ -95,7 +95,7 @@ public class Pantry implements FoodStorage {
         addOrderedFoodToCurrentTurnFoodBatch(foodFromCookIt);
         allFreshFood.add(currentTurnFoodBatch);
 
-        initializeNewBatchOFreshFood(); // Todo Est-ce qu'on brise le SRP ici?
+        initializeNewBatchOFreshFood();
     }
 
     public void removeExpiredFoodFromFreshFood() {
@@ -162,8 +162,8 @@ public class Pantry implements FoodStorage {
             Food removedFood = foodBatchOfATurn.remove(foodType);
             try {
                 allConsumedFood.get(foodType).increaseQuantity(removedFood);
-            } catch (FoodTypeNotMatchingException e) {
-                e.printStackTrace();
+            } catch (FoodTypeNotMatchingException exception) {
+                exception.printStackTrace();
             }
         }
         return quantityMoved;
