@@ -125,8 +125,8 @@ public class Pantry implements FoodStorage {
         return foodQuantitySummary;
     }
 
-    private int giveExactOrMostPossibleFoodDesired(FoodType foodType, int requestedResourceQuantity) {
-        int quantityOfFoodToProvide = quantityOfFoodToProvide(foodType, requestedResourceQuantity);
+    private int giveExactOrMostPossibleFoodDesired(FoodType foodType, int requestedFoodQuantity) {
+        int quantityOfFoodToProvide = quantityOfFoodToProvide(foodType, requestedFoodQuantity);
         moveFreshFoodToConsumedFood(quantityOfFoodToProvide, foodType);
         return quantityOfFoodToProvide;
     }
