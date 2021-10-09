@@ -29,7 +29,7 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerResources() {
-        PantryRepository pantryRepositoryInMemory = new PantryRepositoryInMemory();
+        PantryRepository pantryRepository = new PantryRepositoryInMemory();
         HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
 
         Turn turn = new Turn();
@@ -49,7 +49,7 @@ public class ProjectConfig extends ResourceConfig {
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
 
         GameService gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler,
-                foodSummaryAssembler, pantryRepositoryInMemory, foodQuantitySummaryCalculator, dinosaurFactory,
+                foodSummaryAssembler, pantryRepository, foodQuantitySummaryCalculator, dinosaurFactory,
                 herdRepository);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();
