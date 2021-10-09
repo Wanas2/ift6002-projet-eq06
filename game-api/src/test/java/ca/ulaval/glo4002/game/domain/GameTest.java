@@ -36,7 +36,7 @@ class GameTest {
         herd = mock(Herd.class);
         pantry = mock(Pantry.class);
         cookItSubscription = mock(CookItSubscription.class);
-        game = new Game(herd, pantry, turn, cookItSubscription);
+        game = new Game(herd, pantry, turn);
     }
 
     @Test
@@ -58,13 +58,6 @@ class GameTest {
         game.playTurn();
 
         verify(pantry).incrementFreshFoodAges();
-    }
-
-    @Test
-    public void whenPlayTurn_thenPantryShouldAddFoodFromCookItToFreshFood() {
-        game.playTurn();
-
-        verify(pantry).addFoodFromCookITToCurrentTurnFoodBatch(cookItSubscription);
     }
 
     @Test

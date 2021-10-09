@@ -39,7 +39,7 @@ public class GameService {
         this.pantryRepository = pantryRepository;
         this.foodQuantitySummaryCalculator = foodQuantitySummaryCalculator;
     }
-    //TODO : Utilisation du repository food/dino pour pantry/herd
+
     public void addFood(FoodDTO foodDTO) {
         Map<FoodType, Food> food = foodAssembler.create(foodDTO);
         game.addFood(food);

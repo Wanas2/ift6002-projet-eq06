@@ -4,7 +4,6 @@ package ca.ulaval.glo4002.game.domain;
 import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
@@ -17,14 +16,12 @@ public class Game {
 
     private final Turn turn;
     private final Herd herd;
-    private final CookItSubscription cookItSubscription;
     private final Pantry pantry;
 
-    public Game(Herd herd, Pantry pantry, Turn turn, CookItSubscription cookItSubscription) {
+    public Game(Herd herd, Pantry pantry, Turn turn) {
         this.herd = herd;
         this.pantry = pantry;
         this.turn = turn;
-        this.cookItSubscription = cookItSubscription;
     }
 
     public void addDinosaur(Dinosaur dinosaur){
@@ -41,7 +38,6 @@ public class Game {
         int turnNumber = turn.playActions();
 
         pantry.incrementFreshFoodAges();
-        pantry.addFoodFromCookITToCurrentTurnFoodBatch(cookItSubscription);
         pantry.addCurrentTurnFoodBatchToFreshFood();
         pantry.removeExpiredFoodFromFreshFood();
 

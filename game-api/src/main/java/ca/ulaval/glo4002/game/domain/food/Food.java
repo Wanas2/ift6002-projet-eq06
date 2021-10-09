@@ -11,9 +11,11 @@ public class Food {
         this.quantity = quantity;
     }
 
-    public void increaseQuantity(Food food) {
+    public void increaseQuantity(Food food) throws FoodTypeNotMatchingException {
         if((food.type).equals(type))
-            quantity += food.quantity; // Todo doit-on ajouter un else. comment dire à classe client que ce n'est pas le bon type? Peut-être lancer une exception. Qui va la catch?
+            quantity += food.quantity;
+        else
+            throw new FoodTypeNotMatchingException("The Two FoodTypes to be added together must match");
     }
 
     public void increaseQuantity(int quantity) {

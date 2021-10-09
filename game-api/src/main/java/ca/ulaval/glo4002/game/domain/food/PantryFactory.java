@@ -5,6 +5,6 @@ public class PantryFactory {
     public Pantry create() {
         CookItSubscription cookItSubscription = new CookItSubscription();
 
-        return new Pantry();
+        return new Pantry(cookItSubscription);
     }
 }

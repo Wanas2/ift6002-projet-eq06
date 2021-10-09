@@ -27,14 +27,13 @@ public class ProjectConfig extends ResourceConfig {
     private void registerResources() {
         PantryRepository pantryRepositoryInMemory = new PantryRepositoryInMemory();
 
-        CookItSubscription cookItSubscription = new CookItSubscription();
         DinosaurRepository dinosaurRepositoryImplementation = new DinosaurRepositoryInMemoryImpl();
         Turn turn = new Turn();
         Herd herd = new Herd(dinosaurRepositoryImplementation);
         PantryFactory pantryFactory = new PantryFactory();
         Pantry pantry = pantryFactory.create();
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
-        Game game = new Game(herd, pantry, turn, cookItSubscription);
+        Game game = new Game(herd, pantry, turn);
 
         FoodValidator foodValidator = new FoodValidator();
         DinosaurRequestsValidator requestValidator = new DinosaurRequestsValidator(dinosaurRepositoryImplementation);

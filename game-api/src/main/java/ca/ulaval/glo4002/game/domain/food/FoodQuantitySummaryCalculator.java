@@ -34,7 +34,13 @@ public class FoodQuantitySummaryCalculator {
 
         allFreshFood.forEach((foodBatchOfATurn) ->
                 foodBatchOfATurn.forEach((foodType, food) ->
-                        freshFoodMerged.get(foodType).increaseQuantity(food)
+                        {
+                            try {
+                                freshFoodMerged.get(foodType).increaseQuantity(food);
+                            } catch (FoodTypeNotMatchingException exception) {
+                                exception.printStackTrace();
+                            }
+                        }
                 )
         );
 

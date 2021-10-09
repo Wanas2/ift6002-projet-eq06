@@ -7,7 +7,6 @@ import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -20,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameServiceTest {
 
-
     private final int A_QUANTITY_OF_BURGER_ORDERED = 100;
     private final int A_QUANTITY_OF_SALAD_ORDERED = 250;
     private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
@@ -30,7 +28,7 @@ class GameServiceTest {
     private Food aFoodItem2;
     private Food aFoodItem3;
     private Map<FoodType, Food> someFoodCreated;
-    private Map<String, Map<FoodType, Integer>> allFoodSummaryExample;
+    private Map<String, Map<FoodType, Integer>> foodSummaryExample;
 
     private Game game;
     private FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
@@ -77,7 +75,6 @@ class GameServiceTest {
         verify(game).addFood(someFoodCreated);
     }
 
-    @Disabled
     @Test
     public void givenFoods_whenPlayTurn_thenGameIsPlayed() {
         gameService.playTurn();
@@ -121,12 +118,13 @@ class GameServiceTest {
 
     @Test
     public void whenGetFoodQuantitySummary_thenAssemblerShouldCreateTheDTOWithAppropriateSummary() {
+        initiateFoodSummaryExample();
         willReturn(pantry).given(pantryRepository).getPantry();
-        willReturn(allFoodSummaryExample).given(foodQuantitySummaryCalculator).computeSummaries(pantry);
+        willReturn(foodSummaryExample).given(foodQuantitySummaryCalculator).computeSummaries(pantry);
 
         gameService.getFoodQuantitySummary();
 
-        verify(foodSummaryAssembler).createDTO(allFoodSummaryExample, foodAssembler);
+        verify(foodSummaryAssembler).createDTO(foodSummaryExample, foodAssembler);
     }
 
     @Test
@@ -154,14 +152,14 @@ class GameServiceTest {
         someFoodCreated.put(FoodType.WATER, aFoodItem3);
     }
 
-    private void createSomeFoodSummary() {
+    private void initiateFoodSummaryExample() {
         Map<FoodType, Integer> expiredFoodSummary = new HashMap<>();
         Map<FoodType, Integer> consumedFoodSummary = new HashMap<>();
         Map<FoodType, Integer> freshFoodSummary = new HashMap<>();
 
-        allFoodSummaryExample = new HashMap<>();
-        allFoodSummaryExample.put("fresh", freshFoodSummary);
-        allFoodSummaryExample.put("expired", expiredFoodSummary);
-        allFoodSummaryExample.put("consumed", consumedFoodSummary);
+        foodSummaryExample = new HashMap<>();
+        foodSummaryExample.put("fresh", freshFoodSummary);
+        foodSummaryExample.put("expired", expiredFoodSummary);
+        foodSummaryExample.put("consumed", consumedFoodSummary);
     }
 }
