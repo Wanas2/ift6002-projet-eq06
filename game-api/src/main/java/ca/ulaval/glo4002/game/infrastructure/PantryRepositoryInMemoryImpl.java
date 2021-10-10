@@ -10,7 +10,7 @@ public class PantryRepositoryInMemoryImpl implements PantryRepository {
     private Pantry pantry;
 
     @Override
-    public void update(Pantry pantry) {
+    public void save(Pantry pantry) {
         this.pantry = pantry;
     }
 

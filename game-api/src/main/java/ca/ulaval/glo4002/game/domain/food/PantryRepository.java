@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface PantryRepository {
 
-    void update(Pantry pantry);
+    void save(Pantry pantry);
 
     Optional<Pantry> find();
 

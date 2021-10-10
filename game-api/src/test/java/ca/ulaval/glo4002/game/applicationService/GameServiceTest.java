@@ -15,7 +15,9 @@ import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.mockito.BDDMockito.willReturn;
@@ -40,12 +42,14 @@ class GameServiceTest {
     private Species A_SPECIES = Species.Diplodocus;
     private int SOMME_WEIGHT = 134;
     private String A_NAME = "ehwr";
+    private String ANOTHER_NAME = "ehwrwfgh";
     private Gender A_GENDER = Gender.M;
     private FoodConsumptionStrategy aFoodConsumptionStrategy;
 
     private Game game;
     private FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
     private Dinosaur aDinosaur;
+    private Dinosaur anotherDinosaur;
     private Herd herd;
     private Pantry pantry;
     private TurnAssembler turnAssembler;
@@ -67,6 +71,7 @@ class GameServiceTest {
         pantry = mock(Pantry.class);
         aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
         aDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, A_GENDER, aFoodConsumptionStrategy);
+        anotherDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, A_GENDER, aFoodConsumptionStrategy);
         turnAssembler = new TurnAssembler();
         dinosaurAssembler = mock(DinosaurAssembler.class);
         foodAssembler = mock(FoodAssembler.class);
@@ -142,19 +147,74 @@ class GameServiceTest {
     public void whenPlayTurn_thenPantryIsUpdated() {
         gameService.playTurn();
 
-        verify(pantryRepository).update(pantry);
+        verify(pantryRepository).save(pantry);
     }
 
     @Test
-    public void givenATurnNumber_whenPlayTurn_thenTheAppropriateTurnNumberDTOIsReturned() {
+    public void whenPlayTurn_thenHerdIsSaved() {
+        gameService.playTurn();
+
+        verify(herdRepository).save(herd);
+    }
+
+    @Test
+    public void givenATurnNumber_whenPlayTurn_thenTheAppropriateTurnNumberDTOIsCreated() {
         int aTurnNumber = 143;
         when(game.playTurn()).thenReturn(aTurnNumber);
 
         gameService.playTurn();
-
         TurnNumberDTO turnNumberDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
+
         assertEquals(aTurnNumber, turnNumberDTO.turnNumber);
     }
+
+    @Test
+    public void givenADinosaurName_whenShowDinosaur_thenDinosaurWithNameShouldBeGotten() {
+        gameService.showDinosaur(A_NAME);
+
+        verify(herd).getDinosaurWithName(A_NAME);
+    }
+
+    @Test
+    public void givenADinosaurName_whenShowDinosaur_thenTheDinosaurDTOShouldBeCreated() {
+        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
+
+        gameService.showDinosaur(A_NAME);
+
+        verify(dinosaurAssembler).toDTO(aDinosaur);
+    }
+
+    @Test
+    public void whenShowAllDinosaurs_thenHerdShouldGetAllDinosaures() {
+        gameService.showAllDinosaurs();
+
+        verify(herd).getAllDinosaurs();
+    }
+
+    @Test
+    public void givenADinosaur_whenShowAllDinosaurs_thenTheDinosaureDTOShouldBeCreated() {
+        List<Dinosaur> dinosaurs = new ArrayList<>();
+        dinosaurs.add(aDinosaur);
+        when(herd.getAllDinosaurs()).thenReturn(dinosaurs);
+
+        gameService.showAllDinosaurs();
+
+        verify(dinosaurAssembler).toDTO((aDinosaur));
+    }
+
+    @Test
+    public void givenMultipleDinosaurs_whenShowAllDinosaurs_thenTheDinosauresDTOShouldBeCreated() {
+        List<Dinosaur> dinosaurs = new ArrayList<>();
+        dinosaurs.add(aDinosaur);
+        dinosaurs.add(anotherDinosaur);
+        when(herd.getAllDinosaurs()).thenReturn(dinosaurs);
+
+        gameService.showAllDinosaurs();
+
+        verify(dinosaurAssembler).toDTO((aDinosaur));
+        verify(dinosaurAssembler).toDTO((anotherDinosaur));
+    }
+
 
     @Test
     public void whenGetFoodQuantitySummary_thenSummaryShouldBeCalculated() {
@@ -174,10 +234,24 @@ class GameServiceTest {
     }
 
     @Test
-    public void whenReset_thenTurnIsReset() {
-        game.reset();
+    public void whenReset_thenGameIsReset() {
+        gameService.reset();
 
         verify(game).reset();
+    }
+
+    @Test
+    public void whenReset_thenHerdIsDeleted() {
+        gameService.reset();
+
+        verify(herdRepository).delete();
+    }
+
+    @Test
+    public void whenReset_thenPantryIsIsDeleted() {
+        gameService.reset();
+
+        verify(pantryRepository).delete();
     }
 
     private void initializeADinosaurDTO() {

@@ -66,8 +66,8 @@ public class GameService {
 
     public TurnNumberDTO playTurn() {
         int turnNumber = game.playTurn();
-        pantryRepository.update(pantry);
-        herdRepository.save(herd); // Todo Devrait-on appeler ceci "save" ou "update". Ça ressemble à un "update"
+        pantryRepository.save(pantry);
+        herdRepository.save(herd);
         return turnAssembler.assembleTurnNumber(turnNumber);
     }
 
