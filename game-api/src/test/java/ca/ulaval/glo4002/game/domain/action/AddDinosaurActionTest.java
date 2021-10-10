@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 public class AddDinosaurActionTest {
+
     private Dinosaur dinosaur;
     private Herd herd;
     private AddDinosaurAction addDinosaurAction;
