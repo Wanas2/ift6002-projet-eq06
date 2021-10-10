@@ -15,7 +15,7 @@ public class Food {
         if((food.type).equals(type))
             quantity += food.quantity;
         else
-            throw new FoodTypeNotMatchingException("The Two FoodTypes to be added together must match");
+            throw new FoodTypeNotMatchingException("Trying to add two Foods that have différent FoodTypes");
     }
 
     public void increaseQuantity(int quantity) {
