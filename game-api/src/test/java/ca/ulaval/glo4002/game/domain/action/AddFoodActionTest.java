@@ -27,6 +27,6 @@ class AddFoodActionTest {
     public void givenFood_whenExecute_thenAddTheFoodToNewBatchOfFreshFood() {
         addFoodAction.execute();
 
-        verify(pantry).addToNewBatchOfFreshFood(foods);
+        verify(pantry).addOrderedFoodToCurrentTurnFoodBatch(foods);
     }
 }

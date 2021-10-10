@@ -5,8 +5,9 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.food.*;
+import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
-import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.infrastructure.HerdRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
@@ -27,15 +28,21 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerResources() {
-        CookItSubscription cookItSubscription = new CookItSubscription();
+        PantryRepository pantryRepository = new PantryRepositoryInMemoryImpl();
         HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
-        Turn turn = new Turn();
-        Herd herd = herdRepository.find()
-                .orElse(new Herd(new ArrayList<>()));
-        Pantry pantry = new Pantry();
-        Game game = new Game(herd, pantry, turn, cookItSubscription);
 
+        Turn turn = new Turn();
+        CookItSubscription cookItSubscription = new CookItSubscription();
+        Pantry pantry = pantryRepository.find().
+                orElse(new Pantry(cookItSubscription));
+
+        FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
+        Herd herd = herdRepository.
+                find()
+                .orElse(new Herd(new ArrayList<>()));
+        Game game = new Game(herd, pantry, turn);
         FoodValidator foodValidator = new FoodValidator();
+
         DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry,pantry);
 
         TurnAssembler turnAssembler = new TurnAssembler();
@@ -43,8 +50,9 @@ public class ProjectConfig extends ResourceConfig {
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
 
-        GameService gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler,
-                foodAssembler, foodSummaryAssembler,dinosaurFactory,herdRepository);
+        GameService gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler,
+                foodSummaryAssembler, pantryRepository, foodQuantitySummaryCalculator, dinosaurFactory,
+                herdRepository);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();
         GameResource gameResource = new GameResource(gameService);

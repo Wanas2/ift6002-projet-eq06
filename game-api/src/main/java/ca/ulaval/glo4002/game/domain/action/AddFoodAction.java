@@ -18,6 +18,6 @@ public class AddFoodAction implements ExecutableAction {
 
     @Override
     public void execute() {
-        pantry.addToNewBatchOfFreshFood(foods);
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foods);
     }
 }
