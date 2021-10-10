@@ -19,7 +19,6 @@ import static org.mockito.BDDMockito.*;
 
 class GameTest {
 
-    private CookItSubscription cookItSubscription;
     private Turn turn;
     private Herd herd;
     private Game game;
@@ -35,7 +34,6 @@ class GameTest {
         turn = mock(Turn.class);
         herd = mock(Herd.class);
         pantry = mock(Pantry.class);
-        cookItSubscription = mock(CookItSubscription.class);
         game = new Game(herd, pantry, turn);
     }
 
