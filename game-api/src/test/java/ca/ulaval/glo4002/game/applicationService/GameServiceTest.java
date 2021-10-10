@@ -2,7 +2,9 @@ package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
@@ -41,6 +43,7 @@ class GameServiceTest {
     private FoodAssembler foodAssembler;
     private FoodSummaryAssembler foodSummaryAssembler;
     private GameService gameService;
+    private DinosaurFactory dinosaurFactory;
 
     @BeforeEach
     void setUp() {
@@ -52,7 +55,9 @@ class GameServiceTest {
         dinosaurAssembler = mock(DinosaurAssembler.class);
         foodAssembler = mock(FoodAssembler.class);
         foodSummaryAssembler = mock(FoodSummaryAssembler.class);
-        gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler, foodSummaryAssembler);
+        dinosaurFactory = mock(DinosaurFactory.class);
+        gameService = new GameService(game, herd, pantry, turnAssembler, dinosaurAssembler, foodAssembler,
+                foodSummaryAssembler,dinosaurFactory,mock(HerdRepository.class));
     }
 
     @Test

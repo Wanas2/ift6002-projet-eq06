@@ -23,6 +23,6 @@ public class AddDinosaurActionTest {
     public void givenADinosaur_WhenExecute_thenDinosaurIsAddedToHerd() {
         addDinosaurAction.execute();
 
-        verify(herd).add(dinosaur);
+        verify(herd).addDinosaur(dinosaur);
     }
 }
