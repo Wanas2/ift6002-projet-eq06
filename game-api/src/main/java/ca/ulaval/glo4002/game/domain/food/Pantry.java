@@ -77,7 +77,7 @@ public class Pantry implements FoodStorage {
             Food foodToAddToTheBatch = orderedFood.get(foodTypeInCurrentBatch);
             try {
                 foodInCurrentBatch.increaseQuantity(foodToAddToTheBatch);
-            } catch (FoodTypeNotMatchingException exception) {
+            } catch (FoodTypesNotMatchingException exception) {
                 exception.printStackTrace();
             }
         });
@@ -117,7 +117,7 @@ public class Pantry implements FoodStorage {
             if(food.isExpired()) {
                 try {
                     allExpiredFood.get(foodType).increaseQuantity(food);
-                } catch (FoodTypeNotMatchingException exception) {
+                } catch (FoodTypesNotMatchingException exception) {
                     exception.printStackTrace();
                 }
                 allExpiredFoodFromTheTurnBatch.add(foodType);
@@ -161,7 +161,7 @@ public class Pantry implements FoodStorage {
             Food removedFood = foodBatchOfATurn.remove(foodType);
             try {
                 allConsumedFood.get(foodType).increaseQuantity(removedFood);
-            } catch (FoodTypeNotMatchingException exception) {
+            } catch (FoodTypesNotMatchingException exception) {
                 exception.printStackTrace();
             }
         }

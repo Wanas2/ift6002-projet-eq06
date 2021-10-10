@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.game.domain.food;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
@@ -37,7 +36,7 @@ public class FoodQuantitySummaryCalculator {
                         {
                             try {
                                 freshFoodMerged.get(foodType).increaseQuantity(food);
-                            } catch (FoodTypeNotMatchingException exception) {
+                            } catch (FoodTypesNotMatchingException exception) {
                                 exception.printStackTrace();
                             }
                         }
