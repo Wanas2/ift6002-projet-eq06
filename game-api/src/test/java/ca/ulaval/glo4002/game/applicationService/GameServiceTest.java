@@ -131,8 +131,6 @@ class GameServiceTest {
         verify(game).addDinosaur(aDinosaur);
     }
 
-
-
     @Test
     public void givenFoods_whenPlayTurn_thenGameIsPlayed() {
         gameService.playTurn();
