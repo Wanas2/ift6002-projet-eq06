@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.dino;
 
-import ca.ulaval.glo4002.game.applicationService.GameService;
-import ca.ulaval.glo4002.game.domain.Game;
+import ca.ulaval.glo4002.game.applicationService.DinosaurService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTests {
+
     private final static String NON_EXISTENT_NAME = "Bob";
     private final static String EXISTENT_NAME = "Bobi";
     private final static int WEIGHT = 17;
@@ -18,12 +18,12 @@ public class DinosaurResourceTests {
     private final static String SPECIES = "Ankylosaurus";
     private final static int CORRECT_STATUS = 200;
     private DinosaurResource dinosaurResource;
-    private GameService gameService;
+    private DinosaurService dinosaurService;
 
     @BeforeEach
     public void setup(){
-        gameService = mock(GameService.class);
-        dinosaurResource = new DinosaurResource(gameService);
+        dinosaurService = mock(DinosaurService.class);
+        dinosaurResource = new DinosaurResource(dinosaurService);
     }
 
     @Test
@@ -52,13 +52,13 @@ public class DinosaurResourceTests {
     public void whenShowingADino_thenTheServiceShouldBeCalled(){
         dinosaurResource.showDino(EXISTENT_NAME);
 
-        verify(gameService).showDinosaur(EXISTENT_NAME);
+        verify(dinosaurService).showDinosaur(EXISTENT_NAME);
     }
 
     @Test
     public void whenShowingAllDino_thenTheServiceShouldBeCalled(){
         dinosaurResource.showAllDino();
 
-        verify(gameService).showAllDinosaurs();
+        verify(dinosaurService).showAllDinosaurs();
     }
 }
