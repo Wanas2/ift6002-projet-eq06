@@ -59,24 +59,17 @@ public class Pantry implements FoodStorage {
 
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
-        int quantityOfBurgerToProvide = quantityOfFoodToProvide(FoodType.BURGER, requestedBurgerQuantity);
-        moveFreshFoodToConsumedFood(quantityOfBurgerToProvide, FoodType.BURGER);
-        return quantityOfBurgerToProvide;
+        return giveExactOrMostPossibleFoodDesired(FoodType.BURGER, requestedBurgerQuantity);
     }
 
     @Override
     public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        int quantityOfSaladToProvide = quantityOfFoodToProvide(FoodType.SALAD, requestedSaladQuantity);
-        moveFreshFoodToConsumedFood(quantityOfSaladToProvide, FoodType.SALAD);
-        return quantityOfSaladToProvide;
+        return giveExactOrMostPossibleFoodDesired(FoodType.SALAD, requestedSaladQuantity);
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesired(int requestedWaterQuantity) {
-        int quantityOfWaterToProvide = quantityOfFoodToProvide(FoodType.WATER, requestedWaterQuantity);
-        moveFreshFoodToConsumedFood(quantityOfWaterToProvide, FoodType.WATER);
-
-        return quantityOfWaterToProvide;
+        return giveExactOrMostPossibleFoodDesired(FoodType.WATER, requestedWaterQuantity);
     }
 
     public void addOrderedFoodToCurrentTurnFoodBatch(Map<FoodType, Food> orderedFood) {
@@ -110,6 +103,12 @@ public class Pantry implements FoodStorage {
         allFreshFood.forEach((foodBatchOfOneTurn) ->
                 foodBatchOfOneTurn.forEach((foodType, food) ->
                         food.incrementAgeByOne()));
+    }
+
+    private int giveExactOrMostPossibleFoodDesired(FoodType foodType, int requestedFoodQuantity) {
+        int quantityOfFoodToProvide = quantityOfFoodToProvide(foodType, requestedFoodQuantity);
+        moveFreshFoodToConsumedFood(quantityOfFoodToProvide, foodType);
+        return quantityOfFoodToProvide;
     }
 
     private List<FoodType> obtainAllExpiredFoodOfOneTurnBatch(Map<FoodType, Food> foodBatchOfOneTurn) {

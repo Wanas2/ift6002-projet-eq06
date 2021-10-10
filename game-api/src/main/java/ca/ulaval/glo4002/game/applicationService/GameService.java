@@ -59,7 +59,7 @@ public class GameService {
     public void addDinosaur(DinosaurDTO dinosaurDTO) {
         if (herd.hasDinoosaurWithName(dinosaurDTO.name))
             throw new DuplicateNameException();
-        Dinosaur dinosaur = dinosaurFactory.create(dinosaurDTO.gender,dinosaurDTO.weight,dinosaurDTO.name,
+        Dinosaur dinosaur = dinosaurFactory.create(dinosaurDTO.gender,dinosaurDTO.weight,dinosaurDTO.species,
                 dinosaurDTO.name);
         game.addDinosaur(dinosaur);
     }

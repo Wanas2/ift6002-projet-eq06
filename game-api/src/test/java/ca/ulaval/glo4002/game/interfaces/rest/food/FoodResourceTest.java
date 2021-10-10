@@ -34,13 +34,6 @@ class FoodResourceTest {
     }
 
     @Test
-    public void givenAFoodDTO_whenOrderFood_thenShouldValidateTheFoodDTO() {
-        foodResource.addFood(aFoodDTO);
-
-//        verify(foodValidator).validateFoodEntries(aFoodDTO);
-    }
-
-    @Test
     public void givenAFoodDTO_whenOrderFood_thenGameServiceShouldOrderTheAppropriateFood() {
         foodResource.addFood(aFoodDTO);
 

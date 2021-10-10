@@ -121,14 +121,14 @@ class GameServiceTest {
 
         gameService.addDinosaur(aDinosaurDTO);
 
-        verify(dinosaurFactory).create(aDinosaurDTO.gender, aDinosaurDTO.weight, aDinosaurDTO.name,
+        verify(dinosaurFactory).create(aDinosaurDTO.gender, aDinosaurDTO.weight, aDinosaurDTO.species,
                 aDinosaurDTO.name);
     }
 
     @Test
     public void givenADinosaureDTO_whenAddDinosaure_thenGameShouldAddTheDinosaur() {
         when(herd.hasDinoosaurWithName(aDinosaurDTO.name)).thenReturn(false);
-        when(dinosaurFactory.create(aDinosaurDTO.gender, aDinosaurDTO.weight, aDinosaurDTO.name,
+        when(dinosaurFactory.create(aDinosaurDTO.gender, aDinosaurDTO.weight, aDinosaurDTO.species,
                 aDinosaurDTO.name)).thenReturn(aDinosaur);
 
         gameService.addDinosaur(aDinosaurDTO);
