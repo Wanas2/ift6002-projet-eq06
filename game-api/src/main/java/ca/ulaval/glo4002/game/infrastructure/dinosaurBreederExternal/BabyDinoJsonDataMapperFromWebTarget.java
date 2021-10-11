@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal;
 
-import ca.ulaval.glo4002.game.interfaces.rest.dino.BreedingRequestDTO;
-
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -18,6 +16,6 @@ public class BabyDinoJsonDataMapperFromWebTarget implements BabyDinoMapper {
         Invocation.Builder invocationBuilder =  data.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.post(Entity
                 .entity(breedingRequestExternalDTO, MediaType.APPLICATION_JSON));
-        return response.readEntity(BabyDinoResponseDTO.class);
+        return response.readEntity(BabyDinoResponseDTO.class); // Todo Ajouter la gestion d'erreurs
     }
 }

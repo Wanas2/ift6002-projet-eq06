@@ -60,8 +60,6 @@ public class DinosaurService {
                 .createExternalAPIDTO(fatherDinosaur, motherDinosaur);
 
         BabyDinoResponseDTO babyDinoResponseDTO = breeder.breed(breedingRequestExternalDTO);
-        
-        System.out.println(babyDinoResponseDTO);
 
         // Todo Créer le babyDinosaure et l'ajouter aux actions en attente
     }
