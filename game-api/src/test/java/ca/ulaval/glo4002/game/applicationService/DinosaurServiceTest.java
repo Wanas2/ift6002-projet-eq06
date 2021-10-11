@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.game.applicationService.exceptions.DuplicateNameExcepti
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal.BreedingAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +28,11 @@ class DinosaurServiceTest {
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
     private DinosaurAssembler dinosaurAssembler;
+    private BreedingAssembler breedingAssembler;
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
     private Game game;
+    private Breeder breeder;
     private DinosaurService dinosaurService;
 
     @BeforeEach
@@ -39,10 +42,13 @@ class DinosaurServiceTest {
         anotherDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, A_GENDER, aFoodConsumptionStrategy);
         aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
         dinosaurAssembler = mock(DinosaurAssembler.class);
+        breedingAssembler = mock(BreedingAssembler.class);
         dinosaurFactory = mock(DinosaurFactory.class);
         herd = mock(Herd.class);
         game = mock(Game.class);
-        dinosaurService = new DinosaurService(dinosaurAssembler, dinosaurFactory, herd, game);
+        breeder = mock(Breeder.class);
+        dinosaurService = new DinosaurService(dinosaurAssembler, breedingAssembler, dinosaurFactory, herd, game,
+                breeder);
     }
 
     @Test

@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.game;
 import ca.ulaval.glo4002.game.applicationService.*;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
+import ca.ulaval.glo4002.game.domain.dinosaur.Breeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
@@ -10,6 +11,10 @@ import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.infrastructure.HerdRepositoryInMemoryImpl;
+import ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal.BabyDinoJsonDataMapperFromWebTarget;
+import ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal.BabyDinoMapper;
+import ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal.BreederFromExternalAPI;
+import ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal.BreedingAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodValidator;
@@ -31,6 +36,9 @@ public class ProjectConfig extends ResourceConfig {
         PantryRepository pantryRepository = new PantryRepositoryInMemoryImpl();
         HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
 
+        BabyDinoMapper babyDinoMapper = new BabyDinoJsonDataMapperFromWebTarget();
+        Breeder dinosaurBreeder = new BreederFromExternalAPI(babyDinoMapper);
+
         Turn turn = new Turn();
         CookItSubscription cookItSubscription = new CookItSubscription();
         Pantry pantry = pantryRepository.find().
@@ -49,10 +57,12 @@ public class ProjectConfig extends ResourceConfig {
         FoodAssembler foodAssembler = new FoodAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
+        BreedingAssembler breedingAssembler = new BreedingAssembler();
 
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game,
                 foodAssembler, foodSummaryAssembler);
-        DinosaurService dinosaurService = new DinosaurService(dinosaurAssembler, dinosaurFactory, herd, game);
+        DinosaurService dinosaurService = new DinosaurService(dinosaurAssembler, breedingAssembler, dinosaurFactory, herd, game,
+                dinosaurBreeder);
         GameService gameService = new GameService(game, herd, pantry, turnAssembler, pantryRepository, herdRepository);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();

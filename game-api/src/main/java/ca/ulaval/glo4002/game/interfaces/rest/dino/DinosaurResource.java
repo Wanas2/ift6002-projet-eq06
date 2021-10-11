@@ -24,6 +24,13 @@ public class DinosaurResource {
         return Response.ok().build();
     }
 
+    @POST
+    @Path("/breed")
+    public Response breedDino(BreedingRequestDTO breedingRequestDTO) {
+        dinosaureService.breedDino(breedingRequestDTO);
+        return Response.ok().build();
+    }
+
     @GET
     @Path("/dinosaurs/{name}")
     public Response showDino(@PathParam("name") String name) {

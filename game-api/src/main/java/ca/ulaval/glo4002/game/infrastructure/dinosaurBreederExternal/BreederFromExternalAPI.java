@@ -16,7 +16,7 @@ public class BreederFromExternalAPI implements Breeder {
     }
 
     @Override
-    public BabyDinoReponseDTO breed(String fatherSpecies, String motherSpecies) {
-        return babyDinoMapper.mapData(client.target(EXTERNAL_BREEDER_URI).path("/"));
+    public BabyDinoResponseDTO breed(BreedingRequestExternalDTO breedingRequestExternalDTO) {
+        return babyDinoMapper.mapData(client.target(EXTERNAL_BREEDER_URI).path("/"), breedingRequestExternalDTO);
     }
 }

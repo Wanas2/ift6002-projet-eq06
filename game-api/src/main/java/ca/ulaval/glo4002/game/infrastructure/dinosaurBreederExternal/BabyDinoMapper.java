@@ -4,5 +4,5 @@ import javax.ws.rs.client.WebTarget;
 
 public interface BabyDinoMapper {
 
-    BabyDinoReponseDTO mapData(WebTarget data);
+    BabyDinoResponseDTO mapData(WebTarget data, BreedingRequestExternalDTO breedingRequestExternalDTO);
 }
