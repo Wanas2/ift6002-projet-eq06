@@ -13,17 +13,17 @@ public class Herd {
         this.dinosaurs =  dinosaurs;
     }
 
-    public boolean hasDinoosaurWithName(String name){
+    public boolean hasDinoosaurWithName(String name) {
         for (Dinosaur dino: dinosaurs) {
-            if(dino.getName().equals(name)){
+            if(dino.getName().equals(name)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void addDinosaur(Dinosaur dinosaur){
-        if (!hasDinoosaurWithName(dinosaur.getName())){
+    public void addDinosaur(Dinosaur dinosaur) {
+        if (!hasDinoosaurWithName(dinosaur.getName())) {
             dinosaurs.add(dinosaur);
         }
     }
@@ -36,14 +36,14 @@ public class Herd {
         removeFastingDinosaurs(dinosaursByPriority);
     }
 
-    private void removeFastingDinosaurs(List<Dinosaur> allDinosaurs){
+    private void removeFastingDinosaurs(List<Dinosaur> allDinosaurs) {
         for(Dinosaur dinosaur : allDinosaurs){
             if(!dinosaur.isAlive())
                 dinosaurs.remove(dinosaur);
         }
     }
 
-    private Map<Dinosaur, Integer> sortDinosaursByStrength(){
+    private Map<Dinosaur, Integer> sortDinosaursByStrength() {
         Map<Dinosaur, Integer> dinosaursStrength = new HashMap<>();
         for(Dinosaur dinosaur : dinosaurs){
             dinosaursStrength.put(dinosaur, dinosaur.calculateStrength());
@@ -56,18 +56,18 @@ public class Herd {
                         toMap(Map.Entry::getKey, Map.Entry::getValue, (dinosaur, strength) -> dinosaur, LinkedHashMap::new));
     }
 
-    public void increaseDinosaursAge(){
-        for(Dinosaur dino: dinosaurs){
+    public void increaseDinosaursAge() {
+        for(Dinosaur dino: dinosaurs) {
             dino.age();
         }
     }
-    public void reset(){
+    public void reset() {
         dinosaurs.clear();
     }
 
-    public Dinosaur getDinosaurWithName(String dinosaurName){
+    public Dinosaur getDinosaurWithName(String dinosaurName) {
         for (Dinosaur dino: dinosaurs) {
-            if(dino.getName().equals(dinosaurName)){
+            if(dino.getName().equals(dinosaurName)) {
                 return dino;
             }
         }
