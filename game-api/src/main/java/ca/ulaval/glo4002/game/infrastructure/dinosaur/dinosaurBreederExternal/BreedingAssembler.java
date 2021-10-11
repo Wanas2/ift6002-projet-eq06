@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal;
+package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 

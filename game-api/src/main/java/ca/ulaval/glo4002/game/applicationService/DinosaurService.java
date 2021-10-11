@@ -3,10 +3,9 @@ package ca.ulaval.glo4002.game.applicationService;
 import ca.ulaval.glo4002.game.applicationService.exceptions.DuplicateNameException;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
-import ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal.BabyDinoResponseDTO;
-import ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal.BreedingAssembler;
-import ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal.BreedingRequestExternalDTO;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BabyDinoResponseDTO;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingAssembler;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingRequestExternalDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.BreedingRequestDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 

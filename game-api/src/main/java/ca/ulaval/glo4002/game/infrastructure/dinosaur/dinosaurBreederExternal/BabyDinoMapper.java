@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.infrastructure.dinosaurBreederExternal;
+package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
 
 import javax.ws.rs.client.WebTarget;
 
