@@ -11,11 +11,11 @@ public class Food {
         this.quantity = quantity;
     }
 
-    public void increaseQuantity(Food food) throws FoodTypeNotMatchingException {
+    public void increaseQuantity(Food food) throws FoodTypesNotMatchingException {
         if((food.type).equals(type))
             quantity += food.quantity;
         else
-            throw new FoodTypeNotMatchingException("Trying to add two Foods that have différent FoodTypes");
+            throw new FoodTypesNotMatchingException("Trying to add two foods whose types are different");
     }
 
     public void increaseQuantity(int quantity) {

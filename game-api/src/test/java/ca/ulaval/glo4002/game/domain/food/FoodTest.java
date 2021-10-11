@@ -18,7 +18,7 @@ class FoodTest {
     }
 
     @Test
-    public void givenSomeMoreFood_whenIncrease_thenQuantityShouldBeIncreasedAccordingly() throws FoodTypeNotMatchingException {
+    public void givenSomeMoreFood_whenIncrease_thenQuantityShouldBeIncreasedAccordingly() throws FoodTypesNotMatchingException {
         int expectedQuantity = someFoodOfTypeBurger.quantity() + someMoreFoodOfTypeBurger.quantity(); // Todo C'est bon ou pas?
 
         someFoodOfTypeBurger.increaseQuantity(someMoreFoodOfTypeBurger);

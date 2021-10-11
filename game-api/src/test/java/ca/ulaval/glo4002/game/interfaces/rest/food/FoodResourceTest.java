@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
-import ca.ulaval.glo4002.game.applicationService.GameService;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import ca.ulaval.glo4002.game.applicationService.ResourceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class FoodResourceTest {
 
     private FoodDTO aFoodDTO;
     private FoodValidator foodValidator;
-    private GameService gameService;
+    private ResourceService resourceService;
     private FoodResource foodResource;
 
     @BeforeEach
@@ -29,15 +29,15 @@ class FoodResourceTest {
         aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
 
         foodValidator = new FoodValidator();
-        gameService = mock(GameService.class);
-        foodResource = new FoodResource(gameService, foodValidator);
+        resourceService = mock(ResourceService.class);
+        foodResource = new FoodResource(resourceService, foodValidator);
     }
 
     @Test
     public void givenAFoodDTO_whenOrderFood_thenGameServiceShouldOrderTheAppropriateFood() {
         foodResource.addFood(aFoodDTO);
 
-        verify(gameService).addFood(aFoodDTO);
+        verify(resourceService).addFood(aFoodDTO);
     }
 
     @Test
@@ -53,7 +53,7 @@ class FoodResourceTest {
     public void whenGetFoodQuantitySummary_theGameServiceShouldGetFoodQuantitySummary() {
         foodResource.getFoodQuantitySummary();
 
-        verify(gameService).getFoodQuantitySummary();
+        verify(resourceService).getFoodQuantitySummary();
     }
 
     @Test
