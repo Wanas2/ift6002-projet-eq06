@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GeneralBadRequestExceptionMapperTests {
+public class GeneralBadRequestExceptionMapperTest {
     private final static int BAD_REQUEST_STATUS = 400;
     private final static String AN_ERROR_CODE = "ERROR";
     private final static String A_MESSAGE = "Erreur";

@@ -1,6 +1,4 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.exceptions;
 
 public class InvalidFatherException extends RuntimeException{
-
-    public InvalidFatherException(){}
 }

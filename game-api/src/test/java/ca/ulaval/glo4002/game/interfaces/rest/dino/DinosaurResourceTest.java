@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class DinosaurResourceTests {
+public class DinosaurResourceTest {
 
     private final static String NON_EXISTENT_NAME = "Bob";
     private final static String EXISTENT_NAME = "Bobi";
