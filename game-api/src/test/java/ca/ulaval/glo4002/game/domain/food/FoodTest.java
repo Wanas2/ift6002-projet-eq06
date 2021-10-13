@@ -6,13 +6,15 @@ import org.junit.jupiter.api.Test;
 
 class FoodTest {
 
-    private final FoodType A_FOOD_TYPE = FoodType.BURGER;
-    private final int A_FOOD_QUANTITY = 4;
+    private final FoodType FOOD_TYPE = FoodType.BURGER;
+    private final int FOOD_QUANTITY = 4;
     private Food food;
+    private Food foodEExpiringIn2Turns;
 
     @BeforeEach
     void setUp() {
-        food = new Food(A_FOOD_TYPE, A_FOOD_QUANTITY);
+        food = new Food(FOOD_TYPE, FOOD_QUANTITY);
+        foodEExpiringIn2Turns =  new Food(FOOD_TYPE, FOOD_QUANTITY);
     }
 
     @Test
@@ -21,15 +23,15 @@ class FoodTest {
     }
 
     @Test
-    public void whenIncrementAgeByOne_thenFoodShouldBeExpiredIfTheNumberOfTurnBeforeExpiryIsReached() {
-        food.incrementAgeByOne();
-        food.incrementAgeByOne();
+    public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
+        foodEExpiringIn2Turns.incrementAgeByOne();
+        foodEExpiringIn2Turns.incrementAgeByOne();
 
         assertTrue(food.isExpired());
     }
 
     @Test
-    public void givenAFoodQuantityToAdd_increaseQuantity_thenTheQuantityShouldBeIncreased() {
+    public void givenAFoodQuantityToAdd_whenIncreaseQuantity_thenTheQuantityShouldBeIncreased() {
         int foodQuantityToAdd = 5;
         int expectedFoodQuantity = 9;
 
@@ -41,7 +43,7 @@ class FoodTest {
     @Test
     public void givenAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
         int foodQuantityToDecrease = 2;
-        int expectedFoodQuantity = A_FOOD_QUANTITY - foodQuantityToDecrease;
+        int expectedFoodQuantity = FOOD_QUANTITY - foodQuantityToDecrease;
 
         food.decreaseQuantity(foodQuantityToDecrease);
 
@@ -50,7 +52,7 @@ class FoodTest {
 
     @Test
     public void givenAQuantityGreaterOrEqualThanTheFoodQuantity_whenDecreaseQuantity_thenTheRemainingFoodQuantityShouldBeZero() {
-        int foodQuantityToDecrease = A_FOOD_QUANTITY + 2;
+        int foodQuantityToDecrease = FOOD_QUANTITY + 2;
         int expectedRemainingFoodQuantity = 0;
 
         food.decreaseQuantity(foodQuantityToDecrease);
