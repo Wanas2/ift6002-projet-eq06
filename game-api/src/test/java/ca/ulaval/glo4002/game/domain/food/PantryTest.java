@@ -4,14 +4,10 @@ import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.BDDMockito.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 class PantryTest {
 
@@ -32,76 +28,175 @@ class PantryTest {
 
     @BeforeEach
     void setUp() {
-        initializeFoodWithQuantityZero();
         initializeFoodWithOnlyOneBurger();
         initializeFoodWithOnlyTwoBurgers();
-        initializeFoodWithOnlySixBurgers();
+        initializeSomeFood();
         aFoodDTO = new FoodDTO();
         aFoodDTO.qtyBurger = A_QUANTITY_OF_ONE_BURGER_ORDERED;
         aFoodDTO.qtySalad =  A_QUANTITY_OF_SALAD_ORDERED;
         aFoodDTO.qtyWater =  A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
-        cookItSubscription = mock(CookItSubscription.class);
-        pantry = new Pantry();
+        cookItSubscription = new CookItSubscription();
+        pantry = new Pantry(cookItSubscription);
     }
 
     @Test
-    public void givenFood_whenAddFoodFromCookITToNewFood_thenCooItShouldProvideFood() {
-        willReturn(foodWithOnlySixBurgers).given(cookItSubscription).provideFood();
+    public void givenZeroFoodOrdered_whenAddOrderedFoodToCurrentTurnFoodBatch_thenPantryHasNoFreshFood() {
+        initializeFoodWithQuantityZero();
 
-        pantry.addFoodFromCookITToNewFood(cookItSubscription);
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithQuantityZero);
 
-        verify(cookItSubscription).provideFood();
+        assertTrue(pantry.getAllFreshFood().isEmpty());
     }
 
     @Test
-    public void givenNotEnoughBurgersToProvide_whenGiveExactOrMostPossibleBurgerDesired_thenAllFreshBurgersAreConsumed() { // Todo Les longues lignes sont aussi pas bons dans le tests?
-        int aDesiredNumberOfBurgers = 2;
-        pantry.addToNewBatchOfFreshFood(foodWithOnlyOneBurger);
-        pantry.addNewFoodToFreshFood();
+    public void givenSomeFoodOrdered_whenAddOrderedFoodToCurrentTurnFoodBatch_thenPantryStillHasNoFreshFood() {
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyOneBurger);
+
+        assertTrue(pantry.getAllFreshFood().isEmpty());
+    }
+
+    @Test
+    public void givenSomeFoodInCurrentTurnBatch_whenAddCurrentTurnFoodBatchToFreshFood_PantryNowHasFreshFood() {
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyOneBurger);
+
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+
+        assertFalse(pantry.getAllFreshFood().isEmpty());
+    }
+
+    @Test
+    public void givenFoodFromCookItSubscription_whenAddCurrentTurnFoodBatchToFreshFood_thenFoodFromCookItSubscriptionIsAddedToFreshFood() { // Todo Comment améliorer le design. Le test connais la structure de données utilisée
+        Map<FoodType, Food> foodFromCookIt = cookItSubscription.provideFood();
+        int expectedBurgerQuantity = foodFromCookIt.get(FoodType.BURGER).quantity();
+        int expectedSaladQuantity = foodFromCookIt.get(FoodType.SALAD).quantity();
+        int expectedWaterQuantity = foodFromCookIt.get(FoodType.WATER).quantity();
+
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+        Map<FoodType, Food> allFreshFood = pantry.getAllFreshFood().peek();
+
+        assertEquals(expectedBurgerQuantity, allFreshFood.get(FoodType.BURGER).quantity());
+        assertEquals(expectedSaladQuantity, allFreshFood.get(FoodType.SALAD).quantity());
+        assertEquals(expectedWaterQuantity, allFreshFood.get(FoodType.WATER).quantity());
+    }
+
+
+    @Test
+    public void givenSomeFoodOrderedInCurrentTurn_whenAddCurrentTurnFoodBatchToFreshFood_thenTheFoodBatchIsAddedToFreshFood() {
+        Map<FoodType, Food> foodFromCookIt = cookItSubscription.provideFood();
+        int expectedBurgerQuantity = foodWithOnlyOneBurger.get(FoodType.BURGER).quantity()
+                + foodFromCookIt.get(FoodType.BURGER).quantity();
+
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyOneBurger);
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+        Map<FoodType, Food> allFreshFood = pantry.getAllFreshFood().peek();
+
+        assertEquals(expectedBurgerQuantity, allFreshFood.get(FoodType.BURGER).quantity());
+    }
+
+    @Test
+    public void givenNotEnoughBurgersToProvide_whenGiveExactOrMostPossibleBurgerDesired_thenAllFreshBurgersAreConsumed() {
+        int requestedQuantityOfBurgers = 102;
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyOneBurger);
+        pantry.addCurrentTurnFoodBatchToFreshFood();
         int expectedRemainingFreshBurgers = 0;
-        int expectedConsumedBurgers = 1;
+        int expectedConsumedBurgers = 101;
 
-        pantry.giveExactOrMostPossibleBurgerDesired(aDesiredNumberOfBurgers);
-        Map<String, Map<FoodType, Integer>> allFoodQuantities = pantry.getFoodQuantitySummary();
+        pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
+        Map<FoodType, Food> allFreshFood = pantry.getAllFreshFood().peek();
+        int freshBurgersQuantity = allFreshFood.get(FoodType.BURGER).quantity();
+        int consumedBurgersQuantity = pantry.getAllConsumedFood().get(FoodType.BURGER).quantity();
 
-        int freshBurgersQuantity = allFoodQuantities.get("fresh").get(FoodType.BURGER);
-        int consumedBurgersQuantity = allFoodQuantities.get("consumed").get(FoodType.BURGER);
         assertEquals(expectedRemainingFreshBurgers, freshBurgersQuantity);
         assertEquals(expectedConsumedBurgers, consumedBurgersQuantity);
     }
 
     @Test
     public void givenEnoughBurgersToProvide_whenGiveExactOrMostPossibleBurgerDesired_thenOnlyRequestedBurgerQuantityIsConsumed() {
-        int requestedQuantityOfBurgers = 1;
-        int expectedFreshBurgerQuantityRemaining = 1;
-        pantry.addToNewBatchOfFreshFood(foodWithOnlyTwoBurgers);
-        pantry.addNewFoodToFreshFood();
+        int requestedQuantityOfBurgers = 101;
+        int expectedFreshBurgerQuantityRemaining = 101;
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyTwoBurgers);
+        pantry.addCurrentTurnFoodBatchToFreshFood();
 
         pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
-        Map<String, Map<FoodType, Integer>>  allFoodQuantities = pantry.getFoodQuantitySummary();
-        int freshBurgersQuantityAfter = allFoodQuantities.get("fresh").get(FoodType.BURGER);
-        int consumedBurgersQuantity = allFoodQuantities.get("consumed").get(FoodType.BURGER);
+        int consumedBurgersQuantity = pantry.getAllConsumedFood().get(FoodType.BURGER).quantity();
+
+        assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
+        assertEquals( expectedFreshBurgerQuantityRemaining, requestedQuantityOfBurgers);
+    }
+
+    @Test
+    public void givenManyBatchedOfFreshFood_whenGiveExactOrMostPossibleBurgerDesired_thenOlderBatchesAreConsumedFirst() {
+        int requestedQuantityOfBurgers = 200;
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyTwoBurgers);
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlySixBurgers);
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+
+        pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
+        Map<FoodType, Food> firstBatchOfFreshFood = pantry.getAllFreshFood().remove();
+        Map<FoodType, Food> secondBatchOfFreshFood = pantry.getAllFreshFood().remove();
+
+        assertFalse(firstBatchOfFreshFood.containsKey(FoodType.BURGER));
+        assertTrue(secondBatchOfFreshFood.containsKey(FoodType.BURGER));
+    }
+
+    @Test
+    public void givenManyBatchedOfFreshFood_whenGiveExactOrMostPossibleBurgerDesired_thenTheAppropriateQuantityOfFoodIsConsumed() {
+        int requestedQuantityOfBurgers = 200;
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyTwoBurgers);
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlySixBurgers);
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+        int expectedFreshBurgerQuantityRemaining = 8;
+
+        pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
+        pantry.getAllFreshFood().remove();
+        Map<FoodType, Food> secondBatchOfFreshFood = pantry.getAllFreshFood().remove();
+        int freshBurgersQuantityAfter = secondBatchOfFreshFood.get(FoodType.BURGER).quantity();
+        int consumedBurgersQuantity = pantry.getAllConsumedFood().get(FoodType.BURGER).quantity();
 
         assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
         assertEquals( expectedFreshBurgerQuantityRemaining, freshBurgersQuantityAfter);
     }
 
     @Test
-    public void givenManyBatchedOfFreshFood_whenGiveExactOrMostPossibleBurgerDesired_thenTheAppropriateQuantityOfFoodIsConsumed() {
-        int requestedQuantityOfBurgers = 5;
-        pantry.addToNewBatchOfFreshFood(foodWithOnlyTwoBurgers);
-        pantry.addNewFoodToFreshFood();
-        pantry.addToNewBatchOfFreshFood(foodWithOnlySixBurgers);
-        pantry.addNewFoodToFreshFood();
-        int expectedFreshBurgerQuantityRemaining = 3;
+    public void whenRemoveExpiredFoodFromFreshFood_thenExpiredFoodIsRemovedFromFreshFood() {
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+        pantry.incrementFreshFoodAges();
+        pantry.incrementFreshFoodAges();
+        pantry.removeExpiredFoodFromFreshFood();
 
-        pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
-        Map<String, Map<FoodType, Integer>>  allFoodQuantities = pantry.getFoodQuantitySummary();
-        int freshBurgersQuantityAfter = allFoodQuantities.get("fresh").get(FoodType.BURGER);
-        int consumedBurgersQuantity = allFoodQuantities.get("consumed").get(FoodType.BURGER);
+        assertFalse(pantry.getAllFreshFood().peek().containsKey(FoodType.BURGER));
+        assertFalse(pantry.getAllFreshFood().peek().containsKey(FoodType.SALAD));
+        assertFalse(pantry.getAllFreshFood().peek().containsKey(FoodType.WATER));
+    }
 
-        assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
-        assertEquals( expectedFreshBurgerQuantityRemaining, freshBurgersQuantityAfter);
+    @Test
+    public void whenRemoveExpiredFoodFromFreshFood_thenExpiredFoodIsAddedSavedAsExpired() {
+        int expectedExpiredBurgers = 100;
+        int expectedExpiredSalads = 250;
+        int expectedExpiredWater = 10000;
+
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+        pantry.incrementFreshFoodAges();
+        pantry.incrementFreshFoodAges();
+        pantry.removeExpiredFoodFromFreshFood();
+        int expiredBurgers = pantry.getAllExpiredFood().get(FoodType.BURGER).quantity();
+        int expiredSalads =  pantry.getAllExpiredFood().get(FoodType.SALAD).quantity();
+        int expiredWater = pantry.getAllExpiredFood().get(FoodType.WATER).quantity();
+
+        assertEquals(expectedExpiredBurgers, expiredBurgers);
+        assertEquals(expectedExpiredSalads, expiredSalads);
+        assertEquals(expectedExpiredWater, expiredWater);
+    }
+
+    @Test
+    public void whenReset_thenPantryShouldHAveNoFreshFood() {
+        pantry.addCurrentTurnFoodBatchToFreshFood();
+
+        pantry.reset();
+
+        assertTrue(pantry.getAllFreshFood().isEmpty());
     }
 
     private void initializeFoodWithQuantityZero() {
@@ -137,7 +232,7 @@ class PantryTest {
         foodWithOnlyTwoBurgers.put(FoodType.WATER, aFoodItem3);
     }
 
-    private void initializeFoodWithOnlySixBurgers() {
+    private void initializeSomeFood() {
         Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_SIX_BURGER_ORDERED);
         Food aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
         Food aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);

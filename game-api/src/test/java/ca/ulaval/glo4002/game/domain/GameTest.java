@@ -19,7 +19,6 @@ import static org.mockito.BDDMockito.*;
 
 class GameTest {
 
-    private CookItSubscription cookItSubscription;
     private Turn turn;
     private Herd herd;
     private Game game;
@@ -35,8 +34,7 @@ class GameTest {
         turn = mock(Turn.class);
         herd = mock(Herd.class);
         pantry = mock(Pantry.class);
-        cookItSubscription = mock(CookItSubscription.class);
-        game = new Game(herd, pantry, turn, cookItSubscription);
+        game = new Game(herd, pantry, turn);
     }
 
     @Test
@@ -61,17 +59,10 @@ class GameTest {
     }
 
     @Test
-    public void whenPlayTurn_thenPantryShouldAddFoodFromCookItToFreshFood() {
-        game.playTurn();
-
-        verify(pantry).addFoodFromCookITToNewFood(cookItSubscription);
-    }
-
-    @Test
     public void whenPlayTurn_thenPantryShouldAddNewFoodToFreshFood() {
         game.playTurn();
 
-        verify(pantry).addNewFoodToFreshFood();
+        verify(pantry).addCurrentTurnFoodBatchToFreshFood();
     }
 
     @Test
