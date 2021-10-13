@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurService;
 import ca.ulaval.glo4002.game.applicationService.Dinosaur.DuplicateNameException;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.BabyFetcher;
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;

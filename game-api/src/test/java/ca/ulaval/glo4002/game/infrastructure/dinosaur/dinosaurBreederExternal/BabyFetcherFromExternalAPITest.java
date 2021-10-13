@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.BabyFetcher;
+import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,13 +10,14 @@ import static org.mockito.Mockito.*;
 class BabyFetcherFromExternalAPITest {
 
     private DinosaurBreederExternal dinosaurBreederExternal;
+    private DinosaurFactory dinosaurFactory;
     private BabyFetcher babyFetcher;
 
     @BeforeEach
     void setUp() {
-        dinosaurBreederExternal
-                = mock(DinosaurBreederExternal.class);
-        babyFetcher = new BabyFetcherFromExternalAPI(dinosaurBreederExternal);
+        dinosaurBreederExternal = mock(DinosaurBreederExternal.class);
+        dinosaurFactory = mock(DinosaurFactory.class);
+        babyFetcher = new BabyFetcherFromExternalAPI(dinosaurBreederExternal, dinosaurFactory);
     }
 
     @Test

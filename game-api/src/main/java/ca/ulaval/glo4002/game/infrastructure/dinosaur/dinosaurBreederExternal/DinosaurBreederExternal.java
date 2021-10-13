@@ -6,9 +6,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class DinosaurBreederExternal implements DinoBreeder {
+public class DinosaurBreederExternal {
 
-    @Override
     public BabyDinoResponseDTO breed(WebTarget data, BreedingRequestExternalDTO breedingRequestExternalDTO)
             throws SpeciesWillNotBreedException {
         Invocation.Builder invocationBuilder =  data.request(MediaType.APPLICATION_JSON);

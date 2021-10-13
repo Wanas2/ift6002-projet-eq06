@@ -8,7 +8,7 @@ import ca.ulaval.glo4002.game.applicationService.Food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.Food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
-import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.BabyFetcher;
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
@@ -41,9 +41,6 @@ public class ProjectConfig extends ResourceConfig {
         PantryRepository pantryRepository = new PantryRepositoryInMemoryImpl();
         HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
 
-        DinoBreeder dinoBreeder = new DinosaurBreederExternal();
-        BabyFetcher dinosaurBabyFetcher = new BabyFetcherFromExternalAPI(dinoBreeder);
-
         Turn turn = new Turn();
         CookItSubscription cookItSubscription = new CookItSubscription();
         Pantry pantry = pantryRepository.find().
@@ -57,6 +54,9 @@ public class ProjectConfig extends ResourceConfig {
         FoodValidator foodValidator = new FoodValidator();
 
         DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry,pantry);
+
+        DinosaurBreederExternal dinoBreeder = new DinosaurBreederExternal();
+        BabyFetcher dinosaurBabyFetcher = new BabyFetcherFromExternalAPI(dinoBreeder, dinosaurFactory);
 
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();

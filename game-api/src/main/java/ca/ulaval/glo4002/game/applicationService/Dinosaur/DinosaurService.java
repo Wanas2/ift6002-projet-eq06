@@ -2,9 +2,7 @@ package ca.ulaval.glo4002.game.applicationService.Dinosaur;
 
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.BabyFetcher;
-import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.DinosaurBreedingCouple;
-import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.DinosaurBreedingCoupleFactory;
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingAssembler;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.SpeciesWillNotBreedException;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.BreedingRequestDTO;
@@ -53,19 +51,14 @@ public class DinosaurService {
     }
 
     public void breedDino(BreedingRequestDTO breedingRequestDTO) {
-        DinosaurBreedingCoupleFactory dinosaurBreedingCoupleFactory =
-                new DinosaurBreedingCoupleFactory(herd);
-        DinosaurBreedingCouple dinosaurBreedingCouple =
-                dinosaurBreedingCoupleFactory.create(breedingRequestDTO.fatherName, breedingRequestDTO.motherName);
+        String fatherName = breedingRequestDTO.fatherName;
+        String motherName = breedingRequestDTO.motherName;
 
-        Dinosaur fatherDinosaur = dinosaurBreedingCouple.getFatherDinosaur();
-        Dinosaur motherDinosaur = dinosaurBreedingCouple.getMotherDinosaur();
-        try {
-            babyFetcher.fetch(fatherDinosaur, motherDinosaur); // Todo Retourner un bébé dinosaure, pas un DTO
-        } catch (SpeciesWillNotBreedException ignored) {
-        }
+        Dinosaur fatherDinosaur = herd.getDinosaurWithName(fatherName);
+        Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
+        String babyDinoName = breedingRequestDTO.name;
 
-        dinosaurBreedingCouple.breed(); // Todo Prendre un bébé dinosaure en entré
+        Dinosaur babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinoName);
 
         // Todo Ajouter à la liste d'actions en attente
     }
