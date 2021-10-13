@@ -28,8 +28,7 @@ public class BabyFetcherFromExternalAPI implements BabyFetcher {
         try {
             babyDinoResponseDTO
                     = dinoBreeder.breed(client.target(EXTERNAL_BREEDER_URI).path("/"), breedingRequestExternalDTO);
-        } catch (SpeciesWillNotBreedException e) {
-            e.printStackTrace();
+        } catch (SpeciesWillNotBreedException ignored) {
         }
         String genderName = babyDinoResponseDTO.gender;
         String speciesName = babyDinoResponseDTO.offspring;

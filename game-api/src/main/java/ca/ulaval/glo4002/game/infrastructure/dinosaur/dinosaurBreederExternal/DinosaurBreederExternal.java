@@ -8,9 +8,9 @@ import javax.ws.rs.core.Response;
 
 public class DinosaurBreederExternal {
 
-    public BabyDinoResponseDTO breed(WebTarget data, BreedingRequestExternalDTO breedingRequestExternalDTO)
+    public BabyDinoResponseDTO breed(WebTarget externalService, BreedingRequestExternalDTO breedingRequestExternalDTO)
             throws SpeciesWillNotBreedException {
-        Invocation.Builder invocationBuilder =  data.request(MediaType.APPLICATION_JSON);
+        Invocation.Builder invocationBuilder =  externalService.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.post(Entity
                 .entity(breedingRequestExternalDTO, MediaType.APPLICATION_JSON));
 
