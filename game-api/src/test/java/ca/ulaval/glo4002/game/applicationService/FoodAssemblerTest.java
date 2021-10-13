@@ -30,10 +30,18 @@ class FoodAssemblerTest {
         foodAssembler = new FoodAssembler();
     }
 
-    @Test
-    public void givenAFoodDTO_whenCreate_thenShouldCreateTheAppropriateFoodAndFoodType() {
-        Map<FoodType, Food> food = foodAssembler.create(aFoodDTO);
 
-//        assertEquals(food.get());
+    @Test
+    public void givenAFood_whenCreateDTO_thenShouldBeCorrectlyMapped() {
+        Map<FoodType, Integer> aFood = new HashMap<>();
+
+        aFood.put(FoodType.BURGER, 10);
+        aFood.put(FoodType.SALAD, 50);
+        aFood.put(FoodType.WATER, 250);
+
+        FoodDTO foodDTO = foodAssembler.createDTO(aFood);
+        assertEquals(10, foodDTO.qtyBurger);
+        assertEquals(50, foodDTO.qtySalad);
+        assertEquals(250, foodDTO.qtyWater);
     }
 }
