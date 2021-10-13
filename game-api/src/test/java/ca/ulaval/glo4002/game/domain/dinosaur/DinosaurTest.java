@@ -8,16 +8,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class DinosaurTest {
-    Dinosaur A_CARNIVOROUS_DINOSAUR;
-    FoodConsumptionStrategy CARNIVOROUS_STRATEGY;
-    Dinosaur AN_HERBIVOROUS_DINOSAUR;
-    FoodConsumptionStrategy HERBIVOROUS_STRATEGY;
-    int AGE = 0;
-    int WEIGHT = 81;
-    String CARNIVOROUS_NAME = "Bob";
-    String HERBIVOROUS_NAME = "Bobi";
-    private final static float MALE_FACTOR = 1.0f;
-    private final static float CARNIVOROUS_FACTOR = 1.5f;
+    private Dinosaur A_CARNIVOROUS_DINOSAUR;
+    private FoodConsumptionStrategy CARNIVOROUS_STRATEGY;
+    private Dinosaur AN_HERBIVOROUS_DINOSAUR;
+    private FoodConsumptionStrategy HERBIVOROUS_STRATEGY;
+    private int AGE = 0;
+    private int WEIGHT = 81;
+    private String CARNIVOROUS_NAME = "Bob";
+    private String HERBIVOROUS_NAME = "Bobi";
 
     @BeforeEach
     public void setup(){

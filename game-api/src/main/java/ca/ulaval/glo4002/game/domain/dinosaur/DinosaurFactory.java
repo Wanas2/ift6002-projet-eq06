@@ -6,6 +6,19 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightException;
 
 public class DinosaurFactory {
+
+    class GeneralDinosaurState{
+        public Species species;
+        public Gender gender;
+        public FoodConsumptionStrategy strategy;
+
+        public GeneralDinosaurState(Species species, Gender gender, FoodConsumptionStrategy strategy) {
+            this.species = species;
+            this.gender = gender;
+            this.strategy = strategy;
+        }
+    }
+
     private CarnivorousFoodStorage carnivorousFoodStorage;
     private HerbivorousFoodStorage herbivorousFoodStorage;
 
@@ -15,13 +28,11 @@ public class DinosaurFactory {
         this.herbivorousFoodStorage = herbivorousFoodStorage;
     }
 
-    public Dinosaur create(String gender, int weight, String speciesName, String name){
-        if (!gender.equals("m") && !gender.equals("f")){
+    private GeneralDinosaurState createGeneralDinosaurState(String genderName, String speciesName){
+        if (!genderName.equals("m") && !genderName.equals("f")){
             throw new InvalidGenderException();
         }
-        else if (weight <= 0){
-            throw new InvalidWeightException();
-        }
+        Gender gender = Gender.valueOf(genderName.toUpperCase());
 
         speciesName = speciesName.replace(" ","");
         Species species;
@@ -43,7 +54,22 @@ public class DinosaurFactory {
                 throw new InvalidSpeciesException();
         }
 
-        return new Dinosaur(species,weight, name, Gender.valueOf(gender.toUpperCase()),
-                foodConsumptionStrategy);
+        return new GeneralDinosaurState(species,gender,foodConsumptionStrategy);
+    }
+
+    public Dinosaur create(String genderName, int weight, String speciesName, String name){
+        if (weight <= 0)
+            throw new InvalidWeightException();
+
+        GeneralDinosaurState state = createGeneralDinosaurState(genderName,speciesName);
+
+        return new Dinosaur(state.species,weight, name, state.gender, state.strategy);
+    }
+
+    public BabyDinosaur createBaby(String genderName, String speciesName, String name, Dinosaur fatherDinosaur,
+                                   Dinosaur motherDinosaur){
+        GeneralDinosaurState state = createGeneralDinosaurState(genderName,speciesName);
+
+        return new BabyDinosaur(state.species,name,state.gender,state.strategy,fatherDinosaur,motherDinosaur);
     }
 }
