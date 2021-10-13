@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class DinosaurTests {
+public class DinosaurTest {
     private Dinosaur A_CARNIVOROUS_DINOSAUR;
     private FoodConsumptionStrategy CARNIVOROUS_STRATEGY;
     private Dinosaur AN_HERBIVOROUS_DINOSAUR;
