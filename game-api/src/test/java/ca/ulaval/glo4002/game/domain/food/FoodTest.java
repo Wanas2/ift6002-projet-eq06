@@ -6,25 +6,57 @@ import org.junit.jupiter.api.Test;
 
 class FoodTest {
 
-    private final FoodType FOOD_TYPE_BURGER = FoodType.BURGER;
-    private int aQuantity = 4;
-    private Food someFoodOfTypeBurger;
-    private Food someMoreFoodOfTypeBurger;
+    private final FoodType FOOD_TYPE = FoodType.BURGER;
+    private final int FOOD_QUANTITY = 4;
+    private Food food;
+    private Food foodEExpiringIn2Turns;
 
     @BeforeEach
     void setUp() {
-        someFoodOfTypeBurger = new Food(FOOD_TYPE_BURGER, aQuantity);
-        someMoreFoodOfTypeBurger = new Food(FOOD_TYPE_BURGER, aQuantity);
+        food = new Food(FOOD_TYPE, FOOD_QUANTITY);
+        foodEExpiringIn2Turns =  new Food(FOOD_TYPE, FOOD_QUANTITY);
     }
 
     @Test
-    public void givenSomeMoreFood_whenIncrease_thenQuantityShouldBeIncreasedAccordingly() throws FoodTypesNotMatchingException {
-        int expectedQuantity = someFoodOfTypeBurger.quantity() + someMoreFoodOfTypeBurger.quantity(); // Todo C'est bon ou pas?
-
-        someFoodOfTypeBurger.increaseQuantity(someMoreFoodOfTypeBurger);
-
-        assertEquals(expectedQuantity, someFoodOfTypeBurger.quantity());
+    public void initiallyFoodIsFresh() {
+        assertFalse(food.isExpired());
     }
 
-    // Todo Faut-il tester le cas où le food type est différent. C'est quoi le "assert" ici?
+    @Test
+    public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
+        foodEExpiringIn2Turns.incrementAgeByOne();
+        foodEExpiringIn2Turns.incrementAgeByOne();
+
+        assertTrue(food.isExpired());
+    }
+
+    @Test
+    public void givenAFoodQuantityToAdd_whenIncreaseQuantity_thenTheQuantityShouldBeIncreased() {
+        int foodQuantityToAdd = 5;
+        int expectedFoodQuantity = 9;
+
+        food.increaseQuantity(foodQuantityToAdd);
+
+        assertEquals(expectedFoodQuantity, food.quantity());
+    }
+
+    @Test
+    public void givenAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
+        int foodQuantityToDecrease = 2;
+        int expectedFoodQuantity = FOOD_QUANTITY - foodQuantityToDecrease;
+
+        food.decreaseQuantity(foodQuantityToDecrease);
+
+        assertEquals(expectedFoodQuantity, food.quantity());
+    }
+
+    @Test
+    public void givenAQuantityGreaterOrEqualThanTheFoodQuantity_whenDecreaseQuantity_thenTheRemainingFoodQuantityShouldBeZero() {
+        int foodQuantityToDecrease = FOOD_QUANTITY + 2;
+        int expectedRemainingFoodQuantity = 0;
+
+        food.decreaseQuantity(foodQuantityToDecrease);
+
+        assertEquals(expectedRemainingFoodQuantity, food.quantity());
+    }
 }
