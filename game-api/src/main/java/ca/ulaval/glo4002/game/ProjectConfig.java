@@ -16,10 +16,7 @@ import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.DinosaurBreederExternal;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.DinoBreeder;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BabyFetcherFromExternalAPI;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingAssembler;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodValidator;
@@ -56,7 +53,9 @@ public class ProjectConfig extends ResourceConfig {
         DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry,pantry);
 
         DinosaurBreederExternal dinoBreeder = new DinosaurBreederExternal();
-        BabyFetcher dinosaurBabyFetcher = new BabyFetcherFromExternalAPI(dinoBreeder, dinosaurFactory);
+        ParentsGenderValidator parentsGenderValidator = new ParentsGenderValidator();
+        BabyFetcher dinosaurBabyFetcher
+                = new BabyFetcherFromExternalAPI(dinoBreeder, dinosaurFactory, parentsGenderValidator);
 
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();

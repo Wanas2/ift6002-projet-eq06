@@ -12,15 +12,20 @@ public class BabyFetcherFromExternalAPI implements BabyFetcher {
     private final static String EXTERNAL_BREEDER_URI = "http://localhost:8080/breed";
     private final DinosaurBreederExternal dinoBreeder;
     private final DinosaurFactory dinosaurFactory;
+    private final ParentsGenderValidator parentsGenderValidator;
     private final Client client = ClientBuilder.newClient();
 
-    public BabyFetcherFromExternalAPI(DinosaurBreederExternal dinoBreeder, DinosaurFactory dinosaurFactory) {
+    public BabyFetcherFromExternalAPI(DinosaurBreederExternal dinoBreeder, DinosaurFactory dinosaurFactory,
+                                      ParentsGenderValidator parentsGenderValidator) {
         this.dinoBreeder = dinoBreeder;
         this.dinosaurFactory = dinosaurFactory;
+        this.parentsGenderValidator = parentsGenderValidator;
     }
 
     @Override
     public Dinosaur fetch(Dinosaur fatherDinosaur, Dinosaur motherDinosaur, String name) {
+        parentsGenderValidator.validateParentGender(fatherDinosaur, motherDinosaur);
+
         BreedingAssembler breedingAssembler = new BreedingAssembler();
         BreedingRequestExternalDTO breedingRequestExternalDTO = breedingAssembler.toDTO(fatherDinosaur, motherDinosaur);
 
