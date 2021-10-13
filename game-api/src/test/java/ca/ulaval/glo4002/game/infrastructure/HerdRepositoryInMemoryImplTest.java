@@ -10,7 +10,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class HerdRepositoryInMemoryImplTests {
+public class HerdRepositoryInMemoryImplTest {
     private final Herd AN_HERD = new Herd(new ArrayList<>());
     private HerdRepositoryInMemoryImpl herdRepository;
 

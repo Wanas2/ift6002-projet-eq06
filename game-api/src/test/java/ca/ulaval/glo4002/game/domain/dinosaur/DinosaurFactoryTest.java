@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-public class DinosaurFactoryTests {
+public class DinosaurFactoryTest {
     private String A_NAME = "Bobi";
     private int A_WEIGHT = 17;
     private String A_GENDER = "f";

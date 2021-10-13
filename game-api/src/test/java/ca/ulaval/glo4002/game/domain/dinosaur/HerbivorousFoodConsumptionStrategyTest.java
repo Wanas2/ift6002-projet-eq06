@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 
-public class HerbivorousFoodConsumptionStrategyTests {
+public class HerbivorousFoodConsumptionStrategyTest {
     HerbivorousFoodConsumptionStrategy strategy;
     HerbivorousFoodStorage foodStorage;
     int OTHER_AGE = 3;
