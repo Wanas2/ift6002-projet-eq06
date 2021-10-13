@@ -27,7 +27,7 @@ class FoodTest {
         foodEExpiringIn2Turns.incrementAgeByOne();
         foodEExpiringIn2Turns.incrementAgeByOne();
 
-        assertTrue(food.isExpired());
+        assertTrue(foodEExpiringIn2Turns.isExpired());
     }
 
     @Test
