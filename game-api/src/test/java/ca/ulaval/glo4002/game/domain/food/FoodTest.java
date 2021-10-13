@@ -7,50 +7,54 @@ import org.junit.jupiter.api.Test;
 class FoodTest {
 
     private final FoodType A_FOOD_TYPE = FoodType.BURGER;
-    private final int A_QUANTITY = 4;
-    private final int A_LIFE_SPAN = A_FOOD_TYPE.numberOfTurnBeforeExpiry();
+    private final int A_FOOD_QUANTITY = 4;
     private Food food;
 
     @BeforeEach
     void setUp() {
-        food = new Food(A_FOOD_TYPE, A_QUANTITY);
+        food = new Food(A_FOOD_TYPE, A_FOOD_QUANTITY);
     }
 
     @Test
-    public void foodIsFreshOnInit() {
+    public void initiallyFoodIsFresh() {
         assertFalse(food.isExpired());
     }
 
     @Test
-    public void whenLifeSpanComingToAnEnd_thenFoodShouldBeExpired() {
-        for(int i = 0; i < A_LIFE_SPAN; i++){
-            food.incrementAgeByOne();
-        }
+    public void whenIncrementAgeByOne_thenFoodShouldBeExpiredIfTheNumberOfTurnBeforeExpiryIsReached() {
+        food.incrementAgeByOne();
+        food.incrementAgeByOne();
+
         assertTrue(food.isExpired());
     }
 
     @Test
-    public void whenIncrease_thenQuantityShouldBeIncreased() {
-        final int ADDED_QUANTITY = 5;
-        food.increaseQuantity(ADDED_QUANTITY);
-        int expectedQuantity = 9;
+    public void givenAFoodQuantityToAdd_increaseQuantity_thenTheQuantityShouldBeIncreased() {
+        int foodQuantityToAdd = 5;
+        int expectedFoodQuantity = 9;
 
-        assertEquals(expectedQuantity, food.quantity());
+        food.increaseQuantity(foodQuantityToAdd);
+
+        assertEquals(expectedFoodQuantity, food.quantity());
     }
 
     @Test
-    public void whenDecreaseRemovedQuantityLowerOrEqualThanQuantity_thenQuantityShouldBeDecrease() {
-        final int REMOVED_QUANTITY = A_QUANTITY - 1;
-        food.decreaseQuantity(REMOVED_QUANTITY);
-        int expectedQuantity = A_QUANTITY - REMOVED_QUANTITY;
-        assertEquals(expectedQuantity, food.quantity());
+    public void givenAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
+        int foodQuantityToDecrease = 2;
+        int expectedFoodQuantity = A_FOOD_QUANTITY - foodQuantityToDecrease;
+
+        food.decreaseQuantity(foodQuantityToDecrease);
+
+        assertEquals(expectedFoodQuantity, food.quantity());
     }
 
     @Test
-    public void whenDecreaseRemovedQuantityGreaterThanQuantity_thenQuantityShouldBeZero() {
-        final int REMOVED_QUANTITY = A_QUANTITY + 2;
-        food.decreaseQuantity(REMOVED_QUANTITY);
-        int expectedQuantity = 0;
-        assertEquals(expectedQuantity, food.quantity());
+    public void givenAQuantityGreaterOrEqualThanTheFoodQuantity_whenDecreaseQuantity_thenTheRemainingFoodQuantityShouldBeZero() {
+        int foodQuantityToDecrease = A_FOOD_QUANTITY + 2;
+        int expectedRemainingFoodQuantity = 0;
+
+        food.decreaseQuantity(foodQuantityToDecrease);
+
+        assertEquals(expectedRemainingFoodQuantity, food.quantity());
     }
 }
