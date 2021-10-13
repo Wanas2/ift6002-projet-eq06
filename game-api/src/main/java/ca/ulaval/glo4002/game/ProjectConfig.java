@@ -1,9 +1,14 @@
 package ca.ulaval.glo4002.game;
 
 import ca.ulaval.glo4002.game.applicationService.*;
+import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurAssembler;
+import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.Food.FoodAssembler;
+import ca.ulaval.glo4002.game.applicationService.Food.FoodSummaryAssembler;
+import ca.ulaval.glo4002.game.applicationService.Food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
-import ca.ulaval.glo4002.game.domain.dinosaur.Breeder;
+import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
@@ -11,9 +16,9 @@ import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BabyDinoJsonDataMapperFromWebTarget;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BabyDinoMapper;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreederFromExternalAPI;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.DinosaurBreederExternal;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.DinoBreeder;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BabyFetcherFromExternalAPI;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
@@ -36,8 +41,8 @@ public class ProjectConfig extends ResourceConfig {
         PantryRepository pantryRepository = new PantryRepositoryInMemoryImpl();
         HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
 
-        BabyDinoMapper babyDinoMapper = new BabyDinoJsonDataMapperFromWebTarget();
-        Breeder dinosaurBreeder = new BreederFromExternalAPI(babyDinoMapper);
+        DinoBreeder dinoBreeder = new DinosaurBreederExternal();
+        BabyFetcher dinosaurBabyFetcher = new BabyFetcherFromExternalAPI(dinoBreeder);
 
         Turn turn = new Turn();
         CookItSubscription cookItSubscription = new CookItSubscription();
@@ -62,7 +67,7 @@ public class ProjectConfig extends ResourceConfig {
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game,
                 foodAssembler, foodSummaryAssembler);
         DinosaurService dinosaurService = new DinosaurService(dinosaurAssembler, breedingAssembler, dinosaurFactory, herd, game,
-                dinosaurBreeder);
+                dinosaurBabyFetcher);
         GameService gameService = new GameService(game, herd, pantry, turnAssembler, pantryRepository, herdRepository);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();

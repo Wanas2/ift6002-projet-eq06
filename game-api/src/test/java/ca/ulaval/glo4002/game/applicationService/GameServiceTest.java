@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.game.applicationService;
 
+import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.domain.Game;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;

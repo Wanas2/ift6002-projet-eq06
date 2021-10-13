@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.game.applicationService;
 
+import ca.ulaval.glo4002.game.applicationService.Food.FoodAssembler;
+import ca.ulaval.glo4002.game.applicationService.Food.FoodSummaryAssembler;
+import ca.ulaval.glo4002.game.applicationService.Food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodQuantitySummaryCalculator;
@@ -12,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ResourceServiceTest {

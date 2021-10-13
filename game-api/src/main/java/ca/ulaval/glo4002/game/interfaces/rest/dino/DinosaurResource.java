@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.dino;
 
-import ca.ulaval.glo4002.game.applicationService.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

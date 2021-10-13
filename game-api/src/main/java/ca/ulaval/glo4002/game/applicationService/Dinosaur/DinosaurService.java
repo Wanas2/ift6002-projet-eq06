@@ -1,11 +1,12 @@
-package ca.ulaval.glo4002.game.applicationService;
+package ca.ulaval.glo4002.game.applicationService.Dinosaur;
 
-import ca.ulaval.glo4002.game.applicationService.exceptions.DuplicateNameException;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BabyDinoResponseDTO;
+import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.BabyFetcher;
+import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.DinosaurBreedingCouple;
+import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.DinosaurBreedingCoupleFactory;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingAssembler;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingRequestExternalDTO;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.SpeciesWillNotBreedException;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.BreedingRequestDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 
@@ -19,16 +20,16 @@ public class DinosaurService {
     private final DinosaurFactory dinosaurFactory;
     private final Herd herd;
     private final Game game;
-    private final Breeder breeder;
+    private final BabyFetcher babyFetcher;
 
     public DinosaurService(DinosaurAssembler dinosaurAssembler, BreedingAssembler breedingAssembler,
-                           DinosaurFactory dinosaurFactory, Herd herd, Game game, Breeder breeder) {
+                           DinosaurFactory dinosaurFactory, Herd herd, Game game, BabyFetcher babyFetcher) {
         this.dinosaurAssembler = dinosaurAssembler;
         this.breedingAssembler = breedingAssembler;
         this.dinosaurFactory = dinosaurFactory;
         this.herd = herd;
         this.game = game;
-        this.breeder = breeder;
+        this.babyFetcher = babyFetcher;
     }
 
     public void addDinosaur(DinosaurDTO dinosaurDTO) {
@@ -52,14 +53,20 @@ public class DinosaurService {
     }
 
     public void breedDino(BreedingRequestDTO breedingRequestDTO) {
-        Dinosaur fatherDinosaur = herd.getDinosaurWithName(breedingRequestDTO.fatherName);
-        Dinosaur motherDinosaur = herd.getDinosaurWithName(breedingRequestDTO.motherName);
+        DinosaurBreedingCoupleFactory dinosaurBreedingCoupleFactory =
+                new DinosaurBreedingCoupleFactory(herd);
+        DinosaurBreedingCouple dinosaurBreedingCouple =
+                dinosaurBreedingCoupleFactory.create(breedingRequestDTO.fatherName, breedingRequestDTO.motherName);
 
-        BreedingRequestExternalDTO breedingRequestExternalDTO = breedingAssembler
-                .createExternalAPIDTO(fatherDinosaur, motherDinosaur);
+        Dinosaur fatherDinosaur = dinosaurBreedingCouple.getFatherDinosaur();
+        Dinosaur motherDinosaur = dinosaurBreedingCouple.getMotherDinosaur();
+        try {
+            babyFetcher.fetch(fatherDinosaur, motherDinosaur); // Todo Retourner un bébé dinosaure, pas un DTO
+        } catch (SpeciesWillNotBreedException ignored) {
+        }
 
-        BabyDinoResponseDTO babyDinoResponseDTO = breeder.breed(breedingRequestExternalDTO);
+        dinosaurBreedingCouple.breed(); // Todo Prendre un bébé dinosaure en entré
 
-        // Todo Créer le babyDinosaure et l'ajouter aux actions en attente
+        // Todo Ajouter à la liste d'actions en attente
     }
 }

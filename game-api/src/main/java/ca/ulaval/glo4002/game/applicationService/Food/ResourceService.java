@@ -1,5 +1,7 @@
-package ca.ulaval.glo4002.game.applicationService;
+package ca.ulaval.glo4002.game.applicationService.Food;
 
+import ca.ulaval.glo4002.game.applicationService.Food.FoodAssembler;
+import ca.ulaval.glo4002.game.applicationService.Food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodQuantitySummaryCalculator;

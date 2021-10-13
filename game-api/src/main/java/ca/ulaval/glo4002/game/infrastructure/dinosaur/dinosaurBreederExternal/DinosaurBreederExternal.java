@@ -6,20 +6,18 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class BabyDinoJsonDataMapperFromWebTarget implements BabyDinoMapper {
+public class DinosaurBreederExternal implements DinoBreeder {
 
     @Override
-    public BabyDinoResponseDTO mapData(WebTarget data, BreedingRequestExternalDTO breedingRequestExternalDTO) {
+    public BabyDinoResponseDTO breed(WebTarget data, BreedingRequestExternalDTO breedingRequestExternalDTO)
+            throws SpeciesWillNotBreedException {
         Invocation.Builder invocationBuilder =  data.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.post(Entity
                 .entity(breedingRequestExternalDTO, MediaType.APPLICATION_JSON));
 
-        if(response.getStatus() == 200)
-            try {
-                throw new SpeciesWillNotBreedException("Impossibles to breed these species");
-            } catch (SpeciesWillNotBreedException exception) {
-                exception.printStackTrace();
-            }
+        if(response.getStatus() == 400)
+            throw new SpeciesWillNotBreedException("Impossibles to breed these species");
+
         return response.readEntity(BabyDinoResponseDTO.class);
     }
 }

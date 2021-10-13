@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.applicationService;
+package ca.ulaval.glo4002.game.applicationService.Food;
 
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodSummaryDTO;

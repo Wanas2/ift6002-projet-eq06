@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.game.interfaces.rest.food;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ca.ulaval.glo4002.game.applicationService.ResourceService;
+import ca.ulaval.glo4002.game.applicationService.Food.ResourceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

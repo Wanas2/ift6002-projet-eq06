@@ -1,8 +1,11 @@
 package ca.ulaval.glo4002.game.applicationService;
 
-import ca.ulaval.glo4002.game.applicationService.exceptions.DuplicateNameException;
+import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurAssembler;
+import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.Dinosaur.DuplicateNameException;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.babyMaking.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
@@ -32,7 +35,7 @@ class DinosaurServiceTest {
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
     private Game game;
-    private Breeder breeder;
+    private BabyFetcher babyFetcher;
     private DinosaurService dinosaurService;
 
     @BeforeEach
@@ -46,9 +49,9 @@ class DinosaurServiceTest {
         dinosaurFactory = mock(DinosaurFactory.class);
         herd = mock(Herd.class);
         game = mock(Game.class);
-        breeder = mock(Breeder.class);
+        babyFetcher = mock(BabyFetcher.class);
         dinosaurService = new DinosaurService(dinosaurAssembler, breedingAssembler, dinosaurFactory, herd, game,
-                breeder);
+                babyFetcher);
     }
 
     @Test
