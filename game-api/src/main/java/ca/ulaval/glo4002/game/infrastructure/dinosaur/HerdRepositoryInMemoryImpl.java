@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import java.util.Optional;
 
 public class HerdRepositoryInMemoryImpl implements HerdRepository {
+
     private Herd herd;
 
     @Override

@@ -1,12 +1,13 @@
 package ca.ulaval.glo4002.game.domain.food;
 
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class PantryTest {
@@ -33,8 +34,8 @@ class PantryTest {
         initializeSomeFood();
         aFoodDTO = new FoodDTO();
         aFoodDTO.qtyBurger = A_QUANTITY_OF_ONE_BURGER_ORDERED;
-        aFoodDTO.qtySalad =  A_QUANTITY_OF_SALAD_ORDERED;
-        aFoodDTO.qtyWater =  A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
+        aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD_ORDERED;
+        aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
         cookItSubscription = new CookItSubscription();
         pantry = new Pantry(cookItSubscription);
     }
@@ -84,7 +85,7 @@ class PantryTest {
     public void givenSomeFoodOrderedInCurrentTurn_whenAddCurrentTurnFoodBatchToFreshFood_thenTheFoodBatchIsAddedToFreshFood() {
         Map<FoodType, Food> foodFromCookIt = cookItSubscription.provideFood();
         int expectedBurgerQuantity = foodWithOnlyOneBurger.get(FoodType.BURGER).quantity()
-                + foodFromCookIt.get(FoodType.BURGER).quantity();
+                +foodFromCookIt.get(FoodType.BURGER).quantity();
 
         pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyOneBurger);
         pantry.addCurrentTurnFoodBatchToFreshFood();
@@ -121,7 +122,7 @@ class PantryTest {
         int consumedBurgersQuantity = pantry.getAllConsumedFood().get(FoodType.BURGER).quantity();
 
         assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
-        assertEquals( expectedFreshBurgerQuantityRemaining, requestedQuantityOfBurgers);
+        assertEquals(expectedFreshBurgerQuantityRemaining, requestedQuantityOfBurgers);
     }
 
     @Test
@@ -156,7 +157,7 @@ class PantryTest {
         int consumedBurgersQuantity = pantry.getAllConsumedFood().get(FoodType.BURGER).quantity();
 
         assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
-        assertEquals( expectedFreshBurgerQuantityRemaining, freshBurgersQuantityAfter);
+        assertEquals(expectedFreshBurgerQuantityRemaining, freshBurgersQuantityAfter);
     }
 
     @Test
@@ -182,7 +183,7 @@ class PantryTest {
         pantry.incrementFreshFoodAges();
         pantry.removeExpiredFoodFromFreshFood();
         int expiredBurgers = pantry.getAllExpiredFood().get(FoodType.BURGER).quantity();
-        int expiredSalads =  pantry.getAllExpiredFood().get(FoodType.SALAD).quantity();
+        int expiredSalads = pantry.getAllExpiredFood().get(FoodType.SALAD).quantity();
         int expiredWater = pantry.getAllExpiredFood().get(FoodType.WATER).quantity();
 
         assertEquals(expectedExpiredBurgers, expiredBurgers);

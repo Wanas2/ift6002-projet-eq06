@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class CookItSubscriptionTest {
 
@@ -23,14 +24,14 @@ public class CookItSubscriptionTest {
     }
 
     @Test
-    public void whenProvidingFood_thenFoodShouldBeProvided(){
+    public void whenProvidingFood_thenFoodShouldBeProvided() {
         foods = cookItSubscription.provideFood();
 
         assertFalse(foods.isEmpty());
     }
 
     @Test
-    public void whenProvidingFood_thenTheRightAmountOfFoodShouldBeProvided(){
+    public void whenProvidingFood_thenTheRightAmountOfFoodShouldBeProvided() {
         foods = cookItSubscription.provideFood();
 
         assertEquals(EXPECTED_BURGER_QUANTITY, foods.get(FoodType.BURGER).quantity());

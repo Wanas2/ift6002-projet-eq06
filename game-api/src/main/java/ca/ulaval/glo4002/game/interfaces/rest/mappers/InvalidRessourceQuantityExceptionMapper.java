@@ -15,6 +15,6 @@ public class InvalidRessourceQuantityExceptionMapper extends GeneralBadRequestEx
 
     @Override
     public Response toResponse(InvalidRessourceQuantityException exception) {
-        return badRequestResponse(ERROR_CODE,ERROR_MESSAGE);
+        return badRequestResponse(ERROR_CODE, ERROR_MESSAGE);
     }
 }

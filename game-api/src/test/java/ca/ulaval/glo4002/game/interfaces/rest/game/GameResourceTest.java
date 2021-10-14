@@ -16,34 +16,34 @@ public class GameResourceTest {
     private GameResource gameResource;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         gameService = mock(GameService.class);
         gameResource = new GameResource(gameService);
     }
 
     @Test
-    public void whenPlaying_thenShouldCallGameService(){
+    public void whenPlaying_thenShouldCallGameService() {
         gameResource.playTurn();
 
         verify(gameService).playTurn();
     }
 
     @Test
-    public void whenPlaying_thenResponseReturnShouldBeValid(){
+    public void whenPlaying_thenResponseReturnShouldBeValid() {
         Response response = gameResource.playTurn();
 
         assertEquals(Response.ok().build().getStatus(), response.getStatus());
     }
 
     @Test
-    public void whenResetting_thenShouldCallGameService(){
+    public void whenResetting_thenShouldCallGameService() {
         gameResource.reset();
 
         verify(gameService).reset();
     }
 
     @Test
-    public void whenResetting_thenResponseReturnShouldBeValid(){
+    public void whenResetting_thenResponseReturnShouldBeValid() {
         Response response = gameResource.reset();
 
         assertEquals(Response.ok().build().getStatus(), response.getStatus());

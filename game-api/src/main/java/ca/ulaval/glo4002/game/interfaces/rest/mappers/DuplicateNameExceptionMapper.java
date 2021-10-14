@@ -15,6 +15,6 @@ public class DuplicateNameExceptionMapper extends GeneralBadRequestExceptionMapp
 
     @Override
     public Response toResponse(DuplicateNameException exception) {
-        return badRequestResponse(ERROR_CODE,ERROR_MESSAGE);
+        return badRequestResponse(ERROR_CODE, ERROR_MESSAGE);
     }
 }

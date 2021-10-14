@@ -1,17 +1,19 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.CarnivorousFoodStorage;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.HerbivorousFoodStorage;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 public class DinosaurFactoryTest {
+
     private String A_NAME = "Bobi";
     private int A_WEIGHT = 17;
     private String A_GENDER = "f";
@@ -20,38 +22,38 @@ public class DinosaurFactoryTest {
     DinosaurFactory dinosaurFactory;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         CarnivorousFoodStorage carnivorousFoodStorage = mock(CarnivorousFoodStorage.class);
         HerbivorousFoodStorage herbivorousFoodStorage = mock(HerbivorousFoodStorage.class);
-        dinosaurFactory = new DinosaurFactory(carnivorousFoodStorage,herbivorousFoodStorage);
+        dinosaurFactory = new DinosaurFactory(carnivorousFoodStorage, herbivorousFoodStorage);
     }
 
     @Test
-    public void givenGenderIsNeitherMNorF_whenCreatingDinosaur_thenShouldThrowInvalidGenderException(){
+    public void givenGenderIsNeitherMNorF_whenCreatingDinosaur_thenShouldThrowInvalidGenderException() {
         String anInvalidGender = "X";
 
         assertThrows(InvalidGenderException.class,
-                () -> dinosaurFactory.create(anInvalidGender,A_WEIGHT,A_SPECIES,A_NAME));
+                ()->dinosaurFactory.create(anInvalidGender, A_WEIGHT, A_SPECIES, A_NAME));
     }
 
     @Test
-    public void givenCorrectParameters_whenCreatingDinosaur_thenShouldNotThrow(){
-        assertDoesNotThrow(() -> dinosaurFactory.create(A_GENDER,A_WEIGHT,A_SPECIES,A_NAME));
+    public void givenCorrectParameters_whenCreatingDinosaur_thenShouldNotThrow() {
+        assertDoesNotThrow(()->dinosaurFactory.create(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
     }
 
     @Test
-    public void givenWeightIsNotStrictlyPositive_whenCreatingDinosaur_thenShouldThrowInvalidWeightException(){
+    public void givenWeightIsNotStrictlyPositive_whenCreatingDinosaur_thenShouldThrowInvalidWeightException() {
         int anInvalidWeight = -5;
 
         assertThrows(InvalidWeightException.class,
-                () -> dinosaurFactory.create(A_GENDER,anInvalidWeight,A_SPECIES,A_NAME));
+                ()->dinosaurFactory.create(A_GENDER, anInvalidWeight, A_SPECIES, A_NAME));
     }
 
     @Test
-    public void givenSpeciesIsNotSupported_whenCreatingDinosaur_thenShouldThrowInvalidSpeciesException(){
+    public void givenSpeciesIsNotSupported_whenCreatingDinosaur_thenShouldThrowInvalidSpeciesException() {
         String anInvalidSpecies = "Labrador";
 
         assertThrows(InvalidSpeciesException.class,
-                () -> dinosaurFactory.create(A_GENDER,A_WEIGHT,anInvalidSpecies,A_NAME));
+                ()->dinosaurFactory.create(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
     }
 }

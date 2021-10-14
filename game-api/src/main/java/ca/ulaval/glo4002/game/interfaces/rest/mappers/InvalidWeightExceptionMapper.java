@@ -15,6 +15,6 @@ public class InvalidWeightExceptionMapper extends GeneralBadRequestExceptionMapp
 
     @Override
     public Response toResponse(InvalidWeightException exception) {
-        return badRequestResponse(ERROR_CODE,ERROR_MESSAGE);
+        return badRequestResponse(ERROR_CODE, ERROR_MESSAGE);
     }
 }

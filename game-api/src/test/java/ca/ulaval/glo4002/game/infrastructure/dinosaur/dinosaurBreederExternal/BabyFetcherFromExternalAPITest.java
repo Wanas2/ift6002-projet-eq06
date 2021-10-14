@@ -1,36 +1,71 @@
 package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
+import ca.ulaval.glo4002.game.domain.dinosaur.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.WebTarget;
+import java.util.Optional;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import static org.junit.jupiter.api.Assertions.*;
+public class BabyFetcherFromExternalAPITest {
 
-class BabyFetcherFromExternalAPITest {
-
-    private DinosaurBreederExternal dinosaurBreederExternal;
-    private DinosaurFactory dinosaurFactory;
-    private ParentsGenderValidator parentsGenderValidator;
-    private BabyFetcherFromExternalAPI babyFetcherFromExternalAPI;
+    private BabyFetcherFromExternalAPI A_BABY_FETCHER;
+    private DinosaurBreederExternal EXTERNAL_BREEDER;
+    private DinosaurFactory factory;
+    private Dinosaur A_MALE_DINOSAUR;
+    private Dinosaur A_FEMALE_DINOSAUR;
+    private BabyDinosaur A_BABY_DINOSAUR;
+    private static final String BABY_NAME = "Marie";
 
     @BeforeEach
-    void setUp() {
-        dinosaurBreederExternal = mock(DinosaurBreederExternal.class);
-        dinosaurFactory = mock(DinosaurFactory.class);
-        parentsGenderValidator = new ParentsGenderValidator();
-        babyFetcherFromExternalAPI = new BabyFetcherFromExternalAPI(dinosaurBreederExternal, dinosaurFactory,
-                parentsGenderValidator);
+    public void setup() {
+        EXTERNAL_BREEDER = mock(DinosaurBreederExternal.class);
+        factory = mock(DinosaurFactory.class);
+        ParentsGenderValidator validator = mock(ParentsGenderValidator.class);
+
+        String maleName = "Bob";
+        String femaleName = "Helene";
+        int weight = 17;
+
+        A_BABY_FETCHER = new BabyFetcherFromExternalAPI(EXTERNAL_BREEDER, factory, validator);
+        A_MALE_DINOSAUR = new Dinosaur(Species.Spinosaurus, weight, maleName, Gender.M,
+                mock(FoodConsumptionStrategy.class));
+        A_FEMALE_DINOSAUR = new Dinosaur(Species.Spinosaurus, weight, femaleName, Gender.F,
+                mock(FoodConsumptionStrategy.class));
+        A_BABY_DINOSAUR = new BabyDinosaur(Species.Spinosaurus, BABY_NAME, Gender.M,
+                mock(FoodConsumptionStrategy.class), A_MALE_DINOSAUR, A_FEMALE_DINOSAUR);
     }
 
     @Test
-    public void givenAFatherDinoAndAMotherDino_whenFetch_thenABabyShouldBeCreated()
+    public void givenAFatherAndAMotherDinosaur_whenFetch_thenShouldReturnABaby()
             throws SpeciesWillNotBreedException {
+        BabyDinoResponseDTO responseDTO = new BabyDinoResponseDTO();
+        responseDTO.gender = "F";
+        responseDTO.offspring = "Spinosaurus";
+        when(EXTERNAL_BREEDER.breed(any(WebTarget.class), any(BreedingRequestExternalDTO.class)))
+                .thenReturn(responseDTO);
+        when(factory.createBaby(responseDTO.gender, responseDTO.offspring, BABY_NAME,
+                A_MALE_DINOSAUR, A_FEMALE_DINOSAUR)).thenReturn(A_BABY_DINOSAUR);
 
+        Optional<BabyDinosaur> babyDinosaur = A_BABY_FETCHER.fetch(A_MALE_DINOSAUR, A_FEMALE_DINOSAUR, BABY_NAME);
 
+        assertTrue(babyDinosaur.isPresent());
+    }
+
+    @Test
+    public void givenAFatherAndAMotherDinosaurThatWontBreed_whenFetch_thenShouldNotReturnABaby()
+            throws SpeciesWillNotBreedException {
+        when(EXTERNAL_BREEDER.breed(any(WebTarget.class), any(BreedingRequestExternalDTO.class)))
+                .thenThrow(new SpeciesWillNotBreedException(""));
+
+        Optional<BabyDinosaur> babyDinosaur = A_BABY_FETCHER.fetch(A_MALE_DINOSAUR, A_FEMALE_DINOSAUR, BABY_NAME);
+
+        assertTrue(babyDinosaur.isEmpty());
     }
 }

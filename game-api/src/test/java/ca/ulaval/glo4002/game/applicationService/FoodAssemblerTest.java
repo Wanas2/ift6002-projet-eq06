@@ -3,12 +3,13 @@ package ca.ulaval.glo4002.game.applicationService;
 import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FoodAssemblerTest {
 

@@ -13,7 +13,7 @@ public class DinosaurResource {
 
     private DinosaurService dinosaureService;
 
-    public  DinosaurResource(DinosaurService dinosaureService){
+    public DinosaurResource(DinosaurService dinosaureService) {
         this.dinosaureService = dinosaureService;
     }
 

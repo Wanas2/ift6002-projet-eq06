@@ -15,6 +15,6 @@ public class InvalidFatherExceptionMapper extends GeneralBadRequestExceptionMapp
 
     @Override
     public Response toResponse(InvalidFatherException exception) {
-        return badRequestResponse(ERROR_CODE,ERROR_MESSAGE);
+        return badRequestResponse(ERROR_CODE, ERROR_MESSAGE);
     }
 }

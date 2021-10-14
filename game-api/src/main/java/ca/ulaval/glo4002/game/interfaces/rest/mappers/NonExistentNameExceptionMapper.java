@@ -15,6 +15,6 @@ public class NonExistentNameExceptionMapper extends GeneralNotFoundExceptionMapp
 
     @Override
     public Response toResponse(NonExistentNameException exception) {
-        return notFoundResponse(ERROR_CODE,ERROR_MESSAGE);
+        return notFoundResponse(ERROR_CODE, ERROR_MESSAGE);
     }
 }

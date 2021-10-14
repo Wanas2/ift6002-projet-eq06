@@ -5,9 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class DinosaurTest {
+
     private Dinosaur A_CARNIVOROUS_DINOSAUR;
     private FoodConsumptionStrategy CARNIVOROUS_STRATEGY;
     private Dinosaur AN_HERBIVOROUS_DINOSAUR;
@@ -18,22 +20,22 @@ public class DinosaurTest {
     private String HERBIVOROUS_NAME = "Bobi";
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         CARNIVOROUS_STRATEGY = mock(FoodConsumptionStrategy.class);
-        A_CARNIVOROUS_DINOSAUR = new Dinosaur(Species.Spinosaurus,WEIGHT,CARNIVOROUS_NAME,Gender.M,
+        A_CARNIVOROUS_DINOSAUR = new Dinosaur(Species.Spinosaurus, WEIGHT, CARNIVOROUS_NAME, Gender.M,
                 CARNIVOROUS_STRATEGY);
         HERBIVOROUS_STRATEGY = mock(FoodConsumptionStrategy.class);
-        AN_HERBIVOROUS_DINOSAUR = new Dinosaur(Species.Ankylosaurus,WEIGHT,HERBIVOROUS_NAME,Gender.F,
+        AN_HERBIVOROUS_DINOSAUR = new Dinosaur(Species.Ankylosaurus, WEIGHT, HERBIVOROUS_NAME, Gender.F,
                 HERBIVOROUS_STRATEGY);
     }
 
     @Test
-    public void givenANewDinosaur_thenItShouldBeAlive(){
+    public void givenANewDinosaur_thenItShouldBeAlive() {
         assertTrue(A_CARNIVOROUS_DINOSAUR.isAlive());
     }
 
     @Test
-    public void givenADinosaur_whenItCanNotEatEnough_thenItShouldDie(){
+    public void givenADinosaur_whenItCanNotEatEnough_thenItShouldDie() {
         when(HERBIVOROUS_STRATEGY.consumeFood(WEIGHT, AGE)).thenReturn(false);
 
         AN_HERBIVOROUS_DINOSAUR.eat();
@@ -42,7 +44,7 @@ public class DinosaurTest {
     }
 
     @Test
-    public void givenAnDinosaur_whenItCanEatEnough_thenItShouldStayAlive(){
+    public void givenAnDinosaur_whenItCanEatEnough_thenItShouldStayAlive() {
         when(HERBIVOROUS_STRATEGY.consumeFood(WEIGHT, AGE)).thenReturn(true);
 
         AN_HERBIVOROUS_DINOSAUR.eat();
@@ -51,7 +53,7 @@ public class DinosaurTest {
     }
 
     @Test
-    public void givenADinosaur_whenCalculateStrength_thenStrengthShouldBeCalculated(){
+    public void givenADinosaur_whenCalculateStrength_thenStrengthShouldBeCalculated() {
         int expectedStrength = 122;
 
         int strength = A_CARNIVOROUS_DINOSAUR.calculateStrength();

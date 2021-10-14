@@ -24,7 +24,7 @@ public class Game {
         this.turn = turn;
     }
 
-    public void addDinosaur(Dinosaur dinosaur){
+    public void addDinosaur(Dinosaur dinosaur) {
         ExecutableAction addDinosaurAction = new AddDinosaurAction(herd, dinosaur);
         turn.acquireNewAction(addDinosaurAction);
     }
