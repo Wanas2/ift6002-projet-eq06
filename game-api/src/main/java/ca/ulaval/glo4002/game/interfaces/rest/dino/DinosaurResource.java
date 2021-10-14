@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.dino;
 
-import ca.ulaval.glo4002.game.applicationService.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -21,6 +21,13 @@ public class DinosaurResource {
     @Path("/dinosaurs")
     public Response addDino(DinosaurDTO dinosaurDTO) {
         dinosaureService.addDinosaur(dinosaurDTO);
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/breed")
+    public Response breedDino(BreedingRequestDTO breedingRequestDTO) {
+        dinosaureService.breedDino(breedingRequestDTO);
         return Response.ok().build();
     }
 

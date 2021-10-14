@@ -14,7 +14,6 @@ class FoodTest {
     @BeforeEach
     void setUp() {
         food = new Food(FOOD_TYPE, FOOD_QUANTITY);
-        foodEExpiringIn2Turns =  new Food(FOOD_TYPE, FOOD_QUANTITY);
     }
 
     @Test
@@ -24,6 +23,8 @@ class FoodTest {
 
     @Test
     public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
+        foodEExpiringIn2Turns =  new Food(FOOD_TYPE, FOOD_QUANTITY);
+
         foodEExpiringIn2Turns.incrementAgeByOne();
         foodEExpiringIn2Turns.incrementAgeByOne();
 

@@ -65,7 +65,7 @@ class PantryTest {
     }
 
     @Test
-    public void givenFoodFromCookItSubscription_whenAddCurrentTurnFoodBatchToFreshFood_thenFoodFromCookItSubscriptionIsAddedToFreshFood() { // Todo Comment améliorer le design. Le test connais la structure de données utilisée
+    public void givenFoodFromCookItSubscription_whenAddCurrentTurnFoodBatchToFreshFood_thenFoodFromCookItSubscriptionIsAddedToFreshFood() {
         Map<FoodType, Food> foodFromCookIt = cookItSubscription.provideFood();
         int expectedBurgerQuantity = foodFromCookIt.get(FoodType.BURGER).quantity();
         int expectedSaladQuantity = foodFromCookIt.get(FoodType.SALAD).quantity();

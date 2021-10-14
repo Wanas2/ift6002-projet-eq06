@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.infrastructure;
+package ca.ulaval.glo4002.game.infrastructure.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;

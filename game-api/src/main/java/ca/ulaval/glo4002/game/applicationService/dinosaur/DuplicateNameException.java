@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.applicationService.exceptions;
+package ca.ulaval.glo4002.game.applicationService.dinosaur;
 
 public class DuplicateNameException extends RuntimeException {
 }

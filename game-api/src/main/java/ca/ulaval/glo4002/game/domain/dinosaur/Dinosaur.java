@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 
 public class Dinosaur implements Comparable<Dinosaur>{
@@ -69,7 +70,6 @@ public class Dinosaur implements Comparable<Dinosaur>{
         return name;
     }
 
-    //TODO : getters ou une methode qui renvoie l'etat du dinosaur ?
     public int getWeight() {
         return weight;
     }

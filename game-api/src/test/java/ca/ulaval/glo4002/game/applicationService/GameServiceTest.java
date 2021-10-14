@@ -3,9 +3,7 @@ package ca.ulaval.glo4002.game.applicationService;
 import ca.ulaval.glo4002.game.domain.Game;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.food.*;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,11 +25,9 @@ class GameServiceTest {
     private Herd herd;
     private Pantry pantry;
     private TurnAssembler turnAssembler;
-    private DinosaurAssembler dinosaurAssembler;
     private PantryRepository pantryRepository;
     private HerdRepository herdRepository;
     private GameService gameService;
-    private DinosaurFactory dinosaurFactory;
 
     @BeforeEach
     void setUp() {
@@ -40,10 +36,8 @@ class GameServiceTest {
         herd = mock(Herd.class);
         pantry = mock(Pantry.class);
         turnAssembler = new TurnAssembler();
-        dinosaurAssembler = mock(DinosaurAssembler.class);
         pantryRepository = mock(PantryRepository.class);
         herdRepository = mock(HerdRepository.class);
-        dinosaurFactory = mock(DinosaurFactory.class);
         gameService = new GameService(game, herd, pantry, turnAssembler, pantryRepository, herdRepository);
     }
 

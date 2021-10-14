@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
-import ca.ulaval.glo4002.game.applicationService.ResourceService;
+import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

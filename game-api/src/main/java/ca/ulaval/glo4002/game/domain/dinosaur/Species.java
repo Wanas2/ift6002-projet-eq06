@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
+
 public enum Species {
     Ankylosaurus(FoodConsumption.HERBIVOROUS,"Ankylosaurus"),
     Brachiosaurus(FoodConsumption.HERBIVOROUS,"Brachiosaurus"),

@@ -1,15 +1,21 @@
 package ca.ulaval.glo4002.game;
 
 import ca.ulaval.glo4002.game.applicationService.*;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
+import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
+import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
-import ca.ulaval.glo4002.game.infrastructure.HerdRepositoryInMemoryImpl;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodValidator;
@@ -45,6 +51,11 @@ public class ProjectConfig extends ResourceConfig {
 
         DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry,pantry);
 
+        DinosaurBreederExternal dinoBreeder = new DinosaurBreederExternal();
+        ParentsGenderValidator parentsGenderValidator = new ParentsGenderValidator();
+        BabyFetcher dinosaurBabyFetcher
+                = new BabyFetcherFromExternalAPI(dinoBreeder, dinosaurFactory, parentsGenderValidator);
+
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
@@ -52,7 +63,8 @@ public class ProjectConfig extends ResourceConfig {
 
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game,
                 foodAssembler, foodSummaryAssembler);
-        DinosaurService dinosaurService = new DinosaurService(dinosaurAssembler, dinosaurFactory, herd, game);
+        DinosaurService dinosaurService = new DinosaurService(dinosaurAssembler, dinosaurFactory, herd, game,
+                dinosaurBabyFetcher);
         GameService gameService = new GameService(game, herd, pantry, turnAssembler, pantryRepository, herdRepository);
 
         HeartbeatResource heartbeatResource = new HeartbeatResource();
