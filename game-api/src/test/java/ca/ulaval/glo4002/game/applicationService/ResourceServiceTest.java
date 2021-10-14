@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.game.applicationService;
 
-import ca.ulaval.glo4002.game.applicationService.Food.FoodAssembler;
-import ca.ulaval.glo4002.game.applicationService.Food.FoodSummaryAssembler;
-import ca.ulaval.glo4002.game.applicationService.Food.ResourceService;
+import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
+import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
+import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodQuantitySummaryCalculator;
@@ -79,7 +79,7 @@ class ResourceServiceTest {
 
         resourceService.getFoodQuantitySummary();
 
-        verify(foodSummaryAssembler).createDTO(foodSummaryExample, foodAssembler);
+        verify(foodSummaryAssembler).toDTO(foodSummaryExample, foodAssembler);
     }
 
     private void initializeAFoodDTO() {

@@ -1,7 +1,5 @@
-package ca.ulaval.glo4002.game.applicationService.Food;
+package ca.ulaval.glo4002.game.applicationService.food;
 
-import ca.ulaval.glo4002.game.applicationService.Food.FoodAssembler;
-import ca.ulaval.glo4002.game.applicationService.Food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodQuantitySummaryCalculator;
@@ -37,6 +35,6 @@ public class ResourceService {
     public FoodSummaryDTO getFoodQuantitySummary() {
         Map<String, Map<FoodType, Integer>> allFoodSummary = foodQuantitySummaryCalculator.computeSummaries(pantry);
 
-        return foodSummaryAssembler.createDTO(allFoodSummary, foodAssembler);
+        return foodSummaryAssembler.toDTO(allFoodSummary, foodAssembler);
     }
 }

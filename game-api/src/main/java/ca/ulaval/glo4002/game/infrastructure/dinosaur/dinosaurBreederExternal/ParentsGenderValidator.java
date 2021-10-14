@@ -8,10 +8,10 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 public class ParentsGenderValidator {
 
     public void validateParentGender(Dinosaur fatherDinosaur, Dinosaur motherDinosaur) {
-        if(fatherDinosaur.getGender() == Gender.F)
+        if(fatherDinosaur.getGender() != Gender.M)
             throw new InvalidFatherException();
 
-        if(motherDinosaur.getGender() == Gender.M)
+        if(motherDinosaur.getGender() != Gender.F)
             throw new InvalidMotherException();
     }
 }

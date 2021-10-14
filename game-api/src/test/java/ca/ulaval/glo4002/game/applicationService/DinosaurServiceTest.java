@@ -1,13 +1,11 @@
 package ca.ulaval.glo4002.game.applicationService;
 
-import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurAssembler;
-import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurService;
-import ca.ulaval.glo4002.game.applicationService.Dinosaur.DuplicateNameException;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.DuplicateNameException;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BreedingAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.BreedingRequestDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +32,6 @@ class DinosaurServiceTest {
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
     private DinosaurAssembler dinosaurAssembler;
-    private BreedingAssembler breedingAssembler;
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
     private Game game;
@@ -50,12 +47,11 @@ class DinosaurServiceTest {
         anotherDinosaur =
                 new Dinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
         dinosaurAssembler = mock(DinosaurAssembler.class);
-        breedingAssembler = mock(BreedingAssembler.class);
         dinosaurFactory = mock(DinosaurFactory.class);
         herd = mock(Herd.class);
         game = mock(Game.class);
         babyFetcher = mock(BabyFetcher.class);
-        dinosaurService = new DinosaurService(dinosaurAssembler, breedingAssembler, dinosaurFactory, herd, game,
+        dinosaurService = new DinosaurService(dinosaurAssembler, dinosaurFactory, herd, game,
                 babyFetcher);
     }
 
@@ -142,14 +138,14 @@ class DinosaurServiceTest {
     }
 
     @Test
-    public void givenABreedingRequestDTO_whenBreedDino_thenShouldTheFatherDinosaurByItsName() {
+    public void givenABreedingRequestDTO_whenBreedDino_thenHerdShouldGetTheFatherDinosaurByItsName() {
         dinosaurService.breedDino(aBreedingRequestDTO);
 
         verify(herd).getDinosaurWithName(aBreedingRequestDTO.fatherName);
     }
 
     @Test
-    public void givenABreedingRequestDTO_whenBreedDino_thenShouldTheMotherDinosaurByItsName() {
+    public void givenABreedingRequestDTO_whenBreedDino_thenHerdShouldGetTheMotherDinosaurByItsName() {
         dinosaurService.breedDino(aBreedingRequestDTO);
 
         verify(herd).getDinosaurWithName(aBreedingRequestDTO.motherName);

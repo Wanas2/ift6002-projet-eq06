@@ -1,11 +1,11 @@
 package ca.ulaval.glo4002.game;
 
 import ca.ulaval.glo4002.game.applicationService.*;
-import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurAssembler;
-import ca.ulaval.glo4002.game.applicationService.Dinosaur.DinosaurService;
-import ca.ulaval.glo4002.game.applicationService.Food.FoodAssembler;
-import ca.ulaval.glo4002.game.applicationService.Food.FoodSummaryAssembler;
-import ca.ulaval.glo4002.game.applicationService.Food.ResourceService;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
+import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
+import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
@@ -14,7 +14,6 @@ import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
 import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
@@ -61,11 +60,10 @@ public class ProjectConfig extends ResourceConfig {
         FoodAssembler foodAssembler = new FoodAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
-        BreedingAssembler breedingAssembler = new BreedingAssembler();
 
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game,
                 foodAssembler, foodSummaryAssembler);
-        DinosaurService dinosaurService = new DinosaurService(dinosaurAssembler, breedingAssembler, dinosaurFactory, herd, game,
+        DinosaurService dinosaurService = new DinosaurService(dinosaurAssembler, dinosaurFactory, herd, game,
                 dinosaurBabyFetcher);
         GameService gameService = new GameService(game, herd, pantry, turnAssembler, pantryRepository, herdRepository);
 

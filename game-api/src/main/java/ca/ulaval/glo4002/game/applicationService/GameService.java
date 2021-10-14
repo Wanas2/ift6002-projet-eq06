@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 
 public class GameService {

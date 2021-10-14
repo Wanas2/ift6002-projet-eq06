@@ -23,11 +23,6 @@ class TurnTest {
 
     private ExecutableAction aFirstAction;
     private ExecutableAction aSecondAction;
-    private Food aFoodItem;
-    private Food anotherFoodItem;
-    private List<Food> foods;
-    private Pantry pantry;
-    private Queue<ExecutableAction> actions;
     private Turn turn;
 
     @BeforeEach
@@ -35,11 +30,6 @@ class TurnTest {
 
         aFirstAction = mock(AddFoodAction.class);
         aSecondAction = mock(AddDinosaurAction.class);
-        actions = new LinkedList<>();
-        pantry = mock(Pantry.class);
-        aFoodItem = mock(Food.class);
-        anotherFoodItem = mock(Food.class);
-        foods = new ArrayList<>();
         turn = new Turn();
     }
 
@@ -91,7 +81,7 @@ class TurnTest {
     }
 
     @Test
-    public void whenReset_thenTheNextPlay_thenTheTurnNumberIsSetToOne() { // Todo Redo
+    public void whenReset_thenTheNextPlay_thenTheTurnNumberIsSetToOne() {
         int expectedTurnNumber = 1;
         turn.playActions();
 

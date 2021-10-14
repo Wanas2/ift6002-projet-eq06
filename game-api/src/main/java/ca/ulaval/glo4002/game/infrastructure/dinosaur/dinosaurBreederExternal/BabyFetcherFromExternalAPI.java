@@ -1,11 +1,13 @@
 package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import java.util.Optional;
 
 public class BabyFetcherFromExternalAPI implements BabyFetcher {
 
@@ -23,21 +25,26 @@ public class BabyFetcherFromExternalAPI implements BabyFetcher {
     }
 
     @Override
-    public Dinosaur fetch(Dinosaur fatherDinosaur, Dinosaur motherDinosaur, String name) {
+    public Optional <BabyDinosaur> fetch(Dinosaur fatherDinosaur, Dinosaur motherDinosaur, String name) {
         parentsGenderValidator.validateParentGender(fatherDinosaur, motherDinosaur);
 
         BreedingAssembler breedingAssembler = new BreedingAssembler();
         BreedingRequestExternalDTO breedingRequestExternalDTO = breedingAssembler.toDTO(fatherDinosaur, motherDinosaur);
 
-        BabyDinoResponseDTO babyDinoResponseDTO = new BabyDinoResponseDTO();
+        BabyDinoResponseDTO babyDinoResponseDTO;
+
         try {
             babyDinoResponseDTO
-                    = dinoBreeder.breed(client.target(EXTERNAL_BREEDER_URI).path("/"), breedingRequestExternalDTO);
-        } catch (SpeciesWillNotBreedException ignored) {
+                        = dinoBreeder.breed(client.target(EXTERNAL_BREEDER_URI).path("/"), breedingRequestExternalDTO);
+        } catch (SpeciesWillNotBreedException e) {
+            return Optional.empty();
         }
+
         String genderName = babyDinoResponseDTO.gender;
         String speciesName = babyDinoResponseDTO.offspring;
 
-        return dinosaurFactory.createBaby(genderName, speciesName, name, fatherDinosaur, motherDinosaur);
+        BabyDinosaur babyDinosaure
+                = dinosaurFactory.createBaby(genderName, speciesName, name, fatherDinosaur, motherDinosaur);
+        return Optional.of(babyDinosaure);
     }
 }

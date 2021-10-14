@@ -70,7 +70,6 @@ public class Dinosaur implements Comparable<Dinosaur>{
         return name;
     }
 
-    //TODO : getters ou une methode qui renvoie l'etat du dinosaur ?
     public int getWeight() {
         return weight;
     }
