@@ -1,15 +1,14 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
-import ca.ulaval.glo4002.game.applicationService.GameService;
-
-import static org.junit.jupiter.api.Assertions.*;
+import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
 
-import static org.mockito.BDDMockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.mock;
+import static org.mockito.BDDMockito.verify;
 
 class FoodResourceTest {
 
@@ -19,7 +18,7 @@ class FoodResourceTest {
 
     private FoodDTO aFoodDTO;
     private FoodValidator foodValidator;
-    private GameService gameService;
+    private ResourceService resourceService;
     private FoodResource foodResource;
 
     @BeforeEach
@@ -30,29 +29,22 @@ class FoodResourceTest {
         aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
 
         foodValidator = new FoodValidator();
-        gameService = mock(GameService.class);
-        foodResource = new FoodResource(gameService, foodValidator);
-    }
-
-    @Test
-    public void givenAFoodDTO_whenOrderFood_thenShouldValidateTheFoodDTO() {
-        foodResource.orderFood(aFoodDTO);
-
-//        verify(foodValidator).validateFoodEntries(aFoodDTO);
+        resourceService = mock(ResourceService.class);
+        foodResource = new FoodResource(resourceService, foodValidator);
     }
 
     @Test
     public void givenAFoodDTO_whenOrderFood_thenGameServiceShouldOrderTheAppropriateFood() {
-        foodResource.orderFood(aFoodDTO);
+        foodResource.addFood(aFoodDTO);
 
-        verify(gameService).orderFood(aFoodDTO);
+        verify(resourceService).addFood(aFoodDTO);
     }
 
     @Test
     public void whenOrderFood_thenShouldReturnAppropriateResponseCode() {
         int expectedResponseCode = 200;
 
-        Response response = foodResource.orderFood(aFoodDTO);
+        Response response = foodResource.addFood(aFoodDTO);
 
         assertEquals(expectedResponseCode, response.getStatus());
     }
@@ -61,7 +53,7 @@ class FoodResourceTest {
     public void whenGetFoodQuantitySummary_theGameServiceShouldGetFoodQuantitySummary() {
         foodResource.getFoodQuantitySummary();
 
-        verify(gameService).getFoodQuantitySummary();
+        verify(resourceService).getFoodQuantitySummary();
     }
 
     @Test

@@ -1,33 +1,21 @@
 package ca.ulaval.glo4002.game.domain;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-
 import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
 import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
-import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class TurnTest {
 
 
     private ExecutableAction aFirstAction;
     private ExecutableAction aSecondAction;
-    private Food aFoodItem;
-    private Food anotherFoodItem;
-    private List<Food> foods;
-    private Pantry pantry;
-    private Queue<ExecutableAction> actions;
     private Turn turn;
 
     @BeforeEach
@@ -35,11 +23,6 @@ class TurnTest {
 
         aFirstAction = mock(AddFoodAction.class);
         aSecondAction = mock(AddDinosaurAction.class);
-        actions = new LinkedList<>();
-        pantry = mock(Pantry.class);
-        aFoodItem = mock(Food.class);
-        anotherFoodItem = mock(Food.class);
-        foods = new ArrayList<>();
         turn = new Turn();
     }
 
@@ -91,7 +74,7 @@ class TurnTest {
     }
 
     @Test
-    public void whenReset_thenTheNextPlay_thenTheTurnNumberIsSetToOne() { // Todo Redo
+    public void whenReset_thenTheNextPlay_thenTheTurnNumberIsSetToOne() {
         int expectedTurnNumber = 1;
         turn.playActions();
 

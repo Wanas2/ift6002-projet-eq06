@@ -1,27 +1,26 @@
 package ca.ulaval.glo4002.game.domain;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-
+import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
+import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
-import ca.ulaval.glo4002.game.domain.food.Food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.BDDMockito.*;
 
 class GameTest {
 
-    private CookItSubscription cookItSubscription;
     private Turn turn;
     private Herd herd;
+    private Dinosaur aDinosaur;
     private Game game;
     private Pantry pantry;
     private Food aFoodItem1;
@@ -34,9 +33,9 @@ class GameTest {
         initializesFood();
         turn = mock(Turn.class);
         herd = mock(Herd.class);
+        aDinosaur = mock(Dinosaur.class);
         pantry = mock(Pantry.class);
-        cookItSubscription = mock(CookItSubscription.class);
-        game = new Game(herd, pantry, turn, cookItSubscription);
+        game = new Game(herd, pantry, turn);
     }
 
     @Test
@@ -44,6 +43,13 @@ class GameTest {
         game.addFood(food);
 
         verify(turn).acquireNewAction(any(AddFoodAction.class));
+    }
+
+    @Test
+    public void whenAddDino_thenTurnShouldAcquireANewAction() {
+        game.addDinosaur(aDinosaur);
+
+        verify(turn).acquireNewAction(any(AddDinosaurAction.class));
     }
 
     @Test
@@ -61,17 +67,10 @@ class GameTest {
     }
 
     @Test
-    public void whenPlayTurn_thenPantryShouldAddFoodFromCookItToFreshFood() {
-        game.playTurn();
-
-        verify(pantry).addFoodFromCookITToNewFood(cookItSubscription);
-    }
-
-    @Test
     public void whenPlayTurn_thenPantryShouldAddNewFoodToFreshFood() {
         game.playTurn();
 
-        verify(pantry).addNewFoodToFreshFood();
+        verify(pantry).addCurrentTurnFoodBatchToFreshFood();
     }
 
     @Test

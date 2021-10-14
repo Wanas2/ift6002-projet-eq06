@@ -8,12 +8,13 @@ public class AddDinosaurAction implements ExecutableAction {
     private final Herd herd;
     private final Dinosaur dinosaur;
 
-    public AddDinosaurAction(Herd herd, Dinosaur dinosaur){
+    public AddDinosaurAction(Herd herd, Dinosaur dinosaur) {
         this.herd = herd;
         this.dinosaur = dinosaur;
     }
+
     @Override
     public void execute() {
-        herd.add(dinosaur);
+        herd.addDinosaur(dinosaur);
     }
 }

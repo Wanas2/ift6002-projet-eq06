@@ -1,15 +1,15 @@
 package ca.ulaval.glo4002.game.applicationService;
 
-import ca.ulaval.glo4002.game.applicationService.FoodAssembler;
-import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FoodAssemblerTest {
 
@@ -30,10 +30,18 @@ class FoodAssemblerTest {
         foodAssembler = new FoodAssembler();
     }
 
-    @Test
-    public void givenAFoodDTO_whenCreate_thenShouldCreateTheAppropriateFoodAndFoodType() {
-        Map<FoodType, Food> food = foodAssembler.create(aFoodDTO);
 
-//        assertEquals(food.get());
+    @Test
+    public void givenAFood_whenCreateDTO_thenShouldBeCorrectlyMapped() {
+        Map<FoodType, Integer> aFood = new HashMap<>();
+
+        aFood.put(FoodType.BURGER, A_QUANTITY_OF_BURGER_ORDERED);
+        aFood.put(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
+        aFood.put(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
+        FoodDTO foodDTO = foodAssembler.createDTO(aFood);
+
+        assertEquals(A_QUANTITY_OF_BURGER_ORDERED, foodDTO.qtyBurger);
+        assertEquals(A_QUANTITY_OF_SALAD_ORDERED, foodDTO.qtySalad);
+        assertEquals(A_QUANTITY_OF_WATER_IN_LITERS_ORDERED, foodDTO.qtyWater);
     }
 }

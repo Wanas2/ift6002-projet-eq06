@@ -1,55 +1,52 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
+
 import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
 
-//TODO : sortir repository de Herd
 public class Herd {
 
     private List<Dinosaur> dinosaurs;
-    private DinosaurRepository dinosaurRepository;
 
-    public Herd(DinosaurRepository dinosaurRepository){
-        this.dinosaurRepository = dinosaurRepository;
-        this.dinosaurs =  dinosaurRepository.findAll();
+    public Herd(List<Dinosaur> dinosaurs) {
+        this.dinosaurs = dinosaurs;
     }
 
-    private boolean existsByName(String name){
-        for (Dinosaur dino: dinosaurs) {
-            if(dino.getName().equals(name)){
+    public boolean hasDinoosaurWithName(String name) {
+        for(Dinosaur dino : dinosaurs) {
+            if(dino.getName().equals(name)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void add(Dinosaur dinosaur){
-        if (!existsByName(dinosaur.getName())){
+    public void addDinosaur(Dinosaur dinosaur) {
+        if(!hasDinoosaurWithName(dinosaur.getName())) {
             dinosaurs.add(dinosaur);
         }
     }
 
-    public void feed() {
+    public void feedDinosaurs() {
         List<Dinosaur> dinosaursByPriority = new ArrayList<>(sortDinosaursByStrength().keySet());
-        for (Dinosaur dinosaur : dinosaursByPriority) {
+        for(Dinosaur dinosaur : dinosaursByPriority) {
             dinosaur.eat();
         }
         removeFastingDinosaurs(dinosaursByPriority);
     }
 
-    private void removeFastingDinosaurs(List<Dinosaur> allDinosaurs){
-        for(Dinosaur dinosaur : allDinosaurs){
+    private void removeFastingDinosaurs(List<Dinosaur> allDinosaurs) {
+        for(Dinosaur dinosaur : allDinosaurs) {
             if(!dinosaur.isAlive())
                 dinosaurs.remove(dinosaur);
         }
-
-        dinosaurRepository.syncAll(dinosaurs);
     }
 
-    private Map<Dinosaur, Integer> sortDinosaursByStrength(){
+    private Map<Dinosaur, Integer> sortDinosaursByStrength() {
         Map<Dinosaur, Integer> dinosaursStrength = new HashMap<>();
-        for(Dinosaur dinosaur : dinosaurs){
+        for(Dinosaur dinosaur : dinosaurs) {
             dinosaursStrength.put(dinosaur, dinosaur.calculateStrength());
         }
         return dinosaursStrength.entrySet().stream()
@@ -57,26 +54,29 @@ public class Herd {
                         .reversed()
                         .thenComparing(Map.Entry.comparingByKey()))
                 .collect(
-                        toMap(Map.Entry::getKey, Map.Entry::getValue, (dinosaur, strength) -> dinosaur, LinkedHashMap::new));
+                        toMap(Map.Entry::getKey, Map.Entry::getValue, (dinosaur, strength)->dinosaur, LinkedHashMap::new));
     }
 
-    public void increaseAge(){
-        for(Dinosaur dino: dinosaurs){
+    public void increaseDinosaursAge() {
+        for(Dinosaur dino : dinosaurs) {
             dino.age();
         }
-        dinosaurRepository.syncAll(dinosaurs);
     }
-    public void reset(){
+
+    public void reset() {
         dinosaurs.clear();
-        dinosaurRepository.deleteAll();
     }
 
-    public Dinosaur find(String dinosaurName){
-        return dinosaurRepository.findByName(dinosaurName);
+    public Dinosaur getDinosaurWithName(String dinosaurName) {
+        for(Dinosaur dino : dinosaurs) {
+            if(dino.getName().equals(dinosaurName)) {
+                return dino;
+            }
+        }
+        throw new NonExistentNameException();
     }
 
-    public List<Dinosaur> findAll(){
-        return dinosaurRepository.findAll();
+    public List<Dinosaur> getAllDinosaurs() {
+        return new ArrayList<>(dinosaurs);
     }
-
 }
