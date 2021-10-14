@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,6 +32,7 @@ class DinosaurServiceTest {
     private DinosaurDTO aDinosaurDTO;
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
+    private BabyDinosaur aBabyDinosaur;
     private DinosaurAssembler dinosaurAssembler;
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
@@ -46,6 +48,8 @@ class DinosaurServiceTest {
         aDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
         anotherDinosaur =
                 new Dinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
+        aBabyDinosaur =
+                new BabyDinosaur(A_SPECIES, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy, aDinosaur, anotherDinosaur);
         dinosaurAssembler = mock(DinosaurAssembler.class);
         dinosaurFactory = mock(DinosaurFactory.class);
         herd = mock(Herd.class);
@@ -159,6 +163,17 @@ class DinosaurServiceTest {
         dinosaurService.breedDino(aBreedingRequestDTO);
 
         verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.name);
+    }
+
+    @Test
+    public void givenAMaleAndAFemaleDinosaur_whenBreedDino_thenGameShouldAddDinosaur() {
+        when(herd.getDinosaurWithName(aBreedingRequestDTO.fatherName)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(aBreedingRequestDTO.motherName)).thenReturn(anotherDinosaur);
+        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.name)).thenReturn(Optional.of(aBabyDinosaur));
+
+        dinosaurService.breedDino(aBreedingRequestDTO);
+
+        verify(game).addDinosaur(aBabyDinosaur);
     }
 
     private void initializeADinosaurDTO() {
