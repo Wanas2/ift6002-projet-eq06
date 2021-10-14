@@ -15,6 +15,6 @@ public class InvalidGenderExceptionMapper extends GeneralBadRequestExceptionMapp
 
     @Override
     public Response toResponse(InvalidGenderException exception) {
-        return badRequestResponse(ERROR_CODE,ERROR_MESSAGE);
+        return badRequestResponse(ERROR_CODE, ERROR_MESSAGE);
     }
 }

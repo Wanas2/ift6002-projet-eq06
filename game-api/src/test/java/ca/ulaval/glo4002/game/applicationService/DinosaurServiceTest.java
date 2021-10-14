@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class DinosaurServiceTest {
@@ -67,10 +67,10 @@ class DinosaurServiceTest {
     }
 
     @Test
-    public void givenADinosaureDTOWithDuplicateName_whenAddDinosaur_thenShouldThrowException () {
+    public void givenADinosaureDTOWithDuplicateName_whenAddDinosaur_thenShouldThrowException() {
         when(herd.hasDinoosaurWithName(aDinosaurDTO.name)).thenReturn(true);
 
-        assertThrows(DuplicateNameException.class, () -> dinosaurService.addDinosaur(aDinosaurDTO));
+        assertThrows(DuplicateNameException.class, ()->dinosaurService.addDinosaur(aDinosaurDTO));
     }
 
     @Test

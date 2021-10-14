@@ -9,7 +9,8 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 class ParentsGenderValidatorTest {
@@ -41,7 +42,7 @@ class ParentsGenderValidatorTest {
                 new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, wrongGender, aFoodConsumptionStrategy);
 
         assertThrows(InvalidFatherException.class,
-                () -> parentsGenderValidator.validateParentGender(aFatherDinosaurOfTheWrongGender, aFemaleDinosaur));
+                ()->parentsGenderValidator.validateParentGender(aFatherDinosaurOfTheWrongGender, aFemaleDinosaur));
     }
 
     @Test
@@ -51,11 +52,11 @@ class ParentsGenderValidatorTest {
                 new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, wrongGender, aFoodConsumptionStrategy);
 
         assertThrows(InvalidMotherException.class,
-                () -> parentsGenderValidator.validateParentGender(aMaleDinosaur, aMotherDinosaurOfTheWrongGender));
+                ()->parentsGenderValidator.validateParentGender(aMaleDinosaur, aMotherDinosaurOfTheWrongGender));
     }
 
     @Test
     public void givenAFatherDinoAndAMotherDinoAllOfCorrectGender_whenValidateParentGender_thenNoExceptionShouldBeThrown() {
-        assertDoesNotThrow(() -> parentsGenderValidator.validateParentGender(aMaleDinosaur, aFemaleDinosaur));
+        assertDoesNotThrow(()->parentsGenderValidator.validateParentGender(aMaleDinosaur, aFemaleDinosaur));
     }
 }

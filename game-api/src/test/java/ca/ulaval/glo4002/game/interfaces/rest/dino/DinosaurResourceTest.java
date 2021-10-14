@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class DinosaurResourceTest {
 
@@ -30,36 +31,36 @@ public class DinosaurResourceTest {
 
     @Test
     public void givenCorrectRequest_whenAddingDinosaur_thenShouldBeStatus200() {
-        DinosaurDTO request = new DinosaurDTO(NON_EXISTENT_NAME,WEIGHT,GENDER,SPECIES);
+        DinosaurDTO request = new DinosaurDTO(NON_EXISTENT_NAME, WEIGHT, GENDER, SPECIES);
 
         Response response = dinosaurResource.addDino(request);
 
-        assertEquals(STATUS_200,response.getStatus());
+        assertEquals(STATUS_200, response.getStatus());
     }
 
     @Test
-    public void givenRequestNameMatchingAliveDino_whenShowingDinosaur_thenShouldBeStatus200(){
+    public void givenRequestNameMatchingAliveDino_whenShowingDinosaur_thenShouldBeStatus200() {
         Response response = dinosaurResource.showDino(EXISTENT_NAME);
 
-        assertEquals(STATUS_200,response.getStatus());
+        assertEquals(STATUS_200, response.getStatus());
     }
 
     @Test
-    public void whenShowingAllDinosaurs_thenShouldBeStatus200(){
+    public void whenShowingAllDinosaurs_thenShouldBeStatus200() {
         Response response = dinosaurResource.showAllDino();
 
-        assertEquals(STATUS_200,response.getStatus());
+        assertEquals(STATUS_200, response.getStatus());
     }
 
     @Test
-    public void whenShowingADino_thenTheServiceShouldBeCalled(){
+    public void whenShowingADino_thenTheServiceShouldBeCalled() {
         dinosaurResource.showDino(EXISTENT_NAME);
 
         verify(dinosaurService).showDinosaur(EXISTENT_NAME);
     }
 
     @Test
-    public void whenShowingAllDino_thenTheServiceShouldBeCalled(){
+    public void whenShowingAllDino_thenTheServiceShouldBeCalled() {
         dinosaurResource.showAllDino();
 
         verify(dinosaurService).showAllDinosaurs();

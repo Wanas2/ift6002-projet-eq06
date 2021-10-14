@@ -84,9 +84,9 @@ class ResourceServiceTest {
 
     private void initializeAFoodDTO() {
         aFoodDTO = new FoodDTO();
-        aFoodDTO.qtyBurger =  A_QUANTITY_OF_BURGER_ORDERED;
-        aFoodDTO.qtySalad =  A_QUANTITY_OF_SALAD_ORDERED;
-        aFoodDTO.qtyWater =  A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
+        aFoodDTO.qtyBurger = A_QUANTITY_OF_BURGER_ORDERED;
+        aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD_ORDERED;
+        aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
     }
 
     private void initializeSomeFood() {

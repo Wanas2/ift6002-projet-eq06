@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock;
 public class DinosaurAssemblerTest {
 
     @Test
-    public void givenADinosaur_whenToDTO_thenShouldBeCorrectlyMapped(){
+    public void givenADinosaur_whenToDTO_thenShouldBeCorrectlyMapped() {
         FoodConsumptionStrategy aStrategy = mock(FoodConsumptionStrategy.class);
         Species aSpecies = Species.TyrannosaurusRex;
         String expectedSpecies = "Tyrannosaurus Rex";
@@ -22,15 +22,15 @@ public class DinosaurAssemblerTest {
         String aName = "Joe";
         Gender aGender = Gender.F;
         String expectedGender = "f";
-        Dinosaur aDinosaur = new Dinosaur(aSpecies,aWeight,aName,aGender,aStrategy);
+        Dinosaur aDinosaur = new Dinosaur(aSpecies, aWeight, aName, aGender, aStrategy);
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
 
         DinosaurDTO dinosaurDTO = dinosaurAssembler.toDTO(aDinosaur);
 
-        assertEquals(aName,dinosaurDTO.name);
-        assertEquals(aWeight,dinosaurDTO.weight);
-        assertEquals(expectedGender,dinosaurDTO.gender);
-        assertEquals(expectedSpecies,dinosaurDTO.species);
+        assertEquals(aName, dinosaurDTO.name);
+        assertEquals(aWeight, dinosaurDTO.weight);
+        assertEquals(expectedGender, dinosaurDTO.gender);
+        assertEquals(expectedSpecies, dinosaurDTO.species);
 
     }
 }

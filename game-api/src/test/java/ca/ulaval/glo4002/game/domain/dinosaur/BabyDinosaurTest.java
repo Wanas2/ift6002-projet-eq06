@@ -4,11 +4,13 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrateg
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BabyDinosaurTest {
+
     private Dinosaur FATHER_DINOSAUR;
     private Dinosaur MOTHER_DINOSAUR;
     private BabyDinosaur A_BABY_DINOSAUR;
@@ -17,17 +19,17 @@ public class BabyDinosaurTest {
     private FoodConsumptionStrategy BABY_DINOSAUR_CONSUMPTION_STRATEGY;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         BABY_DINOSAUR_CONSUMPTION_STRATEGY = mock(FoodConsumptionStrategy.class);
         String name = "Baby";
         FATHER_DINOSAUR = mock(Dinosaur.class);
         MOTHER_DINOSAUR = mock(Dinosaur.class);
-        A_BABY_DINOSAUR = new BabyDinosaur(Species.Ankylosaurus,name,Gender.F,BABY_DINOSAUR_CONSUMPTION_STRATEGY,
-                FATHER_DINOSAUR,MOTHER_DINOSAUR);
+        A_BABY_DINOSAUR = new BabyDinosaur(Species.Ankylosaurus, name, Gender.F, BABY_DINOSAUR_CONSUMPTION_STRATEGY,
+                FATHER_DINOSAUR, MOTHER_DINOSAUR);
     }
 
     @Test
-    public void givenABabyDinosaurWithBothParentsDead_whenVerifyingIfAlive_thenItShouldBeDead(){
+    public void givenABabyDinosaurWithBothParentsDead_whenVerifyingIfAlive_thenItShouldBeDead() {
         when(FATHER_DINOSAUR.isAlive()).thenReturn(false);
         when(MOTHER_DINOSAUR.isAlive()).thenReturn(false);
 
@@ -37,10 +39,10 @@ public class BabyDinosaurTest {
     }
 
     @Test
-    public void givenABabyDinosaurWhichDidNotEatEnough_whenVerifyingIfAlive_thenItShouldBeDead(){
+    public void givenABabyDinosaurWhichDidNotEatEnough_whenVerifyingIfAlive_thenItShouldBeDead() {
         when(FATHER_DINOSAUR.isAlive()).thenReturn(true);
         when(MOTHER_DINOSAUR.isAlive()).thenReturn(true);
-        when(BABY_DINOSAUR_CONSUMPTION_STRATEGY.consumeFood(BABY_WEIGHT,BABY_AGE)).thenReturn(false);
+        when(BABY_DINOSAUR_CONSUMPTION_STRATEGY.consumeFood(BABY_WEIGHT, BABY_AGE)).thenReturn(false);
         A_BABY_DINOSAUR.eat();
 
         boolean isBabyAlive = A_BABY_DINOSAUR.isAlive();
@@ -49,10 +51,10 @@ public class BabyDinosaurTest {
     }
 
     @Test
-    public void givenABabyDinosaurWhichEatEnoughAndWithAtLeastOneParentAlive_whenVerifyingIfAlive_thenItShouldAlive(){
+    public void givenABabyDinosaurWhichEatEnoughAndWithAtLeastOneParentAlive_whenVerifyingIfAlive_thenItShouldAlive() {
         when(FATHER_DINOSAUR.isAlive()).thenReturn(true);
         when(MOTHER_DINOSAUR.isAlive()).thenReturn(false);
-        when(BABY_DINOSAUR_CONSUMPTION_STRATEGY.consumeFood(BABY_WEIGHT,BABY_AGE)).thenReturn(true);
+        when(BABY_DINOSAUR_CONSUMPTION_STRATEGY.consumeFood(BABY_WEIGHT, BABY_AGE)).thenReturn(true);
         A_BABY_DINOSAUR.eat();
 
         boolean isBabyAlive = A_BABY_DINOSAUR.isAlive();

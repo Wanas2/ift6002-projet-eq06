@@ -25,7 +25,7 @@ public class BabyFetcherFromExternalAPI implements BabyFetcher {
     }
 
     @Override
-    public Optional <BabyDinosaur> fetch(Dinosaur fatherDinosaur, Dinosaur motherDinosaur, String name) {
+    public Optional<BabyDinosaur> fetch(Dinosaur fatherDinosaur, Dinosaur motherDinosaur, String name) {
         parentsGenderValidator.validateParentGender(fatherDinosaur, motherDinosaur);
 
         BreedingAssembler breedingAssembler = new BreedingAssembler();
@@ -35,8 +35,8 @@ public class BabyFetcherFromExternalAPI implements BabyFetcher {
 
         try {
             babyDinoResponseDTO
-                        = dinoBreeder.breed(client.target(EXTERNAL_BREEDER_URI).path("/"), breedingRequestExternalDTO);
-        } catch (SpeciesWillNotBreedException e) {
+                    = dinoBreeder.breed(client.target(EXTERNAL_BREEDER_URI).path("/"), breedingRequestExternalDTO);
+        } catch(SpeciesWillNotBreedException e) {
             return Optional.empty();
         }
 

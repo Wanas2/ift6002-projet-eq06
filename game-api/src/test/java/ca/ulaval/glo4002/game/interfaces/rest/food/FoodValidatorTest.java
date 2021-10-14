@@ -3,7 +3,8 @@ package ca.ulaval.glo4002.game.interfaces.rest.food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FoodValidatorTest {
 
@@ -25,7 +26,7 @@ class FoodValidatorTest {
         initiateFoodWithCorrectQuantity();
         foodDTO.qtyBurger = A_NEGATIVE_QUANTITY;
 
-        assertThrows(InvalidRessourceQuantityException.class, () -> foodValidator.validateFoodEntries(foodDTO));
+        assertThrows(InvalidRessourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
     }
 
     @Test
@@ -33,7 +34,7 @@ class FoodValidatorTest {
         initiateFoodWithCorrectQuantity();
         foodDTO.qtySalad = A_NEGATIVE_QUANTITY;
 
-        assertThrows(InvalidRessourceQuantityException.class, () -> foodValidator.validateFoodEntries(foodDTO));
+        assertThrows(InvalidRessourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
     }
 
     @Test
@@ -41,14 +42,14 @@ class FoodValidatorTest {
         initiateFoodWithCorrectQuantity();
         foodDTO.qtyWater = A_NEGATIVE_QUANTITY;
 
-        assertThrows(InvalidRessourceQuantityException.class, () -> foodValidator.validateFoodEntries(foodDTO));
+        assertThrows(InvalidRessourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
     }
 
     @Test
     public void givenCorrectQuantityOfFood_whenValidateFoodEntries_thenShouldNotThrowException() {
         initiateFoodWithCorrectQuantity();
 
-        assertDoesNotThrow(() -> foodValidator.validateFoodEntries(foodDTO));
+        assertDoesNotThrow(()->foodValidator.validateFoodEntries(foodDTO));
     }
 
     private void initiateFoodWithCorrectQuantity() {

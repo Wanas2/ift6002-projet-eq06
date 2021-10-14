@@ -1,10 +1,12 @@
 package ca.ulaval.glo4002.game.domain.action;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class AddDinosaurActionTest {
 

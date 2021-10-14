@@ -1,17 +1,17 @@
 package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
-
-import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.domain.food.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
+import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.domain.food.PantryRepository;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameServiceTest {
 
@@ -96,8 +96,8 @@ class GameServiceTest {
 
     private void initializeAFoodDTO() {
         aFoodDTO = new FoodDTO();
-        aFoodDTO.qtyBurger =  A_QUANTITY_OF_BURGER_ORDERED;
-        aFoodDTO.qtySalad =  A_QUANTITY_OF_SALAD_ORDERED;
-        aFoodDTO.qtyWater =  A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
+        aFoodDTO.qtyBurger = A_QUANTITY_OF_BURGER_ORDERED;
+        aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD_ORDERED;
+        aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
     }
 }

@@ -1,8 +1,9 @@
 package ca.ulaval.glo4002.game.domain.food;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class FoodTest {
 
@@ -23,7 +24,7 @@ class FoodTest {
 
     @Test
     public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
-        foodEExpiringIn2Turns =  new Food(FOOD_TYPE, FOOD_QUANTITY);
+        foodEExpiringIn2Turns = new Food(FOOD_TYPE, FOOD_QUANTITY);
 
         foodEExpiringIn2Turns.incrementAgeByOne();
         foodEExpiringIn2Turns.incrementAgeByOne();
@@ -44,7 +45,7 @@ class FoodTest {
     @Test
     public void givenAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
         int foodQuantityToDecrease = 2;
-        int expectedFoodQuantity = FOOD_QUANTITY - foodQuantityToDecrease;
+        int expectedFoodQuantity = FOOD_QUANTITY-foodQuantityToDecrease;
 
         food.decreaseQuantity(foodQuantityToDecrease);
 
@@ -53,7 +54,7 @@ class FoodTest {
 
     @Test
     public void givenAQuantityGreaterOrEqualThanTheFoodQuantity_whenDecreaseQuantity_thenTheRemainingFoodQuantityShouldBeZero() {
-        int foodQuantityToDecrease = FOOD_QUANTITY + 2;
+        int foodQuantityToDecrease = FOOD_QUANTITY+2;
         int expectedRemainingFoodQuantity = 0;
 
         food.decreaseQuantity(foodQuantityToDecrease);

@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class HerdTest {
+
     private FoodConsumptionStrategy CARNIVOROUS_STRATEGY;
     private FoodConsumptionStrategy HERBIVOROUS_STRATEGY_1;
     private FoodConsumptionStrategy HERBIVOROUS_STRATEGY_2;
@@ -33,7 +36,7 @@ public class HerdTest {
     private Herd herd;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         CARNIVOROUS_STRATEGY = mock(FoodConsumptionStrategy.class);
         HERBIVOROUS_STRATEGY_1 = mock(FoodConsumptionStrategy.class);
         HERBIVOROUS_STRATEGY_2 = mock(FoodConsumptionStrategy.class);
@@ -49,7 +52,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenADinosaur_whenAddingNotExistingDinosaur_thenDinosaurShouldBeAdded(){
+    public void givenADinosaur_whenAddingNotExistingDinosaur_thenDinosaurShouldBeAdded() {
         Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, NAME_DINOSAUR, Gender.F, CARNIVOROUS_STRATEGY);
 
         herd.addDinosaur(dinosaur);
@@ -58,7 +61,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenADinosaur_whenAddingExistingDinosaur_thenDinosaurShouldNotBeAdded(){
+    public void givenADinosaur_whenAddingExistingDinosaur_thenDinosaurShouldNotBeAdded() {
         Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M, CARNIVOROUS_STRATEGY);
 
         herd.addDinosaur(dinosaur);
@@ -67,7 +70,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenHerd_whenFeedingAllDinosaurs_thenNoDinosaurShouldBeRemoved(){
+    public void givenHerd_whenFeedingAllDinosaurs_thenNoDinosaurShouldBeRemoved() {
         when(CARNIVOROUS_STRATEGY.consumeFood(CARNIVOROUS_WEIGHT, CARNIVOROUS_AGE)).thenReturn(true);
         when(HERBIVOROUS_STRATEGY_1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(true);
         when(HERBIVOROUS_STRATEGY_2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
@@ -80,7 +83,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenHerd_whenFeedingSomeDinosaurs_thenFastingDinosaursShouldBeRemoved(){
+    public void givenHerd_whenFeedingSomeDinosaurs_thenFastingDinosaursShouldBeRemoved() {
         when(CARNIVOROUS_STRATEGY.consumeFood(CARNIVOROUS_WEIGHT, CARNIVOROUS_AGE)).thenReturn(true);
         when(HERBIVOROUS_STRATEGY_1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(false);
         when(HERBIVOROUS_STRATEGY_2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);

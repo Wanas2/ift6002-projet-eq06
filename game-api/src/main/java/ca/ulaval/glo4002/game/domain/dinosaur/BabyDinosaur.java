@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 
-public class BabyDinosaur extends Dinosaur{
+public class BabyDinosaur extends Dinosaur {
 
     protected Dinosaur fatherDinosaur;
     protected Dinosaur motherDinosaur;

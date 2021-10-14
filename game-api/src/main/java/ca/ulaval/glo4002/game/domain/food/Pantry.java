@@ -73,11 +73,11 @@ public class Pantry implements FoodStorage {
     }
 
     public void addOrderedFoodToCurrentTurnFoodBatch(Map<FoodType, Food> orderedFood) {
-        currentTurnFoodBatch.forEach((foodTypeInCurrentBatch, foodInCurrentBatch) -> {
+        currentTurnFoodBatch.forEach((foodTypeInCurrentBatch, foodInCurrentBatch)->{
             Food foodToAddToTheBatch = orderedFood.get(foodTypeInCurrentBatch);
             try {
                 foodInCurrentBatch.increaseQuantity(foodToAddToTheBatch);
-            } catch (FoodTypesNotMatchingException exception) {
+            } catch(FoodTypesNotMatchingException exception) {
                 exception.printStackTrace();
             }
         });
@@ -100,8 +100,8 @@ public class Pantry implements FoodStorage {
     }
 
     public void incrementFreshFoodAges() {
-        allFreshFood.forEach((foodBatchOfOneTurn) ->
-                foodBatchOfOneTurn.forEach((foodType, food) ->
+        allFreshFood.forEach((foodBatchOfOneTurn)->
+                foodBatchOfOneTurn.forEach((foodType, food)->
                         food.incrementAgeByOne()));
     }
 
@@ -113,11 +113,11 @@ public class Pantry implements FoodStorage {
 
     private List<FoodType> obtainAllExpiredFoodOfOneTurnBatch(Map<FoodType, Food> foodBatchOfOneTurn) {
         List<FoodType> allExpiredFoodFromTheTurnBatch = new ArrayList<>();
-        foodBatchOfOneTurn.forEach(((foodType, food) -> {
+        foodBatchOfOneTurn.forEach(((foodType, food)->{
             if(food.isExpired()) {
                 try {
                     allExpiredFood.get(foodType).increaseQuantity(food);
-                } catch (FoodTypesNotMatchingException exception) {
+                } catch(FoodTypesNotMatchingException exception) {
                     exception.printStackTrace();
                 }
                 allExpiredFoodFromTheTurnBatch.add(foodType);
@@ -127,7 +127,7 @@ public class Pantry implements FoodStorage {
         return allExpiredFoodFromTheTurnBatch;
     }
 
-    private int quantityOfFoodToProvide(FoodType foodType,  int requestedFoodQuantity) {
+    private int quantityOfFoodToProvide(FoodType foodType, int requestedFoodQuantity) {
         int availableFoodQuantity = 0;
 
         for(Map<FoodType, Food> foodBatchOfATurn : allFreshFood) {
@@ -138,7 +138,7 @@ public class Pantry implements FoodStorage {
         return Math.min(requestedFoodQuantity, availableFoodQuantity);
     }
 
-    private void moveFreshFoodToConsumedFood (int quantityToMove, FoodType foodType) {
+    private void moveFreshFoodToConsumedFood(int quantityToMove, FoodType foodType) {
         int quantityMoved;
         for(Map<FoodType, Food> foodBatchOfATurn : allFreshFood) {
             if(foodBatchOfATurn.containsKey(foodType)) {
@@ -161,7 +161,7 @@ public class Pantry implements FoodStorage {
             Food removedFood = foodBatchOfATurn.remove(foodType);
             try {
                 allConsumedFood.get(foodType).increaseQuantity(removedFood);
-            } catch (FoodTypesNotMatchingException exception) {
+            } catch(FoodTypesNotMatchingException exception) {
                 exception.printStackTrace();
             }
         }

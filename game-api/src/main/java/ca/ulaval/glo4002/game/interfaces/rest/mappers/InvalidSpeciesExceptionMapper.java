@@ -15,6 +15,6 @@ public class InvalidSpeciesExceptionMapper extends GeneralBadRequestExceptionMap
 
     @Override
     public Response toResponse(InvalidSpeciesException exception) {
-        return badRequestResponse(ERROR_CODE,ERROR_MESSAGE);
+        return badRequestResponse(ERROR_CODE, ERROR_MESSAGE);
     }
 }

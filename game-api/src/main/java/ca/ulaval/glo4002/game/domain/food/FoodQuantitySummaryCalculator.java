@@ -31,25 +31,25 @@ public class FoodQuantitySummaryCalculator {
         freshFoodMerged.put(FoodType.SALAD, saladsOfQuantityZero);
         freshFoodMerged.put(FoodType.WATER, waterOfQuantityZero);
 
-        allFreshFood.forEach((foodBatchOfATurn) ->
-                foodBatchOfATurn.forEach((foodType, food) ->
+        allFreshFood.forEach((foodBatchOfATurn)->
+                foodBatchOfATurn.forEach((foodType, food)->
                         {
                             try {
                                 freshFoodMerged.get(foodType).increaseQuantity(food);
-                            } catch (FoodTypesNotMatchingException exception) {
+                            } catch(FoodTypesNotMatchingException exception) {
                                 exception.printStackTrace();
                             }
                         }
                 )
         );
 
-        return  freshFoodMerged;
+        return freshFoodMerged;
     }
 
     private Map<FoodType, Integer> createQuantitySummaryForFood(Map<FoodType, Food> foodNeedingSummary) {
         Map<FoodType, Integer> foodQuantitySummary = new HashMap<>();
 
-        foodNeedingSummary.forEach((foodType, food) ->
+        foodNeedingSummary.forEach((foodType, food)->
                 foodQuantitySummary.put(foodType, food.quantity()));
 
         return foodQuantitySummary;

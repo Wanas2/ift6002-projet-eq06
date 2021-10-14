@@ -27,15 +27,15 @@ public class DinosaurService {
     }
 
     public void addDinosaur(DinosaurDTO dinosaurDTO) {
-        if (herd.hasDinoosaurWithName(dinosaurDTO.name))
+        if(herd.hasDinoosaurWithName(dinosaurDTO.name))
             throw new DuplicateNameException();
-        Dinosaur dinosaur = dinosaurFactory.create(dinosaurDTO.gender,dinosaurDTO.weight,dinosaurDTO.species,
+        Dinosaur dinosaur = dinosaurFactory.create(dinosaurDTO.gender, dinosaurDTO.weight, dinosaurDTO.species,
                 dinosaurDTO.name);
         game.addDinosaur(dinosaur);
     }
 
     public DinosaurDTO showDinosaur(String dinosaurName) {
-        Dinosaur dino =  herd.getDinosaurWithName(dinosaurName);
+        Dinosaur dino = herd.getDinosaurWithName(dinosaurName);
         return dinosaurAssembler.toDTO(dino);
     }
 
@@ -53,7 +53,7 @@ public class DinosaurService {
         Dinosaur fatherDinosaur = herd.getDinosaurWithName(fatherName);
         Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
         String babyDinoName = breedingRequestDTO.name;
-        Optional <BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinoName);
+        Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinoName);
         if(babyDinosaur.isPresent())
             game.addDinosaur(babyDinosaur.get());
     }

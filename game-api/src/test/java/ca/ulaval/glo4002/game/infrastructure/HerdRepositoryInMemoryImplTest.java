@@ -8,35 +8,37 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class HerdRepositoryInMemoryImplTest {
+
     private final Herd AN_HERD = new Herd(new ArrayList<>());
     private HerdRepositoryInMemoryImpl herdRepository;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         herdRepository = new HerdRepositoryInMemoryImpl();
     }
 
     @Test
-    public void shouldInitiallyBeEmpty(){
+    public void shouldInitiallyBeEmpty() {
         assertTrue(herdRepository.find().isEmpty());
     }
 
     @Test
-    public void givenAnHerdHasBeenSaved_whenFind_thenItShouldBeFound(){
+    public void givenAnHerdHasBeenSaved_whenFind_thenItShouldBeFound() {
         herdRepository.save(AN_HERD);
 
         Optional<Herd> foundHerd = herdRepository.find();
 
         assertTrue(foundHerd.isPresent());
-        assertEquals(AN_HERD,foundHerd.get());
+        assertEquals(AN_HERD, foundHerd.get());
     }
 
     @Test
-    public void givenAnHerdHasBeenSaved_whenDelete_thenItShouldNotBeFound(){
+    public void givenAnHerdHasBeenSaved_whenDelete_thenItShouldNotBeFound() {
         herdRepository.save(AN_HERD);
 
         herdRepository.delete();

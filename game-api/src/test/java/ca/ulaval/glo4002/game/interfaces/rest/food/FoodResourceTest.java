@@ -1,14 +1,14 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
 
-import static org.mockito.BDDMockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.mock;
+import static org.mockito.BDDMockito.verify;
 
 class FoodResourceTest {
 

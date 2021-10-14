@@ -22,22 +22,22 @@ class PantryRepositoryInMemoryImplTest {
     }
 
     @Test
-    public void shouldInitiallyBeEmpty(){
+    public void shouldInitiallyBeEmpty() {
         assertTrue(pantryRepository.find().isEmpty());
     }
 
     @Test
-    public void givenAPantryHasBeenSaved_whenFind_thenTePantryShouldBeFound(){
+    public void givenAPantryHasBeenSaved_whenFind_thenTePantryShouldBeFound() {
         pantryRepository.save(A_PANTRY);
 
         Optional<Pantry> foundPantry = pantryRepository.find();
 
         assertTrue(foundPantry.isPresent());
-        assertEquals(A_PANTRY,foundPantry.get());
+        assertEquals(A_PANTRY, foundPantry.get());
     }
 
     @Test
-    public void givenAPantryHasBeenSaved_whenDelete_thenThePantryShouldNotBeFound(){
+    public void givenAPantryHasBeenSaved_whenDelete_thenThePantryShouldNotBeFound() {
         pantryRepository.save(A_PANTRY);
 
         pantryRepository.delete();

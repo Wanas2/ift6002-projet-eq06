@@ -3,7 +3,8 @@ package ca.ulaval.glo4002.game.domain.dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 
-public class Dinosaur implements Comparable<Dinosaur>{
+public class Dinosaur implements Comparable<Dinosaur> {
+
     private Species species;
     private boolean isAlive = true;
     private int weight;
@@ -23,35 +24,33 @@ public class Dinosaur implements Comparable<Dinosaur>{
 
     }
 
-    public boolean isAlive(){
+    public boolean isAlive() {
         return isAlive;
     }
 
-    public void eat(){
+    public void eat() {
         isAlive = foodConsumptionStrategy.consumeFood(weight, age);
     }
 
-    public int calculateStrength(){
-        return (int)Math.ceil(weight * getGenderFactor() * getTypeFactor());
+    public int calculateStrength() {
+        return (int)Math.ceil(weight*getGenderFactor()*getTypeFactor());
     }
 
-    private float getGenderFactor(){
+    private float getGenderFactor() {
         float factor_S = 0;
-        if(gender == Gender.F){
+        if(gender == Gender.F) {
             factor_S = 1.5f;
-        }
-        else if(gender == Gender.M) {
+        } else if(gender == Gender.M) {
             factor_S = 1.0f;
         }
         return factor_S;
     }
 
-    private float getTypeFactor(){
+    private float getTypeFactor() {
         float factor_T = 0;
-        if(species.getConsumptionType() == FoodConsumption.CARNIVOROUS){
+        if(species.getConsumptionType() == FoodConsumption.CARNIVOROUS) {
             factor_T = 1.5f;
-        }
-        else if(species.getConsumptionType() == FoodConsumption.HERBIVOROUS) {
+        } else if(species.getConsumptionType() == FoodConsumption.HERBIVOROUS) {
             factor_T = 1.0f;
         }
         return factor_T;
@@ -62,11 +61,11 @@ public class Dinosaur implements Comparable<Dinosaur>{
         return this.name.compareTo(dinosaur.name);
     }
 
-    public void age(){
+    public void age() {
         age++;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
