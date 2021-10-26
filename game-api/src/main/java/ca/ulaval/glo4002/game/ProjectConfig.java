@@ -49,7 +49,7 @@ public class ProjectConfig extends ResourceConfig {
         Game game = new Game(herd, pantry, turn);
         FoodValidator foodValidator = new FoodValidator();
 
-        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry, pantry);
+        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry, pantry,pantry);
 
         DinosaurBreederExternal dinoBreeder = new DinosaurBreederExternal();
         ParentsGenderValidator parentsGenderValidator = new ParentsGenderValidator();
