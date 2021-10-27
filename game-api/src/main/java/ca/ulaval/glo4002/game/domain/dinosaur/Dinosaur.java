@@ -48,7 +48,8 @@ public class Dinosaur implements Comparable<Dinosaur> {
 
     private float getTypeFactor() {
         float factor_T = 0;
-        if(species.getConsumptionType() == FoodConsumption.CARNIVOROUS) {
+        if(species.getConsumptionType() == FoodConsumption.CARNIVOROUS
+                || species.getConsumptionType() == FoodConsumption.OMNIVOROUS) {
             factor_T = 1.5f;
         } else if(species.getConsumptionType() == FoodConsumption.HERBIVOROUS) {
             factor_T = 1.0f;

@@ -12,7 +12,12 @@ public enum Species {
     Megalosaurus(FoodConsumption.CARNIVOROUS, "Megalosaurus"),
     Spinosaurus(FoodConsumption.CARNIVOROUS, "Spinosaurus"),
     TyrannosaurusRex(FoodConsumption.CARNIVOROUS, "Tyrannosaurus Rex"),
-    Velociraptor(FoodConsumption.CARNIVOROUS, "Velociraptor");
+    Velociraptor(FoodConsumption.CARNIVOROUS, "Velociraptor"),
+    Eoraptor(FoodConsumption.OMNIVOROUS, "Eoraptor"),
+    Gigantoraptor(FoodConsumption.OMNIVOROUS, "Gigantoraptor"),
+    Heterodontosaurus(FoodConsumption.OMNIVOROUS, "Heterodontosaurus"),
+    Ornithomimus(FoodConsumption.OMNIVOROUS, "Ornithomimus"),
+    Struthiomimus(FoodConsumption.OMNIVOROUS, "Struthiomimus");
 
     private final FoodConsumption consumptionType;
     private final String name;
