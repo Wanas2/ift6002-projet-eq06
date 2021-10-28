@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 
 public class Dinosaur implements Comparable<Dinosaur> {
@@ -32,7 +31,7 @@ public class Dinosaur implements Comparable<Dinosaur> {
     }
 
     public int calculateStrength() {
-        return (int)Math.ceil(weight*gender.getStrengthFactor()*species.getStrength());
+        return (int)Math.ceil(weight*gender.getGenderFactor()*species.getConsumptionStrength());
     }
 
     @Override

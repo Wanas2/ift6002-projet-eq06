@@ -4,13 +4,13 @@ public enum Gender {
     F(1.5f),
     M(1.0f);
 
-    private final float strengthFactor;
+    private final float genderFactor;
 
-    Gender(float strengthFactor) {
-        this.strengthFactor = strengthFactor;
+    Gender(float genderFactor) {
+        this.genderFactor = genderFactor;
     }
 
-    public float getStrengthFactor() {
-        return strengthFactor;
+    public float getGenderFactor() {
+        return genderFactor;
     }
 }
