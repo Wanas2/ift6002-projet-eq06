@@ -12,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class CookItSubscriptionTest {
 
     private CookItSubscription cookItSubscription;
-    private int EXPECTED_BURGER_QUANTITY = 100;
-    private int EXPECTED_SALAD_QUANTITY = 250;
-    private int EXPECTED_WATER_QUANTITY = 10000;
+    private final int EXPECTED_BURGER_QUANTITY = 100;
+    private final int EXPECTED_SALAD_QUANTITY = 250;
+    private final int EXPECTED_WATER_QUANTITY = 10000;
     private Map<FoodType, Food> foods;
 
     @BeforeEach

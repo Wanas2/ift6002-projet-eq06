@@ -84,7 +84,7 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidSpeciesExceptionMapper());
         register(new InvalidWeightExceptionMapper());
         register(new NonExistentNameExceptionMapper());
-        register(new InvalidRessourceQuantityExceptionMapper());
+        register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
     }

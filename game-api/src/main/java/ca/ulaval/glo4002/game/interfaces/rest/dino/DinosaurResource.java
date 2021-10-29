@@ -11,37 +11,37 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class DinosaurResource {
 
-    private DinosaurService dinosaureService;
+    private DinosaurService dinosaurService;
 
-    public DinosaurResource(DinosaurService dinosaureService) {
-        this.dinosaureService = dinosaureService;
+    public DinosaurResource(DinosaurService dinosaurService) {
+        this.dinosaurService = dinosaurService;
     }
 
     @POST
     @Path("/dinosaurs")
     public Response addDino(DinosaurDTO dinosaurDTO) {
-        dinosaureService.addDinosaur(dinosaurDTO);
+        dinosaurService.addDinosaur(dinosaurDTO);
         return Response.ok().build();
     }
 
     @POST
     @Path("/breed")
     public Response breedDino(BreedingRequestDTO breedingRequestDTO) {
-        dinosaureService.breedDino(breedingRequestDTO);
+        dinosaurService.breedDino(breedingRequestDTO);
         return Response.ok().build();
     }
 
     @GET
     @Path("/dinosaurs/{name}")
     public Response showDino(@PathParam("name") String name) {
-        DinosaurDTO dinosaurDTO = dinosaureService.showDinosaur(name);
+        DinosaurDTO dinosaurDTO = dinosaurService.showDinosaur(name);
         return Response.ok().entity(dinosaurDTO).build();
     }
 
     @GET
     @Path("/dinosaurs")
     public Response showAllDino() {
-        List<DinosaurDTO> dinos = dinosaureService.showAllDinosaurs();
+        List<DinosaurDTO> dinos = dinosaurService.showAllDinosaurs();
         return Response.ok().entity(dinos).build();
     }
 }

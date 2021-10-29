@@ -20,7 +20,6 @@ class TurnTest {
 
     @BeforeEach
     void setUp() {
-
         aFirstAction = mock(AddFoodAction.class);
         aSecondAction = mock(AddDinosaurAction.class);
         turn = new Turn();
@@ -36,7 +35,6 @@ class TurnTest {
     }
 
     @Test
-
     public void givenMultipleActions_whenPlay_thenShouldExecuteAllActions() {
         turn.acquireNewAction(aFirstAction);
         turn.acquireNewAction(aSecondAction);

@@ -20,7 +20,7 @@ public class DinosaurFactoryTest {
     private String A_GENDER = "f";
     private String A_SPECIES = "Ankylosaurus";
 
-    DinosaurFactory dinosaurFactory;
+    private DinosaurFactory dinosaurFactory;
 
     @BeforeEach
     public void setup() {

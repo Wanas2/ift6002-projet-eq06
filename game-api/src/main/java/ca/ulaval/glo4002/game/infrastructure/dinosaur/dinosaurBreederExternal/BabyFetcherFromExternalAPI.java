@@ -43,8 +43,8 @@ public class BabyFetcherFromExternalAPI implements BabyFetcher {
         String genderName = babyDinoResponseDTO.gender;
         String speciesName = babyDinoResponseDTO.offspring;
 
-        BabyDinosaur babyDinosaure
+        BabyDinosaur babyDinosaur
                 = dinosaurFactory.createBaby(genderName, speciesName, name, fatherDinosaur, motherDinosaur);
-        return Optional.of(babyDinosaure);
+        return Optional.of(babyDinosaur);
     }
 }

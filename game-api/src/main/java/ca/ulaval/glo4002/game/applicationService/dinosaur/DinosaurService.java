@@ -27,7 +27,7 @@ public class DinosaurService {
     }
 
     public void addDinosaur(DinosaurDTO dinosaurDTO) {
-        if(herd.hasDinoosaurWithName(dinosaurDTO.name))
+        if(herd.hasDinosaurWithName(dinosaurDTO.name))
             throw new DuplicateNameException();
         Dinosaur dinosaur = dinosaurFactory.create(dinosaurDTO.gender, dinosaurDTO.weight, dinosaurDTO.species,
                 dinosaurDTO.name);

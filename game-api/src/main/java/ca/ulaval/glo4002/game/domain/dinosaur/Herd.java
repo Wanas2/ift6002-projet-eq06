@@ -14,7 +14,7 @@ public class Herd {
         this.dinosaurs = dinosaurs;
     }
 
-    public boolean hasDinoosaurWithName(String name) {
+    public boolean hasDinosaurWithName(String name) {
         for(Dinosaur dino : dinosaurs) {
             if(dino.getName().equals(name)) {
                 return true;
@@ -24,7 +24,7 @@ public class Herd {
     }
 
     public void addDinosaur(Dinosaur dinosaur) {
-        if(!hasDinoosaurWithName(dinosaur.getName())) {
+        if(!hasDinosaurWithName(dinosaur.getName())) {
             dinosaurs.add(dinosaur);
         }
     }

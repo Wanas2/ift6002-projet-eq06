@@ -30,7 +30,6 @@ class FoodAssemblerTest {
         foodAssembler = new FoodAssembler();
     }
 
-
     @Test
     public void givenAFood_whenCreateDTO_thenShouldBeCorrectlyMapped() {
         Map<FoodType, Integer> aFood = new HashMap<>();

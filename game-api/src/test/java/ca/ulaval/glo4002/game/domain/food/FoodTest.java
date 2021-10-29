@@ -10,7 +10,7 @@ class FoodTest {
     private final FoodType FOOD_TYPE = FoodType.BURGER;
     private final int FOOD_QUANTITY = 4;
     private Food food;
-    private Food foodEExpiringIn2Turns;
+    private Food foodExpiringIn2Turns;
 
     @BeforeEach
     void setUp() {
@@ -24,12 +24,12 @@ class FoodTest {
 
     @Test
     public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
-        foodEExpiringIn2Turns = new Food(FOOD_TYPE, FOOD_QUANTITY);
+        foodExpiringIn2Turns = new Food(FOOD_TYPE, FOOD_QUANTITY);
 
-        foodEExpiringIn2Turns.incrementAgeByOne();
-        foodEExpiringIn2Turns.incrementAgeByOne();
+        foodExpiringIn2Turns.incrementAgeByOne();
+        foodExpiringIn2Turns.incrementAgeByOne();
 
-        assertTrue(foodEExpiringIn2Turns.isExpired());
+        assertTrue(foodExpiringIn2Turns.isExpired());
     }
 
     @Test
