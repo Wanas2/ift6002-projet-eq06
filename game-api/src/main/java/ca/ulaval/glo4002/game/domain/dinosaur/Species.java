@@ -34,4 +34,8 @@ public enum Species {
     public FoodConsumption getConsumptionType() {
         return consumptionType;
     }
+
+    public float getConsumptionStrength() {
+        return consumptionType.getConsumptionFactor();
+    }
 }
