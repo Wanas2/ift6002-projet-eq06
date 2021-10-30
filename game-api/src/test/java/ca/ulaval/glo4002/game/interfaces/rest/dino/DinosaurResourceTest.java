@@ -64,7 +64,7 @@ public class DinosaurResourceTest {
         dinosaurResource.breedDino(aBreedingRequestDTO);
 
         verify(dinosaurService).
-                breedDino(aBreedingRequestDTO.babyDinosaurName, aBreedingRequestDTO.fatherName,
+                breedDino(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
                         aBreedingRequestDTO.motherName);
     }
 
@@ -153,7 +153,7 @@ public class DinosaurResourceTest {
         String babyName = "wrrwrww";
         String theFathersName = "wgrwr";
         String theMothersName = "mko";
-        aBreedingRequestDTO.babyDinosaurName = babyName;
+        aBreedingRequestDTO.name = babyName;
         aBreedingRequestDTO.fatherName = theFathersName;
         aBreedingRequestDTO.motherName = theMothersName;
     }

@@ -110,7 +110,7 @@ class DinosaurServiceTest {
 
     @Test
     public void givenABreedingRequestDTO_whenBreedDino_thenHerdShouldGetTheFatherDinosaurByItsName() {
-        dinosaurService.breedDino(aBreedingRequestDTO.babyDinosaurName, aBreedingRequestDTO.fatherName,
+        dinosaurService.breedDino(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
                 aBreedingRequestDTO.motherName);
 
         verify(herd).getDinosaurWithName(aBreedingRequestDTO.fatherName);
@@ -118,7 +118,7 @@ class DinosaurServiceTest {
 
     @Test
     public void givenABreedingRequestDTO_whenBreedDino_thenHerdShouldGetTheMotherDinosaurByItsName() {
-        dinosaurService.breedDino(aBreedingRequestDTO.babyDinosaurName, aBreedingRequestDTO.fatherName,
+        dinosaurService.breedDino(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
                 aBreedingRequestDTO.motherName);
 
         verify(herd).getDinosaurWithName(aBreedingRequestDTO.motherName);
@@ -129,20 +129,20 @@ class DinosaurServiceTest {
         when(herd.getDinosaurWithName(aBreedingRequestDTO.fatherName)).thenReturn(aDinosaur);
         when(herd.getDinosaurWithName(aBreedingRequestDTO.motherName)).thenReturn(anotherDinosaur);
 
-        dinosaurService.breedDino(aBreedingRequestDTO.babyDinosaurName, aBreedingRequestDTO.fatherName,
+        dinosaurService.breedDino(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
                 aBreedingRequestDTO.motherName);
 
-        verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.babyDinosaurName);
+        verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.name);
     }
 
     @Test
     public void givenAMaleAndAFemaleDinosaur_whenBreedDino_thenGameShouldAddDinosaur() {
         when(herd.getDinosaurWithName(aBreedingRequestDTO.fatherName)).thenReturn(aDinosaur);
         when(herd.getDinosaurWithName(aBreedingRequestDTO.motherName)).thenReturn(anotherDinosaur);
-        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.babyDinosaurName))
+        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.name))
                 .thenReturn(Optional.of(aBabyDinosaur));
 
-        dinosaurService.breedDino(aBreedingRequestDTO.babyDinosaurName, aBreedingRequestDTO.fatherName,
+        dinosaurService.breedDino(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
                 aBreedingRequestDTO.motherName);
 
         verify(game).addDinosaur(aBabyDinosaur);
@@ -162,7 +162,7 @@ class DinosaurServiceTest {
         String babyName = "wrrwrww";
         String theFathersName = "wgrwr";
         String theMothersName = "mko";
-        aBreedingRequestDTO.babyDinosaurName = babyName;
+        aBreedingRequestDTO.name = babyName;
         aBreedingRequestDTO.fatherName = theFathersName;
         aBreedingRequestDTO.motherName = theMothersName;
     }

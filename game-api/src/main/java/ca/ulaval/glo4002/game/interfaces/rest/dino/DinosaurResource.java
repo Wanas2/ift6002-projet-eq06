@@ -32,7 +32,7 @@ public class DinosaurResource {
     @POST
     @Path("/breed")
     public Response breedDino(BreedingRequestDTO breedingRequestDTO) {
-        dinosaurService.breedDino(breedingRequestDTO.babyDinosaurName, breedingRequestDTO.fatherName,
+        dinosaurService.breedDino(breedingRequestDTO.name, breedingRequestDTO.fatherName,
                 breedingRequestDTO.motherName);
         return Response.ok().build();
     }
