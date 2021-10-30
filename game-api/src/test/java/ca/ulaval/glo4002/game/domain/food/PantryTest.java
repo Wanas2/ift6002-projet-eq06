@@ -4,7 +4,9 @@ import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +22,7 @@ class PantryTest {
     private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private FoodDTO aFoodDTO;
-    private Map<FoodType, Food> foodWithQuantityZero;
+    private List<Food> aGroupOfFoodWithQuantityZero;
     private Map<FoodType, Food> foodWithOnlyOneBurger;
     private Map<FoodType, Food> foodWithOnlyTwoBurgers;
     private Map<FoodType, Food> foodWithOnlySixBurgers;
@@ -32,6 +34,7 @@ class PantryTest {
         initializeFoodWithOnlyOneBurger();
         initializeFoodWithOnlyTwoBurgers();
         initializeSomeFood();
+
         aFoodDTO = new FoodDTO();
         aFoodDTO.qtyBurger = A_QUANTITY_OF_ONE_BURGER_ORDERED;
         aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD_ORDERED;
@@ -44,7 +47,7 @@ class PantryTest {
     public void givenZeroFoodOrdered_whenAddOrderedFoodToCurrentTurnFoodBatch_thenPantryHasNoFreshFood() {
         initializeFoodWithQuantityZero();
 
-        pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithQuantityZero);
+        pantry.addOrderedFoodToCurrentTurnFoodBatch(aGroupOfFoodWithQuantityZero);
 
         assertTrue(pantry.getAllFreshFood().isEmpty());
     }
@@ -204,11 +207,11 @@ class PantryTest {
         Food aFoodItem1 = new Food(FoodType.BURGER, QUANTITY_OF_FOOD_OF_ZERO);
         Food aFoodItem2 = new Food(FoodType.SALAD, QUANTITY_OF_FOOD_OF_ZERO);
         Food aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
-        foodWithQuantityZero = new HashMap<>();
+        aGroupOfFoodWithQuantityZero = new ArrayList<>();
 
-        foodWithQuantityZero.put(FoodType.BURGER, aFoodItem1);
-        foodWithQuantityZero.put(FoodType.SALAD, aFoodItem2);
-        foodWithQuantityZero.put(FoodType.WATER, aFoodItem3);
+        aGroupOfFoodWithQuantityZero.add(aFoodItem1);
+        aGroupOfFoodWithQuantityZero.add(aFoodItem2);
+        aGroupOfFoodWithQuantityZero.add(aFoodItem3);
     }
 
     private void initializeFoodWithOnlyOneBurger() {

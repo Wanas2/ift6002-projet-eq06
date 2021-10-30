@@ -72,15 +72,17 @@ public class Pantry implements FoodStorage {
         return giveExactOrMostPossibleFoodDesired(FoodType.WATER, requestedWaterQuantity);
     }
 
-    public void addOrderedFoodToCurrentTurnFoodBatch(Map<FoodType, Food> orderedFood) {
-        currentTurnFoodBatch.forEach((foodTypeInCurrentBatch, foodInCurrentBatch)->{
-            Food foodToAddToTheBatch = orderedFood.get(foodTypeInCurrentBatch);
+    public void addOrderedFoodToCurrentTurnFoodBatch(List<Food> groupOfOrderedFood) { // Todo
+
+        currentTurnFoodBatch.forEach((foodTypeInCurrentBatch, foodInCurrentBatch) -> {
+            Food foodToAddToTheBatch = groupOfOrderedFood.get(foodTypeInCurrentBatch);
             try {
                 foodInCurrentBatch.increaseQuantity(foodToAddToTheBatch);
             } catch(FoodTypesNotMatchingException exception) {
                 exception.printStackTrace();
             }
         });
+
     }
 
     public void addCurrentTurnFoodBatchToFreshFood() {
