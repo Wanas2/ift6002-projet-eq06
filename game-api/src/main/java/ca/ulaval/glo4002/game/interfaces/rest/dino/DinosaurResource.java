@@ -19,29 +19,29 @@ public class DinosaurResource {
 
     @POST
     @Path("/dinosaurs")
-    public Response addDino(DinosaurDTO dinosaurDTO) {
+    public Response addDinosaur(DinosaurDTO dinosaurDTO) {
         dinosaurService.addDinosaur(dinosaurDTO);
         return Response.ok().build();
     }
 
     @POST
     @Path("/breed")
-    public Response breedDino(BreedingRequestDTO breedingRequestDTO) {
-        dinosaurService.breedDino(breedingRequestDTO);
+    public Response breedDinosaur(BreedingRequestDTO breedingRequestDTO) {
+        dinosaurService.breedDinosaur(breedingRequestDTO);
         return Response.ok().build();
     }
 
     @GET
     @Path("/dinosaurs/{name}")
-    public Response showDino(@PathParam("name") String name) {
+    public Response showDinosaur(@PathParam("name") String name) {
         DinosaurDTO dinosaurDTO = dinosaurService.showDinosaur(name);
         return Response.ok().entity(dinosaurDTO).build();
     }
 
     @GET
     @Path("/dinosaurs")
-    public Response showAllDino() {
-        List<DinosaurDTO> dinos = dinosaurService.showAllDinosaurs();
-        return Response.ok().entity(dinos).build();
+    public Response showAllDinosaur() {
+        List<DinosaurDTO> dinosaurs = dinosaurService.showAllDinosaurs();
+        return Response.ok().entity(dinosaurs).build();
     }
 }

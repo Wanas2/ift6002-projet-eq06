@@ -12,14 +12,14 @@ public class OmnivorousFoodConsumptionStrategyTest {
 
     private OmnivorousFoodConsumptionStrategy strategy;
     private FoodStorage foodStorage;
-    private int OTHER_AGE = 3;
-    private int WEIGHT = 81;
-    private int EXPECTED_NORMAL_SALADS = 1;
-    private int EXPECTED_NORMAL_BURGERS = 1;
-    private int EXPECTED_NORMAL_WATER = 49;
-    private int EXPECTED_DOUBLE_SALADS = 1;
-    private int EXPECTED_DOUBLE_BURGERS = 1;
-    private int EXPECTED_DOUBLE_WATER = 98;
+    private final int OTHER_AGE = 3;
+    private final int WEIGHT = 81;
+    private final int EXPECTED_NORMAL_SALADS = 1;
+    private final int EXPECTED_NORMAL_BURGERS = 1;
+    private final int EXPECTED_NORMAL_WATER = 49;
+    private final int EXPECTED_DOUBLE_SALADS = 1;
+    private final int EXPECTED_DOUBLE_BURGERS = 1;
+    private final int EXPECTED_DOUBLE_WATER = 98;
 
     @BeforeEach
     public void setup() {

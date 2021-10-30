@@ -143,14 +143,14 @@ class DinosaurServiceTest {
 
     @Test
     public void givenABreedingRequestDTO_whenBreedDino_thenHerdShouldGetTheFatherDinosaurByItsName() {
-        dinosaurService.breedDino(aBreedingRequestDTO);
+        dinosaurService.breedDinosaur(aBreedingRequestDTO);
 
         verify(herd).getDinosaurWithName(aBreedingRequestDTO.fatherName);
     }
 
     @Test
     public void givenABreedingRequestDTO_whenBreedDino_thenHerdShouldGetTheMotherDinosaurByItsName() {
-        dinosaurService.breedDino(aBreedingRequestDTO);
+        dinosaurService.breedDinosaur(aBreedingRequestDTO);
 
         verify(herd).getDinosaurWithName(aBreedingRequestDTO.motherName);
     }
@@ -160,7 +160,7 @@ class DinosaurServiceTest {
         when(herd.getDinosaurWithName(aBreedingRequestDTO.fatherName)).thenReturn(aDinosaur);
         when(herd.getDinosaurWithName(aBreedingRequestDTO.motherName)).thenReturn(anotherDinosaur);
 
-        dinosaurService.breedDino(aBreedingRequestDTO);
+        dinosaurService.breedDinosaur(aBreedingRequestDTO);
 
         verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.name);
     }
@@ -171,7 +171,7 @@ class DinosaurServiceTest {
         when(herd.getDinosaurWithName(aBreedingRequestDTO.motherName)).thenReturn(anotherDinosaur);
         when(babyFetcher.fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.name)).thenReturn(Optional.of(aBabyDinosaur));
 
-        dinosaurService.breedDino(aBreedingRequestDTO);
+        dinosaurService.breedDinosaur(aBreedingRequestDTO);
 
         verify(game).addDinosaur(aBabyDinosaur);
     }

@@ -33,49 +33,49 @@ public class DinosaurResourceTest {
     public void givenCorrectRequest_whenAddingDinosaur_thenShouldBeStatus200() {
         DinosaurDTO request = new DinosaurDTO(NON_EXISTENT_NAME, WEIGHT, GENDER, SPECIES);
 
-        Response response = dinosaurResource.addDino(request);
+        Response response = dinosaurResource.addDinosaur(request);
 
         assertEquals(STATUS_200, response.getStatus());
     }
 
     @Test
-    public void givenRequestNameMatchingAliveDino_whenShowingDinosaur_thenShouldBeStatus200() {
-        Response response = dinosaurResource.showDino(EXISTENT_NAME);
+    public void givenRequestNameMatchingAliveDinosaur_whenShowingDinosaur_thenShouldBeStatus200() {
+        Response response = dinosaurResource.showDinosaur(EXISTENT_NAME);
 
         assertEquals(STATUS_200, response.getStatus());
     }
 
     @Test
     public void whenShowingAllDinosaurs_thenShouldBeStatus200() {
-        Response response = dinosaurResource.showAllDino();
+        Response response = dinosaurResource.showAllDinosaur();
 
         assertEquals(STATUS_200, response.getStatus());
     }
 
     @Test
-    public void whenShowingADino_thenTheServiceShouldBeCalled() {
-        dinosaurResource.showDino(EXISTENT_NAME);
+    public void whenShowingADinosaur_thenTheServiceShouldBeCalled() {
+        dinosaurResource.showDinosaur(EXISTENT_NAME);
 
         verify(dinosaurService).showDinosaur(EXISTENT_NAME);
     }
 
     @Test
     public void whenShowingAllDino_thenTheServiceShouldBeCalled() {
-        dinosaurResource.showAllDino();
+        dinosaurResource.showAllDinosaur();
 
         verify(dinosaurService).showAllDinosaurs();
     }
 
     @Test
     public void givenABreedingRequestDTO_whenBreedDino_thenDinosaurShouldBeBred() {
-        dinosaurResource.breedDino(aBreedingRequestDTO);
+        dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
-        verify(dinosaurService).breedDino(aBreedingRequestDTO);
+        verify(dinosaurService).breedDinosaur(aBreedingRequestDTO);
     }
 
     @Test
     public void whenBreedDino_thenShouldReturnStatus200() {
-        Response response = dinosaurResource.breedDino(aBreedingRequestDTO);
+        Response response = dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
         assertEquals(STATUS_200, response.getStatus());
     }

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HerdRepositoryInMemoryImplTest {
 
-    private final Herd AN_HERD = new Herd(new ArrayList<>());
+    private final Herd A_HERD = new Herd(new ArrayList<>());
     private HerdRepositoryInMemoryImpl herdRepository;
 
     @BeforeEach
@@ -29,17 +29,17 @@ public class HerdRepositoryInMemoryImplTest {
 
     @Test
     public void givenAnHerdHasBeenSaved_whenFind_thenItShouldBeFound() {
-        herdRepository.save(AN_HERD);
+        herdRepository.save(A_HERD);
 
         Optional<Herd> foundHerd = herdRepository.find();
 
         assertTrue(foundHerd.isPresent());
-        assertEquals(AN_HERD, foundHerd.get());
+        assertEquals(A_HERD, foundHerd.get());
     }
 
     @Test
     public void givenAnHerdHasBeenSaved_whenDelete_thenItShouldNotBeFound() {
-        herdRepository.save(AN_HERD);
+        herdRepository.save(A_HERD);
 
         herdRepository.delete();
         Optional<Herd> foundHerd = herdRepository.find();

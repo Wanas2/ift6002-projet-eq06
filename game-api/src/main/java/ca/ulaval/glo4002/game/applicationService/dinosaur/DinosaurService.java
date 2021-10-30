@@ -46,7 +46,7 @@ public class DinosaurService {
                 .collect(Collectors.toList());
     }
 
-    public void breedDino(BreedingRequestDTO breedingRequestDTO) {
+    public void breedDinosaur(BreedingRequestDTO breedingRequestDTO) {
         String fatherName = breedingRequestDTO.fatherName;
         String motherName = breedingRequestDTO.motherName;
 
