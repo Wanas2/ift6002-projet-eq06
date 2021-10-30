@@ -12,9 +12,9 @@ import static org.mockito.BDDMockito.verify;
 
 class FoodResourceTest {
 
-    private final int A_QUANTITY_OF_BURGER_ORDERED = 3;
-    private final int A_QUANTITY_OF_SALAD_ORDERED = 2;
-    private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
+    private final static int A_QUANTITY_OF_BURGER_ORDERED = 3;
+    private final static int A_QUANTITY_OF_SALAD_ORDERED = 2;
+    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private FoodDTO aFoodDTO;
     private FoodValidator foodValidator;

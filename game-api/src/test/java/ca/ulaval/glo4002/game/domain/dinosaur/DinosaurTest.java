@@ -10,10 +10,10 @@ import static org.mockito.Mockito.when;
 
 public class DinosaurTest {
 
-    private final int AGE = 0;
-    private final int WEIGHT = 81;
-    private final String CARNIVOROUS_NAME = "Bob";
-    private final String HERBIVOROUS_NAME = "Bobi";
+    private final static int AGE = 0;
+    private final static int WEIGHT = 81;
+    private final static String CARNIVOROUS_NAME = "Bob";
+    private final static String HERBIVOROUS_NAME = "Bobi";
 
     private Dinosaur aCarnivorousDinosaur;
     private FoodConsumptionStrategy carnivorousStrategy;

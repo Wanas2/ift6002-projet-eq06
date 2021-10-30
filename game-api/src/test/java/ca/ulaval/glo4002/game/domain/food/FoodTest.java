@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FoodTest {
 
     private final FoodType FOOD_TYPE = FoodType.BURGER;
-    private final int FOOD_QUANTITY = 4;
+    private final static int FOOD_QUANTITY = 4;
 
     private Food food;
     private Food foodExpiringIn2Turns;

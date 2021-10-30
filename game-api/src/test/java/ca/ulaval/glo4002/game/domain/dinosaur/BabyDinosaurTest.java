@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 public class BabyDinosaurTest {
 
-    private final int BABY_WEIGHT = 1;
-    private final int BABY_AGE = 0;
+    private final static int BABY_WEIGHT = 1;
+    private final static int BABY_AGE = 0;
 
     private Dinosaur fatherDinosaur;
     private Dinosaur motherDinosaur;

@@ -10,12 +10,12 @@ import static org.mockito.Mockito.verify;
 
 public class HerbivorousFoodConsumptionStrategyTest {
 
-    private final int OTHER_AGE = 3;
-    private final int WEIGHT = 81;
-    private final int EXPECTED_NORMAL_SALADS = 1;
-    private final int EXPECTED_NORMAL_WATER = 49;
-    private final int EXPECTED_DOUBLE_SALADS = 1;
-    private final int EXPECTED_DOUBLE_WATER = 98;
+    private final static int OTHER_AGE = 3;
+    private final static int WEIGHT = 81;
+    private final static int EXPECTED_NORMAL_SALADS = 1;
+    private final static int EXPECTED_NORMAL_WATER = 49;
+    private final static int EXPECTED_DOUBLE_SALADS = 1;
+    private final static int EXPECTED_DOUBLE_WATER = 98;
 
     private HerbivorousFoodConsumptionStrategy strategy;
     private HerbivorousFoodStorage foodStorage;

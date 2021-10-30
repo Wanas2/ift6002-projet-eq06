@@ -13,9 +13,9 @@ class BreedingAssemblerTest {
 
     private final Species A_SPECIES = Species.Brachiosaurus;
     private final Species ANOTHER_SPECIES = Species.Diplodocus;
-    private final int SOMME_WEIGHT = 134;
-    private final String A_NAME = "ehwr";
-    private final String ANOTHER_NAME = "ehwrwfgh";
+    private final static int SOMME_WEIGHT = 134;
+    private final static String A_NAME = "ehwr";
+    private final static String ANOTHER_NAME = "ehwrwfgh";
     private final Gender THE_MALE_GENDER = Gender.M;
     private final Gender THE_FEMALE_GENDER = Gender.F;
 

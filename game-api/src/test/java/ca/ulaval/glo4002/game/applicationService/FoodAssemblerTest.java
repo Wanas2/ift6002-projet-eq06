@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FoodAssemblerTest {
 
-    private final int A_QUANTITY_OF_BURGER_ORDERED = 3;
-    private final int A_QUANTITY_OF_SALAD_ORDERED = 2;
-    private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
+    private final static int A_QUANTITY_OF_BURGER_ORDERED = 3;
+    private final static int A_QUANTITY_OF_SALAD_ORDERED = 2;
+    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private FoodDTO aFoodDTO;
     private FoodAssembler foodAssembler;

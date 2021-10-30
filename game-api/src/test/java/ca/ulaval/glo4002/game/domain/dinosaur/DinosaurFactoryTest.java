@@ -15,10 +15,10 @@ import static org.mockito.Mockito.mock;
 
 public class DinosaurFactoryTest {
 
-    private final String A_NAME = "Bobi";
-    private final int A_WEIGHT = 17;
-    private final String A_GENDER = "f";
-    private final String A_SPECIES = "Ankylosaurus";
+    private final static String A_NAME = "Bobi";
+    private final static int A_WEIGHT = 17;
+    private final static String A_GENDER = "f";
+    private final static String A_SPECIES = "Ankylosaurus";
 
     private DinosaurFactory dinosaurFactory;
 
