@@ -10,14 +10,15 @@ import static org.mockito.Mockito.when;
 
 public class DinosaurTest {
 
-    private Dinosaur aCarnivorousDinosaur;
-    private FoodConsumptionStrategy carnivorousStrategy;
-    private Dinosaur aHerbivorousDinosaur;
-    private FoodConsumptionStrategy herbivorousStrategy;
     private final int AGE = 0;
     private final int WEIGHT = 81;
     private final String CARNIVOROUS_NAME = "Bob";
     private final String HERBIVOROUS_NAME = "Bobi";
+
+    private Dinosaur aCarnivorousDinosaur;
+    private FoodConsumptionStrategy carnivorousStrategy;
+    private Dinosaur aHerbivorousDinosaur;
+    private FoodConsumptionStrategy herbivorousStrategy;
 
     @BeforeEach
     public void setup() {

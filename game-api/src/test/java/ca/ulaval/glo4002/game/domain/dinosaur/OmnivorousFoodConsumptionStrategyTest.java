@@ -10,8 +10,6 @@ import static org.mockito.Mockito.verify;
 
 public class OmnivorousFoodConsumptionStrategyTest {
 
-    private OmnivorousFoodConsumptionStrategy strategy;
-    private FoodStorage foodStorage;
     private final int OTHER_AGE = 3;
     private final int WEIGHT = 81;
     private final int EXPECTED_NORMAL_SALADS = 1;
@@ -20,6 +18,9 @@ public class OmnivorousFoodConsumptionStrategyTest {
     private final int EXPECTED_DOUBLE_SALADS = 1;
     private final int EXPECTED_DOUBLE_BURGERS = 1;
     private final int EXPECTED_DOUBLE_WATER = 98;
+
+    private OmnivorousFoodConsumptionStrategy strategy;
+    private FoodStorage foodStorage;
 
     @BeforeEach
     public void setup() {

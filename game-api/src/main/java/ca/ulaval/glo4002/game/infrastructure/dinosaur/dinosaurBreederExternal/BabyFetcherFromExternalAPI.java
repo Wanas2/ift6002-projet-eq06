@@ -12,14 +12,14 @@ import java.util.Optional;
 public class BabyFetcherFromExternalAPI implements BabyFetcher {
 
     private final static String EXTERNAL_BREEDER_URI = "http://localhost:8080/breed";
-    private final DinosaurBreederExternal dinoBreeder;
+    private final DinosaurBreederExternal dinosaurBreeder;
     private final DinosaurFactory dinosaurFactory;
     private final ParentsGenderValidator parentsGenderValidator;
     private final Client client = ClientBuilder.newClient();
 
-    public BabyFetcherFromExternalAPI(DinosaurBreederExternal dinoBreeder, DinosaurFactory dinosaurFactory,
+    public BabyFetcherFromExternalAPI(DinosaurBreederExternal dinosaurBreeder, DinosaurFactory dinosaurFactory,
                                       ParentsGenderValidator parentsGenderValidator) {
-        this.dinoBreeder = dinoBreeder;
+        this.dinosaurBreeder = dinosaurBreeder;
         this.dinosaurFactory = dinosaurFactory;
         this.parentsGenderValidator = parentsGenderValidator;
     }
@@ -31,17 +31,17 @@ public class BabyFetcherFromExternalAPI implements BabyFetcher {
         BreedingAssembler breedingAssembler = new BreedingAssembler();
         BreedingRequestExternalDTO breedingRequestExternalDTO = breedingAssembler.toDTO(fatherDinosaur, motherDinosaur);
 
-        BabyDinoResponseDTO babyDinoResponseDTO;
+        BabyDinosaurResponseDTO babyDinosaurResponseDTO;
 
         try {
-            babyDinoResponseDTO
-                    = dinoBreeder.breed(client.target(EXTERNAL_BREEDER_URI).path("/"), breedingRequestExternalDTO);
+            babyDinosaurResponseDTO
+                    = dinosaurBreeder.breed(client.target(EXTERNAL_BREEDER_URI).path("/"), breedingRequestExternalDTO);
         } catch(SpeciesWillNotBreedException e) {
             return Optional.empty();
         }
 
-        String genderName = babyDinoResponseDTO.gender;
-        String speciesName = babyDinoResponseDTO.offspring;
+        String genderName = babyDinosaurResponseDTO.gender;
+        String speciesName = babyDinosaurResponseDTO.offspring;
 
         BabyDinosaur babyDinosaur
                 = dinosaurFactory.createBaby(genderName, speciesName, name, fatherDinosaur, motherDinosaur);

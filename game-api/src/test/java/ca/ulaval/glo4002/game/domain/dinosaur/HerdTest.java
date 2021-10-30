@@ -16,9 +16,6 @@ import static org.mockito.Mockito.when;
 
 public class HerdTest {
 
-    private FoodConsumptionStrategy carnivorousStrategy;
-    private FoodConsumptionStrategy herbivorousStrategy1;
-    private FoodConsumptionStrategy herbivorousStrategy2;
     private final static String CARNIVOROUS_NAME = "Bob";
     private final static String HERBIVOROUS_NAME_1 = "Bobi";
     private final static String HERBIVOROUS_NAME_2 = "Alyce";
@@ -29,6 +26,10 @@ public class HerdTest {
     private final static int CARNIVOROUS_AGE = 0;
     private final static int HERBIVOROUS_AGE_1 = 1;
     private final static int HERBIVOROUS_AGE_2 = 2;
+
+    private FoodConsumptionStrategy carnivorousStrategy;
+    private FoodConsumptionStrategy herbivorousStrategy1;
+    private FoodConsumptionStrategy herbivorousStrategy2;
     private Dinosaur carnivorous_dinosaur_1;
     private Dinosaur herbivorous_dinosaur_1;
     private Dinosaur herbivorous_dinosaur_2;

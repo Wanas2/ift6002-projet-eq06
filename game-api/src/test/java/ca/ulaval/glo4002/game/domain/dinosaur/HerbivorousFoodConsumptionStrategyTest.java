@@ -10,14 +10,15 @@ import static org.mockito.Mockito.verify;
 
 public class HerbivorousFoodConsumptionStrategyTest {
 
-    private HerbivorousFoodConsumptionStrategy strategy;
-    private HerbivorousFoodStorage foodStorage;
     private final int OTHER_AGE = 3;
     private final int WEIGHT = 81;
     private final int EXPECTED_NORMAL_SALADS = 1;
     private final int EXPECTED_NORMAL_WATER = 49;
     private final int EXPECTED_DOUBLE_SALADS = 1;
     private final int EXPECTED_DOUBLE_WATER = 98;
+
+    private HerbivorousFoodConsumptionStrategy strategy;
+    private HerbivorousFoodStorage foodStorage;
 
     @BeforeEach
     public void setup() {

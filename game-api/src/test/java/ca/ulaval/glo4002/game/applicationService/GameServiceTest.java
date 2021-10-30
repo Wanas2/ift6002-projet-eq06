@@ -20,7 +20,6 @@ class GameServiceTest {
     private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private FoodDTO aFoodDTO;
-
     private Game game;
     private Herd herd;
     private Pantry pantry;

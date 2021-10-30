@@ -2,8 +2,8 @@ package ca.ulaval.glo4002.game.applicationService.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.BreedingRequestDTO;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.BreedingRequestDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurDTO;
 
 import java.util.List;
 import java.util.Optional;

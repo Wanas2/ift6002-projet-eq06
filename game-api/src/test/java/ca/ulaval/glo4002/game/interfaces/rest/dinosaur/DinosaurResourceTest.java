@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dino;
+package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +18,7 @@ public class DinosaurResourceTest {
     private final static String GENDER = "f";
     private final static String SPECIES = "Ankylosaurus";
     private final static int STATUS_200 = 200;
+
     private BreedingRequestDTO aBreedingRequestDTO;
     private DinosaurResource dinosaurResource;
     private DinosaurService dinosaurService;

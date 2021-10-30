@@ -15,13 +15,14 @@ import static org.mockito.Mockito.when;
 
 public class BabyFetcherFromExternalAPITest {
 
+    private static final String BABY_NAME = "Marie";
+
     private BabyFetcherFromExternalAPI aBabyFetcher;
     private DinosaurBreederExternal externalBreeder;
     private DinosaurFactory factory;
     private Dinosaur aMaleDinosaur;
     private Dinosaur aFemaleDinosaur;
     private BabyDinosaur aBabyDinosaur;
-    private static final String BABY_NAME = "Marie";
 
     @BeforeEach
     public void setup() {
@@ -45,7 +46,7 @@ public class BabyFetcherFromExternalAPITest {
     @Test
     public void givenAFatherAndAMotherDinosaur_whenFetch_thenShouldReturnABaby()
             throws SpeciesWillNotBreedException {
-        BabyDinoResponseDTO responseDTO = new BabyDinoResponseDTO();
+        BabyDinosaurResponseDTO responseDTO = new BabyDinosaurResponseDTO();
         responseDTO.gender = "F";
         responseDTO.offspring = "Spinosaurus";
         when(externalBreeder.breed(any(WebTarget.class), any(BreedingRequestExternalDTO.class)))

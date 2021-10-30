@@ -15,12 +15,12 @@ import static org.mockito.Mockito.mock;
 
 class ParentsGenderValidatorTest {
 
-    private Species A_SPECIES = Species.Diplodocus;
-    private int SOMME_WEIGHT = 134;
-    private String A_NAME = "ehwr";
-    private String ANOTHER_NAME = "ehwrwfgh";
-    private Gender THE_MALE_GENDER = Gender.M;
-    private Gender THE_FEMALE_GENDER = Gender.F;
+    private final Species A_SPECIES = Species.Diplodocus;
+    private final int SOMME_WEIGHT = 134;
+    private final String A_NAME = "ehwr";
+    private final String ANOTHER_NAME = "ehwrwfgh";
+    private final Gender THE_MALE_GENDER = Gender.M;
+    private final Gender THE_FEMALE_GENDER = Gender.F;
 
     private FoodConsumptionStrategy aFoodConsumptionStrategy;
     private Dinosaur aMaleDinosaur;

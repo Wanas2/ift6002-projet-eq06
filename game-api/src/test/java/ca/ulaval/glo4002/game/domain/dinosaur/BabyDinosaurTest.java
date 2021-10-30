@@ -11,11 +11,12 @@ import static org.mockito.Mockito.when;
 
 public class BabyDinosaurTest {
 
+    private final int BABY_WEIGHT = 1;
+    private final int BABY_AGE = 0;
+
     private Dinosaur fatherDinosaur;
     private Dinosaur motherDinosaur;
     private BabyDinosaur aBabyDinosaur;
-    private final int BABY_WEIGHT = 1;
-    private final int BABY_AGE = 0;
     private FoodConsumptionStrategy babyDinosaurConsumptionStrategy;
 
     @BeforeEach

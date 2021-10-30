@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
 import ca.ulaval.glo4002.game.domain.dinosaur.Species;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
