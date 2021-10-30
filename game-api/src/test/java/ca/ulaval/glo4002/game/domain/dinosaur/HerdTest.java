@@ -16,9 +16,9 @@ import static org.mockito.Mockito.when;
 
 public class HerdTest {
 
-    private FoodConsumptionStrategy CARNIVOROUS_STRATEGY;
-    private FoodConsumptionStrategy HERBIVOROUS_STRATEGY_1;
-    private FoodConsumptionStrategy HERBIVOROUS_STRATEGY_2;
+    private FoodConsumptionStrategy carnivorousStrategy;
+    private FoodConsumptionStrategy herbivorousStrategy1;
+    private FoodConsumptionStrategy herbivorousStrategy2;
     private final static String CARNIVOROUS_NAME = "Bob";
     private final static String HERBIVOROUS_NAME_1 = "Bobi";
     private final static String HERBIVOROUS_NAME_2 = "Alyce";
@@ -37,12 +37,12 @@ public class HerdTest {
 
     @BeforeEach
     void setUp() {
-        CARNIVOROUS_STRATEGY = mock(FoodConsumptionStrategy.class);
-        HERBIVOROUS_STRATEGY_1 = mock(FoodConsumptionStrategy.class);
-        HERBIVOROUS_STRATEGY_2 = mock(FoodConsumptionStrategy.class);
-        carnivorous_dinosaur_1 = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M, CARNIVOROUS_STRATEGY);
-        herbivorous_dinosaur_1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_WEIGHT_1, HERBIVOROUS_NAME_1, Gender.F, HERBIVOROUS_STRATEGY_1);
-        herbivorous_dinosaur_2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_WEIGHT_2, HERBIVOROUS_NAME_2, Gender.F, HERBIVOROUS_STRATEGY_2);
+        carnivorousStrategy = mock(FoodConsumptionStrategy.class);
+        herbivorousStrategy1 = mock(FoodConsumptionStrategy.class);
+        herbivorousStrategy2 = mock(FoodConsumptionStrategy.class);
+        carnivorous_dinosaur_1 = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M, carnivorousStrategy);
+        herbivorous_dinosaur_1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_WEIGHT_1, HERBIVOROUS_NAME_1, Gender.F, herbivorousStrategy1);
+        herbivorous_dinosaur_2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_WEIGHT_2, HERBIVOROUS_NAME_2, Gender.F, herbivorousStrategy2);
         Collections.addAll(dinosaurs, carnivorous_dinosaur_1, herbivorous_dinosaur_1, herbivorous_dinosaur_2);
         herd = new Herd(dinosaurs);
         herbivorous_dinosaur_1.age();
@@ -53,7 +53,7 @@ public class HerdTest {
 
     @Test
     public void givenADinosaur_whenAddingNotExistingDinosaur_thenDinosaurShouldBeAdded() {
-        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, NAME_DINOSAUR, Gender.F, CARNIVOROUS_STRATEGY);
+        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, NAME_DINOSAUR, Gender.F, carnivorousStrategy);
 
         herd.addDinosaur(dinosaur);
 
@@ -62,7 +62,7 @@ public class HerdTest {
 
     @Test
     public void givenADinosaur_whenAddingExistingDinosaur_thenDinosaurShouldNotBeAdded() {
-        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M, CARNIVOROUS_STRATEGY);
+        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M, carnivorousStrategy);
 
         herd.addDinosaur(dinosaur);
 
@@ -71,9 +71,9 @@ public class HerdTest {
 
     @Test
     public void givenHerd_whenFeedingAllDinosaurs_thenNoDinosaurShouldBeRemoved() {
-        when(CARNIVOROUS_STRATEGY.consumeFood(CARNIVOROUS_WEIGHT, CARNIVOROUS_AGE)).thenReturn(true);
-        when(HERBIVOROUS_STRATEGY_1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(true);
-        when(HERBIVOROUS_STRATEGY_2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
+        when(carnivorousStrategy.consumeFood(CARNIVOROUS_WEIGHT, CARNIVOROUS_AGE)).thenReturn(true);
+        when(herbivorousStrategy1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(true);
+        when(herbivorousStrategy2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
 
         herd.feedDinosaurs();
 
@@ -84,9 +84,9 @@ public class HerdTest {
 
     @Test
     public void givenHerd_whenFeedingSomeDinosaurs_thenFastingDinosaursShouldBeRemoved() {
-        when(CARNIVOROUS_STRATEGY.consumeFood(CARNIVOROUS_WEIGHT, CARNIVOROUS_AGE)).thenReturn(true);
-        when(HERBIVOROUS_STRATEGY_1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(false);
-        when(HERBIVOROUS_STRATEGY_2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
+        when(carnivorousStrategy.consumeFood(CARNIVOROUS_WEIGHT, CARNIVOROUS_AGE)).thenReturn(true);
+        when(herbivorousStrategy1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(false);
+        when(herbivorousStrategy2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
 
         herd.feedDinosaurs();
 

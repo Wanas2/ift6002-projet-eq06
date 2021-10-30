@@ -13,7 +13,6 @@ import static org.mockito.Mockito.verify;
 
 class TurnTest {
 
-
     private ExecutableAction aFirstAction;
     private ExecutableAction aSecondAction;
     private Turn turn;
@@ -91,5 +90,4 @@ class TurnTest {
 
         assertFalse(turn.hasActions());
     }
-
 }
