@@ -30,9 +30,9 @@ public class HerdTest {
     private FoodConsumptionStrategy carnivorousStrategy;
     private FoodConsumptionStrategy herbivorousStrategy1;
     private FoodConsumptionStrategy herbivorousStrategy2;
-    private Dinosaur carnivorous_dinosaur_1;
-    private Dinosaur herbivorous_dinosaur_1;
-    private Dinosaur herbivorous_dinosaur_2;
+    private Dinosaur carnivorousDinosaur1;
+    private Dinosaur herbivorousDinosaur1;
+    private Dinosaur herbivorousDinosaur2;
     private final List<Dinosaur> dinosaurs = new ArrayList<>();
     private Herd herd;
 
@@ -41,20 +41,24 @@ public class HerdTest {
         carnivorousStrategy = mock(FoodConsumptionStrategy.class);
         herbivorousStrategy1 = mock(FoodConsumptionStrategy.class);
         herbivorousStrategy2 = mock(FoodConsumptionStrategy.class);
-        carnivorous_dinosaur_1 = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M, carnivorousStrategy);
-        herbivorous_dinosaur_1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_WEIGHT_1, HERBIVOROUS_NAME_1, Gender.F, herbivorousStrategy1);
-        herbivorous_dinosaur_2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_WEIGHT_2, HERBIVOROUS_NAME_2, Gender.F, herbivorousStrategy2);
-        Collections.addAll(dinosaurs, carnivorous_dinosaur_1, herbivorous_dinosaur_1, herbivorous_dinosaur_2);
+        carnivorousDinosaur1 = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M,
+                carnivorousStrategy);
+        herbivorousDinosaur1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_WEIGHT_1, HERBIVOROUS_NAME_1, Gender.F,
+                herbivorousStrategy1);
+        herbivorousDinosaur2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_WEIGHT_2, HERBIVOROUS_NAME_2, Gender.F,
+                herbivorousStrategy2);
+        Collections.addAll(dinosaurs, carnivorousDinosaur1, herbivorousDinosaur1, herbivorousDinosaur2);
         herd = new Herd(dinosaurs);
-        herbivorous_dinosaur_1.age();
-        herbivorous_dinosaur_2.age();
-        herbivorous_dinosaur_2.age();
+        herbivorousDinosaur1.age();
+        herbivorousDinosaur2.age();
+        herbivorousDinosaur2.age();
 
     }
 
     @Test
     public void givenADinosaur_whenAddingNotExistingDinosaur_thenDinosaurShouldBeAdded() {
-        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, NAME_DINOSAUR, Gender.F, carnivorousStrategy);
+        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, NAME_DINOSAUR, Gender.F,
+                carnivorousStrategy);
 
         herd.addDinosaur(dinosaur);
 
@@ -63,7 +67,8 @@ public class HerdTest {
 
     @Test
     public void givenADinosaur_whenAddingExistingDinosaur_thenDinosaurShouldNotBeAdded() {
-        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M, carnivorousStrategy);
+        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M,
+                carnivorousStrategy);
 
         herd.addDinosaur(dinosaur);
 
@@ -78,9 +83,9 @@ public class HerdTest {
 
         herd.feedDinosaurs();
 
-        assertTrue(dinosaurs.contains(carnivorous_dinosaur_1));
-        assertTrue(dinosaurs.contains(herbivorous_dinosaur_1));
-        assertTrue(dinosaurs.contains(herbivorous_dinosaur_2));
+        assertTrue(dinosaurs.contains(carnivorousDinosaur1));
+        assertTrue(dinosaurs.contains(herbivorousDinosaur1));
+        assertTrue(dinosaurs.contains(herbivorousDinosaur2));
     }
 
     @Test
@@ -91,8 +96,8 @@ public class HerdTest {
 
         herd.feedDinosaurs();
 
-        assertTrue(dinosaurs.contains(carnivorous_dinosaur_1));
-        assertFalse(dinosaurs.contains(herbivorous_dinosaur_1));
-        assertTrue(dinosaurs.contains(herbivorous_dinosaur_2));
+        assertTrue(dinosaurs.contains(carnivorousDinosaur1));
+        assertFalse(dinosaurs.contains(herbivorousDinosaur1));
+        assertTrue(dinosaurs.contains(herbivorousDinosaur2));
     }
 }

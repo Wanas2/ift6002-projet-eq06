@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BreedingAssemblerTest {
 
-    private final Species A_SPECIES = Species.Brachiosaurus;
-    private final Species ANOTHER_SPECIES = Species.Diplodocus;
+    private final static Species A_SPECIES = Species.Brachiosaurus;
+    private final static Species ANOTHER_SPECIES = Species.Diplodocus;
     private final static int SOMME_WEIGHT = 134;
     private final static String A_NAME = "ehwr";
     private final static String ANOTHER_NAME = "ehwrwfgh";
-    private final Gender THE_MALE_GENDER = Gender.M;
-    private final Gender THE_FEMALE_GENDER = Gender.F;
+    private final static Gender THE_MALE_GENDER = Gender.M;
+    private final static Gender THE_FEMALE_GENDER = Gender.F;
 
     private BreedingRequestExternalDTO breedingRequestExternalDTO;
     private Dinosaur aMaleDinosaur;

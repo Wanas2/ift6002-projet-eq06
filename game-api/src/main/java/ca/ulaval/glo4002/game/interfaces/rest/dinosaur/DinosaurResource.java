@@ -11,7 +11,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class DinosaurResource {
 
-    private DinosaurService dinosaurService;
+    private final DinosaurService dinosaurService;
 
     public DinosaurResource(DinosaurService dinosaurService) {
         this.dinosaurService = dinosaurService;

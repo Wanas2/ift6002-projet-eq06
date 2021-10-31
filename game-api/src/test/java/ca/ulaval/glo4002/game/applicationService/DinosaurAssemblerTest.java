@@ -7,7 +7,6 @@ import ca.ulaval.glo4002.game.domain.dinosaur.Species;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurDTO;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -31,6 +30,5 @@ public class DinosaurAssemblerTest {
         assertEquals(aWeight, dinosaurDTO.weight);
         assertEquals(expectedGender, dinosaurDTO.gender);
         assertEquals(expectedSpecies, dinosaurDTO.species);
-
     }
 }
