@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 
 public class Dinosaur implements Comparable<Dinosaur> {
@@ -21,7 +20,6 @@ public class Dinosaur implements Comparable<Dinosaur> {
         this.gender = gender;
         this.foodConsumptionStrategy = foodConsumptionStrategy;
         this.age = 0;
-
     }
 
     public boolean isAlive() {
@@ -33,28 +31,7 @@ public class Dinosaur implements Comparable<Dinosaur> {
     }
 
     public int calculateStrength() {
-        return (int)Math.ceil(weight*getGenderFactor()*getTypeFactor());
-    }
-
-    private float getGenderFactor() {
-        float factor_S = 0;
-        if(gender == Gender.F) {
-            factor_S = 1.5f;
-        } else if(gender == Gender.M) {
-            factor_S = 1.0f;
-        }
-        return factor_S;
-    }
-
-    private float getTypeFactor() {
-        float factor_T = 0;
-        if(species.getConsumptionType() == FoodConsumption.CARNIVOROUS
-                || species.getConsumptionType() == FoodConsumption.OMNIVOROUS) {
-            factor_T = 1.5f;
-        } else if(species.getConsumptionType() == FoodConsumption.HERBIVOROUS) {
-            factor_T = 1.0f;
-        }
-        return factor_T;
+        return (int)Math.ceil(weight*gender.getGenderFactor()*species.getConsumptionStrength());
     }
 
     @Override
