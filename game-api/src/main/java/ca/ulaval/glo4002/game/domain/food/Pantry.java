@@ -5,7 +5,7 @@ import java.util.*;
 public class Pantry implements FoodStorage {
 
     private final CookItSubscription cookItSubscription;
-    private Map<FoodType, Food> currentTurnFoodBatch;
+    private List<Food> currentTurnFoodBatch;
     private Queue<Map<FoodType, Food>> allFreshFood = new LinkedList<>();
     private final Map<FoodType, Food> allExpiredFood = new HashMap<>();
     private final Map<FoodType, Food> allConsumedFood = new HashMap<>();
@@ -30,13 +30,13 @@ public class Pantry implements FoodStorage {
     }
 
     private void initializeNewBatchOFreshFood() {
-        currentTurnFoodBatch = new HashMap<>();
+        currentTurnFoodBatch = new ArrayList<>();
         Food freshNewBurgersOfQuantityZero = new Food(FoodType.BURGER, 0);
         Food freshNewSaladsOfQuantityZero = new Food(FoodType.SALAD, 0);
         Food freshNewWaterOfQuantityZero = new Food(FoodType.WATER, 0);
-        currentTurnFoodBatch.put(FoodType.BURGER, freshNewBurgersOfQuantityZero);
-        currentTurnFoodBatch.put(FoodType.SALAD, freshNewSaladsOfQuantityZero);
-        currentTurnFoodBatch.put(FoodType.WATER, freshNewWaterOfQuantityZero);
+        currentTurnFoodBatch.add(freshNewBurgersOfQuantityZero);
+        currentTurnFoodBatch.add(freshNewSaladsOfQuantityZero);
+        currentTurnFoodBatch.add(freshNewWaterOfQuantityZero);
     }
 
     private void initializeExpiredFood() {
@@ -72,17 +72,27 @@ public class Pantry implements FoodStorage {
         return giveExactOrMostPossibleFoodDesired(FoodType.WATER, requestedWaterQuantity);
     }
 
-    public void addOrderedFoodToCurrentTurnFoodBatch(List<Food> groupOfOrderedFood) { // Todo
+    public void addOrderedFoodToCurrentTurnFoodBatch(List<Food> orderedFood) {
+//        currentTurnFoodBatch.forEach((foodTypeInCurrentBatch, foodInCurrentBatch) -> {
+//
+//            Food foodToAddToTheBatch = orderedFood.get(foodTypeInCurrentBatch);
+//            try {
+//                foodInCurrentBatch.increaseQuantity(foodToAddToTheBatch);
+//            } catch(FoodTypesNotMatchingException exception) {
+//                exception.printStackTrace();
+//            }
+//
+//        });
 
-        currentTurnFoodBatch.forEach((foodTypeInCurrentBatch, foodInCurrentBatch) -> {
-            Food foodToAddToTheBatch = groupOfOrderedFood.get(foodTypeInCurrentBatch);
-            try {
-                foodInCurrentBatch.increaseQuantity(foodToAddToTheBatch);
-            } catch(FoodTypesNotMatchingException exception) {
-                exception.printStackTrace();
-            }
+        try {
+            currentTurnFoodBatch.get(0).increaseQuantity(orderedFood.get(0));
+        } catch (FoodTypesNotMatchingException e) {
+            e.printStackTrace();
+        }
+
+        currentTurnFoodBatch.forEach(food -> {
+            food.increaseQuantity();
         });
-
     }
 
     public void addCurrentTurnFoodBatchToFreshFood() {

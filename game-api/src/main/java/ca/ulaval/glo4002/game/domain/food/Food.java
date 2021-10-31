@@ -41,4 +41,8 @@ public class Food {
     public int quantity() {
         return quantity;
     }
+
+    public FoodType getType() {
+        return type;
+    }
 }
