@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PantryTest {
 
-    private final int QUANTITY_OF_FOOD_OF_ZERO = 0;
-    private final int A_QUANTITY_OF_ONE_BURGER_ORDERED = 1;
-    private final int A_QUANTITY_OF_TWO_BURGER_ORDERED = 2;
-    private final int A_QUANTITY_OF_SIX_BURGER_ORDERED = 6;
-    private final int A_QUANTITY_OF_SALAD_ORDERED = 2;
-    private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
+    private final static int QUANTITY_OF_FOOD_OF_ZERO = 0;
+    private final static int A_QUANTITY_OF_ONE_BURGER_ORDERED = 1;
+    private final static int A_QUANTITY_OF_TWO_BURGER_ORDERED = 2;
+    private final static int A_QUANTITY_OF_SIX_BURGER_ORDERED = 6;
+    private final static int A_QUANTITY_OF_SALAD_ORDERED = 2;
+    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private FoodDTO aFoodDTO;
     private Map<FoodType, Food> foodWithQuantityZero;

@@ -21,13 +21,13 @@ public class DinosaurService {
     }
 
     public void addDinosaur(String name, int weight, String gender, String species) {
-        if(herd.hasDinoosaurWithName(name))
+        if(herd.hasDinosaurWithName(name))
             throw new DuplicateNameException();
         Dinosaur dinosaur = dinosaurFactory.create(gender, weight, species, name);
         game.addDinosaur(dinosaur);
     }
 
-    public void breedDino(String babyDinosaurName, String fatherName, String motherName) {
+    public void breedDinosaur(String babyDinosaurName, String fatherName, String motherName) {
         Dinosaur fatherDinosaur = herd.getDinosaurWithName(fatherName);
         Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
 
