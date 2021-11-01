@@ -6,7 +6,9 @@ import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Mockito.mock;
@@ -15,13 +17,13 @@ import static org.mockito.Mockito.verify;
 class AddFoodActionTest {
 
     private Pantry pantry;
-    private Map<FoodType, Food> foods;
+    private List<Food> foods;
     private AddFoodAction addFoodAction;
 
     @BeforeEach
     void setUp() {
         pantry = mock(Pantry.class);
-        foods = new HashMap<>();
+        foods = new ArrayList<>();
         addFoodAction = new AddFoodAction(pantry, foods);
     }
 

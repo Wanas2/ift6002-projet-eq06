@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodSummaryDTO;
 
+import java.util.List;
 import java.util.Map;
 
 public class ResourceService {
@@ -28,7 +29,7 @@ public class ResourceService {
     }
 
     public void addFood(FoodDTO foodDTO) {
-        Map<FoodType, Food> food = foodAssembler.create(foodDTO);
+        List<Food> food = foodAssembler.create(foodDTO);
         game.addFood(food);
     }
 

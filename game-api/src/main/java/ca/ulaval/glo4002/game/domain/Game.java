@@ -29,7 +29,7 @@ public class Game {
         turn.acquireNewAction(addDinosaurAction);
     }
 
-    public void addFood(Map<FoodType, Food> foods) {
+    public void addFood(List<Food> foods) {
         ExecutableAction addFoodAction = new AddFoodAction(pantry, foods);
         turn.acquireNewAction(addFoodAction);
     }
