@@ -8,7 +8,7 @@ import static java.util.stream.Collectors.toMap;
 
 public class Herd {
 
-    private List<Dinosaur> dinosaurs;
+    private final List<Dinosaur> dinosaurs;
 
     public Herd(List<Dinosaur> dinosaurs) {
         this.dinosaurs = dinosaurs;

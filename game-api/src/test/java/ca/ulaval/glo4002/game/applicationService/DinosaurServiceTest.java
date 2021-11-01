@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.game.applicationService;
 
-import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DuplicateNameException;
 import ca.ulaval.glo4002.game.domain.Game;
@@ -31,7 +30,6 @@ class DinosaurServiceTest {
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
     private BabyDinosaur aBabyDinosaur;
-    private DinosaurAssembler dinosaurAssembler;
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
     private Game game;
@@ -49,7 +47,6 @@ class DinosaurServiceTest {
         aBabyDinosaur =
                 new BabyDinosaur(A_SPECIES, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy, aDinosaur,
                         anotherDinosaur);
-        dinosaurAssembler = mock(DinosaurAssembler.class);
         dinosaurFactory = mock(DinosaurFactory.class);
         herd = mock(Herd.class);
         game = mock(Game.class);

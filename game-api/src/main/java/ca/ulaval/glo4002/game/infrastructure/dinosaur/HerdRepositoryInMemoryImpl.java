@@ -23,6 +23,4 @@ public class HerdRepositoryInMemoryImpl implements HerdRepository {
     public void delete() {
         herd = null;
     }
-
-
 }

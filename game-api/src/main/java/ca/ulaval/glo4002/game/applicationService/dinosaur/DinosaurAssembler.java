@@ -10,5 +10,4 @@ public class DinosaurAssembler {
         String species = dinosaur.getSpecies().getName();
         return new DinosaurDTO(dinosaur.getName(), dinosaur.getWeight(), gender, species);
     }
-
 }

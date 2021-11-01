@@ -9,7 +9,7 @@ public class Dinosaur implements Comparable<Dinosaur> {
     private int weight;
     private String name;
     private Gender gender;
-    private FoodConsumptionStrategy foodConsumptionStrategy;
+    private final FoodConsumptionStrategy foodConsumptionStrategy;
     private int age;
 
     public Dinosaur(Species species, int weight, String name, Gender gender,

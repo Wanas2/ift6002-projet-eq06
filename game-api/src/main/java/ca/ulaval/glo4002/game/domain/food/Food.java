@@ -2,9 +2,9 @@ package ca.ulaval.glo4002.game.domain.food;
 
 public class Food {
 
+    private int age = 0;
     private final FoodType type;
     private int quantity;
-    private int age = 0;
 
     public Food(FoodType type, int quantity) {
         this.type = type;

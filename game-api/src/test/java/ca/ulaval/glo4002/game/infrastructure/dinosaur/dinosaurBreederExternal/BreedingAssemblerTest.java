@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.Species;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,6 +31,7 @@ class BreedingAssemblerTest {
         breedingRequestExternalDTO = new BreedingRequestExternalDTO();
         breedingRequestExternalDTO.fatherSpecies = Species.Brachiosaurus.toString();
         breedingRequestExternalDTO.motherSpecies = Species.Diplodocus.toString();
+        FoodConsumptionStrategy aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
 
         aMaleDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
         aFemaleDinosaur =
