@@ -4,10 +4,7 @@ import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,9 +20,9 @@ class PantryTest {
 
     private FoodDTO aFoodDTO;
     private List<Food> aGroupOfFoodWithQuantityZero;
-    private Map<FoodType, Food> foodWithOnlyOneBurger;
-    private Map<FoodType, Food> foodWithOnlyTwoBurgers;
-    private Map<FoodType, Food> foodWithOnlySixBurgers;
+    private List<Food> foodWithOnlyOneBurger;
+    private List<Food> foodWithOnlyTwoBurgers;
+    private List<Food> foodWithOnlySixBurgers;
     private CookItSubscription cookItSubscription;
     private Pantry pantry;
 
@@ -70,31 +67,38 @@ class PantryTest {
 
     @Test
     public void givenFoodFromCookItSubscription_whenAddCurrentTurnFoodBatchToFreshFood_thenFoodFromCookItSubscriptionIsAddedToFreshFood() {
-        Map<FoodType, Food> foodFromCookIt = cookItSubscription.provideFood();
-        int expectedBurgerQuantity = foodFromCookIt.get(FoodType.BURGER).quantity();
-        int expectedSaladQuantity = foodFromCookIt.get(FoodType.SALAD).quantity();
-        int expectedWaterQuantity = foodFromCookIt.get(FoodType.WATER).quantity();
+        List<Food> foodFromCookIt = cookItSubscription.provideFood();
+        int expectedBurgerQuantity = foodFromCookIt.stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny().orElse(null)
+                .quantity();
 
         pantry.addCurrentTurnFoodBatchToFreshFood();
-        Map<FoodType, Food> allFreshFood = pantry.getAllFreshFood().peek();
+        List<Food> allFreshFood = pantry.getAllFreshFood().peek();
+        Food freshBurgers = allFreshFood.stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny().orElse(null);
 
-        assertEquals(expectedBurgerQuantity, allFreshFood.get(FoodType.BURGER).quantity());
-        assertEquals(expectedSaladQuantity, allFreshFood.get(FoodType.SALAD).quantity());
-        assertEquals(expectedWaterQuantity, allFreshFood.get(FoodType.WATER).quantity());
+        assertEquals(expectedBurgerQuantity, freshBurgers.quantity());
     }
 
 
     @Test
     public void givenSomeFoodOrderedInCurrentTurn_whenAddCurrentTurnFoodBatchToFreshFood_thenTheFoodBatchIsAddedToFreshFood() {
-        Map<FoodType, Food> foodFromCookIt = cookItSubscription.provideFood();
-        int expectedBurgerQuantity = foodWithOnlyOneBurger.get(FoodType.BURGER).quantity()
-                +foodFromCookIt.get(FoodType.BURGER).quantity();
+        List<Food> foodFromCookIt = cookItSubscription.provideFood();
+        int expectedBurgerQuantity = foodFromCookIt.stream().
+                filter(food -> food.getType().equals(FoodType.BURGER))
+                .findAny().orElse(null)
+                .quantity() + 1;
 
         pantry.addOrderedFoodToCurrentTurnFoodBatch(foodWithOnlyOneBurger);
         pantry.addCurrentTurnFoodBatchToFreshFood();
-        Map<FoodType, Food> allFreshFood = pantry.getAllFreshFood().peek();
+        List<Food> allFreshFood = pantry.getAllFreshFood().peek();
+        Food freshBurgers = allFreshFood.stream().
+                filter(food -> food.getType().equals(FoodType.BURGER))
+                .findAny().orElse(null);
 
-        assertEquals(expectedBurgerQuantity, allFreshFood.get(FoodType.BURGER).quantity());
+        assertEquals(expectedBurgerQuantity, freshBurgers.quantity());
     }
 
     @Test
@@ -106,9 +110,14 @@ class PantryTest {
         int expectedConsumedBurgers = 101;
 
         pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
-        Map<FoodType, Food> allFreshFood = pantry.getAllFreshFood().peek();
-        int freshBurgersQuantity = allFreshFood.get(FoodType.BURGER).quantity();
-        int consumedBurgersQuantity = pantry.getAllConsumedFood().get(FoodType.BURGER).quantity();
+        List<Food> allFreshFood = pantry.getAllFreshFood().peek();
+        int freshBurgersQuantity = allFreshFood.stream().
+                filter(food -> food.getType().equals(FoodType.BURGER))
+                .findAny().orElse(null).quantity();
+        int consumedBurgersQuantity = pantry.getAllConsumedFood().stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny().orElse(null).
+                quantity();
 
         assertEquals(expectedRemainingFreshBurgers, freshBurgersQuantity);
         assertEquals(expectedConsumedBurgers, consumedBurgersQuantity);
@@ -122,7 +131,10 @@ class PantryTest {
         pantry.addCurrentTurnFoodBatchToFreshFood();
 
         pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
-        int consumedBurgersQuantity = pantry.getAllConsumedFood().get(FoodType.BURGER).quantity();
+        int consumedBurgersQuantity = pantry.getAllConsumedFood().stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny().orElse(null).
+                quantity();
 
         assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
         assertEquals(expectedFreshBurgerQuantityRemaining, requestedQuantityOfBurgers);
@@ -137,11 +149,17 @@ class PantryTest {
         pantry.addCurrentTurnFoodBatchToFreshFood();
 
         pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
-        Map<FoodType, Food> firstBatchOfFreshFood = pantry.getAllFreshFood().remove();
-        Map<FoodType, Food> secondBatchOfFreshFood = pantry.getAllFreshFood().remove();
+        List<Food> firstBatchOfFreshFood = pantry.getAllFreshFood().remove();
+        List<Food> secondBatchOfFreshFood = pantry.getAllFreshFood().remove();
+        Optional<Food> burgersFromFirstBatch = firstBatchOfFreshFood.stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny();
+        Optional<Food> burgersFromSecondBatch = secondBatchOfFreshFood.stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny();
 
-        assertFalse(firstBatchOfFreshFood.containsKey(FoodType.BURGER));
-        assertTrue(secondBatchOfFreshFood.containsKey(FoodType.BURGER));
+        assertFalse(burgersFromFirstBatch.isPresent());
+        assertFalse(burgersFromSecondBatch.isPresent());
     }
 
     @Test
@@ -155,9 +173,14 @@ class PantryTest {
 
         pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
         pantry.getAllFreshFood().remove();
-        Map<FoodType, Food> secondBatchOfFreshFood = pantry.getAllFreshFood().remove();
-        int freshBurgersQuantityAfter = secondBatchOfFreshFood.get(FoodType.BURGER).quantity();
-        int consumedBurgersQuantity = pantry.getAllConsumedFood().get(FoodType.BURGER).quantity();
+        List<Food> secondBatchOfFreshFood = pantry.getAllFreshFood().remove();
+        int freshBurgersQuantityAfter = secondBatchOfFreshFood.stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny().orElse(null).quantity();
+        int consumedBurgersQuantity = pantry.getAllConsumedFood().stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny().orElse(null).
+                quantity();
 
         assertEquals(requestedQuantityOfBurgers, consumedBurgersQuantity);
         assertEquals(expectedFreshBurgerQuantityRemaining, freshBurgersQuantityAfter);
@@ -170,28 +193,28 @@ class PantryTest {
         pantry.incrementFreshFoodAges();
         pantry.removeExpiredFoodFromFreshFood();
 
-        assertFalse(pantry.getAllFreshFood().peek().containsKey(FoodType.BURGER));
-        assertFalse(pantry.getAllFreshFood().peek().containsKey(FoodType.SALAD));
-        assertFalse(pantry.getAllFreshFood().peek().containsKey(FoodType.WATER));
+        Optional<Food> freshBurgers = pantry.getAllFreshFood().peek().stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny();
+
+        assertFalse(freshBurgers.isPresent());
     }
 
     @Test
     public void whenRemoveExpiredFoodFromFreshFood_thenExpiredFoodIsAddedSavedAsExpired() {
         int expectedExpiredBurgers = 100;
-        int expectedExpiredSalads = 250;
-        int expectedExpiredWater = 10000;
 
         pantry.addCurrentTurnFoodBatchToFreshFood();
         pantry.incrementFreshFoodAges();
         pantry.incrementFreshFoodAges();
         pantry.removeExpiredFoodFromFreshFood();
-        int expiredBurgers = pantry.getAllExpiredFood().get(FoodType.BURGER).quantity();
-        int expiredSalads = pantry.getAllExpiredFood().get(FoodType.SALAD).quantity();
-        int expiredWater = pantry.getAllExpiredFood().get(FoodType.WATER).quantity();
 
-        assertEquals(expectedExpiredBurgers, expiredBurgers);
-        assertEquals(expectedExpiredSalads, expiredSalads);
-        assertEquals(expectedExpiredWater, expiredWater);
+        int expiredBurgersQuantity = pantry.getAllExpiredFood().stream().
+                filter(food -> food.getType().equals(FoodType.BURGER)).
+                findAny().orElse(null).
+                quantity();
+
+        assertEquals(expectedExpiredBurgers, expiredBurgersQuantity);
     }
 
     @Test
@@ -218,32 +241,32 @@ class PantryTest {
         Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_ONE_BURGER_ORDERED);
         Food aFoodItem2 = new Food(FoodType.SALAD, QUANTITY_OF_FOOD_OF_ZERO);
         Food aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
-        foodWithOnlyOneBurger = new HashMap<>();
+        foodWithOnlyOneBurger = new ArrayList<>();
 
-        foodWithOnlyOneBurger.put(FoodType.BURGER, aFoodItem1);
-        foodWithOnlyOneBurger.put(FoodType.SALAD, aFoodItem2);
-        foodWithOnlyOneBurger.put(FoodType.WATER, aFoodItem3);
+        foodWithOnlyOneBurger.add(aFoodItem1);
+        foodWithOnlyOneBurger.add(aFoodItem2);
+        foodWithOnlyOneBurger.add(aFoodItem3);
     }
 
     private void initializeFoodWithOnlyTwoBurgers() {
         Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_TWO_BURGER_ORDERED);
         Food aFoodItem2 = new Food(FoodType.SALAD, QUANTITY_OF_FOOD_OF_ZERO);
         Food aFoodItem3 = new Food(FoodType.WATER, QUANTITY_OF_FOOD_OF_ZERO);
-        foodWithOnlyTwoBurgers = new HashMap<>();
+        foodWithOnlyTwoBurgers = new ArrayList<>();
 
-        foodWithOnlyTwoBurgers.put(FoodType.BURGER, aFoodItem1);
-        foodWithOnlyTwoBurgers.put(FoodType.SALAD, aFoodItem2);
-        foodWithOnlyTwoBurgers.put(FoodType.WATER, aFoodItem3);
+        foodWithOnlyTwoBurgers.add(aFoodItem1);
+        foodWithOnlyTwoBurgers.add(aFoodItem2);
+        foodWithOnlyTwoBurgers.add(aFoodItem3);
     }
 
     private void initializeSomeFood() {
         Food aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_SIX_BURGER_ORDERED);
         Food aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
         Food aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
-        foodWithOnlySixBurgers = new HashMap<>();
+        foodWithOnlySixBurgers = new ArrayList<>();
 
-        foodWithOnlySixBurgers.put(FoodType.BURGER, aFoodItem1);
-        foodWithOnlySixBurgers.put(FoodType.SALAD, aFoodItem2);
-        foodWithOnlySixBurgers.put(FoodType.WATER, aFoodItem3);
+        foodWithOnlySixBurgers.add(aFoodItem1);
+        foodWithOnlySixBurgers.add(aFoodItem2);
+        foodWithOnlySixBurgers.add(aFoodItem3);
     }
 }
