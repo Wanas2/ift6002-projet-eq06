@@ -31,13 +31,13 @@ class FoodAssemblerTest {
     }
 
     @Test
-    public void givenAFood_whenCreateDTO_thenShouldBeCorrectlyMapped() {
+    public void givenAFood_whenToDTO_thenShouldBeCorrectlyMapped() {
         Map<FoodType, Integer> aFood = new HashMap<>();
-
         aFood.put(FoodType.BURGER, A_QUANTITY_OF_BURGER_ORDERED);
         aFood.put(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
         aFood.put(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
-        FoodDTO foodDTO = foodAssembler.createDTO(aFood);
+
+        FoodDTO foodDTO = foodAssembler.toDTO(aFood);
 
         assertEquals(A_QUANTITY_OF_BURGER_ORDERED, foodDTO.qtyBurger);
         assertEquals(A_QUANTITY_OF_SALAD_ORDERED, foodDTO.qtySalad);

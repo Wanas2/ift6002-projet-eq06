@@ -52,13 +52,13 @@ class ResourceServiceTest {
     public void givenAFoodDTO_whenAddFood_thenShouldCreateTheAppropriateFood() {
         resourceService.addFood(aFoodDTO);
 
-        verify(foodAssembler).create(aFoodDTO);
+        verify(foodAssembler).fromDTO(aFoodDTO);
     }
 
     @Test
     public void givenCreatedFood_whenAddFood_thenShouldAddTheAppropriateFood() {
         initializeSomeFood();
-        when(foodAssembler.create(aFoodDTO)).thenReturn(someFoodCreated);
+        when(foodAssembler.fromDTO(aFoodDTO)).thenReturn(someFoodCreated);
 
         resourceService.addFood(aFoodDTO);
 
