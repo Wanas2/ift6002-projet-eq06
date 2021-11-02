@@ -12,6 +12,7 @@ import static org.mockito.BDDMockito.verify;
 
 class FoodResourceTest {
 
+    private final static int STATUS_200_OK = 200;
     private final static int A_QUANTITY_OF_BURGER_ORDERED = 3;
     private final static int A_QUANTITY_OF_SALAD_ORDERED = 2;
     private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
@@ -41,12 +42,10 @@ class FoodResourceTest {
     }
 
     @Test
-    public void whenOrderFood_thenShouldReturnAppropriateResponseCode() {
-        int expectedResponseCode = 200;
-
+    public void whenOrderFood_thenResponseStatusShouldBe200() {
         Response response = foodResource.addFood(aFoodDTO);
 
-        assertEquals(expectedResponseCode, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
@@ -57,11 +56,9 @@ class FoodResourceTest {
     }
 
     @Test
-    public void whenGetFoodQuantitySummary_thenShouldReturnAppropriateResponseCode() {
-        int expectedResponseCode = 200;
-
+    public void whenGetFoodQuantitySummary_thenResponseStatusShouldBe200() {
         Response response = foodResource.getFoodQuantitySummary();
 
-        assertEquals(expectedResponseCode, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 }

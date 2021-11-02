@@ -16,12 +16,12 @@ import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTest {
 
+    private final static int STATUS_200_OK = 200;
     private final static String NON_EXISTENT_NAME = "Bob";
     private final static String AN_EXISTING_NAME = "Bobi";
     private final static int WEIGHT = 17;
     private final static String GENDER = "f";
     private final static String SPECIES = "Ankylosaurus";
-    private final static int STATUS_200 = 200;
 
     private BreedingRequestDTO aBreedingRequestDTO;
     private DinosaurDTO aDinosaurDTO;
@@ -53,10 +53,10 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurDTOWithValidData_whenAddingDinosaur_thenShouldReturnStatus200() {
+    public void givenADinosaurDTOWithValidData_whenAddingDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.addDinosaur(aDinosaurDTO);
 
-        assertEquals(STATUS_200, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
@@ -69,10 +69,10 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void whenBreedDino_thenShouldReturnStatus200() {
+    public void whenBreedDino_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
-        assertEquals(STATUS_200, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
@@ -92,10 +92,10 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenTheNameOfAnAliveDinosaur_whenShowingDinosaur_thenShouldReturnStatus200() {
+    public void givenTheNameOfAnAliveDinosaur_whenShowingDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.showDinosaur(AN_EXISTING_NAME);
 
-        assertEquals(STATUS_200, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
@@ -128,10 +128,10 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void whenShowingAllDinosaurs_thenShouldBeStatus200() {
+    public void whenShowingAllDinosaurs_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.showAllDinosaurs();
 
-        assertEquals(STATUS_200, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
