@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.CarnivorousFoodStorage
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.HerbivorousFoodStorage;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightException;
 import ca.ulaval.glo4002.game.domain.food.FoodStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,14 +40,6 @@ public class DinosaurFactoryTest {
     @Test
     public void givenCorrectParameters_whenCreatingDinosaur_thenShouldNotThrow() {
         assertDoesNotThrow(()->dinosaurFactory.create(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
-    }
-
-    @Test
-    public void givenWeightIsNotStrictlyPositive_whenCreatingDinosaur_thenShouldThrowInvalidWeightException() {
-        int anInvalidWeight = -5;
-
-        assertThrows(InvalidWeightException.class,
-                ()->dinosaurFactory.create(A_GENDER, anInvalidWeight, A_SPECIES, A_NAME));
     }
 
     @Test
