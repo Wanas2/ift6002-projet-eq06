@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -117,5 +116,15 @@ public class HerdTest {
         assertTrue(dinosaurs.contains(carnivorousDinosaur1));
         assertFalse(dinosaurs.contains(herbivorousDinosaur1));
         assertTrue(dinosaurs.contains(herbivorousDinosaur2));
+    }
+
+    @Test
+    public void givenHerd_whenReset_thenHerdShouldBeEmpty() {
+        dinosaurs.add(aDinosaur);
+        herd = new Herd(dinosaurs);
+
+        herd.reset();
+
+        assertEquals(0,dinosaurs.size());
     }
 }
