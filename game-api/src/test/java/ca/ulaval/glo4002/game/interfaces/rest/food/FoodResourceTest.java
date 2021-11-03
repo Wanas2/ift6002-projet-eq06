@@ -51,16 +51,16 @@ class FoodResourceTest {
     }
 
     @Test
-    public void givenAFoodDTO_whenAddFood_thenShouldCreateTheFoodShouldBeCreated() {
+    public void givenAFoodDTO_whenAddFood_thenTheFoodShouldBeCreated() {
         foodResource.addFood(aFoodDTO);
 
-        verify(foodAssembler).create(aFoodDTO);
+        verify(foodAssembler).fromDTO(aFoodDTO);
     }
 
     @Test
-    public void givenAFoodDTO_whenAddFood_thenResourceServiceShouldAddTheAppropriateFood() {
+    public void givenAFoodDTO_whenAddFood_thenTheFoodCorrespondingToTheDTOShouldBeAdded() {
         initializeSomeFood();
-        when(foodAssembler.create(aFoodDTO)).thenReturn(someFood);
+        when(foodAssembler.fromDTO(aFoodDTO)).thenReturn(someFood);
 
         foodResource.addFood(aFoodDTO);
 
@@ -84,7 +84,7 @@ class FoodResourceTest {
     }
 
     @Test
-    public void whenGetFoodQuantitySummary_thenAssemblerShouldCreateTheDTOWithAppropriateSummary() {
+    public void givenAFoodSummary_whenGetFoodQuantitySummary_thenTheDTOCorrespondingToTheSummaryShouldBeCreated() {
         initializeFoodSummaryExample();
         when(resourceService.getFoodQuantitySummary()).thenReturn(foodSummaryExample);
 
