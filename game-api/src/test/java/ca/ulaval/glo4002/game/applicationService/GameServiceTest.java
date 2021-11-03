@@ -67,7 +67,7 @@ class GameServiceTest {
         when(game.playTurn()).thenReturn(aTurnNumber);
 
         gameService.playTurn();
-        TurnNumberDTO turnNumberDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
+        TurnNumberDTO turnNumberDTO = turnAssembler.toDTO(aTurnNumber);
 
         assertEquals(aTurnNumber, turnNumberDTO.turnNumber);
     }

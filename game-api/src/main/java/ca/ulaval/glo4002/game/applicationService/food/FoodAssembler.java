@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class FoodAssembler {
 
-    public Map<FoodType, Food> create(FoodDTO foodDTO) {
+    public Map<FoodType, Food> fromDTO(FoodDTO foodDTO) {
         Map<FoodType, Food> food = new HashMap<>();
 
         Food burgers = new Food(FoodType.BURGER, foodDTO.qtyBurger);
@@ -23,7 +23,7 @@ public class FoodAssembler {
         return food;
     }
 
-    public FoodDTO createDTO(Map<FoodType, Integer> food) {
+    public FoodDTO toDTO(Map<FoodType, Integer> food) {
         FoodDTO foodDTO = new FoodDTO();
         foodDTO.qtyBurger = food.get(FoodType.BURGER);
         foodDTO.qtySalad = food.get(FoodType.SALAD);

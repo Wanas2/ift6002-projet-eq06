@@ -28,7 +28,7 @@ public class ResourceService {
     }
 
     public void addFood(FoodDTO foodDTO) {
-        Map<FoodType, Food> food = foodAssembler.create(foodDTO);
+        Map<FoodType, Food> food = foodAssembler.fromDTO(foodDTO);
         game.addFood(food);
     }
 
