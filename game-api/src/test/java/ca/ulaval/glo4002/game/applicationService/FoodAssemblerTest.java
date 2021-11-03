@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FoodAssemblerTest {
 
-    private final int A_QUANTITY_OF_BURGER_ORDERED = 3;
-    private final int A_QUANTITY_OF_SALAD_ORDERED = 2;
-    private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
+    private final static int A_QUANTITY_OF_BURGER_ORDERED = 3;
+    private final static int A_QUANTITY_OF_SALAD_ORDERED = 2;
+    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private FoodDTO aFoodDTO;
     private FoodAssembler foodAssembler;
@@ -30,15 +30,14 @@ class FoodAssemblerTest {
         foodAssembler = new FoodAssembler();
     }
 
-
     @Test
-    public void givenAFood_whenCreateDTO_thenShouldBeCorrectlyMapped() {
+    public void givenAFood_whenToDTO_thenShouldBeCorrectlyMapped() {
         Map<FoodType, Integer> aFood = new HashMap<>();
-
         aFood.put(FoodType.BURGER, A_QUANTITY_OF_BURGER_ORDERED);
         aFood.put(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
         aFood.put(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
-        FoodDTO foodDTO = foodAssembler.createDTO(aFood);
+
+        FoodDTO foodDTO = foodAssembler.toDTO(aFood);
 
         assertEquals(A_QUANTITY_OF_BURGER_ORDERED, foodDTO.qtyBurger);
         assertEquals(A_QUANTITY_OF_SALAD_ORDERED, foodDTO.qtySalad);

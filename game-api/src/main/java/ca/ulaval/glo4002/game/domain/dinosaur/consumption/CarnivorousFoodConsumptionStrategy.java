@@ -2,10 +2,11 @@ package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
 public class CarnivorousFoodConsumptionStrategy implements FoodConsumptionStrategy {
 
-    private CarnivorousFoodStorage storage;
     private final int STARVING_FACTOR = 2;
     private final double WATER_FACTOR = 0.6;
     private final double FOOD_FACTOR = 0.001;
+
+    private final CarnivorousFoodStorage storage;
 
     public CarnivorousFoodConsumptionStrategy(CarnivorousFoodStorage storage) {
         this.storage = storage;

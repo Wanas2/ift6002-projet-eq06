@@ -15,12 +15,11 @@ import static org.mockito.Mockito.*;
 
 class GameServiceTest {
 
-    private final int A_QUANTITY_OF_BURGER_ORDERED = 100;
-    private final int A_QUANTITY_OF_SALAD_ORDERED = 250;
-    private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
+    private final static int A_QUANTITY_OF_BURGER_ORDERED = 100;
+    private final static int A_QUANTITY_OF_SALAD_ORDERED = 250;
+    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private FoodDTO aFoodDTO;
-
     private Game game;
     private Herd herd;
     private Pantry pantry;
@@ -68,7 +67,7 @@ class GameServiceTest {
         when(game.playTurn()).thenReturn(aTurnNumber);
 
         gameService.playTurn();
-        TurnNumberDTO turnNumberDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
+        TurnNumberDTO turnNumberDTO = turnAssembler.toDTO(aTurnNumber);
 
         assertEquals(aTurnNumber, turnNumberDTO.turnNumber);
     }

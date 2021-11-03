@@ -29,7 +29,7 @@ public class GameService {
         int turnNumber = game.playTurn();
         pantryRepository.save(pantry);
         herdRepository.save(herd);
-        return turnAssembler.assembleTurnNumber(turnNumber);
+        return turnAssembler.toDTO(turnNumber);
     }
 
     public void reset() {

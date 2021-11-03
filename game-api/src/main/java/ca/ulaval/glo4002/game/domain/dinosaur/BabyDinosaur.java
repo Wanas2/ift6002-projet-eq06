@@ -4,9 +4,10 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrateg
 
 public class BabyDinosaur extends Dinosaur {
 
+    protected final static int INITIAL_BABY_WEIGHT = 1;
+
     protected Dinosaur fatherDinosaur;
     protected Dinosaur motherDinosaur;
-    protected final static int INITIAL_BABY_WEIGHT = 1;
 
     public BabyDinosaur(Species species, String name, Gender gender,
                         FoodConsumptionStrategy foodConsumptionStrategy, Dinosaur fatherDinosaur,

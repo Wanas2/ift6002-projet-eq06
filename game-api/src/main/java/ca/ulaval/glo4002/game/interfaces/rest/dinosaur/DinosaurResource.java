@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dino;
+package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
@@ -24,15 +24,15 @@ public class DinosaurResource {
 
     @POST
     @Path("/dinosaurs")
-    public Response addDino(DinosaurDTO dinosaurDTO) {
+    public Response addDinosaur(DinosaurDTO dinosaurDTO) {
         dinosaurService.addDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
         return Response.ok().build();
     }
 
     @POST
     @Path("/breed")
-    public Response breedDino(BreedingRequestDTO breedingRequestDTO) {
-        dinosaurService.breedDino(breedingRequestDTO.name, breedingRequestDTO.fatherName,
+    public Response breedDinosaur(BreedingRequestDTO breedingRequestDTO) {
+        dinosaurService.breedDinosaur(breedingRequestDTO.name, breedingRequestDTO.fatherName,
                 breedingRequestDTO.motherName);
         return Response.ok().build();
     }

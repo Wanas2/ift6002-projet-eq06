@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dino;
+package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
@@ -46,7 +46,7 @@ public class DinosaurResourceTest {
 
     @Test
     public void givenADinosaurDTOWithValidData_whenAddDino_thenShouldAddTheDinosaur() {
-        dinosaurResource.addDino(aDinosaurDTO);
+        dinosaurResource.addDinosaur(aDinosaurDTO);
 
         verify(dinosaurService).
                 addDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
@@ -54,23 +54,23 @@ public class DinosaurResourceTest {
 
     @Test
     public void givenADinosaurDTOWithValidData_whenAddingDinosaur_thenShouldReturnStatus200() {
-        Response response = dinosaurResource.addDino(aDinosaurDTO);
+        Response response = dinosaurResource.addDinosaur(aDinosaurDTO);
 
         assertEquals(STATUS_200, response.getStatus());
     }
 
     @Test
     public void givenABreedingRequestDTO_whenBreedDino_thenDinosaurShouldBeBred() {
-        dinosaurResource.breedDino(aBreedingRequestDTO);
+        dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
         verify(dinosaurService).
-                breedDino(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
+                breedDinosaur(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
                         aBreedingRequestDTO.motherName);
     }
 
     @Test
     public void whenBreedDino_thenShouldReturnStatus200() {
-        Response response = dinosaurResource.breedDino(aBreedingRequestDTO);
+        Response response = dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
         assertEquals(STATUS_200, response.getStatus());
     }

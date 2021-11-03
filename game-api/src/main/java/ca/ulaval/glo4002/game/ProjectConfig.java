@@ -16,7 +16,7 @@ import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodValidator;
 import ca.ulaval.glo4002.game.interfaces.rest.game.GameResource;
@@ -80,7 +80,7 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidSpeciesExceptionMapper());
         register(new InvalidWeightExceptionMapper());
         register(new NonExistentNameExceptionMapper());
-        register(new InvalidRessourceQuantityExceptionMapper());
+        register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
     }

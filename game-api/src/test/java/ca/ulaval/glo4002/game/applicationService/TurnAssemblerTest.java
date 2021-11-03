@@ -16,10 +16,10 @@ class TurnAssemblerTest {
     }
 
     @Test
-    void givenATurnNumber_whenAssembleTurnNumber_thenTheAppropriateTurnNumberDTOIsReturned() {
+    void givenATurnNumber_whenToDTO_thenTheAppropriateTurnNumberDTOIsReturned() {
         int aTurnNumber = 132;
 
-        TurnNumberDTO createdDTO = turnAssembler.assembleTurnNumber(aTurnNumber);
+        TurnNumberDTO createdDTO = turnAssembler.toDTO(aTurnNumber);
 
         assertEquals(aTurnNumber, createdDTO.turnNumber);
     }

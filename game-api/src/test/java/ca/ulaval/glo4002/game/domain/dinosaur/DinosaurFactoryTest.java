@@ -15,12 +15,12 @@ import static org.mockito.Mockito.mock;
 
 public class DinosaurFactoryTest {
 
-    private String A_NAME = "Bobi";
-    private int A_WEIGHT = 17;
-    private String A_GENDER = "f";
-    private String A_SPECIES = "Ankylosaurus";
+    private final static String A_NAME = "Bobi";
+    private final static int A_WEIGHT = 17;
+    private final static String A_GENDER = "f";
+    private final static String A_SPECIES = "Ankylosaurus";
 
-    DinosaurFactory dinosaurFactory;
+    private DinosaurFactory dinosaurFactory;
 
     @BeforeEach
     public void setup() {

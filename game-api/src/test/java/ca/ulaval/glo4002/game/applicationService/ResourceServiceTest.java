@@ -16,9 +16,9 @@ import static org.mockito.Mockito.*;
 
 class ResourceServiceTest {
 
-    private final int A_QUANTITY_OF_BURGER_ORDERED = 100;
-    private final int A_QUANTITY_OF_SALAD_ORDERED = 250;
-    private final int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
+    private final static int A_QUANTITY_OF_BURGER_ORDERED = 100;
+    private final static int A_QUANTITY_OF_SALAD_ORDERED = 250;
+    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private Food aFoodItem1;
     private Food aFoodItem2;

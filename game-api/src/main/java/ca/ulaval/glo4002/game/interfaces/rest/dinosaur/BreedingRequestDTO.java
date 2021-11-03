@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dino;
+package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 public class BreedingRequestDTO {
 
