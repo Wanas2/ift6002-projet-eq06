@@ -45,7 +45,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurDTOWithValidData_whenAddDino_thenShouldAddTheDinosaur() {
+    public void givenADinosaurDTOWithValidData_whenAddDinosaur_thenShouldAddTheDinosaur() {
         dinosaurResource.addDinosaur(aDinosaurDTO);
 
         verify(dinosaurService).
@@ -53,14 +53,14 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurDTOWithValidData_whenAddingDinosaur_thenResponseStatusShouldBe200() {
+    public void givenADinosaurDTOWithValidData_whenAddDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.addDinosaur(aDinosaurDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
-    public void givenABreedingRequestDTO_whenBreedDino_thenDinosaurShouldBeBred() {
+    public void givenABreedingRequestDTO_whenBreedDinosaur_thenDinosaurShouldBeBred() {
         dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
         verify(dinosaurService).
@@ -69,21 +69,21 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void whenBreedDino_thenResponseStatusShouldBe200() {
+    public void givenABreedingRequestDTO_whenBreedDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
-    public void givenTheNameOfADinosaur_whenShowDinosaur_thenShouldShowDinosaur() {
+    public void givenAnExistingDinosaurName_whenShowDinosaur_thenShouldShowDinosaur() {
         dinosaurResource.showDinosaur(AN_EXISTING_NAME);
 
         verify(dinosaurService).showDinosaur(AN_EXISTING_NAME);
     }
 
     @Test
-    public void givenADinosaurName_whenShowDinosaur_thenTheDinosaurDTOShouldBeCreated() {
+    public void givenAnExistingDinosaurName_whenShowDinosaur_thenTheDinosaurDTOShouldBeCreated() {
         when(dinosaurService.showDinosaur(AN_EXISTING_NAME)).thenReturn(aDinosaur);
 
         dinosaurResource.showDinosaur(AN_EXISTING_NAME);
@@ -92,7 +92,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenTheNameOfAnAliveDinosaur_whenShowingDinosaur_thenResponseStatusShouldBe200() {
+    public void givenAnExistingDinosaurName_whenShowingDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.showDinosaur(AN_EXISTING_NAME);
 
         assertEquals(STATUS_200_OK, response.getStatus());
@@ -106,7 +106,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaur_whenShowAllDinosaurs_thenTheDinosaureDTOShouldBeCreated() {
+    public void givenADinosaur_whenShowAllDinosaurs_thenTheDinosaurDTOShouldBeCreated() {
         dinosaurs.add(aDinosaur);
         when(dinosaurService.showAllDinosaurs()).thenReturn(dinosaurs);
 
@@ -116,7 +116,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenMultipleDinosaurs_whenShowAllDinosaurs_thenTheDinosauresDTOShouldBeCreated() {
+    public void givenMultipleDinosaurs_whenShowAllDinosaurs_thenTheDinosaursDTOShouldBeCreated() {
         dinosaurs.add(aDinosaur);
         dinosaurs.add(anotherDinosaur);
         when(dinosaurService.showAllDinosaurs()).thenReturn(dinosaurs);
@@ -128,21 +128,14 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void whenShowingAllDinosaurs_thenResponseStatusShouldBe200() {
+    public void whenShowAllDinosaurs_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.showAllDinosaurs();
 
         assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
-    public void whenShowingADino_thenTheServiceShouldBeCalled() {
-        dinosaurResource.showDinosaur(AN_EXISTING_NAME);
-
-        verify(dinosaurService).showDinosaur(AN_EXISTING_NAME);
-    }
-
-    @Test
-    public void whenShowingAllDino_thenTheServiceShouldBeCalled() {
+    public void whenShowAllDinosaurs_thenTheServiceShouldBeCalled() {
         dinosaurResource.showAllDinosaurs();
 
         verify(dinosaurService).showAllDinosaurs();

@@ -24,28 +24,28 @@ public class GameResourceTest {
     }
 
     @Test
-    public void whenPlaying_thenShouldCallGameService() {
+    public void whenPlayTurn_thenShouldCallGameService() {
         gameResource.playTurn();
 
         verify(gameService).playTurn();
     }
 
     @Test
-    public void whenPlaying_thenResponseStatusShouldBe200() {
+    public void whenPlayTurn_thenResponseStatusShouldBe200() {
         Response response = gameResource.playTurn();
 
         assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
-    public void whenResetting_thenShouldCallGameService() {
+    public void whenReset_thenShouldCallGameService() {
         gameResource.reset();
 
         verify(gameService).reset();
     }
 
     @Test
-    public void whenResetting_thenResponseStatusShouldBe200() {
+    public void whenReset_thenResponseStatusShouldBe200() {
         Response response = gameResource.reset();
 
         assertEquals(STATUS_200_OK, response.getStatus());

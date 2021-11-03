@@ -18,7 +18,6 @@ class FoodResourceTest {
     private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
 
     private FoodDTO aFoodDTO;
-    private FoodValidator foodValidator;
     private ResourceService resourceService;
     private FoodResource foodResource;
 
@@ -29,20 +28,20 @@ class FoodResourceTest {
         aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD_ORDERED;
         aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
 
-        foodValidator = new FoodValidator();
         resourceService = mock(ResourceService.class);
+        FoodValidator foodValidator = new FoodValidator();
         foodResource = new FoodResource(resourceService, foodValidator);
     }
 
     @Test
-    public void givenAFoodDTO_whenOrderFood_thenGameServiceShouldOrderTheAppropriateFood() {
+    public void givenAFoodDTO_whenAddFood_thenGameServiceShouldOrderTheAppropriateFood() {
         foodResource.addFood(aFoodDTO);
 
         verify(resourceService).addFood(aFoodDTO);
     }
 
     @Test
-    public void whenOrderFood_thenResponseStatusShouldBe200() {
+    public void givenAFoodDTO_whenAddFood_thenResponseStatusShouldBe200() {
         Response response = foodResource.addFood(aFoodDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());
