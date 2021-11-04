@@ -92,7 +92,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenAnExistingDinosaurName_whenShowingDinosaur_thenResponseStatusShouldBe200() {
+    public void givenAnExistingDinosaurName_whenShowDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.showDinosaur(AN_EXISTING_NAME);
 
         assertEquals(STATUS_200_OK, response.getStatus());
