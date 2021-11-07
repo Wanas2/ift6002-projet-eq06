@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
 import ca.ulaval.glo4002.game.domain.food.FoodStorage;
 
@@ -28,11 +30,21 @@ public class DinosaurFactory {
 
     public BabyDinosaur createBaby(String genderName, String speciesName, String name, Dinosaur fatherDinosaur,
                                    Dinosaur motherDinosaur) {
+        validateParentsGender(fatherDinosaur,motherDinosaur);
         Gender gender = findCorrespondingGender(genderName);
         Species species = findCorrespondingSpecies(speciesName);
         FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);
 
         return new BabyDinosaur(species, name, gender, foodConsumptionStrategy, fatherDinosaur, motherDinosaur);
+    }
+
+    private void validateParentsGender(Dinosaur fatherDinosaur, Dinosaur motherDinosaur) {
+        if (fatherDinosaur.getGender() != Gender.M){
+            throw new InvalidFatherException();
+        }
+        if (motherDinosaur.getGender() != Gender.F){
+            throw new InvalidMotherException();
+        }
     }
 
     private Gender findCorrespondingGender(String gender) {
@@ -42,7 +54,6 @@ public class DinosaurFactory {
         } catch (IllegalArgumentException e) {
             throw new InvalidGenderException();
         }
-
     }
 
     private Species findCorrespondingSpecies(String species) {

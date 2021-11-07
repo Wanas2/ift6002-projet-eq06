@@ -1,8 +1,11 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.CarnivorousFoodStorage;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.HerbivorousFoodStorage;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
 import ca.ulaval.glo4002.game.domain.food.FoodStorage;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,9 +23,14 @@ public class DinosaurFactoryTest {
     private final static String A_SPECIES = "Ankylosaurus";
 
     private DinosaurFactory dinosaurFactory;
+    private Dinosaur fatherDinosaur;
+    private Dinosaur motherDinosaur;
 
     @BeforeEach
     public void setup() {
+        fatherDinosaur = createAMaleDinosaur();
+        motherDinosaur = createAFemaleDinosaur();
+
         CarnivorousFoodStorage carnivorousFoodStorage = mock(CarnivorousFoodStorage.class);
         HerbivorousFoodStorage herbivorousFoodStorage = mock(HerbivorousFoodStorage.class);
         FoodStorage foodStorage = mock(FoodStorage.class);
@@ -30,7 +38,7 @@ public class DinosaurFactoryTest {
     }
 
     @Test
-    public void givenGenderIsNeitherMNorF_whenCreatingDinosaur_thenShouldThrowInvalidGenderException() {
+    public void givenAGenderNeitherMNorF_whenCreateDinosaur_thenShouldThrowInvalidGenderException() {
         String anInvalidGender = "X";
 
         assertThrows(InvalidGenderException.class,
@@ -38,15 +46,47 @@ public class DinosaurFactoryTest {
     }
 
     @Test
-    public void givenCorrectParameters_whenCreatingDinosaur_thenShouldNotThrow() {
-        assertDoesNotThrow(()->dinosaurFactory.create(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
-    }
-
-    @Test
-    public void givenSpeciesIsNotSupported_whenCreatingDinosaur_thenShouldThrowInvalidSpeciesException() {
+    public void givenAnInvalidSpecies_whenCreateDinosaur_thenShouldThrowInvalidSpeciesException() {
         String anInvalidSpecies = "Labrador";
 
         assertThrows(InvalidSpeciesException.class,
                 ()->dinosaurFactory.create(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
+    }
+
+    @Test
+    public void givenCorrectParameters_whenCreateDinosaur_thenShouldNotThrow() {
+        assertDoesNotThrow(()->dinosaurFactory.create(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
+    }
+
+    @Test
+    public void givenAFatherDinosaurNotMale_whenCreateBabyDinosaur_thenShouldThrowInvalidFatherException() {
+        fatherDinosaur = createAFemaleDinosaur();
+
+        assertThrows(InvalidFatherException.class,
+                ()->dinosaurFactory.createBaby(A_GENDER, A_SPECIES, A_NAME,fatherDinosaur,motherDinosaur));
+    }
+
+    @Test
+    public void givenAMotherDinosaurNotFemale_whenCreateBabyDinosaur_thenShouldThrowInvalidMotherException() {
+        motherDinosaur = createAMaleDinosaur();
+
+        assertThrows(InvalidMotherException.class,
+                ()->dinosaurFactory.createBaby(A_GENDER, A_SPECIES, A_NAME,fatherDinosaur,motherDinosaur));
+    }
+
+    @Test
+    public void givenCorrectParameters_whenCreateBabyDinosaur_thenShouldNotThrow() {
+        assertDoesNotThrow(
+                ()->dinosaurFactory.createBaby(A_GENDER, A_SPECIES, A_NAME,fatherDinosaur,motherDinosaur));
+    }
+
+    private Dinosaur createAMaleDinosaur() {
+        FoodConsumptionStrategy foodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
+        return new Dinosaur(Species.Spinosaurus,7,"Joe",Gender.M,foodConsumptionStrategy);
+    }
+
+    private Dinosaur createAFemaleDinosaur() {
+        FoodConsumptionStrategy foodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
+        return new Dinosaur(Species.Ankylosaurus,7,"Berta",Gender.F,foodConsumptionStrategy);
     }
 }
