@@ -38,9 +38,9 @@ public class ProjectConfig extends ResourceConfig {
         HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
 
         Turn turn = new Turn();
-        CookItSubscription cookItSubscription = new CookItSubscription();
+        FoodProvider foodProvider = new CookItSubscription();
         Pantry pantry = pantryRepository.find().
-                orElse(new Pantry(cookItSubscription));
+                orElse(new Pantry(foodProvider));
 
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
         Herd herd = herdRepository.

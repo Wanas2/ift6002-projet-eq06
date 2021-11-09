@@ -3,10 +3,7 @@ package ca.ulaval.glo4002.game.domain.food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -18,7 +15,7 @@ public class CookItSubscriptionTest {
     private int EXPECTED_WATER_QUANTITY = 10000;
 
     private List <Food> foods;
-    private CookItSubscription cookItSubscription;
+    private FoodProvider cookItSubscription;
 
     @BeforeEach
     public void setUp() {
@@ -34,20 +31,20 @@ public class CookItSubscriptionTest {
     }
 
     @Test
-    public void whenProvidingFood_thenTheRightAmountOfFoodShouldBeProvided() { // Todo On peut tester seulement pour un FoodType ici?
+    public void whenProvidingFood_thenTheRightAmountOfFoodShouldBeProvided() {
         foods = cookItSubscription.provideFood();
-        Food burgers = foods.stream().
+        Optional<Food> burgers = foods.stream().
                 filter(food -> food.getType().equals(FoodType.BURGER)).
-                findAny().orElse(null);
-        Food salads = foods.stream().
+                findFirst();
+        Optional<Food> salads = foods.stream().
                 filter(food -> food.getType().equals(FoodType.SALAD)).
-                findAny().orElse(null);
-        Food water = foods.stream().
+                findFirst();
+        Optional<Food> water = foods.stream().
                 filter(food -> food.getType().equals(FoodType.WATER)).
-                findAny().orElse(null);
+                findFirst();
 
-        assertEquals(EXPECTED_BURGER_QUANTITY, burgers.quantity());
-        assertEquals(EXPECTED_SALAD_QUANTITY, salads.quantity());
-        assertEquals(EXPECTED_WATER_QUANTITY, water.quantity());
+        assertEquals(EXPECTED_BURGER_QUANTITY, burgers.get().quantity());
+        assertEquals(EXPECTED_SALAD_QUANTITY, salads.get().quantity());
+        assertEquals(EXPECTED_WATER_QUANTITY, water.get().quantity());
     }
 }

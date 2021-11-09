@@ -2,9 +2,10 @@ package ca.ulaval.glo4002.game.domain.food;
 
 public class Food {
 
+    private FoodState foodState = FoodState.FRESH;
+    private int age = 0;
     private final FoodType type;
     private int quantity;
-    private int age = 0;
 
     public Food(FoodType type, int quantity) {
         this.type = type;
@@ -23,7 +24,11 @@ public class Food {
     }
 
     public void incrementAgeByOne() {
-        age += 1;
+        if(age < type.numberOfTurnBeforeExpiry()) {
+            age += 1;
+        } else {
+            foodState = FoodState.EXPIRED;
+        }
     }
 
     public void decreaseQuantity(int quantity) {
@@ -34,8 +39,8 @@ public class Food {
         this.quantity -= quantity;
     }
 
-    public boolean isExpired() {
-        return age >= type.numberOfTurnBeforeExpiry();
+    public FoodState getState() {
+        return foodState;
     }
 
     public int quantity() {

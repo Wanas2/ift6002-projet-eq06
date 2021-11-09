@@ -10,26 +10,10 @@ class FoodTest {
     private final FoodType FOOD_TYPE = FoodType.BURGER;
     private final int FOOD_QUANTITY = 4;
     private Food food;
-    private Food foodEExpiringIn2Turns;
 
     @BeforeEach
     void setUp() {
         food = new Food(FOOD_TYPE, FOOD_QUANTITY);
-    }
-
-    @Test
-    public void initiallyFoodIsFresh() {
-        assertFalse(food.isExpired());
-    }
-
-    @Test
-    public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
-        foodEExpiringIn2Turns = new Food(FOOD_TYPE, FOOD_QUANTITY);
-
-        foodEExpiringIn2Turns.incrementAgeByOne();
-        foodEExpiringIn2Turns.incrementAgeByOne();
-
-        assertTrue(foodEExpiringIn2Turns.isExpired());
     }
 
     @Test

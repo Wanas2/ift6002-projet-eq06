@@ -1,11 +1,9 @@
 package ca.ulaval.glo4002.game.domain.action;
 
 import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 
 import java.util.List;
-import java.util.Map;
 
 public class AddFoodAction implements ExecutableAction {
 
@@ -19,6 +17,6 @@ public class AddFoodAction implements ExecutableAction {
 
     @Override
     public void execute() {
-        pantry.addOrderedFoodToCurrentTurnFoodBatch(foods);
+        pantry.obtainNewlyOrderedFood(foods);
     }
 }
