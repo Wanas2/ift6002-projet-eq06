@@ -12,6 +12,8 @@ import static org.mockito.Mockito.verify;
 
 public class GameResourceTest {
 
+    private final static int STATUS_200_OK = 200;
+
     private GameService gameService;
     private GameResource gameResource;
 
@@ -22,30 +24,30 @@ public class GameResourceTest {
     }
 
     @Test
-    public void whenPlaying_thenShouldCallGameService() {
+    public void whenPlayTurn_thenShouldCallGameService() {
         gameResource.playTurn();
 
         verify(gameService).playTurn();
     }
 
     @Test
-    public void whenPlaying_thenResponseReturnShouldBeValid() {
+    public void whenPlayTurn_thenResponseStatusShouldBe200() {
         Response response = gameResource.playTurn();
 
-        assertEquals(Response.ok().build().getStatus(), response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
-    public void whenResetting_thenShouldCallGameService() {
+    public void whenReset_thenShouldCallGameService() {
         gameResource.reset();
 
         verify(gameService).reset();
     }
 
     @Test
-    public void whenResetting_thenResponseReturnShouldBeValid() {
+    public void whenReset_thenResponseStatusShouldBe200() {
         Response response = gameResource.reset();
 
-        assertEquals(Response.ok().build().getStatus(), response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 }

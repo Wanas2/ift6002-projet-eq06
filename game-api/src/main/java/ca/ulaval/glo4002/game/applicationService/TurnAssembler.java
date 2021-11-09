@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.game.interfaces.rest.game.TurnNumberDTO;
 
 public class TurnAssembler {
 
-    public TurnNumberDTO assembleTurnNumber(int turnNumber) {
+    public TurnNumberDTO toDTO(int turnNumber) {
         return new TurnNumberDTO(turnNumber);
     }
 }

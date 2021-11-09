@@ -17,12 +17,12 @@ import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTest {
 
-    private final static String NON_EXISTENT_NAME = "Bob";
-    private final static String AN_EXISTING_NAME = "Bobi";
+    private final static int STATUS_200_OK = 200;
+    private final static String A_DINOSAUR_NAME = "Bobi";
+    private final static String ANOTHER_DINOSAUR_NAME = "Bob";
     private final static int WEIGHT = 17;
     private final static String GENDER = "f";
     private final static String SPECIES = "Ankylosaurus";
-    private final static int STATUS_200 = 200;
 
     private BreedingRequestDTO aBreedingRequestDTO;
     private DinosaurDTO aDinosaurDTO;
@@ -36,7 +36,7 @@ public class DinosaurResourceTest {
     @BeforeEach
     public void setup() {
         initializeABreedingDTO();
-        aDinosaurDTO = new DinosaurDTO(NON_EXISTENT_NAME, WEIGHT, GENDER, SPECIES);
+        aDinosaurDTO = new DinosaurDTO(ANOTHER_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
         aDinosaur = mock(Dinosaur.class);
         anotherDinosaur = mock(Dinosaur.class);
         dinosaurs = new ArrayList<>();
@@ -46,7 +46,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurDTOWithValidData_whenAddDino_thenShouldAddTheDinosaur() {
+    public void givenADinosaurDTOWithValidData_whenAddDinosaur_thenShouldAddTheDinosaur() {
         dinosaurResource.addDinosaur(aDinosaurDTO);
 
         verify(dinosaurService).
@@ -54,23 +54,23 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurDTOWithValidData_whenAddingDinosaur_thenShouldReturnStatus200() {
+    public void givenADinosaurDTOWithValidData_whenAddDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.addDinosaur(aDinosaurDTO);
 
-        assertEquals(STATUS_200, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
     public void givenADinosaurDTOWithWeightNotStrictlyPositive_whenAddDinosaur_thenShouldThrowInvalidWeightException() {
         int anInvalidWeight = -5;
-        aDinosaurDTO = new DinosaurDTO(NON_EXISTENT_NAME, anInvalidWeight, GENDER, SPECIES);
+        aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, anInvalidWeight, GENDER, SPECIES);
 
         assertThrows(InvalidWeightException.class,
                 ()->dinosaurResource.addDinosaur(aDinosaurDTO));
     }
 
     @Test
-    public void givenABreedingRequestDTO_whenBreedDino_thenDinosaurShouldBeBred() {
+    public void givenABreedingRequestDTO_whenBreedDinosaur_thenDinosaurShouldBeBred() {
         dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
         verify(dinosaurService).
@@ -79,33 +79,33 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void whenBreedDino_thenShouldReturnStatus200() {
+    public void givenABreedingRequestDTO_whenBreedDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
-        assertEquals(STATUS_200, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
-    public void givenTheNameOfADinosaur_whenShowDinosaur_thenShouldShowDinosaur() {
-        dinosaurResource.showDinosaur(AN_EXISTING_NAME);
+    public void givenADinosaurName_whenShowDinosaur_thenShouldShowDinosaur() {
+        dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
 
-        verify(dinosaurService).showDinosaur(AN_EXISTING_NAME);
+        verify(dinosaurService).showDinosaur(A_DINOSAUR_NAME);
     }
 
     @Test
     public void givenADinosaurName_whenShowDinosaur_thenTheDinosaurDTOShouldBeCreated() {
-        when(dinosaurService.showDinosaur(AN_EXISTING_NAME)).thenReturn(aDinosaur);
+        when(dinosaurService.showDinosaur(A_DINOSAUR_NAME)).thenReturn(aDinosaur);
 
-        dinosaurResource.showDinosaur(AN_EXISTING_NAME);
+        dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
 
         verify(dinosaurAssembler).toDTO(aDinosaur);
     }
 
     @Test
-    public void givenTheNameOfAnAliveDinosaur_whenShowingDinosaur_thenShouldReturnStatus200() {
-        Response response = dinosaurResource.showDinosaur(AN_EXISTING_NAME);
+    public void givenADinosaurName_whenShowDinosaur_thenResponseStatusShouldBe200() {
+        Response response = dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
 
-        assertEquals(STATUS_200, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaur_whenShowAllDinosaurs_thenTheDinosaureDTOShouldBeCreated() {
+    public void givenADinosaur_whenShowAllDinosaurs_thenTheDinosaurDTOShouldBeCreated() {
         dinosaurs.add(aDinosaur);
         when(dinosaurService.showAllDinosaurs()).thenReturn(dinosaurs);
 
@@ -126,7 +126,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenMultipleDinosaurs_whenShowAllDinosaurs_thenTheDinosauresDTOShouldBeCreated() {
+    public void givenMultipleDinosaurs_whenShowAllDinosaurs_thenTheDinosaursDTOShouldBeCreated() {
         dinosaurs.add(aDinosaur);
         dinosaurs.add(anotherDinosaur);
         when(dinosaurService.showAllDinosaurs()).thenReturn(dinosaurs);
@@ -138,21 +138,14 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void whenShowingAllDinosaurs_thenShouldBeStatus200() {
+    public void whenShowAllDinosaurs_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.showAllDinosaurs();
 
-        assertEquals(STATUS_200, response.getStatus());
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     @Test
-    public void whenShowingADino_thenTheServiceShouldBeCalled() {
-        dinosaurResource.showDinosaur(AN_EXISTING_NAME);
-
-        verify(dinosaurService).showDinosaur(AN_EXISTING_NAME);
-    }
-
-    @Test
-    public void whenShowingAllDino_thenTheServiceShouldBeCalled() {
+    public void whenShowAllDinosaurs_thenTheServiceShouldBeCalled() {
         dinosaurResource.showAllDinosaurs();
 
         verify(dinosaurService).showAllDinosaurs();
