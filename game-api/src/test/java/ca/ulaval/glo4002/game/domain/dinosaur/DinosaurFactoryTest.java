@@ -7,7 +7,6 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
-import ca.ulaval.glo4002.game.domain.food.FoodStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,8 +32,7 @@ public class DinosaurFactoryTest {
 
         CarnivorousFoodStorage carnivorousFoodStorage = mock(CarnivorousFoodStorage.class);
         HerbivorousFoodStorage herbivorousFoodStorage = mock(HerbivorousFoodStorage.class);
-        FoodStorage foodStorage = mock(FoodStorage.class);
-        dinosaurFactory = new DinosaurFactory(carnivorousFoodStorage, herbivorousFoodStorage,foodStorage);
+        dinosaurFactory = new DinosaurFactory(carnivorousFoodStorage, herbivorousFoodStorage);
     }
 
     @Test

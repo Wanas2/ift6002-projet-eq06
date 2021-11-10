@@ -10,6 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,9 +24,6 @@ public class HerdTest {
     private final static int CARNIVOROUS_WEIGHT = 90;
     private final static int HERBIVOROUS_WEIGHT_1 = 80;
     private final static int HERBIVOROUS_WEIGHT_2 = 80;
-    private final static int CARNIVOROUS_AGE = 0;
-    private final static int HERBIVOROUS_AGE_1 = 1;
-    private final static int HERBIVOROUS_AGE_2 = 2;
 
     private FoodConsumptionStrategy carnivorousStrategy;
     private FoodConsumptionStrategy herbivorousStrategy1;
@@ -77,9 +75,12 @@ public class HerdTest {
 
     @Test
     public void givenHerd_whenFeedingAllDinosaurs_thenNoDinosaurShouldBeRemoved() {
-        when(carnivorousStrategy.consumeFood(CARNIVOROUS_WEIGHT, CARNIVOROUS_AGE)).thenReturn(true);
-        when(herbivorousStrategy1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(true);
-        when(herbivorousStrategy2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
+        when(carnivorousStrategy.areFoodNeedsSatisfied()).thenReturn(true);
+        when(carnivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(herbivorousStrategy1.areFoodNeedsSatisfied()).thenReturn(true);
+        when(herbivorousStrategy1.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(herbivorousStrategy2.areFoodNeedsSatisfied()).thenReturn(true);
+        when(herbivorousStrategy2.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
 
         herd.feedDinosaurs();
 
@@ -90,9 +91,12 @@ public class HerdTest {
 
     @Test
     public void givenHerd_whenFeedingSomeDinosaurs_thenFastingDinosaursShouldBeRemoved() {
-        when(carnivorousStrategy.consumeFood(CARNIVOROUS_WEIGHT, CARNIVOROUS_AGE)).thenReturn(true);
-        when(herbivorousStrategy1.consumeFood(HERBIVOROUS_WEIGHT_1, HERBIVOROUS_AGE_1)).thenReturn(false);
-        when(herbivorousStrategy2.consumeFood(HERBIVOROUS_WEIGHT_2, HERBIVOROUS_AGE_2)).thenReturn(true);
+        when(carnivorousStrategy.areFoodNeedsSatisfied()).thenReturn(true);
+        when(carnivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(herbivorousStrategy1.areFoodNeedsSatisfied()).thenReturn(false);
+        when(herbivorousStrategy1.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(herbivorousStrategy2.areFoodNeedsSatisfied()).thenReturn(true);
+        when(herbivorousStrategy2.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
 
         herd.feedDinosaurs();
 
