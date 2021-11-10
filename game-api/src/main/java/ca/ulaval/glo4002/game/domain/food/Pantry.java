@@ -2,13 +2,13 @@ package ca.ulaval.glo4002.game.domain.food;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Pantry implements FoodStorage {
 
     private final FoodProvider foodProvider;
     private List<Food> currentTurnFoodBatch = new ArrayList<>();
-    private final List<Food> allFood = new ArrayList<>();
-
     private Queue<List<Food>> allFreshFood = new LinkedList<>();
     private final List<Food> allExpiredFood = new ArrayList<>();
     private final List<Food> allConsumedFood = new ArrayList<>();
@@ -31,20 +31,29 @@ public class Pantry implements FoodStorage {
 
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
-        Optional<Food> foodOfRequiredTypeToAdd = allFood.stream().
+        int quantityOfFoodToProvide = quantityOfFoodToProvide(FoodType.BURGER, requestedBurgerQuantity);
+
+        Queue<Food> availableBurgers = allFreshFood.stream().
+                flatMap(foodBatch -> foodBatch.stream()).
                 filter(food -> food.getType().equals(FoodType.BURGER)).
-                findFirst();
-        return 0;
+                collect(Collectors.toCollection(LinkedList::new));
+
+        availableBurgers.forEach(burger -> {
+//            burger.decreaseQuantity(); // Todo continue from here
+        });
+
+
+        return 1;
     }
 
     @Override
     public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        return giveExactOrMostPossibleFoodDesired(FoodType.SALAD, requestedSaladQuantity);
+        return 1;
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesired(int requestedWaterQuantity) {
-        return giveExactOrMostPossibleFoodDesired(FoodType.WATER, requestedWaterQuantity);
+        return 1;
     }
 
     public void addCurrentTurnFoodBatchToFreshFood() {
@@ -57,12 +66,6 @@ public class Pantry implements FoodStorage {
         return 1;
     }
 
-    /*************************************************************************************/
-
-    public List<Food> getAllFood() {
-        return allFood;
-    }
-
     public void obtainNewlyOrderedFood(List<Food> orderedFood) {
         FoodState newFoodState = FoodState.FRESH;
         for(FoodType foodType : FoodType.values()) {
@@ -71,17 +74,22 @@ public class Pantry implements FoodStorage {
     }
 
     public void storeFood() {
+        List<Food> newBatchOfFood = new ArrayList<>();
         FoodState newFoodState = FoodState.FRESH;
         List<Food> foodFromProvider = foodProvider.provideFood();
 
         for (FoodType foodType : FoodType.values()) {
-            incrementFoodQuantityOfOneType(currentTurnFoodBatch, allFood, foodType, newFoodState);
-            incrementFoodQuantityOfOneType(foodFromProvider, allFood, foodType, newFoodState);
+            incrementFoodQuantityOfOneType(currentTurnFoodBatch, newBatchOfFood, foodType, newFoodState);
+            incrementFoodQuantityOfOneType(foodFromProvider, newBatchOfFood, foodType, newFoodState);
         }
+
+        allFreshFood.add(newBatchOfFood);
+        currentTurnFoodBatch = new ArrayList<>();
     }
 
     public void incrementFreshFoodAges() {
-        allFood.forEach(food -> food.incrementAgeByOne());
+        allFreshFood.forEach(foodBatch ->
+                        foodBatch.forEach(food -> food.incrementAgeByOne()));
     }
 
     public void reset() {
@@ -122,5 +130,16 @@ public class Pantry implements FoodStorage {
                 findFirst();
 
         return matchingFood.isPresent();
+    }
+
+    private int quantityOfFoodToProvide(FoodType foodType, int requestedFoodQuantity) {
+        List<Food> availableBurgers = allFreshFood.stream().
+                flatMap(foodBatch -> foodBatch.stream()).
+                filter(food -> food.getType().equals(foodType)).
+                collect(Collectors.toList());
+
+        int availableFoodQuantity =  availableBurgers.stream().mapToInt(Food::quantity).sum();
+
+        return Math.min(requestedFoodQuantity, availableFoodQuantity);
     }
 }
