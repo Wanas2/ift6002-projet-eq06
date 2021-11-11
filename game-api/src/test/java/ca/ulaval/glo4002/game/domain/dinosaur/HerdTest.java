@@ -44,12 +44,12 @@ public class HerdTest {
         fakeDinosaur = mock(Dinosaur.class);
         aDinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_DINOSAUR_WEIGHT, DINOSAUR_NAME, Gender.M,
                 carnivorousStrategy);
-        carnivorousDinosaur1 = new Dinosaur(Species.Allosaurus, CARNIVOROUS_DINOSAUR_WEIGHT, CARNIVOROUS_DINOSAUR_NAME, Gender.M,
-                carnivorousStrategy);
-        herbivorousDinosaur1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_DINOSAUR_WEIGHT_1, HERBIVOROUS_DINOSAUR_NAME_1, Gender.F,
-                herbivorousStrategy1);
-        herbivorousDinosaur2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_DINOSAUR_WEIGHT_2, HERBIVOROUS_DINOSAUR_NAME_2, Gender.F,
-                herbivorousStrategy2);
+        carnivorousDinosaur1 = new Dinosaur(Species.Allosaurus, CARNIVOROUS_DINOSAUR_WEIGHT, CARNIVOROUS_DINOSAUR_NAME,
+                Gender.M, carnivorousStrategy);
+        herbivorousDinosaur1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_DINOSAUR_WEIGHT_1,
+                HERBIVOROUS_DINOSAUR_NAME_1, Gender.F, herbivorousStrategy1);
+        herbivorousDinosaur2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_DINOSAUR_WEIGHT_2,
+                HERBIVOROUS_DINOSAUR_NAME_2, Gender.F, herbivorousStrategy2);
         Collections.addAll(dinosaurs, carnivorousDinosaur1, herbivorousDinosaur1, herbivorousDinosaur2);
         herd = new Herd(dinosaurs);
         herbivorousDinosaur1.age();
@@ -59,14 +59,14 @@ public class HerdTest {
     }
 
     @Test
-    public void givenANameOfANonExistingDinosaur_whenHasDinosaurWithName_thenNameShouldNotExist() {
+    public void givenANameOfANonExistingDinosaurInHerd_whenHasDinosaurWithName_thenNameShouldNotExist() {
         boolean dinosaurNameExists = herd.hasDinosaurWithName(DINOSAUR_NAME);
 
         assertFalse(dinosaurNameExists);
     }
 
     @Test
-    public void givenANameOfAnExistingDinosaur_whenHasDinosaurWithName_thenNameShouldExist() {
+    public void givenANameOfAnExistingDinosaurInHerd_whenHasDinosaurWithName_thenNameShouldExist() {
         herd.addDinosaur(aDinosaur);
 
         boolean dinosaurNameExists = herd.hasDinosaurWithName(DINOSAUR_NAME);
@@ -75,7 +75,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenANonExistingDinosaur_whenAddDinosaur_thenDinosaurShouldBeAdded() {
+    public void givenANonExistingDinosaurInHerd_whenAddDinosaur_thenDinosaurShouldBeAdded() {
         Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_DINOSAUR_WEIGHT, DINOSAUR_NAME, Gender.F,
                 carnivorousStrategy);
 
@@ -85,9 +85,9 @@ public class HerdTest {
     }
 
     @Test
-    public void givenAnExistingDinosaur_whenAddDinosaur_thenDinosaurShouldNotBeAdded() {
-        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_DINOSAUR_WEIGHT, CARNIVOROUS_DINOSAUR_NAME, Gender.M,
-                carnivorousStrategy);
+    public void givenAnExistingDinosaurInHerd_whenAddDinosaur_thenDinosaurShouldNotBeAdded() {
+        Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_DINOSAUR_WEIGHT, CARNIVOROUS_DINOSAUR_NAME,
+                Gender.M,carnivorousStrategy);
 
         herd.addDinosaur(dinosaur);
 
@@ -121,7 +121,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenDinosaursInHerd_whenIncreaseDinosaurAge_ThenDinosaursAgeShouldIncrease() {
+    public void givenADinosaurInHerd_whenIncreaseDinosaursAge_ThenDinosaurAgeShouldIncrease() {
         herd.addDinosaur(fakeDinosaur);
 
         herd.increaseDinosaursAge();
@@ -131,9 +131,6 @@ public class HerdTest {
 
     @Test
     public void givenHerd_whenReset_thenHerdShouldBeEmpty() {
-        dinosaurs.add(aDinosaur);
-        herd = new Herd(dinosaurs);
-
         herd.reset();
 
         assertTrue(dinosaurs.isEmpty());
