@@ -34,13 +34,13 @@ public class GameResourceTest {
     }
 
     @Test
-    public void givenATurnNumber_whenPlayTurn_thenADTOCorrespondingToTheTurnNumberIsCreated() {
+    public void givenATurnNumber_whenPlayTurn_thenResponseEntityShouldContainTheTurnNumber() {
         when(gameService.playTurn()).thenReturn(A_TURN_NUMBER);
 
-        gameResource.playTurn();
-        TurnNumberDTO turnNumberDTO = turnAssembler.toDTO(A_TURN_NUMBER);
+        Response response = gameResource.playTurn();
+        TurnNumberDTO responseEntity = (TurnNumberDTO)response.getEntity();
 
-        assertEquals(A_TURN_NUMBER, turnNumberDTO.turnNumber);
+        assertEquals(A_TURN_NUMBER, responseEntity.turnNumber);
     }
 
     @Test
