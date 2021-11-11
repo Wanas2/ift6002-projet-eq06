@@ -47,7 +47,7 @@ public class DinosaurResourceTest {
 
     @Test
     public void whenShowingAllDinosaurs_thenShouldBeStatus200() {
-        Response response = dinosaurResource.showAllDino();
+        Response response = dinosaurResource.showAllDinosaurs();
 
         assertEquals(STATUS_200, response.getStatus());
     }
@@ -61,7 +61,7 @@ public class DinosaurResourceTest {
 
     @Test
     public void whenShowingAllDino_thenTheServiceShouldBeCalled() {
-        dinosaurResource.showAllDino();
+        dinosaurResource.showAllDinosaurs();
 
         verify(dinosaurService).showAllDinosaurs();
     }

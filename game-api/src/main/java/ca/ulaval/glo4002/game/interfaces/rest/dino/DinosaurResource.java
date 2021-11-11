@@ -11,7 +11,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class DinosaurResource {
 
-    private DinosaurService dinosaureService;
+    private final DinosaurService dinosaureService;
 
     public DinosaurResource(DinosaurService dinosaureService) {
         this.dinosaureService = dinosaureService;
@@ -40,7 +40,7 @@ public class DinosaurResource {
 
     @GET
     @Path("/dinosaurs")
-    public Response showAllDino() {
+    public Response showAllDinosaurs() {
         List<DinosaurDTO> dinosaurs = dinosaureService.showAllDinosaurs();
         return Response.ok().entity(dinosaurs).build();
     }
