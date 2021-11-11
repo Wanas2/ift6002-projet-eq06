@@ -41,7 +41,7 @@ public class DinosaurResource {
     @GET
     @Path("/dinosaurs")
     public Response showAllDino() {
-        List<DinosaurDTO> dinos = dinosaureService.showAllDinosaurs();
-        return Response.ok().entity(dinos).build();
+        List<DinosaurDTO> dinosaurs = dinosaureService.showAllDinosaurs();
+        return Response.ok().entity(dinosaurs).build();
     }
 }
