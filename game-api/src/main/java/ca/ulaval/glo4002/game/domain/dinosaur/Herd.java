@@ -34,16 +34,17 @@ public class Herd {
     public void feedDinosaurs() {
         List<FoodNeed> herbivorousFoodNeeds = new ArrayList<>();
         List<FoodNeed> carnivorousFoodNeeds = new ArrayList<>();
-        List<Dinosaur> sortedByStrengthDinosaurs = dinosaurs.stream().sorted().collect(Collectors.toList());
+        List<Dinosaur> dinosaursSortedFromWeakerToStronger =
+                dinosaurs.stream().sorted().collect(Collectors.toList());
 
-        for(Dinosaur dinosaur: sortedByStrengthDinosaurs){
+        for(Dinosaur dinosaur: dinosaursSortedFromWeakerToStronger){
             List<FoodNeed> foodNeeds = dinosaur.askForFood();
             for(FoodNeed foodNeed: foodNeeds){
                 if (foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS){
-                    carnivorousFoodNeeds.add(foodNeed);
+                    carnivorousFoodNeeds.add(0,foodNeed);
                 }
                 else if (foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS){
-                    herbivorousFoodNeeds.add(0,foodNeed);
+                    herbivorousFoodNeeds.add(foodNeed);
                 }
             }
         }

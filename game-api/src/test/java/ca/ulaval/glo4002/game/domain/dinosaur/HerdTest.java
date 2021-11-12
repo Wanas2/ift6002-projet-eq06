@@ -1,8 +1,11 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,45 +14,54 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class HerdTest {
 
     private final static String CARNIVOROUS_NAME = "Bob";
-    private final static String HERBIVOROUS_NAME_1 = "Bobi";
-    private final static String HERBIVOROUS_NAME_2 = "Alyce";
+    private final static String STRONGER_CARNIVOROUS_NAME = "Alfred";
+    private final static String HERBIVOROUS_NAME = "Bobi";
+    private final static String STRONGER_HERBIVOROUS_NAME = "Alyce";
     private final static String NAME_DINOSAUR = "Cedric";
-    private final static int CARNIVOROUS_WEIGHT = 90;
-    private final static int HERBIVOROUS_WEIGHT_1 = 80;
-    private final static int HERBIVOROUS_WEIGHT_2 = 80;
+    private final static int CARNIVOROUS_WEIGHT = 80;
+    private final static int STRONGER_CARNIVOROUS_WEIGHT = 100;
+    private final static int HERBIVOROUS_WEIGHT = 80;
+    private final static int STRONGER_HERBIVOROUS_WEIGHT= 100;
 
     private FoodConsumptionStrategy carnivorousStrategy;
-    private FoodConsumptionStrategy herbivorousStrategy1;
-    private FoodConsumptionStrategy herbivorousStrategy2;
-    private Dinosaur carnivorousDinosaur1;
-    private Dinosaur herbivorousDinosaur1;
-    private Dinosaur herbivorousDinosaur2;
+    private FoodConsumptionStrategy strongerDinosaurCarnivorousStrategy;
+    private FoodConsumptionStrategy herbivorousStrategy;
+    private FoodConsumptionStrategy strongerDinosaurHerbivorousStrategy;
+    private Dinosaur aCarnivorousDinosaur;
+    private Dinosaur aStrongerCarnivorousDinosaur;
+    private Dinosaur anHerbivorousDinosaur;
+    private Dinosaur aStrongerHerbivorousDinosaur;
     private final List<Dinosaur> dinosaurs = new ArrayList<>();
     private Herd herd;
 
     @BeforeEach
     void setUp() {
         carnivorousStrategy = mock(FoodConsumptionStrategy.class);
-        herbivorousStrategy1 = mock(FoodConsumptionStrategy.class);
-        herbivorousStrategy2 = mock(FoodConsumptionStrategy.class);
-        carnivorousDinosaur1 = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M,
-                carnivorousStrategy);
-        herbivorousDinosaur1 = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_WEIGHT_1, HERBIVOROUS_NAME_1, Gender.F,
-                herbivorousStrategy1);
-        herbivorousDinosaur2 = new Dinosaur(Species.Diplodocus, HERBIVOROUS_WEIGHT_2, HERBIVOROUS_NAME_2, Gender.F,
-                herbivorousStrategy2);
-        Collections.addAll(dinosaurs, carnivorousDinosaur1, herbivorousDinosaur1, herbivorousDinosaur2);
+        herbivorousStrategy = mock(FoodConsumptionStrategy.class);
+        strongerDinosaurHerbivorousStrategy = mock(FoodConsumptionStrategy.class);
+        strongerDinosaurCarnivorousStrategy = mock(FoodConsumptionStrategy.class);
+
+        aCarnivorousDinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME,
+                Gender.M, carnivorousStrategy);
+        aStrongerCarnivorousDinosaur = new Dinosaur(Species.Allosaurus, STRONGER_CARNIVOROUS_WEIGHT,
+                STRONGER_CARNIVOROUS_NAME, Gender.M, strongerDinosaurCarnivorousStrategy);
+        anHerbivorousDinosaur = new Dinosaur(Species.Ankylosaurus, HERBIVOROUS_WEIGHT, HERBIVOROUS_NAME,
+                Gender.F, herbivorousStrategy);
+        aStrongerHerbivorousDinosaur = new Dinosaur(Species.Diplodocus, STRONGER_HERBIVOROUS_WEIGHT,
+                STRONGER_HERBIVOROUS_NAME, Gender.F, strongerDinosaurHerbivorousStrategy);
+
+        Collections.addAll(dinosaurs, aCarnivorousDinosaur, anHerbivorousDinosaur,
+                aStrongerHerbivorousDinosaur,aStrongerCarnivorousDinosaur);
         herd = new Herd(dinosaurs);
-        herbivorousDinosaur1.age();
-        herbivorousDinosaur2.age();
-        herbivorousDinosaur2.age();
+        anHerbivorousDinosaur.age();
+        aStrongerHerbivorousDinosaur.age();
+        aStrongerHerbivorousDinosaur.age();
 
     }
 
@@ -74,34 +86,60 @@ public class HerdTest {
     }
 
     @Test
-    public void givenHerd_whenFeedingAllDinosaurs_thenNoDinosaurShouldBeRemoved() {
-        when(carnivorousStrategy.areFoodNeedsSatisfied()).thenReturn(true);
+    public void givenHerd_whenFeedDinosaur_thenHerbivorousFoodNeedShouldBeSatisfiedFromWeakerToStrongerDinosaurs() {
+        FoodNeed weakerDinosaurFoodNeed = mock(FoodNeed.class);
+        when(weakerDinosaurFoodNeed.getFoodConsumption()).thenReturn(FoodConsumption.HERBIVOROUS);
+        FoodNeed strongerDinosaurFoodNeed = mock(FoodNeed.class);
+        when(strongerDinosaurFoodNeed.getFoodConsumption()).thenReturn(FoodConsumption.HERBIVOROUS);
+        InOrder correctOrder = inOrder(weakerDinosaurFoodNeed,strongerDinosaurFoodNeed);
+        when(herbivorousStrategy.getFoodNeeds(anyInt(),anyInt()))
+                .thenReturn(List.of(weakerDinosaurFoodNeed));
+        when(strongerDinosaurHerbivorousStrategy.getFoodNeeds(anyInt(),anyInt()))
+                .thenReturn(List.of(strongerDinosaurFoodNeed));
         when(carnivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
-        when(herbivorousStrategy1.areFoodNeedsSatisfied()).thenReturn(true);
-        when(herbivorousStrategy1.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
-        when(herbivorousStrategy2.areFoodNeedsSatisfied()).thenReturn(true);
-        when(herbivorousStrategy2.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(strongerDinosaurCarnivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
 
         herd.feedDinosaurs();
 
-        assertTrue(dinosaurs.contains(carnivorousDinosaur1));
-        assertTrue(dinosaurs.contains(herbivorousDinosaur1));
-        assertTrue(dinosaurs.contains(herbivorousDinosaur2));
+        correctOrder.verify(weakerDinosaurFoodNeed).satisfy();
+        correctOrder.verify(strongerDinosaurFoodNeed).satisfy();
     }
 
     @Test
-    public void givenHerd_whenFeedingSomeDinosaurs_thenFastingDinosaursShouldBeRemoved() {
-        when(carnivorousStrategy.areFoodNeedsSatisfied()).thenReturn(true);
-        when(carnivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
-        when(herbivorousStrategy1.areFoodNeedsSatisfied()).thenReturn(false);
-        when(herbivorousStrategy1.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
-        when(herbivorousStrategy2.areFoodNeedsSatisfied()).thenReturn(true);
-        when(herbivorousStrategy2.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+    public void givenHerd_whenFeedDinosaur_thenCarnivorousFoodNeedShouldBeSatisfiedFromStrongerToWeakerDinosaurs() {
+        FoodNeed weakerDinosaurFoodNeed = mock(FoodNeed.class);
+        when(weakerDinosaurFoodNeed.getFoodConsumption()).thenReturn(FoodConsumption.CARNIVOROUS);
+        FoodNeed strongerDinosaurFoodNeed = mock(FoodNeed.class);
+        when(strongerDinosaurFoodNeed.getFoodConsumption()).thenReturn(FoodConsumption.CARNIVOROUS);
+        InOrder correctOrder = inOrder(strongerDinosaurFoodNeed,weakerDinosaurFoodNeed);
+        when(carnivorousStrategy.getFoodNeeds(anyInt(),anyInt()))
+                .thenReturn(List.of(weakerDinosaurFoodNeed));
+        when(strongerDinosaurCarnivorousStrategy.getFoodNeeds(anyInt(),anyInt()))
+                .thenReturn(List.of(strongerDinosaurFoodNeed));
+        when(herbivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(strongerDinosaurHerbivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
 
         herd.feedDinosaurs();
 
-        assertTrue(dinosaurs.contains(carnivorousDinosaur1));
-        assertFalse(dinosaurs.contains(herbivorousDinosaur1));
-        assertTrue(dinosaurs.contains(herbivorousDinosaur2));
+        correctOrder.verify(strongerDinosaurFoodNeed).satisfy();
+        correctOrder.verify(weakerDinosaurFoodNeed).satisfy();
+    }
+
+    @Test
+    public void givenHerdWithDinosaurs_whenFeedingSomeDinosaurs_thenFastingDinosaursShouldBeRemoved() {
+        when(strongerDinosaurCarnivorousStrategy.areFoodNeedsSatisfied()).thenReturn(true);
+        when(strongerDinosaurCarnivorousStrategy.getFoodNeeds(anyInt(),anyInt()))
+                .thenReturn(new ArrayList<>());
+        when(herbivorousStrategy.areFoodNeedsSatisfied()).thenReturn(true);
+        when(herbivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(strongerDinosaurHerbivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(carnivorousStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+
+        herd.feedDinosaurs();
+
+        assertTrue(dinosaurs.contains(aStrongerCarnivorousDinosaur));
+        assertTrue(dinosaurs.contains(anHerbivorousDinosaur));
+        assertFalse(dinosaurs.contains(aStrongerHerbivorousDinosaur));
+        assertFalse(dinosaurs.contains(aCarnivorousDinosaur));
     }
 }
