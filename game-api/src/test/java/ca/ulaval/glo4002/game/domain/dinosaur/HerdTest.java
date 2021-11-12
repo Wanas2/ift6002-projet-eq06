@@ -95,19 +95,6 @@ public class HerdTest {
     }
 
     @Test
-    public void givenAllDinosaursInHerd_whenFeedDinosaurs_thenNoDinosaurShouldBeRemoved() {
-        when(carnivorousStrategy.consumeFood(CARNIVOROUS_DINOSAUR_WEIGHT, CARNIVOROUS_DINOSAUR_AGE)).thenReturn(true);
-        when(herbivorousStrategy1.consumeFood(HERBIVOROUS_DINOSAUR_WEIGHT_1, HERBIVOROUS_DINOSAUR_AGE_1)).thenReturn(true);
-        when(herbivorousStrategy2.consumeFood(HERBIVOROUS_DINOSAUR_WEIGHT_2, HERBIVOROUS_DINOSAUR_AGE_2)).thenReturn(true);
-
-        herd.feedDinosaurs();
-
-        assertTrue(dinosaurs.contains(carnivorousDinosaur1));
-        assertTrue(dinosaurs.contains(herbivorousDinosaur1));
-        assertTrue(dinosaurs.contains(herbivorousDinosaur2));
-    }
-
-    @Test
     public void givenSomeDinosaursInHerd_whenFeedDinosaurs_thenFastingDinosaursShouldBeRemoved() {
         when(carnivorousStrategy.consumeFood(CARNIVOROUS_DINOSAUR_WEIGHT, CARNIVOROUS_DINOSAUR_AGE)).thenReturn(true);
         when(herbivorousStrategy1.consumeFood(HERBIVOROUS_DINOSAUR_WEIGHT_1, HERBIVOROUS_DINOSAUR_AGE_1)).thenReturn(false);
@@ -126,7 +113,7 @@ public class HerdTest {
 
         herd.increaseDinosaursAge();
 
-        verify(fakeDinosaur,times(1)).age();
+        verify(fakeDinosaur).age();
     }
 
     @Test
