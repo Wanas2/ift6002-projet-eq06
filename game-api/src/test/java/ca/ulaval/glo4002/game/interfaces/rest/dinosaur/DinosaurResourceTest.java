@@ -3,6 +3,9 @@ package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
+import ca.ulaval.glo4002.game.domain.dinosaur.Species;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,8 +13,10 @@ import javax.ws.rs.core.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTest {
@@ -22,6 +27,7 @@ public class DinosaurResourceTest {
     private final static int WEIGHT = 17;
     private final static String GENDER = "f";
     private final static String SPECIES = "Ankylosaurus";
+    private FoodConsumptionStrategy consumptionStrategy;
 
     private BreedingRequestDTO aBreedingRequestDTO;
     private DinosaurDTO aDinosaurDTO;
@@ -29,18 +35,17 @@ public class DinosaurResourceTest {
     private Dinosaur anotherDinosaur;
     private List<Dinosaur> dinosaurs;
     private DinosaurService dinosaurService;
-    private DinosaurAssembler dinosaurAssembler;
     private DinosaurResource dinosaurResource;
 
     @BeforeEach
     public void setup() {
         initializeABreedingDTO();
-        aDinosaurDTO = new DinosaurDTO(ANOTHER_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
-        aDinosaur = mock(Dinosaur.class);
-        anotherDinosaur = mock(Dinosaur.class);
+        aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
+        aDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        anotherDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
-        dinosaurAssembler = mock(DinosaurAssembler.class);
+        DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
         dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler);
     }
 
@@ -76,23 +81,21 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurName_whenShowDinosaur_thenShouldShowDinosaur() {
-        dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
-
-        verify(dinosaurService).showDinosaur(A_DINOSAUR_NAME);
-    }
-
-    @Test
     public void givenADinosaurName_whenShowDinosaur_thenTheDinosaurDTOShouldBeCreated() {
         when(dinosaurService.showDinosaur(A_DINOSAUR_NAME)).thenReturn(aDinosaur);
 
-        dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
+        Response response = dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
+        DinosaurDTO exceptedDinosaur = (DinosaurDTO) response.getEntity();
 
-        verify(dinosaurAssembler).toDTO(aDinosaur);
+        assertEquals(exceptedDinosaur.name, A_DINOSAUR_NAME);
+        assertEquals(exceptedDinosaur.weight , aDinosaurDTO.weight);
+        assertEquals(exceptedDinosaur.gender , aDinosaurDTO.gender);
     }
 
     @Test
     public void givenADinosaurName_whenShowDinosaur_thenResponseStatusShouldBe200() {
+        when(dinosaurService.showDinosaur(A_DINOSAUR_NAME)).thenReturn(aDinosaur);
+
         Response response = dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
 
         assertEquals(STATUS_200_OK, response.getStatus());
@@ -110,9 +113,9 @@ public class DinosaurResourceTest {
         dinosaurs.add(aDinosaur);
         when(dinosaurService.showAllDinosaurs()).thenReturn(dinosaurs);
 
-        dinosaurResource.showAllDinosaurs();
+        Response response = dinosaurResource.showAllDinosaurs();
 
-        verify(dinosaurAssembler).toDTO((aDinosaur));
+        assertTrue(response.hasEntity());
     }
 
     @Test
@@ -121,10 +124,9 @@ public class DinosaurResourceTest {
         dinosaurs.add(anotherDinosaur);
         when(dinosaurService.showAllDinosaurs()).thenReturn(dinosaurs);
 
-        dinosaurResource.showAllDinosaurs();
+        Response response = dinosaurResource.showAllDinosaurs();
 
-        verify(dinosaurAssembler).toDTO((aDinosaur));
-        verify(dinosaurAssembler).toDTO((anotherDinosaur));
+        assertTrue(response.hasEntity());
     }
 
     @Test

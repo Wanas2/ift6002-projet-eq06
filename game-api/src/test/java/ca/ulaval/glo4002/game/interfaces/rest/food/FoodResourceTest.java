@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.mock;
 import static org.mockito.BDDMockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,9 +23,9 @@ import static org.mockito.Mockito.when;
 class FoodResourceTest {
 
     private final static int STATUS_200_OK = 200;
-    private final static int A_QUANTITY_OF_BURGER_ORDERED = 3;
-    private final static int A_QUANTITY_OF_SALAD_ORDERED = 2;
-    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
+    private final static int A_QUANTITY_OF_BURGER = 3;
+    private final static int A_QUANTITY_OF_SALAD = 2;
+    private final static int A_QUANTITY_OF_WATER_IN_LITERS = 10;
 
     private Food aFoodItem1;
     private Food aFoodItem2;
@@ -40,32 +42,24 @@ class FoodResourceTest {
     @BeforeEach
     void setUp() {
         aFoodDTO = new FoodDTO();
-        aFoodDTO.qtyBurger = A_QUANTITY_OF_BURGER_ORDERED;
-        aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD_ORDERED;
-        aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
+        aFoodDTO.qtyBurger = A_QUANTITY_OF_BURGER;
+        aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD;
+        aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS;
 
         resourceService = mock(ResourceService.class);
         foodValidator = new FoodValidator();
-        foodAssembler = mock(FoodAssembler.class);
-        foodSummaryAssembler = mock(FoodSummaryAssembler.class);
+        foodAssembler = new FoodAssembler();
+        foodSummaryAssembler = new FoodSummaryAssembler();
         foodResource = new FoodResource(resourceService, foodValidator, foodAssembler, foodSummaryAssembler);
-    }
-
-    @Test
-    public void givenAFoodDTO_whenAddFood_thenTheFoodShouldBeCreated() {
-        foodResource.addFood(aFoodDTO);
-
-        verify(foodAssembler).fromDTO(aFoodDTO);
     }
 
     @Test
     public void givenAFoodDTO_whenAddFood_thenTheFoodCorrespondingToTheDTOShouldBeAdded() {
         initializeSomeFood();
-        when(foodAssembler.fromDTO(aFoodDTO)).thenReturn(someFood);
 
         foodResource.addFood(aFoodDTO);
 
-        verify(resourceService).addFood(someFood);
+        verify(resourceService).addFood(argThat(this::sameFood));
     }
 
     @Test
@@ -77,32 +71,28 @@ class FoodResourceTest {
 
     @Test
     public void whenGetFoodQuantitySummary_theGameServiceShouldGetFoodQuantitySummary() {
-        foodResource.getFoodQuantitySummary();
-
-        verify(resourceService).getFoodQuantitySummary();
-    }
-
-    @Test
-    public void givenAFoodSummary_whenGetFoodQuantitySummary_thenTheDTOCorrespondingToTheSummaryShouldBeCreated() {
         initializeFoodSummaryExample();
         when(resourceService.getFoodQuantitySummary()).thenReturn(foodSummaryExample);
 
-        foodResource.getFoodQuantitySummary();
+        Response response = foodResource.getFoodQuantitySummary();
 
-        verify(foodSummaryAssembler).toDTO(foodSummaryExample, foodAssembler);
+        assertTrue(response.getEntity() instanceof FoodSummaryDTO);
     }
 
     @Test
     public void whenGetFoodQuantitySummary_thenResponseStatusShouldBe200() {
+        initializeFoodSummaryExample();
+        when(resourceService.getFoodQuantitySummary()).thenReturn(foodSummaryExample);
+
         Response response = foodResource.getFoodQuantitySummary();
 
         assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     private void initializeSomeFood() {
-        aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_BURGER_ORDERED);
-        aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD_ORDERED);
-        aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS_ORDERED);
+        aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_BURGER);
+        aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD);
+        aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS);
         someFood = new HashMap<>();
         someFood.put(FoodType.BURGER, aFoodItem1);
         someFood.put(FoodType.SALAD, aFoodItem2);
@@ -110,13 +100,31 @@ class FoodResourceTest {
     }
 
     private void initializeFoodSummaryExample() {
-        Map<FoodType, Integer> expiredFoodSummary = new HashMap<>();
-        Map<FoodType, Integer> consumedFoodSummary = new HashMap<>();
-        Map<FoodType, Integer> freshFoodSummary = new HashMap<>();
+        Map<FoodType, Integer> expiredFoodSummary = new HashMap<>(){{
+            put(FoodType.BURGER, A_QUANTITY_OF_BURGER);
+            put(FoodType.SALAD, A_QUANTITY_OF_SALAD);
+            put(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS);
+        }};
+        Map<FoodType, Integer> consumedFoodSummary = new HashMap<>(){{
+            put(FoodType.BURGER, A_QUANTITY_OF_BURGER);
+            put(FoodType.SALAD, A_QUANTITY_OF_SALAD);
+            put(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS);
+        }};
+        Map<FoodType, Integer> freshFoodSummary = new HashMap<>(){{
+            put(FoodType.BURGER, A_QUANTITY_OF_BURGER);
+            put(FoodType.SALAD, A_QUANTITY_OF_SALAD);
+            put(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS);
+        }};
 
         foodSummaryExample = new HashMap<>();
         foodSummaryExample.put("fresh", freshFoodSummary);
         foodSummaryExample.put("expired", expiredFoodSummary);
         foodSummaryExample.put("consumed", consumedFoodSummary);
+    }
+
+    private boolean sameFood(Map<FoodType, Food> matcher){
+        return matcher.get(FoodType.SALAD).quantity() == someFood.get(FoodType.SALAD).quantity() &&
+                matcher.get(FoodType.BURGER).quantity() == someFood.get(FoodType.BURGER).quantity() &&
+                matcher.get(FoodType.WATER).quantity() == someFood.get(FoodType.WATER).quantity();
     }
 }
