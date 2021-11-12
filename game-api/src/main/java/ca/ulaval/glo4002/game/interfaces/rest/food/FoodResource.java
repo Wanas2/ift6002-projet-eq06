@@ -32,7 +32,7 @@ public class FoodResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addFood(FoodDTO foodDTO) {
         foodValidator.validateFoodEntries(foodDTO);
-        Map<FoodType, Food> food = foodAssembler.fromDTO(foodDTO);
+        Map<FoodType, Food> food = foodAssembler.fromDTO(foodDTO.qtyBurger, foodDTO.qtySalad, foodDTO.qtyWater);
         resourceService.addFood(food);
         return Response.ok().build();
     }
