@@ -2,20 +2,24 @@ package ca.ulaval.glo4002.game.domain.food;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FoodTest {
 
-    private final static FoodType FOOD_TYPE = FoodType.BURGER;
+    private final static FoodType FOOD_TYPE_1 = FoodType.BURGER;
+    private final static FoodType FOOD_TYPE_2 = FoodType.SALAD;
     private final static int FOOD_QUANTITY = 4;
 
     private Food food;
+    private Food exceptionFood;
     private Food foodExpiringIn2Turns;
 
     @BeforeEach
     void setUp() {
-        food = new Food(FOOD_TYPE, FOOD_QUANTITY);
+        food = new Food(FOOD_TYPE_1, FOOD_QUANTITY);
+        exceptionFood = new Food(FOOD_TYPE_2, FOOD_QUANTITY);
     }
 
     @Test
@@ -25,7 +29,7 @@ class FoodTest {
 
     @Test
     public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
-        foodExpiringIn2Turns = new Food(FOOD_TYPE, FOOD_QUANTITY);
+        foodExpiringIn2Turns = new Food(FOOD_TYPE_1, FOOD_QUANTITY);
 
         foodExpiringIn2Turns.incrementAgeByOne();
         foodExpiringIn2Turns.incrementAgeByOne();
@@ -41,6 +45,16 @@ class FoodTest {
         food.increaseQuantity(foodQuantityToAdd);
 
         assertEquals(expectedFoodQuantity, food.quantity());
+    }
+
+    @Test
+    public void givenANonExistentFoodTypeQuantityToAdd_whenIncreaseQuantity_thenExceptionShouldBeThrown() {
+        assertThrows(FoodTypesNotMatchingException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                food.increaseQuantity(exceptionFood);
+            }
+        });
     }
 
     @Test
