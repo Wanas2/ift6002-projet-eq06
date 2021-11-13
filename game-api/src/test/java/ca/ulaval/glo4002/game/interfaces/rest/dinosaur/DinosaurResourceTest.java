@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTest {
@@ -62,6 +63,15 @@ public class DinosaurResourceTest {
         Response response = dinosaurResource.addDinosaur(aDinosaurDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());
+    }
+
+    @Test
+    public void givenADinosaurDTOWithWeightNotStrictlyPositive_whenAddDinosaur_thenShouldThrowInvalidWeightException() {
+        int anInvalidWeight = -5;
+        aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, anInvalidWeight, GENDER, SPECIES);
+
+        assertThrows(InvalidWeightException.class,
+                ()->dinosaurResource.addDinosaur(aDinosaurDTO));
     }
 
     @Test
