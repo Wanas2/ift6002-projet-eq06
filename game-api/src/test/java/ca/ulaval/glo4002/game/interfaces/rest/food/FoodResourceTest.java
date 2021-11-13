@@ -59,7 +59,7 @@ class FoodResourceTest {
 
         foodResource.addFood(aFoodDTO);
 
-        verify(resourceService).addFood(argThat(this::sameFood));
+        verify(resourceService).addFood(argThat(this::isTheSameAsSomeFood));
     }
 
     @Test
@@ -70,7 +70,7 @@ class FoodResourceTest {
     }
 
     @Test
-    public void whenGetFoodQuantitySummary_theGameServiceShouldGetFoodQuantitySummary() {
+    public void whenGetFoodQuantitySummary_thenGameServiceShouldGetFoodQuantitySummary() {
         initializeFoodSummaryExample();
         when(resourceService.getFoodQuantitySummary()).thenReturn(foodSummaryExample);
 
@@ -122,7 +122,7 @@ class FoodResourceTest {
         foodSummaryExample.put("consumed", consumedFoodSummary);
     }
 
-    private boolean sameFood(Map<FoodType, Food> matcher){
+    private boolean isTheSameAsSomeFood(Map<FoodType, Food> matcher){
         return matcher.get(FoodType.SALAD).quantity() == someFood.get(FoodType.SALAD).quantity() &&
                 matcher.get(FoodType.BURGER).quantity() == someFood.get(FoodType.BURGER).quantity() &&
                 matcher.get(FoodType.WATER).quantity() == someFood.get(FoodType.WATER).quantity();

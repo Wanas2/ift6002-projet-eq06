@@ -95,11 +95,11 @@ public class DinosaurResourceTest {
         when(dinosaurService.showDinosaur(A_DINOSAUR_NAME)).thenReturn(aDinosaur);
 
         Response response = dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
-        DinosaurDTO exceptedDinosaur = (DinosaurDTO) response.getEntity();
+        DinosaurDTO expectedDinosaur = (DinosaurDTO) response.getEntity();
 
-        assertEquals(exceptedDinosaur.name, A_DINOSAUR_NAME);
-        assertEquals(exceptedDinosaur.weight , aDinosaurDTO.weight);
-        assertEquals(exceptedDinosaur.gender , aDinosaurDTO.gender);
+        assertEquals(expectedDinosaur.name, A_DINOSAUR_NAME);
+        assertEquals(expectedDinosaur.weight , aDinosaurDTO.weight);
+        assertEquals(expectedDinosaur.gender , aDinosaurDTO.gender);
     }
 
     @Test
@@ -116,16 +116,6 @@ public class DinosaurResourceTest {
         dinosaurResource.showAllDinosaurs();
 
         verify(dinosaurService).showAllDinosaurs();
-    }
-
-    @Test
-    public void givenADinosaur_whenShowAllDinosaurs_thenTheDinosaurDTOShouldBeCreated() {
-        dinosaurs.add(aDinosaur);
-        when(dinosaurService.showAllDinosaurs()).thenReturn(dinosaurs);
-
-        Response response = dinosaurResource.showAllDinosaurs();
-
-        assertTrue(response.hasEntity());
     }
 
     @Test
