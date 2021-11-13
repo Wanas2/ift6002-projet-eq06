@@ -34,7 +34,21 @@ public class Pantry implements FoodStorage {
         FoodType foodTypeToProvide = FoodType.BURGER;
         int quantityOfFoodToProvide = quantityOfFoodToProvide(foodTypeToProvide, requestedBurgerQuantity);
 
-
+//        allFreshFood.stream()
+//                .flatMap(foodBatch -> foodBatch.stream())
+//                .filter(food -> food.getType().equals(foodTypeToProvide))
+//                .forEach(food -> {
+//                    if(quantityOfFoodToProvide <= food.quantity()) {
+//                        food.decreaseQuantity(quantityOfFoodToProvide);
+//                        incrementFoodQuantityOfOneType(food, allConsumedFood, foodTypeToProvide, FoodState.FRESH);
+//                    } else {
+//                        int quantityOfFoodProvided = food.quantity();
+//                        incrementFoodQuantityOfOneType(food, allConsumedFood, foodTypeToProvide, FoodState.FRESH);
+//                        food.decreaseQuantity(quantityOfFoodProvided);
+//                    }
+//
+//                    quantityOfFoodToProvide
+//                });
 
         return quantityOfFoodToProvide;
     }
