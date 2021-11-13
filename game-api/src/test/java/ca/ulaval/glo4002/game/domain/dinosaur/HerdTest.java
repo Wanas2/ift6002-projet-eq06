@@ -32,9 +32,9 @@ public class HerdTest {
     private Dinosaur carnivorousDinosaur1;
     private Dinosaur herbivorousDinosaur1;
     private Dinosaur herbivorousDinosaur2;
+    private Dinosaur fakeDinosaur;
     private final List<Dinosaur> dinosaurs = new ArrayList<>();
     private Herd herd;
-    private Dinosaur fakeDinosaur;
 
     @BeforeEach
     void setUp() {
