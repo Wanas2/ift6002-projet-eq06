@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 class PantryTest {
@@ -41,65 +42,74 @@ class PantryTest {
     }
 
     @Test
-    public void whenStoreFoodInPantry_thenFoodFromTheProviderIsObtained() {
+    public void givenZeroFoodOrdered_whenObtainNewlyOrderedFood_theFoodIsNotYetStored() {
+        initializeFoodWithQuantityZero();
+
+        pantry.obtainNewlyOrderedFood(foodWithQuantityZero);
+
+        assertTrue(pantry.getAllFreshFood().isEmpty());
+    }
+
+    @Test
+    public void givenSomeFoodOrdered_whenObtainNewlyOrderedFood_thenPantryStillHasNoFreshFood() {
+        initializeFoodWithQuantityZero();
+
+        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
+
+        assertTrue(pantry.getAllFreshFood().isEmpty());
+    }
+
+    @Test
+    public void whenStoreFood_thenFoodFromTheProviderIsObtained() {
         pantry.storeFood();
 
         verify(foodProvider).provideFood();
     }
 
     @Test
-    public void givenZeroFoodOrdered_whenObtainNewlyOrderedFood_theFoodIsNotYetStored() {
-        initializeFoodWithQuantityZero();
-        int pantryBurgerQuantity;
+    public void givenSomeNewlyFoodOrdered_whenStoreFood_PantryNowHasFreshFood() {
+        when(foodProvider.provideFood()).thenReturn(foodWithOnlySixBurgers);
+        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
 
-//        pantry.obtainNewlyOrderedFood(foodWithQuantityZero);
-//        pantryBurgerQuantity = pantry.getAllFreshFood().
-//                peek().stream().
-//                filter(food -> food.getType().equals(FoodType.BURGER)).
-//                mapToInt(Food::quantity).findAny().orElse(0);
-//
-//        assertFalse(pantryBurgerQuantity > 0);
+        pantry.storeFood();
+
+        assertFalse(pantry.getAllFreshFood().isEmpty());
     }
 
-//    @Test
-//    public void givenSomeFoodOrdered_whenObtainNewlyOrderedFood_thenPantryStillHasNoFreshFood() {
-//        initializeFoodWithQuantityZero();
-//        int pantryBurgerQuantity;
-//
-//        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
-//        pantryBurgerQuantity = pantry.getAllFreshFood().peek().stream().
-//                filter(food -> food.getType().equals(FoodType.BURGER)).
-//                mapToInt(Food::quantity).findAny().orElse(0);
-//
-//        assertFalse(pantryBurgerQuantity > 0);
-//    }
+    @Test
+    public void givenSomeNewlyFoodOrdered_whenStoreFood_thenTheTotalOfNewFoodIsStored() {
+        int totalBurgerNewBurgers = 7;
+        when(foodProvider.provideFood()).thenReturn(foodWithOnlySixBurgers);
+        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
 
-//    @Test
-//    public void givenSomeFoodOrdered_whenStoreFood_PantryNowHasFreshFood() {
-//        when(foodProvider.provideFood()).thenReturn(foodWithOnlySixBurgers);
-//        int pantryBurgerQuantity;
-//
-//        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
-//        pantry.storeFood();
-//        pantryBurgerQuantity = pantry.getAllFreshFood().peek().stream().
-//                filter(food -> food.getType().equals(FoodType.BURGER)).
-//                mapToInt(Food::quantity).findAny().orElse(0);
-//
-//        assertTrue(pantryBurgerQuantity > 0);
-//    }
+        pantry.storeFood();
+        Optional<Food> freshBurgersInPantry = pantry.getAllFreshFood().peek().stream()
+                .filter(food -> food.getType().equals(FoodType.BURGER))
+                .findAny();
 
-//    @Test
-//    public void givenSomeFoodOrderedInCurrentTurn_whenStoreFood_thenTheFoodStoredIsFresh() {
-//        when(foodProvider.provideFood()).thenReturn(foodWithOnlySixBurgers);
-//
-//        pantry.obtainNewlyOrderedFood(foodWithOnlyTwoBurgers);
-//        pantry.storeFood();
-//        int allFreshFoodQuantityInPantry = pantry.getAllFreshFood().peek().stream().
-//                filter(food -> food.getState().equals(FoodState.FRESH)).
-//                mapToInt(Food::quantity).sum();
-//
-//        assertTrue(allFreshFoodQuantityInPantry > 0); // Todo modifier le then
-//    }
+        assertEquals(totalBurgerNewBurgers, freshBurgersInPantry.get().quantity());
+    }
+
+    @Test
+    public void givenNotEnoughFoodToProvide_whenGiveExactOrMostPossibleBurgerDesired_thenAllFreshFoodIsConsumed() {
+        int requestedQuantityOfBurgers = 10;
+        int expectedRemainingFreshBurgers = 0;
+        int expectedConsumedBurgers = 7;
+        when(foodProvider.provideFood()).thenReturn(foodWithOnlySixBurgers);
+        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
+
+        pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
+        int quantityOfAllFreshBurgersInPanty = pantry.getAllFreshFood().stream()
+                .flatMap(foodBatch -> foodBatch.stream())
+                .filter(foodInTheBatch -> foodInTheBatch.getType().equals(FoodType.BURGER))
+                .mapToInt(Food::quantity).sum();
+        int quantityOfAllConsumedBurgersInPanty = pantry.getAllConsumedFood().stream()
+                .filter(food -> food.getType().equals(FoodType.BURGER))
+                .mapToInt(Food::quantity).sum();
+
+//        assertEquals(expectedRemainingFreshBurgers, quantityOfAllFreshBurgersInPanty);
+//        assertEquals(expectedConsumedBurgers, quantityOfAllConsumedBurgersInPanty);
+    }
 
     private void initializeFoodWithQuantityZero() {
         Food aFoodItem1 = new Food(FoodType.BURGER, QUANTITY_OF_FOOD_OF_ZERO);

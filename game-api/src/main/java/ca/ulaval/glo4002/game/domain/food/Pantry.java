@@ -31,19 +31,12 @@ public class Pantry implements FoodStorage {
 
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
-        int quantityOfFoodToProvide = quantityOfFoodToProvide(FoodType.BURGER, requestedBurgerQuantity);
-
-        Queue<Food> availableBurgers = allFreshFood.stream().
-                flatMap(foodBatch -> foodBatch.stream()).
-                filter(food -> food.getType().equals(FoodType.BURGER)).
-                collect(Collectors.toCollection(LinkedList::new));
-
-        availableBurgers.forEach(burger -> {
-//            burger.decreaseQuantity(); // Todo continue from here
-        });
+        FoodType foodTypeToProvide = FoodType.BURGER;
+        int quantityOfFoodToProvide = quantityOfFoodToProvide(foodTypeToProvide, requestedBurgerQuantity);
 
 
-        return 1;
+
+        return quantityOfFoodToProvide;
     }
 
     @Override
@@ -68,8 +61,14 @@ public class Pantry implements FoodStorage {
 
     public void obtainNewlyOrderedFood(List<Food> orderedFood) {
         FoodState newFoodState = FoodState.FRESH;
+
         for(FoodType foodType : FoodType.values()) {
-            incrementFoodQuantityOfOneType(orderedFood, currentTurnFoodBatch, foodType, newFoodState);
+            Optional<Food> foodOrderedOfMatchingType = orderedFood.stream()
+                    .filter(food -> food.getType().equals(foodType))
+                    .findFirst();
+
+            foodOrderedOfMatchingType.ifPresent(food ->
+                    incrementFoodQuantityOfOneType(food, currentTurnFoodBatch, foodType, newFoodState));
         }
     }
 
@@ -79,8 +78,19 @@ public class Pantry implements FoodStorage {
         List<Food> foodFromProvider = foodProvider.provideFood();
 
         for (FoodType foodType : FoodType.values()) {
-            incrementFoodQuantityOfOneType(currentTurnFoodBatch, newBatchOfFood, foodType, newFoodState);
-            incrementFoodQuantityOfOneType(foodFromProvider, newBatchOfFood, foodType, newFoodState);
+            Optional<Food> foodFromCurrentTurnFoodBatch = currentTurnFoodBatch.stream()
+                    .filter(food -> food.getType().equals(foodType))
+                    .findFirst();
+
+            Optional<Food> foodFromFoodProvider = foodFromProvider.stream()
+                    .filter(food -> food.getType().equals(foodType))
+                    .findFirst();
+
+            foodFromCurrentTurnFoodBatch.ifPresent(food
+                    -> incrementFoodQuantityOfOneType(food, newBatchOfFood, foodType, newFoodState));
+
+            foodFromFoodProvider.ifPresent(food
+                    -> incrementFoodQuantityOfOneType(food, newBatchOfFood, foodType, newFoodState));
         }
 
         allFreshFood.add(newBatchOfFood);
@@ -96,7 +106,7 @@ public class Pantry implements FoodStorage {
         allFreshFood = new LinkedList<>();
     }
 
-    private void incrementFoodQuantityOfOneType(List<Food> foodToAdd, List<Food> foodToAddTo,
+    private void incrementFoodQuantityOfOneType(Food foodToAdd, List<Food> foodToAddTo,
                                                 FoodType requiredFoodType, FoodState requiredFoodState) {
         Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(requiredFoodType);
 
@@ -104,20 +114,15 @@ public class Pantry implements FoodStorage {
             foodToAddTo.add(new Food(requiredFoodType, 0));
         }
 
-        Optional<Food> foodOfRequiredTypeToAddTo = foodToAddTo.stream().
-                filter(foodTypeFilter).findFirst();
-
-        Optional<Food> foodOfRequiredTypeToAdd = foodToAdd.stream().
-                filter(food -> food.getType().equals(requiredFoodType)).
-                findFirst();
-
-        if(foodOfRequiredTypeToAdd.isPresent()) {
+        Optional<Food> foodOfRequiredTypeToAddTo = foodToAddTo.stream()
+                .filter(foodTypeFilter).findFirst();
+        foodOfRequiredTypeToAddTo.ifPresent((food -> {
             try {
-                foodOfRequiredTypeToAddTo.get().increaseQuantity(foodOfRequiredTypeToAdd.get());
+                foodOfRequiredTypeToAddTo.get().increaseQuantity(foodToAdd);
             } catch (FoodTypesNotMatchingException e) {
                 e.printStackTrace();
             }
-        }
+        }));
     }
 
     private boolean containFoodOfFoodTypeAndState(List<Food> food, FoodType requiredFoodType,
@@ -133,12 +138,10 @@ public class Pantry implements FoodStorage {
     }
 
     private int quantityOfFoodToProvide(FoodType foodType, int requestedFoodQuantity) {
-        List<Food> availableBurgers = allFreshFood.stream().
-                flatMap(foodBatch -> foodBatch.stream()).
-                filter(food -> food.getType().equals(foodType)).
-                collect(Collectors.toList());
-
-        int availableFoodQuantity =  availableBurgers.stream().mapToInt(Food::quantity).sum();
+        int availableFoodQuantity = allFreshFood.stream()
+                .flatMap(foodBatch -> foodBatch.stream())
+                .filter(food -> food.getType().equals(foodType))
+                .mapToInt(Food::quantity).sum();
 
         return Math.min(requestedFoodQuantity, availableFoodQuantity);
     }
