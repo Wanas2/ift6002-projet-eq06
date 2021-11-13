@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class FoodAssembler {
 
-    public List<Food> create(FoodDTO foodDTO) {
+    public List<Food> fromDTO(FoodDTO foodDTO) {
         List<Food> food = new ArrayList<>();
 
         Food burgers = new Food(FoodType.BURGER, foodDTO.qtyBurger);
@@ -25,7 +25,7 @@ public class FoodAssembler {
         return food;
     }
 
-    public FoodDTO createDTO(Map<FoodType, Integer> food) {
+    public FoodDTO toDTO(Map<FoodType, Integer> food) {
         FoodDTO foodDTO = new FoodDTO();
         foodDTO.qtyBurger = food.get(FoodType.BURGER);
         foodDTO.qtySalad = food.get(FoodType.SALAD);

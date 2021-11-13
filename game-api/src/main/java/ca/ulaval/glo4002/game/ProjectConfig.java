@@ -16,11 +16,10 @@ import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurResource;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodValidator;
 import ca.ulaval.glo4002.game.interfaces.rest.game.GameResource;
-import ca.ulaval.glo4002.game.interfaces.rest.heartbeat.HeartbeatResource;
 import ca.ulaval.glo4002.game.interfaces.rest.mappers.*;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -61,18 +60,15 @@ public class ProjectConfig extends ResourceConfig {
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
 
-        ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game,
-                foodAssembler, foodSummaryAssembler);
-        DinosaurService dinosaurService = new DinosaurService(dinosaurAssembler, dinosaurFactory, herd, game,
-                dinosaurBabyFetcher);
-        GameService gameService = new GameService(game, herd, pantry, turnAssembler, pantryRepository, herdRepository);
+        ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
+        DinosaurService dinosaurService = new DinosaurService(dinosaurFactory, herd, game, dinosaurBabyFetcher);
+        GameService gameService = new GameService(game, herd, pantry, pantryRepository, herdRepository);
 
-        HeartbeatResource heartbeatResource = new HeartbeatResource();
-        GameResource gameResource = new GameResource(gameService);
-        FoodResource foodResource = new FoodResource(resourceService, foodValidator);
-        DinosaurResource dinosaurResource = new DinosaurResource(dinosaurService);
+        GameResource gameResource = new GameResource(gameService, turnAssembler);
+        FoodResource foodResource = new FoodResource(resourceService, foodValidator, foodAssembler,
+                foodSummaryAssembler);
+        DinosaurResource dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler);
 
-        register(heartbeatResource);
         register(gameResource);
         register(foodResource);
         register(dinosaurResource);
@@ -84,7 +80,7 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidSpeciesExceptionMapper());
         register(new InvalidWeightExceptionMapper());
         register(new NonExistentNameExceptionMapper());
-        register(new InvalidRessourceQuantityExceptionMapper());
+        register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
     }
