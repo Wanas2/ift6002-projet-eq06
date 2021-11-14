@@ -25,7 +25,6 @@ public class ResourceService {
         game.addFood(food);
     }
 
-
     public Map<String, Map<FoodType, Integer>> getFoodQuantitySummary() {
         return foodQuantitySummaryCalculator.computeSummaries(pantry);
     }

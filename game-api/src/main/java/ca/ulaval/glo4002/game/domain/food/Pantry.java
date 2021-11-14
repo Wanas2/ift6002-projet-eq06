@@ -232,10 +232,11 @@ public class Pantry implements FoodStorage {
         currentTurnFoodBatch = new ArrayList<>();
     }
 
-    public void splitWater(){
+    public void splitWater() {
+        List<Food> allFoodToRemove = new ArrayList<>();
         for(Food food: allFreshFood){
-            if(food.getType()==FoodType.WATER){
-                allFreshFood.remove(food);
+            if(food.getType() == FoodType.WATER) {
+                allFoodToRemove.add(food);
                 int splitQuantity = splitIn2(food.quantity(), food.getAge());
                 Food food1 = new Food(FoodType.WATER, splitQuantity, food.getAge());
                 Food food2 = new Food(FoodType.WATER, splitQuantity, food.getAge());
@@ -243,6 +244,7 @@ public class Pantry implements FoodStorage {
                 waterForHerbivorous.add(food2);
             }
         }
+        allFreshFood.removeAll(allFoodToRemove);
     }
 
     private int splitIn2(int quantity, int age){
@@ -296,21 +298,23 @@ public class Pantry implements FoodStorage {
     }
 
     public void incrementFreshFoodAges() {
+        List<Food> allFoodsToRemove = new ArrayList<>();
         for(Food food: allFreshFood) {
             food.incrementAgeByOne();
-
             int currentExpiredFoodQuantity = expiredFoodQuantities.get(food.getType());
-
             if(food.isExpired()){
                 int newExpiredFoodQuantity = currentExpiredFoodQuantity + food.quantity();
                 expiredFoodQuantities.put(food.getType(), newExpiredFoodQuantity);
-                allFreshFood.remove(food);
+                allFoodsToRemove.add(food);
             }
         }
+        allFreshFood.removeAll(allFoodsToRemove);
     }
 
     public void reset() {
         allFreshFood = new LinkedList<>();
+        initiateConsumedFoodQuantities();
+        initializeExpiredFoodQuantities();
     }
 
     private void addToMatchingFood(Food foodToAdd, List<Food> foodToAddTo, FoodType requiredFoodType,
