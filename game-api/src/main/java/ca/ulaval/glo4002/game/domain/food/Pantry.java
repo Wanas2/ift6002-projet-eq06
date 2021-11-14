@@ -53,159 +53,83 @@ public class Pantry implements FoodStorage {
         return consumedFoodQuantities;
     }
 
-    @Override
-    public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
-        FoodType foodTypeToProvide = FoodType.BURGER;
-        int remainingFooQuantityToProvide = requestedBurgerQuantity;
+    private int giveExactOrMostPossibleFoodType(FoodType foodTypeToProvide, int requestedQuantity){
+        int remainingFoodQuantityToProvide = requestedQuantity;
         int totalFoodGiven = 0;
 
-        List <Food> allBurgers = allFreshFood.stream()
+        List <Food> allFood = allFreshFood.stream()
                 .filter(food -> food.getType().equals(foodTypeToProvide))
                 .collect(Collectors.toList());
-        allFreshFood.removeAll(allBurgers);
+
         List<Food> foodToRemove = new ArrayList<>();
-        for(Food food : allBurgers) {
+        for(Food food : allFood) {
             int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
 
-            if(remainingFooQuantityToProvide <= food.quantity()) {
-                food.decreaseQuantity(remainingFooQuantityToProvide);
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
+            if(remainingFoodQuantityToProvide <= food.quantity()) {
+                food.decreaseQuantity(remainingFoodQuantityToProvide);
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFoodQuantityToProvide;
                 consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                totalFoodGiven += remainingFooQuantityToProvide;
-                remainingFooQuantityToProvide = 0;
+                totalFoodGiven += remainingFoodQuantityToProvide;
                 break;
             } else {
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
                 consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
                 totalFoodGiven += food.quantity();
+                remainingFoodQuantityToProvide -= food.quantity();
                 foodToRemove.add(food);
             }
         }
-        allBurgers.removeAll(foodToRemove);
-        allFreshFood.addAll(allBurgers);
 
-        System.out.println("************************************************");
-        System.out.println("Burgers" + totalFoodGiven);
-        System.out.println("************************************************");
-
+        allFreshFood.removeAll(foodToRemove);
         return totalFoodGiven;
+    }
+
+    private int giveExactOrMostPossibleWater(List<Food> waterContainer, int requestedQuantity){
+        FoodType foodTypeToProvide = FoodType.WATER;
+        int remainingFoodQuantityToProvide = requestedQuantity;
+        int totalFoodGiven = 0;
+
+        List<Food> allFoodToRemove = new ArrayList<>();
+        for(Food food : waterContainer) {
+            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
+
+            if(remainingFoodQuantityToProvide <= food.quantity()) {
+                food.decreaseQuantity(remainingFoodQuantityToProvide);
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFoodQuantityToProvide;
+                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                totalFoodGiven += remainingFoodQuantityToProvide;
+                break;
+            } else {
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
+                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                totalFoodGiven += food.quantity();
+                remainingFoodQuantityToProvide -= food.quantity();
+                allFoodToRemove.add(food);
+            }
+        }
+
+        waterContainer.removeAll(allFoodToRemove);
+        return totalFoodGiven;
+    }
+
+    @Override
+    public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
+        return giveExactOrMostPossibleFoodType(FoodType.BURGER,requestedBurgerQuantity);
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesiredToHerbivorous(int requestedWaterQuantity) {
-        FoodType foodTypeToProvide = FoodType.WATER;
-        int remainingFooQuantityToProvide = requestedWaterQuantity;
-        int totalFoodGiven = 0;
-
-        List <Food> allBurgers = waterForHerbivorous.stream()
-                .filter(food -> food.getType().equals(foodTypeToProvide))
-                .collect(Collectors.toList());
-        waterForHerbivorous.removeAll(allBurgers);
-        List<Food> allFoodToRemove = new ArrayList<>();
-        for(Food food : allBurgers) {
-            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
-
-            if(remainingFooQuantityToProvide <= food.quantity()) {
-                food.decreaseQuantity(remainingFooQuantityToProvide);
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                totalFoodGiven += remainingFooQuantityToProvide;
-                remainingFooQuantityToProvide = 0;
-                break;
-            } else {
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                totalFoodGiven += food.quantity();
-                allFoodToRemove.add(food);
-            }
-        }
-        allBurgers.removeAll(allFoodToRemove);
-        waterForHerbivorous.addAll(allBurgers);
-
-        System.out.println("************************************************");
-        System.out.println("Herbi water" + totalFoodGiven);
-        System.out.println("************************************************");
-
-        return totalFoodGiven;
+        return giveExactOrMostPossibleWater(waterForHerbivorous,requestedWaterQuantity);
     }
 
     @Override
     public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        FoodType foodTypeToProvide = FoodType.SALAD;
-        int remainingFooQuantityToProvide = requestedSaladQuantity;
-        int totalFoodGiven = 0;
-
-        List <Food> allBurgers = allFreshFood.stream()
-                .filter(food -> food.getType().equals(foodTypeToProvide))
-                .collect(Collectors.toList());
-        allFreshFood.removeAll(allBurgers);
-        List<Food> foodToRemove = new ArrayList<>();
-        for(Food food : allBurgers) {
-            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
-
-            if(remainingFooQuantityToProvide <= food.quantity()) {
-                food.decreaseQuantity(remainingFooQuantityToProvide);
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                totalFoodGiven += remainingFooQuantityToProvide;
-                remainingFooQuantityToProvide = 0;
-                break;
-            } else {
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                totalFoodGiven += food.quantity();
-                foodToRemove.add(food);
-            }
-        }
-        allBurgers.removeAll(foodToRemove);
-        allFreshFood.addAll(allBurgers);
-
-        System.out.println("************************************************");
-        System.out.println("Salads" + totalFoodGiven);
-        System.out.println("************************************************");
-        return totalFoodGiven;
+        return giveExactOrMostPossibleFoodType(FoodType.SALAD,requestedSaladQuantity);
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesiredToCarnivorous(int requestedWaterQuantity) {
-        FoodType foodTypeToProvide = FoodType.WATER;
-        int remainingFooQuantityToProvide = requestedWaterQuantity;
-        int totalFoodGiven = 0;
-
-        List <Food> allBurgers = waterForCarnivorous.stream()
-                .filter(food -> food.getType().equals(foodTypeToProvide))
-                .collect(Collectors.toList());
-        waterForCarnivorous.removeAll(allBurgers);
-        List<Food> allFoodToRemove = new ArrayList<>();
-        for(Food food : allBurgers) {
-            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
-
-            if(remainingFooQuantityToProvide <= food.quantity()) {
-                food.decreaseQuantity(remainingFooQuantityToProvide);
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                totalFoodGiven += remainingFooQuantityToProvide;
-                remainingFooQuantityToProvide = 0;
-                break;
-            } else {
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                totalFoodGiven += food.quantity();
-                allFoodToRemove.add(food);
-            }
-        }
-        allBurgers.removeAll(allFoodToRemove);
-        waterForCarnivorous.addAll(allBurgers);
-
-        System.out.println("************************************************");
-        System.out.println("Carni water" + totalFoodGiven);
-        System.out.println("************************************************");
-
-        return totalFoodGiven;
-    }
-
-    private int giveExactOrMostPossibleFoodDesired(FoodType foodType, int requestedFoodQuantity) {
-        return 1;
+        return giveExactOrMostPossibleWater(waterForCarnivorous,requestedWaterQuantity);
     }
 
     public void obtainNewlyOrderedFood(List<Food> orderedFood) {
