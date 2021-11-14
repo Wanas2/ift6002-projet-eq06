@@ -9,6 +9,7 @@ import ca.ulaval.glo4002.game.domain.food.FoodType;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Map;
 
 @Path("/resources")
@@ -32,7 +33,7 @@ public class FoodResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addFood(FoodDTO foodDTO) {
         foodValidator.validateFoodEntries(foodDTO);
-        Map<FoodType, Food> food = foodAssembler.fromDTO(foodDTO.qtyBurger, foodDTO.qtySalad, foodDTO.qtyWater);
+        List<Food> food = foodAssembler.fromDTO(foodDTO);
         resourceService.addFood(food);
         return Response.ok().build();
     }

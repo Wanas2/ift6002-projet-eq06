@@ -50,8 +50,8 @@ public class OmnivorousFoodConsumptionStrategyTest {
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(carnivorousFoodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_NORMAL_BURGERS);
-        verify(carnivorousFoodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_NORMAL_WATER);
-        verify(herbivorousFoodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_NORMAL_WATER);
+        verify(carnivorousFoodStorage).giveExactOrMostPossibleWaterDesiredToCarnivorous(EXPECTED_NORMAL_WATER);
+        verify(herbivorousFoodStorage).giveExactOrMostPossibleWaterDesiredToHerbivorous(EXPECTED_NORMAL_WATER);
         verify(herbivorousFoodStorage).giveExactOrMostPossibleSaladDesired(EXPECTED_NORMAL_SALADS);
     }
 
@@ -61,8 +61,8 @@ public class OmnivorousFoodConsumptionStrategyTest {
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(carnivorousFoodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_DOUBLE_BURGERS);
-        verify(carnivorousFoodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_DOUBLE_WATER);
-        verify(herbivorousFoodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_DOUBLE_WATER);
+        verify(carnivorousFoodStorage).giveExactOrMostPossibleWaterDesiredToCarnivorous(EXPECTED_DOUBLE_WATER);
+        verify(herbivorousFoodStorage).giveExactOrMostPossibleWaterDesiredToHerbivorous(EXPECTED_DOUBLE_WATER);
         verify(herbivorousFoodStorage).giveExactOrMostPossibleSaladDesired(EXPECTED_DOUBLE_SALADS);
     }
 }

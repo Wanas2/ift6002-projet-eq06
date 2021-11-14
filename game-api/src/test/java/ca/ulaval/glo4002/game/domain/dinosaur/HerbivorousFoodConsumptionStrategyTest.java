@@ -45,7 +45,7 @@ public class HerbivorousFoodConsumptionStrategyTest {
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(foodStorage).giveExactOrMostPossibleSaladDesired(EXPECTED_NORMAL_SALADS);
-        verify(foodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_NORMAL_WATER);
+        verify(foodStorage).giveExactOrMostPossibleWaterDesiredToHerbivorous(EXPECTED_NORMAL_WATER);
     }
 
     @Test
@@ -54,6 +54,6 @@ public class HerbivorousFoodConsumptionStrategyTest {
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(foodStorage).giveExactOrMostPossibleSaladDesired(EXPECTED_DOUBLE_SALADS);
-        verify(foodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_DOUBLE_WATER);
+        verify(foodStorage).giveExactOrMostPossibleWaterDesiredToHerbivorous(EXPECTED_DOUBLE_WATER);
     }
 }

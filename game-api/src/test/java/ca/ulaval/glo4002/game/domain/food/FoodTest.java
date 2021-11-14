@@ -7,30 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FoodTest {
 
-    private final static FoodType FOOD_TYPE = FoodType.BURGER;
-    private final static int FOOD_QUANTITY = 4;
-
+    private final FoodType FOOD_TYPE = FoodType.BURGER;
+    private final int FOOD_QUANTITY = 4;
     private Food food;
-    private Food foodExpiringIn2Turns;
 
     @BeforeEach
     void setUp() {
         food = new Food(FOOD_TYPE, FOOD_QUANTITY);
-    }
-
-    @Test
-    public void initiallyFoodIsFresh() {
-        assertFalse(food.isExpired());
-    }
-
-    @Test
-    public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
-        foodExpiringIn2Turns = new Food(FOOD_TYPE, FOOD_QUANTITY);
-
-        foodExpiringIn2Turns.incrementAgeByOne();
-        foodExpiringIn2Turns.incrementAgeByOne();
-
-        assertTrue(foodExpiringIn2Turns.isExpired());
     }
 
     @Test

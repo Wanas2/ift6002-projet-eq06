@@ -52,7 +52,6 @@ public class DinosaurResource {
     @Path("/dinosaurs")
     public Response showAllDinosaurs() {
         List<Dinosaur> dinosaurs = dinosaurService.showAllDinosaurs();
-
         List<DinosaurDTO> dinosaurDTOs = dinosaurs.stream()
                 .map(dinosaurAssembler::toDTO)
                 .collect(Collectors.toList());

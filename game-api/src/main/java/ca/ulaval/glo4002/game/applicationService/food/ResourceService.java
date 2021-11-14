@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.game.domain.food.FoodQuantitySummaryCalculator;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 
+import java.util.List;
 import java.util.Map;
 
 public class ResourceService {
@@ -20,7 +21,7 @@ public class ResourceService {
         this.game = game;
     }
 
-    public void addFood(Map<FoodType, Food> food) {
+    public void addFood(List<Food> food) {
         game.addFood(food);
     }
 

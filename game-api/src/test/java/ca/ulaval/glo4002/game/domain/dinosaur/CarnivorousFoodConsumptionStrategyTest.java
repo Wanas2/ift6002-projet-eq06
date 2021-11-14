@@ -45,7 +45,7 @@ public class CarnivorousFoodConsumptionStrategyTest {
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(foodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_NORMAL_BURGERS);
-        verify(foodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_NORMAL_WATER);
+        verify(foodStorage).giveExactOrMostPossibleWaterDesiredToCarnivorous(EXPECTED_NORMAL_WATER);
     }
 
     @Test
@@ -54,6 +54,6 @@ public class CarnivorousFoodConsumptionStrategyTest {
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(foodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_DOUBLE_BURGERS);
-        verify(foodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_DOUBLE_WATER);
+        verify(foodStorage).giveExactOrMostPossibleWaterDesiredToCarnivorous(EXPECTED_DOUBLE_WATER);
     }
 }

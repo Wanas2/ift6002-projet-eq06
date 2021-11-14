@@ -22,7 +22,7 @@ public class CarnivorousFoodNeed implements FoodNeed{
     @Override
     public void satisfy() {
         int burgerConsumed = foodStorage.giveExactOrMostPossibleBurgerDesired(burgerNeeded);
-        int waterConsumed = foodStorage.giveExactOrMostPossibleWaterDesired(waterNeeded);
+        int waterConsumed = foodStorage.giveExactOrMostPossibleWaterDesiredToCarnivorous(waterNeeded);
 
         isSatisfied = burgerNeeded == burgerConsumed && waterNeeded == waterConsumed;
     }
