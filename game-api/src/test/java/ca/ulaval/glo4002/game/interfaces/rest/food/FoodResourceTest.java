@@ -75,11 +75,11 @@ class FoodResourceTest {
         when(resourceService.getFoodQuantitySummary()).thenReturn(foodSummaryExample);
 
         Response response = foodResource.getFoodQuantitySummary();
-        FoodSummaryDTO expectedfoodSummaryDTO = (FoodSummaryDTO) response.getEntity();
+        FoodSummaryDTO expectedFoodSummaryDTO = (FoodSummaryDTO) response.getEntity();
 
-        assertTrue(isTheSameFoodDTO(expectedfoodSummaryDTO.fresh));
-        assertTrue(isTheSameFoodDTO(expectedfoodSummaryDTO.consumed));
-        assertTrue(isTheSameFoodDTO(expectedfoodSummaryDTO.expired));
+        assertTrue(isTheSameFoodDTO(expectedFoodSummaryDTO.fresh));
+        assertTrue(isTheSameFoodDTO(expectedFoodSummaryDTO.consumed));
+        assertTrue(isTheSameFoodDTO(expectedFoodSummaryDTO.expired));
     }
 
     @Test
