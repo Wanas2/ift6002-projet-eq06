@@ -9,12 +9,12 @@ import java.util.Map;
 
 public class FoodAssembler {
 
-    public Map<FoodType, Food> fromDTO(FoodDTO foodDTO) {
+    public Map<FoodType, Food> fromDTO(int qtyBurger, int qtySalad, int qtyWater) {
         Map<FoodType, Food> food = new HashMap<>();
 
-        Food burgers = new Food(FoodType.BURGER, foodDTO.qtyBurger);
-        Food salads = new Food(FoodType.SALAD, foodDTO.qtySalad);
-        Food water = new Food(FoodType.WATER, foodDTO.qtyWater);
+        Food burgers = new Food(FoodType.BURGER, qtyBurger);
+        Food salads = new Food(FoodType.SALAD, qtySalad);
+        Food water = new Food(FoodType.WATER, qtyWater);
 
         food.put(FoodType.BURGER, burgers);
         food.put(FoodType.SALAD, salads);
