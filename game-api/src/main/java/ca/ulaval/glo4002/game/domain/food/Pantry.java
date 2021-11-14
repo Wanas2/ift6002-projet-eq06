@@ -71,8 +71,8 @@ public class Pantry implements FoodStorage {
                 food.decreaseQuantity(remainingFooQuantityToProvide);
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
                 consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                remainingFooQuantityToProvide = 0;
                 totalFoodGiven += remainingFooQuantityToProvide;
+                remainingFooQuantityToProvide = 0;
                 break;
             } else {
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
@@ -83,6 +83,10 @@ public class Pantry implements FoodStorage {
         }
         allBurgers.removeAll(foodToRemove);
         allFreshFood.addAll(allBurgers);
+
+        System.out.println("************************************************");
+        System.out.println("Burgers" + totalFoodGiven);
+        System.out.println("************************************************");
 
         return totalFoodGiven;
     }
@@ -105,8 +109,8 @@ public class Pantry implements FoodStorage {
                 food.decreaseQuantity(remainingFooQuantityToProvide);
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
                 consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                remainingFooQuantityToProvide = 0;
                 totalFoodGiven += remainingFooQuantityToProvide;
+                remainingFooQuantityToProvide = 0;
                 break;
             } else {
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
@@ -117,6 +121,10 @@ public class Pantry implements FoodStorage {
         }
         allBurgers.removeAll(allFoodToRemove);
         waterForHerbivorous.addAll(allBurgers);
+
+        System.out.println("************************************************");
+        System.out.println("Herbi water" + totalFoodGiven);
+        System.out.println("************************************************");
 
         return totalFoodGiven;
     }
@@ -139,8 +147,8 @@ public class Pantry implements FoodStorage {
                 food.decreaseQuantity(remainingFooQuantityToProvide);
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
                 consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                remainingFooQuantityToProvide = 0;
                 totalFoodGiven += remainingFooQuantityToProvide;
+                remainingFooQuantityToProvide = 0;
                 break;
             } else {
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
@@ -152,6 +160,9 @@ public class Pantry implements FoodStorage {
         allBurgers.removeAll(foodToRemove);
         allFreshFood.addAll(allBurgers);
 
+        System.out.println("************************************************");
+        System.out.println("Salads" + totalFoodGiven);
+        System.out.println("************************************************");
         return totalFoodGiven;
     }
 
@@ -173,8 +184,8 @@ public class Pantry implements FoodStorage {
                 food.decreaseQuantity(remainingFooQuantityToProvide);
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
                 consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
-                remainingFooQuantityToProvide = 0;
                 totalFoodGiven += remainingFooQuantityToProvide;
+                remainingFooQuantityToProvide = 0;
                 break;
             } else {
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
@@ -185,6 +196,10 @@ public class Pantry implements FoodStorage {
         }
         allBurgers.removeAll(allFoodToRemove);
         waterForCarnivorous.addAll(allBurgers);
+
+        System.out.println("************************************************");
+        System.out.println("Carni water" + totalFoodGiven);
+        System.out.println("************************************************");
 
         return totalFoodGiven;
     }

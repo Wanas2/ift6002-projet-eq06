@@ -32,8 +32,12 @@ public class DinosaurService {
         Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
 
         Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
-        if(babyDinosaur.isPresent())
+        if(babyDinosaur.isPresent()) {
+            System.out.println("**********************************************");
+            System.out.println("Baby is present");
+            System.out.println("**********************************************");
             game.addDinosaur(babyDinosaur.get());
+        }
     }
 
     public Dinosaur showDinosaur(String dinosaurName) {
