@@ -13,6 +13,16 @@ public class Food {
         this.quantity = quantity;
     }
 
+    public Food(FoodType type, int quantity, int age) {
+        this.type = type;
+        this.quantity = quantity;
+        this.age = age;
+    }
+
+    public void setQuantity(int quantity){
+        this.quantity=quantity;
+    }
+
     public void increaseQuantity(Food food) throws FoodTypesNotMatchingException {
         if((food.type).equals(type)) {
             quantity += food.quantity;

@@ -16,7 +16,7 @@ class PantryTest {
     private final static int A_QUANTITY_OF_TWO_BURGER_ORDERED = 2;
     private final static int A_QUANTITY_OF_SIX_BURGER_ORDERED = 6;
     private final static int A_QUANTITY_OF_SALAD_ORDERED = 2;
-    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 10;
+    private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 19;
 
     private FoodDTO aFoodDTO;
     private List<Food> foodWithQuantityZero;
@@ -100,6 +100,30 @@ class PantryTest {
 
 //        assertEquals(expectedRemainingFreshBurgers, quantityOfAllFreshBurgersInPanty);
 //        assertEquals(expectedConsumedBurgers, quantityOfAllConsumedBurgersInPanty);
+    }
+
+    @Test
+    public void testingSplitWater(){
+        pantry.obtainNewlyOrderedFood(foodWithOnlySixBurgers);
+        pantry.storeFood();
+        List<Food> allFreshFood = pantry.getAllFreshFood();
+        allFreshFood.forEach(food -> System.out.println(food.quantity()));
+        pantry.splitWater();
+        allFreshFood.forEach(food -> System.out.println(food.quantity()));
+        System.out.println("Splitting water");
+        printer();
+        pantry.giveExactOrMostPossibleWaterDesired(20);
+        System.out.println("retirer 20");
+        printer();
+        System.out.println("Merging water");
+        pantry.mergeWater();
+        allFreshFood.forEach(food -> System.out.println(food.quantity()));
+
+    }
+    private void printer(){
+        pantry.getWaterForCarnivorous().forEach(food -> System.out.println(food.quantity()));
+        System.out.println();
+        pantry.getWaterForHerbivorous().forEach(food -> System.out.println(food.quantity()));
     }
 
     private void initializeFoodWithQuantityZero() {
