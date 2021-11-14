@@ -2,9 +2,14 @@ package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.CarnivorousFoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.CarnivorousFoodStorage;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -27,17 +32,27 @@ public class CarnivorousFoodConsumptionStrategyTest {
     }
 
     @Test
-    public void givenAgeIsNot0_whenConsumingFood_thenItShouldTakeTheRightAmount() {
-        strategy.consumeFood(WEIGHT, OTHER_AGE);
+    public void whenGetFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
+        List<FoodNeed> foodNeeds = strategy.getFoodNeeds(WEIGHT, OTHER_AGE);
 
+        assertEquals(1,foodNeeds.size());
+        assertEquals(FoodConsumption.CARNIVOROUS,foodNeeds.get(0).getFoodConsumption());
+    }
+
+    @Test
+    public void givenAgeIsNot0_whenGetFoodNeeds_thenFoodNeedsShouldTakeTheRightAmount() {
+        List<FoodNeed> foodNeeds = strategy.getFoodNeeds(WEIGHT, OTHER_AGE);
+
+        foodNeeds.forEach(FoodNeed::satisfy);
         verify(foodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_NORMAL_BURGERS);
         verify(foodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_NORMAL_WATER);
     }
 
     @Test
-    public void givenAgeIs0_whenConsumingFood_thenItShouldTakeTheDoubleOfRightAmount() {
-        strategy.consumeFood(WEIGHT, 0);
+    public void givenAgeIs0_whenGetFoodNeeds_thenFoodNeedsShouldTakeTheDoubleOfRightAmount() {
+        List<FoodNeed> foodNeeds = strategy.getFoodNeeds(WEIGHT, 0);
 
+        foodNeeds.forEach(FoodNeed::satisfy);
         verify(foodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_DOUBLE_BURGERS);
         verify(foodStorage).giveExactOrMostPossibleWaterDesired(EXPECTED_DOUBLE_WATER);
     }

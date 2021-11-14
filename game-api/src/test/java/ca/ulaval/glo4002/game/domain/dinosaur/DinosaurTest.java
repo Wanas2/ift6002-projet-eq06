@@ -10,55 +10,31 @@ import static org.mockito.Mockito.when;
 
 public class DinosaurTest {
 
-    private final static int AGE = 0;
-    private final static int WEIGHT = 81;
-    private final static String CARNIVOROUS_NAME = "Bob";
-    private final static String HERBIVOROUS_NAME = "Bobi";
-
-    private Dinosaur aCarnivorousDinosaur;
-    private FoodConsumptionStrategy carnivorousStrategy;
-    private Dinosaur aHerbivorousDinosaur;
-    private FoodConsumptionStrategy herbivorousStrategy;
+    private Dinosaur aDinosaur;
+    private FoodConsumptionStrategy aFoodConsumptionStrategy;
 
     @BeforeEach
     public void setup() {
-        carnivorousStrategy = mock(FoodConsumptionStrategy.class);
-        aCarnivorousDinosaur = new Dinosaur(Species.Spinosaurus, WEIGHT, CARNIVOROUS_NAME, Gender.M,
-                carnivorousStrategy);
-        herbivorousStrategy = mock(FoodConsumptionStrategy.class);
-        aHerbivorousDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, HERBIVOROUS_NAME, Gender.F,
-                herbivorousStrategy);
+        aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
+        aDinosaur = new Dinosaur(Species.Ankylosaurus, 87, "Bobi", Gender.F,
+                aFoodConsumptionStrategy);
     }
 
     @Test
-    public void givenANewDinosaur_thenItShouldBeAlive() {
-        assertTrue(aCarnivorousDinosaur.isAlive());
+    public void givenADinosaurWithFoodNeedsNotSatisfied_whenIsAlive_thenItShouldNotBeALive() {
+        when(aFoodConsumptionStrategy.areFoodNeedsSatisfied()).thenReturn(false);
+
+        boolean isAlive = aDinosaur.isAlive();
+
+        assertFalse(isAlive);
     }
 
     @Test
-    public void givenADinosaur_whenItCanNotEatEnough_thenItShouldDie() {
-        when(herbivorousStrategy.consumeFood(WEIGHT, AGE)).thenReturn(false);
+    public void givenADinosaurWithFoodNeedsSatisfied_whenIsAlive_thenItShouldBeAlive() {
+        when(aFoodConsumptionStrategy.areFoodNeedsSatisfied()).thenReturn(true);
 
-        aHerbivorousDinosaur.eat();
+        boolean isAlive = aDinosaur.isAlive();
 
-        assertFalse(aHerbivorousDinosaur.isAlive());
-    }
-
-    @Test
-    public void givenAnDinosaur_whenItCanEatEnough_thenItShouldStayAlive() {
-        when(herbivorousStrategy.consumeFood(WEIGHT, AGE)).thenReturn(true);
-
-        aHerbivorousDinosaur.eat();
-
-        assertTrue(aHerbivorousDinosaur.isAlive());
-    }
-
-    @Test
-    public void givenADinosaur_whenCalculateStrength_thenStrengthShouldBeCalculated() {
-        int expectedStrength = 122;
-
-        int strength = aCarnivorousDinosaur.calculateStrength();
-
-        assertEquals(expectedStrength, strength);
+        assertTrue(isAlive);
     }
 }
