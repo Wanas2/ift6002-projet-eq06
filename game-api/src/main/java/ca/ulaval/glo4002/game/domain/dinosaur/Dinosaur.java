@@ -35,7 +35,7 @@ public class Dinosaur implements Comparable<Dinosaur> {
     @Override
     public int compareTo(Dinosaur dinosaur) {
         int comparingStrength = Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
-        return comparingStrength != 0 ? comparingStrength : this.name.compareTo(dinosaur.name);
+        return comparingStrength != 0 ? comparingStrength : -this.name.compareTo(dinosaur.name);
     }
 
     public void age() {
