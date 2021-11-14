@@ -1,20 +1,22 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
 
-import java.util.*;
-
-import static java.util.stream.Collectors.toMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Herd {
 
-    private List<Dinosaur> dinosaurs;
+    private final List<Dinosaur> dinosaurs;
 
     public Herd(List<Dinosaur> dinosaurs) {
         this.dinosaurs = dinosaurs;
     }
 
-    public boolean hasDinoosaurWithName(String name) {
+    public boolean hasDinosaurWithName(String name) {
         for(Dinosaur dino : dinosaurs) {
             if(dino.getName().equals(name)) {
                 return true;
@@ -24,37 +26,33 @@ public class Herd {
     }
 
     public void addDinosaur(Dinosaur dinosaur) {
-        if(!hasDinoosaurWithName(dinosaur.getName())) {
+        if(!hasDinosaurWithName(dinosaur.getName())) {
             dinosaurs.add(dinosaur);
         }
     }
 
     public void feedDinosaurs() {
-        List<Dinosaur> dinosaursByPriority = new ArrayList<>(sortDinosaursByStrength().keySet());
-        for(Dinosaur dinosaur : dinosaursByPriority) {
-            dinosaur.eat();
-        }
-        removeFastingDinosaurs(dinosaursByPriority);
-    }
+        List<FoodNeed> herbivorousFoodNeeds = new ArrayList<>();
+        List<FoodNeed> carnivorousFoodNeeds = new ArrayList<>();
+        List<Dinosaur> dinosaursSortedFromWeakerToStronger =
+                dinosaurs.stream().sorted().collect(Collectors.toList());
 
-    private void removeFastingDinosaurs(List<Dinosaur> allDinosaurs) {
-        for(Dinosaur dinosaur : allDinosaurs) {
-            if(!dinosaur.isAlive())
-                dinosaurs.remove(dinosaur);
+        for(Dinosaur dinosaur: dinosaursSortedFromWeakerToStronger){
+            List<FoodNeed> foodNeeds = dinosaur.askForFood();
+            for(FoodNeed foodNeed: foodNeeds){
+                if (foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS){
+                    carnivorousFoodNeeds.add(0,foodNeed);
+                }
+                else if (foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS){
+                    herbivorousFoodNeeds.add(foodNeed);
+                }
+            }
         }
-    }
 
-    private Map<Dinosaur, Integer> sortDinosaursByStrength() {
-        Map<Dinosaur, Integer> dinosaursStrength = new HashMap<>();
-        for(Dinosaur dinosaur : dinosaurs) {
-            dinosaursStrength.put(dinosaur, dinosaur.calculateStrength());
-        }
-        return dinosaursStrength.entrySet().stream()
-                .sorted(Map.Entry.<Dinosaur, Integer>comparingByValue()
-                        .reversed()
-                        .thenComparing(Map.Entry.comparingByKey()))
-                .collect(
-                        toMap(Map.Entry::getKey, Map.Entry::getValue, (dinosaur, strength)->dinosaur, LinkedHashMap::new));
+        herbivorousFoodNeeds.forEach(FoodNeed::satisfy);
+        carnivorousFoodNeeds.forEach(FoodNeed::satisfy);
+
+        removeFastingDinosaurs();
     }
 
     public void increaseDinosaursAge() {
@@ -78,5 +76,9 @@ public class Herd {
 
     public List<Dinosaur> getAllDinosaurs() {
         return new ArrayList<>(dinosaurs);
+    }
+
+    private void removeFastingDinosaurs() {
+        dinosaurs.removeIf((dinosaur) -> !dinosaur.isAlive());
     }
 }

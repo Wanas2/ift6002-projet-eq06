@@ -1,16 +1,17 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
+
+import java.util.List;
 
 public class Dinosaur implements Comparable<Dinosaur> {
 
     private Species species;
-    private boolean isAlive = true;
     private int weight;
     private String name;
     private Gender gender;
-    private FoodConsumptionStrategy foodConsumptionStrategy;
+    private final FoodConsumptionStrategy foodConsumptionStrategy;
     private int age;
 
     public Dinosaur(Species species, int weight, String name, Gender gender,
@@ -21,45 +22,20 @@ public class Dinosaur implements Comparable<Dinosaur> {
         this.gender = gender;
         this.foodConsumptionStrategy = foodConsumptionStrategy;
         this.age = 0;
-
     }
 
     public boolean isAlive() {
-        return isAlive;
+        return foodConsumptionStrategy.areFoodNeedsSatisfied();
     }
 
-    public void eat() {
-        isAlive = foodConsumptionStrategy.consumeFood(weight, age);
-    }
-
-    public int calculateStrength() {
-        return (int)Math.ceil(weight*getGenderFactor()*getTypeFactor());
-    }
-
-    private float getGenderFactor() {
-        float factor_S = 0;
-        if(gender == Gender.F) {
-            factor_S = 1.5f;
-        } else if(gender == Gender.M) {
-            factor_S = 1.0f;
-        }
-        return factor_S;
-    }
-
-    private float getTypeFactor() {
-        float factor_T = 0;
-        if(species.getConsumptionType() == FoodConsumption.CARNIVOROUS
-                || species.getConsumptionType() == FoodConsumption.OMNIVOROUS) {
-            factor_T = 1.5f;
-        } else if(species.getConsumptionType() == FoodConsumption.HERBIVOROUS) {
-            factor_T = 1.0f;
-        }
-        return factor_T;
+    public List<FoodNeed> askForFood() {
+        return foodConsumptionStrategy.getFoodNeeds(weight,age);
     }
 
     @Override
     public int compareTo(Dinosaur dinosaur) {
-        return this.name.compareTo(dinosaur.name);
+        int comparingStrength = Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
+        return comparingStrength != 0 ? comparingStrength : -this.name.compareTo(dinosaur.name);
     }
 
     public void age() {
@@ -80,5 +56,9 @@ public class Dinosaur implements Comparable<Dinosaur> {
 
     public Species getSpecies() {
         return species;
+    }
+
+    private int calculateStrength() {
+        return (int)Math.ceil(weight*gender.getGenderFactor()*species.getConsumptionStrength());
     }
 }

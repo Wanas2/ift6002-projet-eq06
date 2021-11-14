@@ -1,13 +1,12 @@
 package ca.ulaval.glo4002.game.domain.action;
 
 import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -15,13 +14,13 @@ import static org.mockito.Mockito.verify;
 class AddFoodActionTest {
 
     private Pantry pantry;
-    private Map<FoodType, Food> foods;
+    private List<Food> foods;
     private AddFoodAction addFoodAction;
 
     @BeforeEach
     void setUp() {
         pantry = mock(Pantry.class);
-        foods = new HashMap<>();
+        foods = new ArrayList<>();
         addFoodAction = new AddFoodAction(pantry, foods);
     }
 
@@ -29,6 +28,6 @@ class AddFoodActionTest {
     public void givenFood_whenExecute_thenAddTheFoodToNewBatchOfFreshFood() {
         addFoodAction.execute();
 
-        verify(pantry).addOrderedFoodToCurrentTurnFoodBatch(foods);
+        verify(pantry).obtainNewlyOrderedFood(foods);
     }
 }

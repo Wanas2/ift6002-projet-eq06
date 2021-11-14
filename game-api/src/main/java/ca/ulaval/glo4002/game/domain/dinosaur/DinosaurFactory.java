@@ -1,51 +1,68 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightException;
-import ca.ulaval.glo4002.game.domain.food.FoodStorage;
 
 public class DinosaurFactory {
 
-    class GeneralDinosaurState {
-
-        public Species species;
-        public Gender gender;
-        public FoodConsumptionStrategy strategy;
-
-        public GeneralDinosaurState(Species species, Gender gender, FoodConsumptionStrategy strategy) {
-            this.species = species;
-            this.gender = gender;
-            this.strategy = strategy;
-        }
-    }
-
     private final CarnivorousFoodStorage carnivorousFoodStorage;
     private final HerbivorousFoodStorage herbivorousFoodStorage;
-    private final FoodStorage foodStorage;
 
     public DinosaurFactory(CarnivorousFoodStorage carnivorousFoodStorage,
-                           HerbivorousFoodStorage herbivorousFoodStorage, FoodStorage foodStorage) {
+                           HerbivorousFoodStorage herbivorousFoodStorage) {
         this.carnivorousFoodStorage = carnivorousFoodStorage;
         this.herbivorousFoodStorage = herbivorousFoodStorage;
-        this.foodStorage = foodStorage;
     }
 
-    private GeneralDinosaurState createGeneralDinosaurState(String genderName, String speciesName) {
-        if(!genderName.equals("m") && !genderName.equals("f")) {
+    public Dinosaur create(String genderName, int weight, String speciesName, String name) {
+        Gender gender = findCorrespondingGender(genderName);
+        Species species = findCorrespondingSpecies(speciesName);
+        FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);
+
+        return new Dinosaur(species, weight, name, gender, foodConsumptionStrategy);
+    }
+
+    public BabyDinosaur createBaby(String genderName, String speciesName, String name, Dinosaur fatherDinosaur,
+                                   Dinosaur motherDinosaur) {
+        validateParentsGender(fatherDinosaur,motherDinosaur);
+        Gender gender = findCorrespondingGender(genderName);
+        Species species = findCorrespondingSpecies(speciesName);
+        FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);
+
+        return new BabyDinosaur(species, name, gender, foodConsumptionStrategy, fatherDinosaur, motherDinosaur);
+    }
+
+    private void validateParentsGender(Dinosaur fatherDinosaur, Dinosaur motherDinosaur) {
+        if (fatherDinosaur.getGender() != Gender.M){
+            throw new InvalidFatherException();
+        }
+        if (motherDinosaur.getGender() != Gender.F){
+            throw new InvalidMotherException();
+        }
+    }
+
+    private Gender findCorrespondingGender(String gender) {
+        gender = gender.toUpperCase();
+        try {
+            return Gender.valueOf(gender);
+        } catch (IllegalArgumentException e) {
             throw new InvalidGenderException();
         }
-        Gender gender = Gender.valueOf(genderName.toUpperCase());
+    }
 
-        speciesName = speciesName.replace(" ", "");
-        Species species;
+    private Species findCorrespondingSpecies(String species) {
+        species = species.replace(" ", "");
         try {
-            species = Species.valueOf(speciesName);
+            return Species.valueOf(species);
         } catch(IllegalArgumentException e) {
             throw new InvalidSpeciesException();
         }
+    }
 
+    private FoodConsumptionStrategy findCorrespondingFoodConsumptionStrategy(Species species) {
         FoodConsumptionStrategy foodConsumptionStrategy;
         switch(species.getConsumptionType()) {
             case CARNIVOROUS:
@@ -55,28 +72,12 @@ public class DinosaurFactory {
                 foodConsumptionStrategy = new HerbivorousFoodConsumptionStrategy(herbivorousFoodStorage);
                 break;
             case OMNIVOROUS:
-                foodConsumptionStrategy = new OmnivorousFoodConsumptionStrategy(foodStorage);
+                foodConsumptionStrategy = new OmnivorousFoodConsumptionStrategy(carnivorousFoodStorage,
+                        herbivorousFoodStorage);
                 break;
             default:
                 throw new InvalidSpeciesException();
         }
-
-        return new GeneralDinosaurState(species, gender, foodConsumptionStrategy);
-    }
-
-    public Dinosaur create(String genderName, int weight, String speciesName, String name) {
-        if(weight <= 0)
-            throw new InvalidWeightException();
-
-        GeneralDinosaurState state = createGeneralDinosaurState(genderName, speciesName);
-
-        return new Dinosaur(state.species, weight, name, state.gender, state.strategy);
-    }
-
-    public BabyDinosaur createBaby(String genderName, String speciesName, String name, Dinosaur fatherDinosaur,
-                                   Dinosaur motherDinosaur) {
-        GeneralDinosaurState state = createGeneralDinosaurState(genderName, speciesName);
-
-        return new BabyDinosaur(state.species, name, state.gender, state.strategy, fatherDinosaur, motherDinosaur);
+        return foodConsumptionStrategy;
     }
 }

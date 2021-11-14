@@ -26,7 +26,7 @@ class FoodValidatorTest {
         initiateFoodWithCorrectQuantity();
         foodDTO.qtyBurger = A_NEGATIVE_QUANTITY;
 
-        assertThrows(InvalidRessourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
+        assertThrows(InvalidResourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
     }
 
     @Test
@@ -34,7 +34,7 @@ class FoodValidatorTest {
         initiateFoodWithCorrectQuantity();
         foodDTO.qtySalad = A_NEGATIVE_QUANTITY;
 
-        assertThrows(InvalidRessourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
+        assertThrows(InvalidResourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
     }
 
     @Test
@@ -42,7 +42,7 @@ class FoodValidatorTest {
         initiateFoodWithCorrectQuantity();
         foodDTO.qtyWater = A_NEGATIVE_QUANTITY;
 
-        assertThrows(InvalidRessourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
+        assertThrows(InvalidResourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
     }
 
     @Test

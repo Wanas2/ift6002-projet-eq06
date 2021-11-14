@@ -1,31 +1,47 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
-import ca.ulaval.glo4002.game.domain.food.FoodStorage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OmnivorousFoodConsumptionStrategy implements FoodConsumptionStrategy {
-    private final FoodStorage storage;
+
     private final int STARVING_FACTOR = 2;
     private final double WATER_FACTOR = 0.6;
     private final double SALAD_FACTOR = 0.0025;
     private final double BURGER_FACTOR = 0.001;
 
-    public OmnivorousFoodConsumptionStrategy(FoodStorage storage) {
-        this.storage = storage;
+    private final CarnivorousFoodStorage carnivorousFoodStorage;
+    private final HerbivorousFoodStorage herbivorousFoodStorage;
+    private HerbivorousFoodNeed herbivorousFoodNeed;
+    private CarnivorousFoodNeed carnivorousFoodNeed;
+
+    public OmnivorousFoodConsumptionStrategy(CarnivorousFoodStorage carnivorousFoodStorage,
+                                             HerbivorousFoodStorage herbivorousFoodStorage) {
+        this.carnivorousFoodStorage = carnivorousFoodStorage;
+        this.herbivorousFoodStorage = herbivorousFoodStorage;
     }
 
     @Override
-    public boolean consumeFood(int weight, int age) {
+    public List<FoodNeed> getFoodNeeds(int weight, int age) {
         int starvingFactor = age == 0 ? STARVING_FACTOR : 1;
+        int totalWaterNeeded = (int)Math.ceil(starvingFactor*weight*WATER_FACTOR);
+        int waterNeeded = (int) Math.ceil(totalWaterNeeded/2.0);
 
-        int waterNeeded = (int)Math.ceil(starvingFactor*weight*WATER_FACTOR);
-        int burgersNeeded = (int)Math.ceil(starvingFactor*weight*BURGER_FACTOR/2);
-        int saladsNeeded = (int)Math.ceil(starvingFactor*weight*SALAD_FACTOR/2);
+        int saladNeeded = (int)Math.ceil(starvingFactor*weight*SALAD_FACTOR/2);
+        herbivorousFoodNeed = new HerbivorousFoodNeed(herbivorousFoodStorage,saladNeeded,waterNeeded);
 
-        int burgersConsumed = storage.giveExactOrMostPossibleBurgerDesired(burgersNeeded);
-        int saladsConsumed = storage.giveExactOrMostPossibleSaladDesired(saladsNeeded);
-        int waterConsumed = storage.giveExactOrMostPossibleWaterDesired(waterNeeded);
+        int burgerNeeded = (int)Math.ceil(starvingFactor*weight*BURGER_FACTOR/2);
+        carnivorousFoodNeed = new CarnivorousFoodNeed(carnivorousFoodStorage,burgerNeeded,waterNeeded);
 
-        return burgersConsumed == burgersNeeded && saladsConsumed == saladsNeeded
-                && waterConsumed == waterNeeded;
+        List<FoodNeed> needs = new ArrayList<>();
+        needs.add(carnivorousFoodNeed);
+        needs.add(herbivorousFoodNeed);
+        return needs;
+    }
+
+    @Override
+    public boolean areFoodNeedsSatisfied() {
+        return (carnivorousFoodNeed == null || carnivorousFoodNeed.isSatisfied()) &&
+                (herbivorousFoodNeed == null || herbivorousFoodNeed.isSatisfied());
     }
 }

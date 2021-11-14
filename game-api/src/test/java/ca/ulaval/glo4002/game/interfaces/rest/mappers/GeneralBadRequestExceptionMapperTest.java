@@ -13,7 +13,7 @@ public class GeneralBadRequestExceptionMapperTest {
     private final static String A_MESSAGE = "Erreur";
 
     @Test
-    public void whenBadRequstResponse_thenShouldBeStatus400() {
+    public void whenBadRequestResponse_thenShouldBeStatus400() {
         GeneralBadRequestExceptionMapper mapper = new GeneralBadRequestExceptionMapper();
 
         Response response = mapper.badRequestResponse(AN_ERROR_CODE, A_MESSAGE);

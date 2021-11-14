@@ -1,25 +1,35 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CarnivorousFoodConsumptionStrategy implements FoodConsumptionStrategy {
 
-    private CarnivorousFoodStorage storage;
     private final int STARVING_FACTOR = 2;
     private final double WATER_FACTOR = 0.6;
     private final double FOOD_FACTOR = 0.001;
 
-    public CarnivorousFoodConsumptionStrategy(CarnivorousFoodStorage storage) {
-        this.storage = storage;
+    private final CarnivorousFoodStorage carnivorousFoodStorage;
+    private CarnivorousFoodNeed carnivorousFoodNeed;
+
+    public CarnivorousFoodConsumptionStrategy(CarnivorousFoodStorage carnivorousFoodStorage) {
+        this.carnivorousFoodStorage = carnivorousFoodStorage;
     }
 
     @Override
-    public boolean consumeFood(int weight, int age) {
+    public List<FoodNeed> getFoodNeeds(int weight, int age) {
         int starvingFactor = age == 0 ? STARVING_FACTOR : 1;
         int waterNeeded = (int)Math.ceil(starvingFactor*weight*WATER_FACTOR);
-        int foodNeeded = (int)Math.ceil(starvingFactor*weight*FOOD_FACTOR);
+        int burgerNeeded = (int)Math.ceil(starvingFactor*weight*FOOD_FACTOR);
+        carnivorousFoodNeed = new CarnivorousFoodNeed(carnivorousFoodStorage,burgerNeeded,waterNeeded);
 
-        int foodConsumed = storage.giveExactOrMostPossibleBurgerDesired(foodNeeded);
-        int waterConsumed = storage.giveExactOrMostPossibleWaterDesired(waterNeeded);
+        List<FoodNeed> needs = new ArrayList<>();
+        needs.add(carnivorousFoodNeed);
+        return needs;
+    }
 
-        return foodNeeded == foodConsumed && waterNeeded == waterConsumed;
+    @Override
+    public boolean areFoodNeedsSatisfied() {
+        return carnivorousFoodNeed == null || carnivorousFoodNeed.isSatisfied();
     }
 }

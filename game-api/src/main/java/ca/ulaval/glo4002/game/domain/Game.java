@@ -29,7 +29,7 @@ public class Game {
         turn.acquireNewAction(addDinosaurAction);
     }
 
-    public void addFood(Map<FoodType, Food> foods) {
+    public void addFood(List<Food> foods) {
         ExecutableAction addFoodAction = new AddFoodAction(pantry, foods);
         turn.acquireNewAction(addFoodAction);
     }
@@ -38,10 +38,12 @@ public class Game {
         int turnNumber = turn.playActions();
 
         pantry.incrementFreshFoodAges();
-        pantry.addCurrentTurnFoodBatchToFreshFood();
-        pantry.removeExpiredFoodFromFreshFood();
+        pantry.storeFood();
 
+        pantry.splitWater();
         herd.feedDinosaurs();
+        pantry.mergeWater();
+
         herd.increaseDinosaursAge();
 
         return turnNumber;

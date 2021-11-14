@@ -2,59 +2,49 @@ package ca.ulaval.glo4002.game.applicationService.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.BreedingRequestDTO;
-import ca.ulaval.glo4002.game.interfaces.rest.dino.DinosaurDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class DinosaurService {
 
-    private final DinosaurAssembler dinosaurAssembler;
     private final DinosaurFactory dinosaurFactory;
     private final Herd herd;
     private final Game game;
     private final BabyFetcher babyFetcher;
 
-    public DinosaurService(DinosaurAssembler dinosaurAssembler,
-                           DinosaurFactory dinosaurFactory, Herd herd, Game game, BabyFetcher babyFetcher) {
-        this.dinosaurAssembler = dinosaurAssembler;
+    public DinosaurService(DinosaurFactory dinosaurFactory, Herd herd, Game game, BabyFetcher babyFetcher) {
         this.dinosaurFactory = dinosaurFactory;
         this.herd = herd;
         this.game = game;
         this.babyFetcher = babyFetcher;
     }
 
-    public void addDinosaur(DinosaurDTO dinosaurDTO) {
-        if(herd.hasDinoosaurWithName(dinosaurDTO.name))
+    public void addDinosaur(String name, int weight, String gender, String species) {
+        if(herd.hasDinosaurWithName(name))
             throw new DuplicateNameException();
-        Dinosaur dinosaur = dinosaurFactory.create(dinosaurDTO.gender, dinosaurDTO.weight, dinosaurDTO.species,
-                dinosaurDTO.name);
+        Dinosaur dinosaur = dinosaurFactory.create(gender, weight, species, name);
         game.addDinosaur(dinosaur);
     }
 
-    public DinosaurDTO showDinosaur(String dinosaurName) {
-        Dinosaur dino = herd.getDinosaurWithName(dinosaurName);
-        return dinosaurAssembler.toDTO(dino);
-    }
-
-    public List<DinosaurDTO> showAllDinosaurs() {
-        List<Dinosaur> dinosaur = herd.getAllDinosaurs();
-        return dinosaur.stream()
-                .map(dinosaurAssembler::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    public void breedDino(BreedingRequestDTO breedingRequestDTO) {
-        String fatherName = breedingRequestDTO.fatherName;
-        String motherName = breedingRequestDTO.motherName;
-
+    public void breedDinosaur(String babyDinosaurName, String fatherName, String motherName) {
         Dinosaur fatherDinosaur = herd.getDinosaurWithName(fatherName);
         Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
-        String babyDinoName = breedingRequestDTO.name;
-        Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinoName);
-        if(babyDinosaur.isPresent())
+
+        Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
+        if(babyDinosaur.isPresent()) {
+            System.out.println("**********************************************");
+            System.out.println("Baby is present");
+            System.out.println("**********************************************");
             game.addDinosaur(babyDinosaur.get());
+        }
+    }
+
+    public Dinosaur showDinosaur(String dinosaurName) {
+        return herd.getDinosaurWithName(dinosaurName);
+    }
+
+    public List<Dinosaur> showAllDinosaurs() {
+        return herd.getAllDinosaurs();
     }
 }

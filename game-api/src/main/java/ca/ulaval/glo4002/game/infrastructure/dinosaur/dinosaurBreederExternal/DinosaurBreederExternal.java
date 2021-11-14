@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 
 public class DinosaurBreederExternal {
 
-    public BabyDinoResponseDTO breed(WebTarget externalService, BreedingRequestExternalDTO breedingRequestExternalDTO)
+    public BabyDinosaurResponseDTO breed(WebTarget externalService, BreedingRequestExternalDTO breedingRequestExternalDTO)
             throws SpeciesWillNotBreedException {
         Invocation.Builder invocationBuilder = externalService.request(MediaType.APPLICATION_JSON);
         Response response = invocationBuilder.post(Entity
@@ -17,6 +17,6 @@ public class DinosaurBreederExternal {
         if(response.getStatus() == 400)
             throw new SpeciesWillNotBreedException("Impossibles to breed these species");
 
-        return response.readEntity(BabyDinoResponseDTO.class);
+        return response.readEntity(BabyDinosaurResponseDTO.class);
     }
 }
