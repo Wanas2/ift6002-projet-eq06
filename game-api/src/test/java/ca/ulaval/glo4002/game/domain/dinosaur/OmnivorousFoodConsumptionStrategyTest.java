@@ -17,10 +17,10 @@ public class OmnivorousFoodConsumptionStrategyTest {
     private final static int WEIGHT = 81;
     private final static int EXPECTED_NORMAL_SALADS = 1;
     private final static int EXPECTED_NORMAL_BURGERS = 1;
-    private final static int EXPECTED_NORMAL_WATER = 24;
+    private final static int EXPECTED_NORMAL_WATER = 25;
     private final static int EXPECTED_DOUBLE_SALADS = 1;
     private final static int EXPECTED_DOUBLE_BURGERS = 1;
-    private final static int EXPECTED_DOUBLE_WATER = 48;
+    private final static int EXPECTED_DOUBLE_WATER = 49;
 
     private OmnivorousFoodConsumptionStrategy strategy;
     private HerbivorousFoodStorage herbivorousFoodStorage;
