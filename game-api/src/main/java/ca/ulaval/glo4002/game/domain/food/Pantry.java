@@ -234,6 +234,7 @@ public class Pantry implements FoodStorage {
         waterForCarnivorous.removeAll(foodsToRemove);
         storedWater.forEach((age, quantity)->allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
         storedWater = new HashMap<>();
+        allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
     }
 
     public void incrementFreshFoodAges() {
