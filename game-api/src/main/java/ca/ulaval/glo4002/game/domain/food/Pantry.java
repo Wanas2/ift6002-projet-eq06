@@ -3,54 +3,77 @@ package ca.ulaval.glo4002.game.domain.food;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Pantry implements FoodStorage {
 
     private final FoodProvider foodProvider;
     private List<Food> currentTurnFoodBatch = new ArrayList<>();
-    private Queue<List<Food>> allFreshFood = new LinkedList<>();
-    private final List<Food> allExpiredFood = new ArrayList<>();
-    private final List<Food> allConsumedFood = new ArrayList<>();
+    private List<Food> allFreshFood = new LinkedList<>();
+    private final Map<FoodType, Integer> expiredFoodQuantities = new HashMap<>();
+    private final Map<FoodType, Integer> consumedFoodQuantities = new HashMap<>();
 
     public Pantry(FoodProvider foodProvider) {
         this.foodProvider = foodProvider;
+        initializeExpiredFoodQuantities();
+        initiateConsumedFoodQuantities();
     }
 
-    public Queue<List<Food>> getAllFreshFood() {
+    private void initializeExpiredFoodQuantities() {
+        expiredFoodQuantities.put(FoodType.BURGER, 0);
+        expiredFoodQuantities.put(FoodType.SALAD, 0);
+        expiredFoodQuantities.put(FoodType.WATER, 0);
+    }
+
+    private void initiateConsumedFoodQuantities() {
+        consumedFoodQuantities.put(FoodType.BURGER, 0);
+        consumedFoodQuantities.put(FoodType.SALAD, 0);
+        consumedFoodQuantities.put(FoodType.WATER, 0);
+    }
+
+    public List<Food> getAllFreshFood() {
         return allFreshFood;
     }
 
-    public List<Food> getAllExpiredFood() {
-        return allExpiredFood;
+    public Map<FoodType, Integer> getExpiredFoodQuantities() {
+        return expiredFoodQuantities;
     }
 
-    public List<Food> getAllConsumedFood() {
-        return allConsumedFood;
+    public Map<FoodType, Integer> getConsumedFoodQuantities() {
+        return consumedFoodQuantities;
     }
 
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
         FoodType foodTypeToProvide = FoodType.BURGER;
-        int quantityOfFoodToProvide = quantityOfFoodToProvide(foodTypeToProvide, requestedBurgerQuantity);
+        int remainingFooQuantityToProvide = requestedBurgerQuantity;
+        int totalFoodGiven = 0;
 
-//        allFreshFood.stream()
-//                .flatMap(foodBatch -> foodBatch.stream())
-//                .filter(food -> food.getType().equals(foodTypeToProvide))
-//                .forEach(food -> {
-//                    if(quantityOfFoodToProvide <= food.quantity()) {
-//                        food.decreaseQuantity(quantityOfFoodToProvide);
-//                        incrementFoodQuantityOfOneType(food, allConsumedFood, foodTypeToProvide, FoodState.FRESH);
-//                    } else {
-//                        int quantityOfFoodProvided = food.quantity();
-//                        incrementFoodQuantityOfOneType(food, allConsumedFood, foodTypeToProvide, FoodState.FRESH);
-//                        food.decreaseQuantity(quantityOfFoodProvided);
-//                    }
-//
-//                    quantityOfFoodToProvide
-//                });
+        List <Food> allBurgers = allFreshFood.stream()
+                .filter(food -> food.getType().equals(foodTypeToProvide))
+                .collect(Collectors.toList());
+        allFreshFood.removeAll(allBurgers);
 
-        return quantityOfFoodToProvide;
+        for(Food food : allBurgers) {
+            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
+
+            if(remainingFooQuantityToProvide <= food.quantity()) {
+                food.decreaseQuantity(remainingFooQuantityToProvide);
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
+                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                remainingFooQuantityToProvide = 0;
+                totalFoodGiven += remainingFooQuantityToProvide;
+                break;
+            } else {
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
+                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                totalFoodGiven += food.quantity();
+                allBurgers.remove(food);
+            }
+        }
+
+        allFreshFood.addAll(allBurgers);
+
+        return totalFoodGiven;
     }
 
     @Override
@@ -63,100 +86,98 @@ public class Pantry implements FoodStorage {
         return 1;
     }
 
-    public void addCurrentTurnFoodBatchToFreshFood() {
-    }
-
-    public void removeExpiredFoodFromFreshFood() {
-    }
-
     private int giveExactOrMostPossibleFoodDesired(FoodType foodType, int requestedFoodQuantity) {
         return 1;
     }
 
     public void obtainNewlyOrderedFood(List<Food> orderedFood) {
-        FoodState newFoodState = FoodState.FRESH;
+        int newFoodAge = 0;
 
         for(FoodType foodType : FoodType.values()) {
+            Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(foodType);
             Optional<Food> foodOrderedOfMatchingType = orderedFood.stream()
-                    .filter(food -> food.getType().equals(foodType))
+                    .filter(foodTypeFilter)
                     .findFirst();
 
             foodOrderedOfMatchingType.ifPresent(food ->
-                    incrementFoodQuantityOfOneType(food, currentTurnFoodBatch, foodType, newFoodState));
+                    addToMatchingFood(food, currentTurnFoodBatch, foodType, newFoodAge));
         }
     }
 
     public void storeFood() {
+        int newFoodAge = 0;
         List<Food> newBatchOfFood = new ArrayList<>();
-        FoodState newFoodState = FoodState.FRESH;
         List<Food> foodFromProvider = foodProvider.provideFood();
 
         for (FoodType foodType : FoodType.values()) {
+            Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(foodType);
+
             Optional<Food> foodFromCurrentTurnFoodBatch = currentTurnFoodBatch.stream()
-                    .filter(food -> food.getType().equals(foodType))
+                    .filter(foodTypeFilter)
                     .findFirst();
+            foodFromCurrentTurnFoodBatch.ifPresent(food
+                    -> addToMatchingFood(food, newBatchOfFood, foodType, newFoodAge));
 
             Optional<Food> foodFromFoodProvider = foodFromProvider.stream()
-                    .filter(food -> food.getType().equals(foodType))
+                    .filter(foodTypeFilter)
                     .findFirst();
-
-            foodFromCurrentTurnFoodBatch.ifPresent(food
-                    -> incrementFoodQuantityOfOneType(food, newBatchOfFood, foodType, newFoodState));
-
             foodFromFoodProvider.ifPresent(food
-                    -> incrementFoodQuantityOfOneType(food, newBatchOfFood, foodType, newFoodState));
+                    -> addToMatchingFood(food, newBatchOfFood, foodType, newFoodAge));
         }
 
-        allFreshFood.add(newBatchOfFood);
+        allFreshFood.addAll(newBatchOfFood);
         currentTurnFoodBatch = new ArrayList<>();
     }
 
     public void incrementFreshFoodAges() {
-        allFreshFood.forEach(foodBatch ->
-                        foodBatch.forEach(food -> food.incrementAgeByOne()));
+        for(Food food: allFreshFood) {
+            food.incrementAgeByOne();
+
+            int currentExpiredFoodQuantity = expiredFoodQuantities.get(food.getType());
+
+            if(food.isExpired()){
+                int newExpiredFoodQuantity = currentExpiredFoodQuantity + food.quantity();
+                expiredFoodQuantities.put(food.getType(), newExpiredFoodQuantity);
+                allFreshFood.remove(food);
+            }
+        }
     }
 
     public void reset() {
         allFreshFood = new LinkedList<>();
     }
 
-    private void incrementFoodQuantityOfOneType(Food foodToAdd, List<Food> foodToAddTo,
-                                                FoodType requiredFoodType, FoodState requiredFoodState) {
+    private void addToMatchingFood(Food foodToAdd, List<Food> foodToAddTo, FoodType requiredFoodType,
+                                   int requiredFoodAge) {
         Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(requiredFoodType);
+        Predicate<Food> foodAgeFilter = foodFiltered -> foodFiltered.getAge() == requiredFoodAge;
 
-        if(!containFoodOfFoodTypeAndState(foodToAddTo, requiredFoodType, requiredFoodState)) {
+        if(!containNewFoodOfFoodType(foodToAddTo, requiredFoodType)) {
             foodToAddTo.add(new Food(requiredFoodType, 0));
         }
 
         Optional<Food> foodOfRequiredTypeToAddTo = foodToAddTo.stream()
-                .filter(foodTypeFilter).findFirst();
+                .filter(foodTypeFilter.and(foodAgeFilter))
+                .findFirst();
+
         foodOfRequiredTypeToAddTo.ifPresent((food -> {
             try {
-                foodOfRequiredTypeToAddTo.get().increaseQuantity(foodToAdd);
+                food.increaseQuantity(foodToAdd);
             } catch (FoodTypesNotMatchingException e) {
                 e.printStackTrace();
             }
         }));
     }
 
-    private boolean containFoodOfFoodTypeAndState(List<Food> food, FoodType requiredFoodType,
-                                                  FoodState requiredFoodState) {
+    private boolean containNewFoodOfFoodType(List<Food> food, FoodType requiredFoodType) { // Todo To rename
+        int newFoodAge = 0;
         Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(requiredFoodType);
-        Predicate<Food> foodStateFilter = foodFiltered -> foodFiltered.getState().equals(requiredFoodState);
+        Predicate<Food> foodAgeFilter = foodFiltered -> foodFiltered.getAge() == newFoodAge;
 
-        Optional<Food> matchingFood = food.stream().
-                filter(foodTypeFilter.and(foodStateFilter)).
-                findFirst();
+        Optional<Food> matchingFood = food.stream()
+                .filter(foodTypeFilter.and(foodAgeFilter))
+                .findFirst();
 
         return matchingFood.isPresent();
-    }
-
-    private int quantityOfFoodToProvide(FoodType foodType, int requestedFoodQuantity) {
-        int availableFoodQuantity = allFreshFood.stream()
-                .flatMap(foodBatch -> foodBatch.stream())
-                .filter(food -> food.getType().equals(foodType))
-                .mapToInt(Food::quantity).sum();
-
-        return Math.min(requestedFoodQuantity, availableFoodQuantity);
     }
 }

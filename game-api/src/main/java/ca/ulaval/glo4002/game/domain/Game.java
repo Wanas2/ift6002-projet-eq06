@@ -38,8 +38,7 @@ public class Game {
         int turnNumber = turn.playActions();
 
         pantry.incrementFreshFoodAges();
-        pantry.addCurrentTurnFoodBatchToFreshFood();
-        pantry.removeExpiredFoodFromFreshFood();
+        pantry.storeFood();
 
         herd.feedDinosaurs();
         herd.increaseDinosaursAge();
