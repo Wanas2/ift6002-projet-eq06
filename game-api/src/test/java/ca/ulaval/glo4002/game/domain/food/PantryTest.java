@@ -112,7 +112,7 @@ class PantryTest {
         allFreshFood.forEach(food -> System.out.println(food.quantity()));
         System.out.println("Splitting water");
         printer();
-        pantry.giveExactOrMostPossibleWaterDesired(20);
+        pantry.giveExactOrMostPossibleWaterDesiredToCarnivorous(20);
         System.out.println("retirer 20");
         printer();
         System.out.println("Merging water");

@@ -78,9 +78,6 @@ public class Pantry implements FoodStorage {
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
                 consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
                 totalFoodGiven += food.quantity();
-                if(allBurgers.isEmpty()){
-                    break;
-                }
                 foodToRemove.add(food);
             }
         }
@@ -91,12 +88,75 @@ public class Pantry implements FoodStorage {
     }
 
     @Override
-    public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        return 1;
+    public int giveExactOrMostPossibleWaterDesiredToHerbivorous(int requestedWaterQuantity) {
+        FoodType foodTypeToProvide = FoodType.WATER;
+        int remainingFooQuantityToProvide = requestedWaterQuantity;
+        int totalFoodGiven = 0;
+
+        List <Food> allBurgers = waterForHerbivorous.stream()
+                .filter(food -> food.getType().equals(foodTypeToProvide))
+                .collect(Collectors.toList());
+        waterForHerbivorous.removeAll(allBurgers);
+        List<Food> allFoodToRemove = new ArrayList<>();
+        for(Food food : allBurgers) {
+            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
+
+            if(remainingFooQuantityToProvide <= food.quantity()) {
+                food.decreaseQuantity(remainingFooQuantityToProvide);
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
+                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                remainingFooQuantityToProvide = 0;
+                totalFoodGiven += remainingFooQuantityToProvide;
+                break;
+            } else {
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
+                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                totalFoodGiven += food.quantity();
+                allFoodToRemove.add(food);
+            }
+        }
+        allBurgers.removeAll(allFoodToRemove);
+        waterForHerbivorous.addAll(allBurgers);
+
+        return totalFoodGiven;
     }
 
     @Override
-    public int giveExactOrMostPossibleWaterDesired(int requestedWaterQuantity) {
+    public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
+        FoodType foodTypeToProvide = FoodType.SALAD;
+        int remainingFooQuantityToProvide = requestedSaladQuantity;
+        int totalFoodGiven = 0;
+
+        List <Food> allBurgers = allFreshFood.stream()
+                .filter(food -> food.getType().equals(foodTypeToProvide))
+                .collect(Collectors.toList());
+        allFreshFood.removeAll(allBurgers);
+        List<Food> foodToRemove = new ArrayList<>();
+        for(Food food : allBurgers) {
+            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
+
+            if(remainingFooQuantityToProvide <= food.quantity()) {
+                food.decreaseQuantity(remainingFooQuantityToProvide);
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFooQuantityToProvide;
+                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                remainingFooQuantityToProvide = 0;
+                totalFoodGiven += remainingFooQuantityToProvide;
+                break;
+            } else {
+                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
+                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                totalFoodGiven += food.quantity();
+                foodToRemove.add(food);
+            }
+        }
+        allBurgers.removeAll(foodToRemove);
+        allFreshFood.addAll(allBurgers);
+
+        return totalFoodGiven;
+    }
+
+    @Override
+    public int giveExactOrMostPossibleWaterDesiredToCarnivorous(int requestedWaterQuantity) {
         FoodType foodTypeToProvide = FoodType.WATER;
         int remainingFooQuantityToProvide = requestedWaterQuantity;
         int totalFoodGiven = 0;
@@ -120,9 +180,6 @@ public class Pantry implements FoodStorage {
                 int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
                 consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
                 totalFoodGiven += food.quantity();
-                if(allBurgers.isEmpty()){
-                    break;
-                }
                 allFoodToRemove.add(food);
             }
         }
