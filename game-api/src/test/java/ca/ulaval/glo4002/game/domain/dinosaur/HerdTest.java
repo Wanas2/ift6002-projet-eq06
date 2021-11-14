@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.game.domain.dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
@@ -11,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
@@ -66,7 +66,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenADinosaur_whenAddingNotExistingDinosaur_thenDinosaurShouldBeAdded() {
+    public void givenADinosaurWithNameNotAlreadyExisting_whenAddingNotExistingDinosaur_thenDinosaurShouldBeAdded() {
         Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, NAME_DINOSAUR, Gender.F,
                 carnivorousStrategy);
 
@@ -76,7 +76,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenADinosaur_whenAddingExistingDinosaur_thenDinosaurShouldNotBeAdded() {
+    public void givenADinosaurWithNameAlreadyExisting_whenAddDinosaur_thenDinosaurShouldNotBeAdded() {
         Dinosaur dinosaur = new Dinosaur(Species.Allosaurus, CARNIVOROUS_WEIGHT, CARNIVOROUS_NAME, Gender.M,
                 carnivorousStrategy);
 
@@ -86,7 +86,33 @@ public class HerdTest {
     }
 
     @Test
-    public void givenHerd_whenFeedDinosaur_thenHerbivorousFoodNeedShouldBeSatisfiedFromWeakerToStrongerDinosaurs() {
+    public void givenANameOfANonExistingDinosaurInHerd_whenHasDinosaurWithName_thenNameShouldNotExist() {
+        boolean dinosaurNameExists = herd.hasDinosaurWithName(NAME_DINOSAUR);
+
+        assertFalse(dinosaurNameExists);
+    }
+
+    @Test
+    public void givenANameOfAnExistingDinosaurInHerd_whenHasDinosaurWithName_thenNameShouldExist() {
+        boolean dinosaurNameExists = herd.hasDinosaurWithName(CARNIVOROUS_NAME);
+
+        assertTrue(dinosaurNameExists);
+    }
+
+    @Test
+    public void givenANameOfANonExistingDinosaurInHerd_whenGetDinosaurWithName_thenShouldThrowNonExistentNameException() {
+        assertThrows(NonExistentNameException.class, () -> herd.getDinosaurWithName(NAME_DINOSAUR));
+    }
+
+    @Test
+    public void givenANameOfAnExistingDinosaurInHerd_whenGetDinosaurWithName_thenDinosaurShouldBeFound() {
+        Dinosaur dinosaurWithName = herd.getDinosaurWithName(CARNIVOROUS_NAME);
+
+        assertEquals(aCarnivorousDinosaur,dinosaurWithName);
+    }
+
+    @Test
+    public void givenHerd_whenFeedDinosaurs_thenHerbivorousFoodNeedShouldBeSatisfiedFromWeakerToStrongerDinosaurs() {
         FoodNeed weakerDinosaurFoodNeed = mock(FoodNeed.class);
         when(weakerDinosaurFoodNeed.getFoodConsumption()).thenReturn(FoodConsumption.HERBIVOROUS);
         FoodNeed strongerDinosaurFoodNeed = mock(FoodNeed.class);
@@ -106,7 +132,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenHerd_whenFeedDinosaur_thenCarnivorousFoodNeedShouldBeSatisfiedFromStrongerToWeakerDinosaurs() {
+    public void givenHerd_whenFeedDinosaurs_thenCarnivorousFoodNeedShouldBeSatisfiedFromStrongerToWeakerDinosaurs() {
         FoodNeed weakerDinosaurFoodNeed = mock(FoodNeed.class);
         when(weakerDinosaurFoodNeed.getFoodConsumption()).thenReturn(FoodConsumption.CARNIVOROUS);
         FoodNeed strongerDinosaurFoodNeed = mock(FoodNeed.class);
@@ -126,7 +152,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenHerdWithDinosaurs_whenFeedingSomeDinosaurs_thenFastingDinosaursShouldBeRemoved() {
+    public void givenHerd_whenFeedDinosaurs_thenOnlyFastingDinosaursShouldBeRemoved() {
         when(strongerDinosaurCarnivorousStrategy.areFoodNeedsSatisfied()).thenReturn(true);
         when(strongerDinosaurCarnivorousStrategy.getFoodNeeds(anyInt(),anyInt()))
                 .thenReturn(new ArrayList<>());
@@ -141,5 +167,22 @@ public class HerdTest {
         assertTrue(dinosaurs.contains(anHerbivorousDinosaur));
         assertFalse(dinosaurs.contains(aStrongerHerbivorousDinosaur));
         assertFalse(dinosaurs.contains(aCarnivorousDinosaur));
+    }
+
+    @Test
+    public void givenADinosaurInHerd_whenIncreaseDinosaursAge_ThenDinosaurAgeShouldIncrease() {
+        Dinosaur fakeDinosaur = mock(Dinosaur.class);
+        herd.addDinosaur(fakeDinosaur);
+
+        herd.increaseDinosaursAge();
+
+        verify(fakeDinosaur).age();
+    }
+
+    @Test
+    public void givenHerd_whenReset_thenHerdShouldBeEmpty() {
+        herd.reset();
+
+        assertTrue(dinosaurs.isEmpty());
     }
 }
