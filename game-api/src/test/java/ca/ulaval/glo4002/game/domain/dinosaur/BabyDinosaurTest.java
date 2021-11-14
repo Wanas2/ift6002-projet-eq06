@@ -11,9 +11,6 @@ import static org.mockito.Mockito.when;
 
 public class BabyDinosaurTest {
 
-    private final static int BABY_WEIGHT = 1;
-    private final static int BABY_AGE = 0;
-
     private Dinosaur fatherDinosaur;
     private Dinosaur motherDinosaur;
     private BabyDinosaur aBabyDinosaur;
@@ -30,7 +27,7 @@ public class BabyDinosaurTest {
     }
 
     @Test
-    public void givenABabyDinosaurWithBothParentsDead_whenVerifyingIfAlive_thenItShouldBeDead() {
+    public void givenABabyDinosaurWithBothParentsDead_whenIsAlive_thenItShouldNotBeAlive() {
         when(fatherDinosaur.isAlive()).thenReturn(false);
         when(motherDinosaur.isAlive()).thenReturn(false);
 
@@ -40,11 +37,8 @@ public class BabyDinosaurTest {
     }
 
     @Test
-    public void givenABabyDinosaurWhichDidNotEatEnough_whenVerifyingIfAlive_thenItShouldBeDead() {
-        when(fatherDinosaur.isAlive()).thenReturn(true);
-        when(motherDinosaur.isAlive()).thenReturn(true);
-        when(babyDinosaurConsumptionStrategy.consumeFood(BABY_WEIGHT, BABY_AGE)).thenReturn(false);
-        aBabyDinosaur.eat();
+    public void givenABabyDinosaurWithFoodNeedsNotSatisfied_whenIsAlive_thenItShouldNotBeALive() {
+        when(babyDinosaurConsumptionStrategy.areFoodNeedsSatisfied()).thenReturn(false);
 
         boolean isBabyAlive = aBabyDinosaur.isAlive();
 
@@ -52,11 +46,10 @@ public class BabyDinosaurTest {
     }
 
     @Test
-    public void givenABabyDinosaurWhichEatEnoughAndWithAtLeastOneParentAlive_whenVerifyingIfAlive_thenItShouldAlive() {
+    public void givenABabyDinosaurWithFoodNeedsSatisfiedAndWithAtLeastOneParentAlive_whenIsAlive_thenItShouldAlive() {
         when(fatherDinosaur.isAlive()).thenReturn(true);
         when(motherDinosaur.isAlive()).thenReturn(false);
-        when(babyDinosaurConsumptionStrategy.consumeFood(BABY_WEIGHT, BABY_AGE)).thenReturn(true);
-        aBabyDinosaur.eat();
+        when(babyDinosaurConsumptionStrategy.areFoodNeedsSatisfied()).thenReturn(true);
 
         boolean isBabyAlive = aBabyDinosaur.isAlive();
 
