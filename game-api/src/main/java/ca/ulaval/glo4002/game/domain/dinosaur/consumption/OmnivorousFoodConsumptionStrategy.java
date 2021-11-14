@@ -24,12 +24,13 @@ public class OmnivorousFoodConsumptionStrategy implements FoodConsumptionStrateg
     @Override
     public List<FoodNeed> getFoodNeeds(int weight, int age) {
         int starvingFactor = age == 0 ? STARVING_FACTOR : 1;
-        int waterNeeded = (int)Math.ceil(starvingFactor*weight*WATER_FACTOR/2);
+        int totalWaterNeeded = (int)Math.ceil(starvingFactor*weight*WATER_FACTOR);
+        int waterNeeded = (int) Math.ceil(totalWaterNeeded/2.0);
 
-        int saladNeeded = (int)Math.ceil(starvingFactor*weight*SALAD_FACTOR);
+        int saladNeeded = (int)Math.ceil(starvingFactor*weight*SALAD_FACTOR/2);
         herbivorousFoodNeed = new HerbivorousFoodNeed(herbivorousFoodStorage,saladNeeded,waterNeeded);
 
-        int burgerNeeded = (int)Math.ceil(starvingFactor*weight*BURGER_FACTOR);
+        int burgerNeeded = (int)Math.ceil(starvingFactor*weight*BURGER_FACTOR/2);
         carnivorousFoodNeed = new CarnivorousFoodNeed(carnivorousFoodStorage,burgerNeeded,waterNeeded);
 
         List<FoodNeed> needs = new ArrayList<>();
