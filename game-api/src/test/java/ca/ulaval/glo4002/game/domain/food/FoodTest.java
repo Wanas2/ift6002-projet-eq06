@@ -13,13 +13,13 @@ class FoodTest {
     private final static int FOOD_QUANTITY = 4;
 
     private Food food;
-    private Food exceptionFood;
+    private Food foodOfADifferentType;
     private Food foodExpiringIn2Turns;
 
     @BeforeEach
     void setUp() {
         food = new Food(FOOD_TYPE_1, FOOD_QUANTITY);
-        exceptionFood = new Food(FOOD_TYPE_2, FOOD_QUANTITY);
+        foodOfADifferentType = new Food(FOOD_TYPE_2, FOOD_QUANTITY);
     }
 
     @Test
@@ -48,13 +48,8 @@ class FoodTest {
     }
 
     @Test
-    public void givenANonExistentFoodTypeQuantityToAdd_whenIncreaseQuantity_thenExceptionShouldBeThrown() {
-        assertThrows(FoodTypesNotMatchingException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                food.increaseQuantity(exceptionFood);
-            }
-        });
+    public void givenFoodOfADifferentTypeQuantityToAdd_whenIncreaseQuantity_thenExceptionShouldBeThrown() {
+        assertThrows(FoodTypesNotMatchingException.class, () -> food.increaseQuantity(foodOfADifferentType));
     }
 
     @Test
