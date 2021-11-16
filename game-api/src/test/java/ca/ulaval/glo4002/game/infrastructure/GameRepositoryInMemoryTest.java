@@ -10,11 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class GameRepositoryInMemoryTest {
-    private final Game A_GAME = mock(Game.class);
+
+    private Game aGame;
     private GameRepositoryInMemory gameRepository;
 
     @BeforeEach
     public void setUp() {
+        aGame = mock(Game.class);
         gameRepository = new GameRepositoryInMemory();
     }
 
@@ -25,24 +27,23 @@ public class GameRepositoryInMemoryTest {
 
     @Test
     public void whenSave_thenShouldNotBeEmpty() {
-        gameRepository.save(A_GAME);
+        gameRepository.save(aGame);
 
         assertFalse(gameRepository.find().isEmpty());
     }
 
     @Test
     public void givenASavedGame_whenFind_thenTheGameShouldBeReturned() {
-        gameRepository.save(A_GAME);
+        gameRepository.save(aGame);
 
         Optional<Game> gameReturned = gameRepository.find();
 
-        Game gameExpected = A_GAME;
-        assertEquals(gameExpected, gameReturned.get());
+        assertEquals(aGame, gameReturned.get());
     }
 
     @Test
     public void givenASavedGame_whenDelete_thenThenShouldBeEmpty() {
-        gameRepository.save(A_GAME);
+        gameRepository.save(aGame);
 
         gameRepository.delete();
 
