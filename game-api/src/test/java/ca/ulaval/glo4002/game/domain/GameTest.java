@@ -17,7 +17,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-
 class GameTest {
 
     private Turn turn;
@@ -30,7 +29,7 @@ class GameTest {
 
     @BeforeEach
     void setUp() {
-        initializesFood();
+        initializeFood();
         turn = mock(Turn.class);
         herd = mock(Herd.class);
         aDinosaur = mock(Dinosaur.class);
@@ -112,7 +111,7 @@ class GameTest {
         verify(herd).reset();
     }
 
-    private void initializesFood() {
+    private void initializeFood() {
         Food aFoodItem = mock(Food.class);
         Food anotherFoodItem = mock(Food.class);
         food = new ArrayList<>();

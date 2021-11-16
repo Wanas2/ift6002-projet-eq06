@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.game.domain.action;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
 
-public class SumoFightAction implements ExecutableAction{
+public class SumoFightAction implements ExecutableAction {
 
     private final Herd herd;
     private final Dinosaur firstDinosaurFighter;

@@ -34,7 +34,7 @@ public class Game {
         turn.acquireNewAction(addFoodAction);
     }
 
-    public void addSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter){
+    public void addSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
         ExecutableAction addSumoFightAction = new SumoFightAction(herd, firstDinosaurFighter, secondDinosaurFighter);
         turn.acquireNewAction(addSumoFightAction);
     }
