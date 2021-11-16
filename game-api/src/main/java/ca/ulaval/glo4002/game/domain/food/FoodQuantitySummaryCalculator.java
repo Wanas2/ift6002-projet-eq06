@@ -5,15 +5,15 @@ import java.util.function.Predicate;
 
 public class FoodQuantitySummaryCalculator {
 
-    public Map<String, Map<FoodType, Integer>> computeSummaries(Pantry pantry) {
-        Map<String, Map<FoodType, Integer>> allFoodsSummary = new HashMap<>();
+    public Map<FoodState, Map<FoodType, Integer>> computeSummaries(Pantry pantry) {
+        Map<FoodState, Map<FoodType, Integer>> allFoodsSummary = new HashMap<>();
         Map<FoodType, Integer> freshFoodQuantities = computeFreshFoodQuantitySummary(pantry);
         Map<FoodType, Integer> expiredFoodQuantities = pantry.getExpiredFoodQuantities();
         Map<FoodType, Integer> consumedFoodQuantities = pantry.getConsumedFoodQuantities();
 
-        allFoodsSummary.put("fresh", freshFoodQuantities);
-        allFoodsSummary.put("expired", expiredFoodQuantities);
-        allFoodsSummary.put("consumed", consumedFoodQuantities);
+        allFoodsSummary.put(FoodState.FRESH, freshFoodQuantities);
+        allFoodsSummary.put(FoodState.EXPIRED, expiredFoodQuantities);
+        allFoodsSummary.put(FoodState.CONSUMED, consumedFoodQuantities);
 
         return allFoodsSummary;
     }

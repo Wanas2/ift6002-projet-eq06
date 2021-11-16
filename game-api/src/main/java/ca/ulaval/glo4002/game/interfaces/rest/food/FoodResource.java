@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodState;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 
 import javax.ws.rs.*;
@@ -41,8 +42,8 @@ public class FoodResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFoodQuantitySummary() {
-        Map<String, Map<FoodType, Integer>> allFoodSummary = resourceService.getFoodQuantitySummary();
-        FoodSummaryDTO foodSummaryDTO = foodSummaryAssembler.toDTO(allFoodSummary, foodAssembler);
+        Map<FoodState, Map<FoodType, Integer>> allFoodSummary = resourceService.getFoodQuantitySummary();
+        FoodSummaryDTO foodSummaryDTO = foodSummaryAssembler.toDTO(allFoodSummary);
         return Response.ok().entity(foodSummaryDTO).build();
     }
 }
