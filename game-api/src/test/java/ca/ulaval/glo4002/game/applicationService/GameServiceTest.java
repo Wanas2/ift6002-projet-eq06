@@ -1,10 +1,7 @@
 package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
-import ca.ulaval.glo4002.game.domain.food.Pantry;
-import ca.ulaval.glo4002.game.domain.food.PantryRepository;
+import ca.ulaval.glo4002.game.domain.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,20 +10,14 @@ import static org.mockito.Mockito.*;
 class GameServiceTest {
 
     private Game game;
-    private Herd herd;
-    private Pantry pantry;
-    private PantryRepository pantryRepository;
-    private HerdRepository herdRepository;
+    private GameRepository gameRepository;
     private GameService gameService;
 
     @BeforeEach
     void setUp() {
         game = mock(Game.class);
-        herd = mock(Herd.class);
-        pantry = mock(Pantry.class);
-        pantryRepository = mock(PantryRepository.class);
-        herdRepository = mock(HerdRepository.class);
-        gameService = new GameService(game, herd, pantry, pantryRepository, herdRepository);
+        gameRepository = mock(GameRepository.class);
+        gameService = new GameService(game, gameRepository);
     }
 
     @Test
@@ -37,17 +28,10 @@ class GameServiceTest {
     }
 
     @Test
-    public void whenPlayTurn_thenPantryIsUpdated() {
+    public void whenPlayTurn_thenGameIsSaved() {
         gameService.playTurn();
 
-        verify(pantryRepository).save(pantry);
-    }
-
-    @Test
-    public void whenPlayTurn_thenHerdIsSaved() {
-        gameService.playTurn();
-
-        verify(herdRepository).save(herd);
+        verify(gameRepository).save(game);
     }
 
     @Test
@@ -58,16 +42,9 @@ class GameServiceTest {
     }
 
     @Test
-    public void whenReset_thenHerdIsDeleted() {
-        gameService.reset();
-
-        verify(herdRepository).delete();
-    }
-
-    @Test
     public void whenReset_thenPantryIsIsDeleted() {
         gameService.reset();
 
-        verify(pantryRepository).delete();
+        verify(gameRepository).delete();
     }
 }

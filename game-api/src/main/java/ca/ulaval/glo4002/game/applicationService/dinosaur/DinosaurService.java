@@ -15,8 +15,8 @@ public class DinosaurService {
 
     public DinosaurService(DinosaurFactory dinosaurFactory, Herd herd, Game game, BabyFetcher babyFetcher) {
         this.dinosaurFactory = dinosaurFactory;
-        this.herd = herd;
         this.game = game;
+        this.herd = herd;
         this.babyFetcher = babyFetcher;
     }
 
