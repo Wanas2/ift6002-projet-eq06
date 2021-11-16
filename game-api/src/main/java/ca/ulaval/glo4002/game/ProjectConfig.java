@@ -83,5 +83,8 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
+        register(new DinosaurAlreadyParticipatingExceptionMapper());
+        register(new MaxCombatsReachedExceptionMapper());
+        register(new ArmsTooShortExceptionMapper());
     }
 }
