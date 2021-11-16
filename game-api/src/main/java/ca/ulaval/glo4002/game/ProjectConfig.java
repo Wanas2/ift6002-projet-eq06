@@ -10,7 +10,9 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
@@ -24,6 +26,7 @@ import ca.ulaval.glo4002.game.interfaces.rest.mappers.*;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectConfig extends ResourceConfig {
 
@@ -44,7 +47,8 @@ public class ProjectConfig extends ResourceConfig {
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
         Herd herd = herdRepository.
                 find()
-                .orElse(new Herd(new ArrayList<>()));
+                .orElse(new Herd(new ArrayList<>(), List.of(new CarnivorousDinosaurFeeder(),
+                        new HerbivorousDinosaurFeeder())));
         Game game = new Game(herd, pantry, turn);
         FoodValidator foodValidator = new FoodValidator();
 

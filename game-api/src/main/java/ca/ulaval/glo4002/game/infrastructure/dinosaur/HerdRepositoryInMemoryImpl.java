@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.infrastructure.dinosaur;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 
 import java.util.Optional;
