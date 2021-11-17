@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodState;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class FoodResourceTest {
     private Food aFoodItem3;
     private List<Food> someFood;
     private FoodDTO aFoodDTO;
-    private Map<String, Map<FoodType, Integer>> foodSummaryExample;
+    private Map<FoodState, Map<FoodType, Integer>> foodSummaryExample;
     private ResourceService resourceService;
     private FoodValidator foodValidator;
     private FoodAssembler foodAssembler;
@@ -51,7 +52,7 @@ class FoodResourceTest {
         resourceService = mock(ResourceService.class);
         foodValidator = new FoodValidator();
         foodAssembler = new FoodAssembler();
-        foodSummaryAssembler = new FoodSummaryAssembler();
+        foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
         foodResource = new FoodResource(resourceService, foodValidator, foodAssembler, foodSummaryAssembler);
     }
 
@@ -122,9 +123,9 @@ class FoodResourceTest {
         }};
 
         foodSummaryExample = new HashMap<>();
-        foodSummaryExample.put("fresh", freshFoodSummary);
-        foodSummaryExample.put("expired", expiredFoodSummary);
-        foodSummaryExample.put("consumed", consumedFoodSummary);
+        foodSummaryExample.put(FoodState.FRESH, freshFoodSummary);
+        foodSummaryExample.put(FoodState.EXPIRED, expiredFoodSummary);
+        foodSummaryExample.put(FoodState.CONSUMED, consumedFoodSummary);
     }
 
     /*private boolean isTheSameAsSomeFood(Map<FoodType, Food> matcher){

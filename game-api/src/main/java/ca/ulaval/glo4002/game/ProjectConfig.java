@@ -58,7 +58,7 @@ public class ProjectConfig extends ResourceConfig {
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
-        FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
+        FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
 
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
         DinosaurService dinosaurService = new DinosaurService(dinosaurFactory, herd, game, dinosaurBabyFetcher);
@@ -83,5 +83,8 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
+        register(new DinosaurAlreadyParticipatingExceptionMapper());
+        register(new MaxCombatsReachedExceptionMapper());
+        register(new ArmsTooShortExceptionMapper());
     }
 }
