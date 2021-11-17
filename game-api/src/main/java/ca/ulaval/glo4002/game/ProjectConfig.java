@@ -38,10 +38,10 @@ public class ProjectConfig extends ResourceConfig {
 
         Turn turn = new Turn();
         FoodProvider foodProvider = new CookItSubscription();
-        Pantry pantry = pantryRepository.find().
-                orElse(new Pantry(foodProvider));
-
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
+        Pantry pantry = pantryRepository.find().
+                orElse(new Pantry(foodProvider, foodQuantitySummaryCalculator));
+
         Herd herd = herdRepository.
                 find()
                 .orElse(new Herd(new ArrayList<>()));

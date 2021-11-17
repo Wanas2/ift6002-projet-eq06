@@ -6,20 +6,18 @@ import java.util.stream.Collectors;
 
 public class Pantry implements FoodStorage {
 
-    // Todo Enlever les mots carnivorous et herbivorous de PPantry
+    // Todo Enlever les mots carnivorous et herbivorous de Pantry
     private final FoodProvider foodProvider;
+    private final FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
     private List<Food> currentTurnFoodBatch = new ArrayList<>();
     private List<Food> allFreshFood = new LinkedList<>();
     private List<Food> waterForCarnivorous = new LinkedList<>();
     private List<Food> waterForHerbivorous = new LinkedList<>();
     private Map<Integer, Integer> storedWater= new HashMap<>();
-    private final Map<FoodType, Integer> expiredFoodQuantities = new HashMap<>();
-    private final Map<FoodType, Integer> consumedFoodQuantities = new HashMap<>();
 
-    public Pantry(FoodProvider foodProvider) {
+    public Pantry(FoodProvider foodProvider, FoodQuantitySummaryCalculator foodQuantitySummaryCalculator) {
         this.foodProvider = foodProvider;
-        initializeExpiredFoodQuantities();
-        initiateConsumedFoodQuantities();
+        this.foodQuantitySummaryCalculator = foodQuantitySummaryCalculator;
     }
 
     public List<Food> getWaterForCarnivorous() {
@@ -32,26 +30,6 @@ public class Pantry implements FoodStorage {
 
     public List<Food> getAllFreshFood() {
         return allFreshFood;
-    }
-
-    public Map<FoodType, Integer> getExpiredFoodQuantities() {
-        return expiredFoodQuantities;
-    }
-
-    public Map<FoodType, Integer> getConsumedFoodQuantities() {
-        return consumedFoodQuantities;
-    }
-
-    private void initializeExpiredFoodQuantities() {
-        expiredFoodQuantities.put(FoodType.BURGER, 0);
-        expiredFoodQuantities.put(FoodType.SALAD, 0);
-        expiredFoodQuantities.put(FoodType.WATER, 0);
-    }
-
-    private void initiateConsumedFoodQuantities() {
-        consumedFoodQuantities.put(FoodType.BURGER, 0);
-        consumedFoodQuantities.put(FoodType.SALAD, 0);
-        consumedFoodQuantities.put(FoodType.WATER, 0);
     }
 
     @Override
@@ -77,47 +55,40 @@ public class Pantry implements FoodStorage {
                 .filter(food -> food.getType().equals(foodTypeToProvide))
                 .collect(Collectors.toList());
 
-        List<Food> foodToRemove = new ArrayList<>();
+        List<Food> allFoodToRemove = new ArrayList<>();
         for(Food food : allFood) {
-            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
-
             if(remainingFoodQuantityToProvide <= food.quantity()) {
                 food.decreaseQuantity(remainingFoodQuantityToProvide);
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFoodQuantityToProvide;
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                foodQuantitySummaryCalculator.
+                        increaseConsumedQuantity(new Food(food.getType(), remainingFoodQuantityToProvide));
                 totalFoodGiven += remainingFoodQuantityToProvide;
                 break;
             } else {
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                foodQuantitySummaryCalculator.increaseConsumedQuantity(food);
                 totalFoodGiven += food.quantity();
                 remainingFoodQuantityToProvide -= food.quantity();
-                foodToRemove.add(food);
+                allFoodToRemove.add(food);
             }
         }
 
-        allFreshFood.removeAll(foodToRemove);
+        allFreshFood.removeAll(allFoodToRemove);
         return totalFoodGiven;
     }
 
     private int giveExactOrMostPossibleWater(List<Food> waterContainer, int requestedQuantity) {
-        FoodType foodTypeToProvide = FoodType.WATER;
         int remainingFoodQuantityToProvide = requestedQuantity;
         int totalFoodGiven = 0;
 
         List<Food> allFoodToRemove = new ArrayList<>();
         for(Food food : waterContainer) {
-            int currentConsumedFoodQuantity = consumedFoodQuantities.get(foodTypeToProvide);
-
             if(remainingFoodQuantityToProvide <= food.quantity()) {
                 food.decreaseQuantity(remainingFoodQuantityToProvide);
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + remainingFoodQuantityToProvide;
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                foodQuantitySummaryCalculator.
+                        increaseConsumedQuantity(new Food(food.getType(), remainingFoodQuantityToProvide));
                 totalFoodGiven += remainingFoodQuantityToProvide;
                 break;
             } else {
-                int newConsumedFoodQuantity = currentConsumedFoodQuantity + food.quantity();
-                consumedFoodQuantities.put(food.getType(), newConsumedFoodQuantity);
+                foodQuantitySummaryCalculator.increaseConsumedQuantity(food);
                 totalFoodGiven += food.quantity();
                 remainingFoodQuantityToProvide -= food.quantity();
                 allFoodToRemove.add(food);
@@ -186,10 +157,8 @@ public class Pantry implements FoodStorage {
         List<Food> allFoodsToRemove = new ArrayList<>();
         for(Food food: allFreshFood) {
             food.incrementAgeByOne();
-            int currentExpiredFoodQuantity = expiredFoodQuantities.get(food.getType());
-            if(food.isExpired()){
-                int newExpiredFoodQuantity = currentExpiredFoodQuantity + food.quantity();
-                expiredFoodQuantities.put(food.getType(), newExpiredFoodQuantity);
+            if(food.isExpired()) {
+                foodQuantitySummaryCalculator.increaseExpiredQuantity(food);
                 allFoodsToRemove.add(food);
             }
         }
@@ -198,8 +167,7 @@ public class Pantry implements FoodStorage {
 
     public void reset() {
         allFreshFood = new LinkedList<>();
-        initiateConsumedFoodQuantities();
-        initializeExpiredFoodQuantities();
+        foodQuantitySummaryCalculator.reset();
     }
 
     private void addToMatchingFood(Food foodToAdd, List<Food> foodToAddTo, FoodType requiredFoodType,

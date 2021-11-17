@@ -5,31 +5,75 @@ import java.util.function.Predicate;
 
 public class FoodQuantitySummaryCalculator {
 
-    public Map<FoodState, Map<FoodType, Integer>> computeSummaries(Pantry pantry) {
+    private final Map<FoodType, Integer> freshFoodQuantities = new HashMap<>();
+    private final Map<FoodType, Integer> expiredFoodQuantities = new HashMap<>();
+    private final Map<FoodType, Integer> consumedFoodQuantities = new HashMap<>();
+
+    public Map<FoodType, Integer> getFreshFoodQuantities(List<Food> allFreshFood) {
+        computeFreshFoodQuantitySummary(allFreshFood);
+        return freshFoodQuantities;
+    }
+
+    public Map<FoodType, Integer> getExpiredFoodQuantities() {
+        return expiredFoodQuantities;
+    }
+
+    public Map<FoodType, Integer> getConsumedFoodQuantities() {
+        return consumedFoodQuantities;
+    }
+
+    public FoodQuantitySummaryCalculator() {
+        initializeExpiredFoodQuantities();
+        initiateConsumedFoodQuantities();
+    }
+
+    private void initializeExpiredFoodQuantities() {
+        expiredFoodQuantities.put(FoodType.BURGER, 0);
+        expiredFoodQuantities.put(FoodType.SALAD, 0);
+        expiredFoodQuantities.put(FoodType.WATER, 0);
+    }
+
+    private void initiateConsumedFoodQuantities() {
+        consumedFoodQuantities.put(FoodType.BURGER, 0);
+        consumedFoodQuantities.put(FoodType.SALAD, 0);
+        consumedFoodQuantities.put(FoodType.WATER, 0);
+    }
+
+    public Map<FoodState, Map<FoodType, Integer>> getAllFoodQuantities() {
         Map<FoodState, Map<FoodType, Integer>> allFoodsSummary = new HashMap<>();
-        Map<FoodType, Integer> freshFoodQuantities = computeFreshFoodQuantitySummary(pantry);
-        Map<FoodType, Integer> expiredFoodQuantities = pantry.getExpiredFoodQuantities();
-        Map<FoodType, Integer> consumedFoodQuantities = pantry.getConsumedFoodQuantities();
 
         allFoodsSummary.put(FoodState.FRESH, freshFoodQuantities);
-        allFoodsSummary.put(FoodState.EXPIRED, expiredFoodQuantities);
         allFoodsSummary.put(FoodState.CONSUMED, consumedFoodQuantities);
+        allFoodsSummary.put(FoodState.EXPIRED, expiredFoodQuantities);
 
         return allFoodsSummary;
     }
 
-    private Map<FoodType, Integer> computeFreshFoodQuantitySummary(Pantry pantry) {
-        Map<FoodType, Integer> foodQuantitySummary = new HashMap<>();
-
+    public void computeFreshFoodQuantitySummary(List<Food> allFreshFood) {
         for(FoodType foodType : FoodType.values()) {
             Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(foodType);
-            int foodQuantity = pantry.getAllFreshFood().stream()
+            int foodQuantity = allFreshFood.stream()
                     .filter(foodTypeFilter)
                     .mapToInt(Food::quantity).sum();
 
-            foodQuantitySummary.put(foodType, foodQuantity);
+            freshFoodQuantities.put(foodType, foodQuantity);
         }
+    }
 
-        return foodQuantitySummary;
+    public void increaseExpiredQuantity(Food food) {
+        int currentFoodQuantity = expiredFoodQuantities.get(food.getType());
+        int newFoodQuantity = currentFoodQuantity + food.quantity();
+        expiredFoodQuantities.put(food.getType(), newFoodQuantity);
+    }
+
+    public void increaseConsumedQuantity(Food food) {
+        int currentFoodQuantity = consumedFoodQuantities.get(food.getType());
+        int newFoodQuantity = currentFoodQuantity + food.quantity();
+        consumedFoodQuantities.put(food.getType(), newFoodQuantity);
+    }
+
+    public void reset() {
+        initiateConsumedFoodQuantities();
+        initializeExpiredFoodQuantities();
     }
 }

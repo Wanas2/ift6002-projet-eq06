@@ -23,6 +23,7 @@ public class ResourceService {
     }
 
     public Map<FoodState, Map<FoodType, Integer>> getFoodQuantitySummary() {
-        return foodQuantitySummaryCalculator.computeSummaries(pantry);
+        foodQuantitySummaryCalculator.computeFreshFoodQuantitySummary(pantry.getAllFreshFood());
+        return foodQuantitySummaryCalculator.getAllFoodQuantities();
     }
 }
