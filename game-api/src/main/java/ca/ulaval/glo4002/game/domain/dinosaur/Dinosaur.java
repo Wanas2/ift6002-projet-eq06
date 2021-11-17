@@ -58,6 +58,10 @@ public class Dinosaur implements Comparable<Dinosaur> {
         return species;
     }
 
+    public boolean isTyrannosaurusRex() {
+        return species.isTyrannosaurusRex();
+    }
+
     private int calculateStrength() {
         return (int)Math.ceil(weight*gender.getGenderFactor()*species.getConsumptionStrength());
     }

@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.ArmsTooShortException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
 
 import java.util.ArrayList;
@@ -11,9 +12,11 @@ import java.util.stream.Collectors;
 public class Herd {
 
     private final List<Dinosaur> dinosaurs;
+    private final SumoFightOrganizer sumoFightOrganizer;
 
     public Herd(List<Dinosaur> dinosaurs) {
         this.dinosaurs = dinosaurs;
+        sumoFightOrganizer = new SumoFightOrganizer();
     }
 
     public boolean hasDinosaurWithName(String name) {
@@ -83,6 +86,11 @@ public class Herd {
     }
 
     public void organizeSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
+        if(firstDinosaurFighter.isTyrannosaurusRex() || secondDinosaurFighter.isTyrannosaurusRex())
+            throw new ArmsTooShortException();
+        else if(!hasDinosaurWithName(firstDinosaurFighter.getName()) || !hasDinosaurWithName(secondDinosaurFighter.getName()))
+            throw new NonExistentNameException();
 
+        String result = sumoFightOrganizer.sumoFight(firstDinosaurFighter, secondDinosaurFighter); //A utiliser pour feedDinosaur
     }
 }

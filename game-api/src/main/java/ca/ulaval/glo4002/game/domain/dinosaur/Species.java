@@ -38,4 +38,8 @@ public enum Species {
     public float getConsumptionStrength() {
         return consumptionType.getConsumptionFactor();
     }
+
+    public boolean isTyrannosaurusRex() {
+        return name.equals("Tyrannosaurus Rex");
+    }
 }
