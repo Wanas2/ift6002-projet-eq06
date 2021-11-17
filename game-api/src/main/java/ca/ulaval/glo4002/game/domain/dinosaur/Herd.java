@@ -37,13 +37,13 @@ public class Herd {
         List<Dinosaur> dinosaursSortedFromWeakerToStronger =
                 dinosaurs.stream().sorted().collect(Collectors.toList());
 
-        for(Dinosaur dinosaur: dinosaursSortedFromWeakerToStronger){
+        for(Dinosaur dinosaur: dinosaursSortedFromWeakerToStronger) {
             List<FoodNeed> foodNeeds = dinosaur.askForFood();
-            for(FoodNeed foodNeed: foodNeeds){
-                if (foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS){
+            for(FoodNeed foodNeed: foodNeeds) {
+                if (foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS) {
                     carnivorousFoodNeeds.add(0,foodNeed);
                 }
-                else if (foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS){
+                else if (foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS) {
                     herbivorousFoodNeeds.add(foodNeed);
                 }
             }

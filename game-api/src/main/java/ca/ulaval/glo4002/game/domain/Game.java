@@ -34,13 +34,14 @@ public class Game {
         turn.acquireNewAction(addFoodAction);
     }
 
+
+
     public int playTurn() {
         int turnNumber = turn.playActions();
 
         pantry.incrementFreshFoodAges();
         pantry.storeFood();
-
-        pantry.splitWater();
+        pantry.splitWaterInTwo();
         herd.feedDinosaurs();
         pantry.mergeWater();
 

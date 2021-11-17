@@ -104,20 +104,20 @@ class PantryTest {
 
     @Test
     public void testingSplitWater(){
-        pantry.obtainNewlyOrderedFood(foodWithOnlySixBurgers);
-        pantry.storeFood();
-        List<Food> allFreshFood = pantry.getAllFreshFood();
-        allFreshFood.forEach(food -> System.out.println(food.quantity()));
-        pantry.splitWater();
-        allFreshFood.forEach(food -> System.out.println(food.quantity()));
-        System.out.println("Splitting water");
-        printer();
-        pantry.giveExactOrMostPossibleWaterDesiredToCarnivorous(20);
-        System.out.println("retirer 20");
-        printer();
-        System.out.println("Merging water");
-        pantry.mergeWater();
-        allFreshFood.forEach(food -> System.out.println(food.quantity()));
+//        pantry.obtainNewlyOrderedFood(foodWithOnlySixBurgers);
+//        pantry.storeFood();
+//        List<Food> allFreshFood = pantry.getAllFreshFood();
+//        allFreshFood.forEach(food -> System.out.println(food.quantity()));
+//        pantry.splitWater();
+//        allFreshFood.forEach(food -> System.out.println(food.quantity()));
+//        System.out.println("Splitting water");
+//        printer();
+//        pantry.giveExactOrMostPossibleWaterDesiredToCarnivorous(20);
+//        System.out.println("retirer 20");
+//        printer();
+//        System.out.println("Merging water");
+//        pantry.mergeWater();
+//        allFreshFood.forEach(food -> System.out.println(food.quantity()));
 
     }
     private void printer(){

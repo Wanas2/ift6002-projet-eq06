@@ -33,9 +33,6 @@ public class DinosaurService {
 
         Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
         if(babyDinosaur.isPresent()) {
-            System.out.println("**********************************************");
-            System.out.println("Baby is present");
-            System.out.println("**********************************************");
             game.addDinosaur(babyDinosaur.get());
         }
     }

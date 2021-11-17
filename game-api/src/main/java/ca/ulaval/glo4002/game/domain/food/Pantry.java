@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public class Pantry implements FoodStorage {
 
+    // Todo Enlever les mots carnivorous et herbivorous de PPantry
     private final FoodProvider foodProvider;
     private List<Food> currentTurnFoodBatch = new ArrayList<>();
     private List<Food> allFreshFood = new LinkedList<>();
@@ -29,18 +30,6 @@ public class Pantry implements FoodStorage {
         return waterForHerbivorous;
     }
 
-    private void initializeExpiredFoodQuantities() {
-        expiredFoodQuantities.put(FoodType.BURGER, 0);
-        expiredFoodQuantities.put(FoodType.SALAD, 0);
-        expiredFoodQuantities.put(FoodType.WATER, 0);
-    }
-
-    private void initiateConsumedFoodQuantities() {
-        consumedFoodQuantities.put(FoodType.BURGER, 0);
-        consumedFoodQuantities.put(FoodType.SALAD, 0);
-        consumedFoodQuantities.put(FoodType.WATER, 0);
-    }
-
     public List<Food> getAllFreshFood() {
         return allFreshFood;
     }
@@ -53,7 +42,34 @@ public class Pantry implements FoodStorage {
         return consumedFoodQuantities;
     }
 
-    private int giveExactOrMostPossibleFoodType(FoodType foodTypeToProvide, int requestedQuantity){
+    private void initializeExpiredFoodQuantities() {
+        expiredFoodQuantities.put(FoodType.BURGER, 0);
+        expiredFoodQuantities.put(FoodType.SALAD, 0);
+        expiredFoodQuantities.put(FoodType.WATER, 0);
+    }
+
+    private void initiateConsumedFoodQuantities() {
+        consumedFoodQuantities.put(FoodType.BURGER, 0);
+        consumedFoodQuantities.put(FoodType.SALAD, 0);
+        consumedFoodQuantities.put(FoodType.WATER, 0);
+    }
+
+    @Override
+    public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
+        return giveExactOrMostPossibleFoodType(FoodType.SALAD,requestedSaladQuantity);
+    }
+
+    @Override
+    public int giveExactOrMostPossibleWaterDesiredToCarnivorous(int requestedWaterQuantity) {
+        return giveExactOrMostPossibleWater(waterForCarnivorous,requestedWaterQuantity);
+    }
+
+    @Override
+    public int giveExactOrMostPossibleWaterDesiredToHerbivorous(int requestedWaterQuantity) {
+        return giveExactOrMostPossibleWater(waterForHerbivorous,requestedWaterQuantity);
+    }
+
+    private int giveExactOrMostPossibleFoodType(FoodType foodTypeToProvide, int requestedQuantity) {
         int remainingFoodQuantityToProvide = requestedQuantity;
         int totalFoodGiven = 0;
 
@@ -84,7 +100,7 @@ public class Pantry implements FoodStorage {
         return totalFoodGiven;
     }
 
-    private int giveExactOrMostPossibleWater(List<Food> waterContainer, int requestedQuantity){
+    private int giveExactOrMostPossibleWater(List<Food> waterContainer, int requestedQuantity) {
         FoodType foodTypeToProvide = FoodType.WATER;
         int remainingFoodQuantityToProvide = requestedQuantity;
         int totalFoodGiven = 0;
@@ -117,19 +133,14 @@ public class Pantry implements FoodStorage {
         return giveExactOrMostPossibleFoodType(FoodType.BURGER,requestedBurgerQuantity);
     }
 
-    @Override
-    public int giveExactOrMostPossibleWaterDesiredToHerbivorous(int requestedWaterQuantity) {
-        return giveExactOrMostPossibleWater(waterForHerbivorous,requestedWaterQuantity);
+    public void splitWaterInTwo() {
+//        Map<Integer, List<Food>> splittedWater = waterSplitter.splitWater(allFreshFood);
+//        waterForCarnivorous = splittedWater.get(1);
+//        waterForHerbivorous = splittedWater.get(2);
     }
 
-    @Override
-    public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        return giveExactOrMostPossibleFoodType(FoodType.SALAD,requestedSaladQuantity);
-    }
+    public void mergeWater() {
 
-    @Override
-    public int giveExactOrMostPossibleWaterDesiredToCarnivorous(int requestedWaterQuantity) {
-        return giveExactOrMostPossibleWater(waterForCarnivorous,requestedWaterQuantity);
     }
 
     public void obtainNewlyOrderedFood(List<Food> orderedFood) {
@@ -169,72 +180,6 @@ public class Pantry implements FoodStorage {
 
         allFreshFood.addAll(newBatchOfFood);
         currentTurnFoodBatch = new ArrayList<>();
-    }
-
-    public void splitWater() {
-        List<Food> allFoodToRemove = new ArrayList<>();
-        for(Food food: allFreshFood){
-            if(food.getType() == FoodType.WATER) {
-                allFoodToRemove.add(food);
-                int splitQuantity = splitIn2(food.quantity(), food.getAge());
-                Food food1 = new Food(FoodType.WATER, splitQuantity, food.getAge());
-                Food food2 = new Food(FoodType.WATER, splitQuantity, food.getAge());
-                waterForCarnivorous.add(food1);
-                waterForHerbivorous.add(food2);
-            }
-        }
-        allFreshFood.removeAll(allFoodToRemove);
-    }
-
-    private int splitIn2(int quantity, int age){
-        if(quantity%2!=0){
-            storedWater.put(age, quantity%2);
-        }
-        return quantity/2;
-    }
-
-    public void mergeWater(){
-        List<Food> foodsToRemove = new ArrayList<>();
-        for(Food food: waterForHerbivorous){
-            boolean hasBeenMerged = false;
-            int quantityToAdd = 0;
-            int foodAge = food.getAge();
-            Food foodToRemove = null;
-            for(Food food2: waterForCarnivorous){
-                if (food2.getAge()==foodAge){
-                    quantityToAdd+=food2.quantity();
-                    if(storedWater.containsKey(food.getAge())){
-                        quantityToAdd+=storedWater.get(foodAge);
-                        storedWater.remove(foodAge);
-                    }
-                    food.increaseQuantity(quantityToAdd);
-                    allFreshFood.add(food);
-                    hasBeenMerged=true;
-                    foodToRemove=food2;
-                    break;
-                }
-            }
-            if(foodToRemove!=null)
-                waterForCarnivorous.remove(foodToRemove);
-            if(!hasBeenMerged){
-                allFreshFood.add(food);
-            }
-            foodsToRemove.add(food);
-        }
-        waterForHerbivorous.removeAll(foodsToRemove);
-        foodsToRemove = new ArrayList<>();
-        for(Food food:waterForCarnivorous){
-            if(storedWater.containsKey(food.getAge())){
-                food.increaseQuantity(storedWater.get(food.getAge()));
-                storedWater.remove(food.getAge());
-            }
-            allFreshFood.add(food);
-            foodsToRemove.add(food);
-        }
-        waterForCarnivorous.removeAll(foodsToRemove);
-        storedWater.forEach((age, quantity)->allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
-        storedWater = new HashMap<>();
-        allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
     }
 
     public void incrementFreshFoodAges() {
@@ -279,7 +224,7 @@ public class Pantry implements FoodStorage {
         }));
     }
 
-    private boolean containNewFoodOfFoodType(List<Food> food, FoodType requiredFoodType) { // Todo To rename
+    private boolean containNewFoodOfFoodType(List<Food> food, FoodType requiredFoodType) {
         int newFoodAge = 0;
         Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(requiredFoodType);
         Predicate<Food> foodAgeFilter = foodFiltered -> foodFiltered.getAge() == newFoodAge;
