@@ -20,9 +20,6 @@ public class FoodQuantitySummaryCalculatorTest {
     private final static int FRESH_WATER_QUANTITY = 300;
     private final static int CONSUMED_WATER_QUANTITY = 190;
     private final static int EXPIRED_WATER_QUANTITY = 110;
-    private final static String FRESH_FOOD = "fresh";
-    private final static String CONSUMED_FOOD = "consumed";
-    private final static String EXPIRED_FOOD = "expired";
 
     private List<Food> allFreshFood;
     private Map<FoodType, Integer> freshFoodQuantities;
@@ -59,11 +56,12 @@ public class FoodQuantitySummaryCalculatorTest {
         when(pantry.getConsumedFoodQuantities()).thenReturn(consumedFoodQuantities);
         when(pantry.getExpiredFoodQuantities()).thenReturn(expiredFoodQuantities);
 
-        Map<String, Map<FoodType, Integer>> expectedFoodSummary = foodQuantitySummaryCalculator.computeSummaries(pantry);
+        Map<FoodState, Map<FoodType, Integer>> expectedFoodSummary =
+                foodQuantitySummaryCalculator.computeSummaries(pantry);
 
-        assertEquals(expectedFoodSummary.get(FRESH_FOOD), freshFoodQuantities);
-        assertEquals(expectedFoodSummary.get(CONSUMED_FOOD), consumedFoodQuantities);
-        assertEquals(expectedFoodSummary.get(EXPIRED_FOOD), expiredFoodQuantities);
+        assertEquals(expectedFoodSummary.get(FoodState.FRESH), freshFoodQuantities);
+        assertEquals(expectedFoodSummary.get(FoodState.CONSUMED), consumedFoodQuantities);
+        assertEquals(expectedFoodSummary.get(FoodState.EXPIRED), expiredFoodQuantities);
     }
 
     private void initializeAllFreshFood() {
