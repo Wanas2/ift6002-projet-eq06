@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.infrastructure;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,14 +11,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 public class HerdRepositoryInMemoryImplTest {
 
-    private final Herd A_HERD = new Herd(new ArrayList<>());
+    private Herd anHerd;
     private HerdRepositoryInMemoryImpl herdRepository;
 
     @BeforeEach
     public void setup() {
+        anHerd = new Herd(new ArrayList<>(),new ArrayList<>());
         herdRepository = new HerdRepositoryInMemoryImpl();
     }
 
@@ -29,21 +29,21 @@ public class HerdRepositoryInMemoryImplTest {
 
     @Test
     public void givenAnHerdHasBeenSaved_whenFind_thenItShouldBeFound() {
-        herdRepository.save(A_HERD);
+        herdRepository.save(anHerd);
 
         Optional<Herd> foundHerd = herdRepository.find();
 
         assertTrue(foundHerd.isPresent());
-        assertEquals(A_HERD, foundHerd.get());
+        assertEquals(anHerd, foundHerd.get());
     }
 
     @Test
     public void givenAnHerdHasBeenSaved_whenDelete_thenItShouldNotBeFound() {
-        herdRepository.save(A_HERD);
+        herdRepository.save(anHerd);
 
         herdRepository.delete();
-        Optional<Herd> foundHerd = herdRepository.find();
 
+        Optional<Herd> foundHerd = herdRepository.find();
         assertTrue(foundHerd.isEmpty());
     }
 }
