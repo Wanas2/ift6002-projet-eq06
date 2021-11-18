@@ -5,7 +5,6 @@ import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
 import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.domain.dinosaur.SumoFightOrganizer;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
@@ -18,13 +17,11 @@ public class Game {
     private final Turn turn;
     private final Herd herd;
     private final Pantry pantry;
-    private final SumoFightOrganizer sumoFightOrganizer;
 
     public Game(Herd herd, Pantry pantry, Turn turn) {
         this.herd = herd;
         this.pantry = pantry;
         this.turn = turn;
-        sumoFightOrganizer = new SumoFightOrganizer();
     }
 
     public void addDinosaur(Dinosaur dinosaur) {
@@ -54,7 +51,7 @@ public class Game {
 
         herd.increaseDinosaursAge();
 
-        sumoFightOrganizer.reset();
+        herd.resetSumoFight();
 
         return turnNumber;
     }

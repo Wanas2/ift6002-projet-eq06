@@ -8,12 +8,9 @@ import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
-import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
-import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.*;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
-import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurResource;
@@ -42,9 +39,11 @@ public class ProjectConfig extends ResourceConfig {
                 orElse(new Pantry(foodProvider));
 
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
+        SumoFightOrganizerValidator sumoFightOrganizerValidator = new SumoFightOrganizerValidator();
+        SumoFightOrganizer sumoFightOrganizer = new SumoFightOrganizer(sumoFightOrganizerValidator);
         Herd herd = herdRepository.
                 find()
-                .orElse(new Herd(new ArrayList<>()));
+                .orElse(new Herd(new ArrayList<>(), sumoFightOrganizer));
         Game game = new Game(herd, pantry, turn);
         FoodValidator foodValidator = new FoodValidator();
 

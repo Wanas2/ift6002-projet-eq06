@@ -1,6 +1,8 @@
 package ca.ulaval.glo4002.game.infrastructure;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.SumoFightOrganizer;
+import ca.ulaval.glo4002.game.domain.dinosaur.SumoFightOrganizerValidator;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HerdRepositoryInMemoryImplTest {
 
-    private final Herd A_HERD = new Herd(new ArrayList<>());
+    private final Herd A_HERD = new Herd(new ArrayList<>(), new SumoFightOrganizer(new SumoFightOrganizerValidator()));
     private HerdRepositoryInMemoryImpl herdRepository;
 
     @BeforeEach

@@ -38,6 +38,7 @@ public class HerdTest {
     private Dinosaur anHerbivorousDinosaur;
     private Dinosaur aStrongerHerbivorousDinosaur;
     private final List<Dinosaur> dinosaurs = new ArrayList<>();
+    private SumoFightOrganizer sumoFightOrganizer;
     private Herd herd;
 
     @BeforeEach
@@ -58,7 +59,8 @@ public class HerdTest {
 
         Collections.addAll(dinosaurs, aCarnivorousDinosaur, anHerbivorousDinosaur,
                 aStrongerHerbivorousDinosaur,aStrongerCarnivorousDinosaur);
-        herd = new Herd(dinosaurs);
+        sumoFightOrganizer = mock(SumoFightOrganizer.class);
+        herd = new Herd(dinosaurs, sumoFightOrganizer);
         anHerbivorousDinosaur.age();
         aStrongerHerbivorousDinosaur.age();
         aStrongerHerbivorousDinosaur.age();
@@ -184,5 +186,19 @@ public class HerdTest {
         herd.reset();
 
         assertTrue(dinosaurs.isEmpty());
+    }
+
+    @Test
+    public void givenHerd_whenOrganizeSumoFight_thenSumoFightShouldBeCalled() {
+        herd.organizeSumoFight(aCarnivorousDinosaur, anHerbivorousDinosaur);
+
+        verify(sumoFightOrganizer).sumoFight(aCarnivorousDinosaur, anHerbivorousDinosaur);
+    }
+
+    @Test
+    public void givenHerd_whenResetSumoFightOrganizer_thenResetOfSumoFightOrganizerShouldBeCalled() {
+        herd.resetSumoFight();
+
+        verify(sumoFightOrganizer).reset();
     }
 }
