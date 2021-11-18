@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.game.domain;
 
 import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
+import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
@@ -12,26 +13,27 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class GameTest {
 
     private Turn turn;
     private Herd herd;
     private Dinosaur aDinosaur;
+    private Dinosaur anotherDinosaur;
     private Game game;
     private Pantry pantry;
-    private Food aFoodItem1;
-    private Food aFoodItem2;
-    private Food aFoodItem3;
     private List<Food> food;
 
     @BeforeEach
     void setUp() {
-        initializesFood();
+        initializeFood();
         turn = mock(Turn.class);
         herd = mock(Herd.class);
         aDinosaur = mock(Dinosaur.class);
+        anotherDinosaur = mock(Dinosaur.class);
         pantry = mock(Pantry.class);
         game = new Game(herd, pantry, turn);
     }
@@ -44,10 +46,17 @@ class GameTest {
     }
 
     @Test
-    public void whenAddDino_thenTurnShouldAcquireANewAction() {
+    public void whenAddDinosaur_thenTurnShouldAcquireANewAction() {
         game.addDinosaur(aDinosaur);
 
         verify(turn).acquireNewAction(any(AddDinosaurAction.class));
+    }
+
+    @Test
+    public void whenAddSumoFight_thenTurnShouldAcquireANewAction() {
+        game.addSumoFight(aDinosaur,anotherDinosaur);
+
+        verify(turn).acquireNewAction(any(SumoFightAction.class));
     }
 
     @Test
@@ -95,13 +104,18 @@ class GameTest {
         verify(pantry).reset();
     }
 
-    private void initializesFood() {
-        aFoodItem1 = mock(Food.class);
-        aFoodItem2 = mock(Food.class);
-        aFoodItem3 = mock(Food.class);
+    @Test
+    public void whenReset_thenHerdShouldBeReset() {
+        game.reset();
+
+        verify(herd).reset();
+    }
+
+    private void initializeFood() {
+        Food aFoodItem = mock(Food.class);
+        Food anotherFoodItem = mock(Food.class);
         food = new ArrayList<>();
-        food.add(aFoodItem1);
-        food.add(aFoodItem2);
-        food.add(aFoodItem3);
+        food.add(aFoodItem);
+        food.add(anotherFoodItem);
     }
 }

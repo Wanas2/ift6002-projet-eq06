@@ -68,4 +68,8 @@ public class Herd {
     private void removeFastingDinosaurs() {
         dinosaurs.removeIf((dinosaur) -> !dinosaur.isAlive());
     }
+
+    public void organizeSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
+
+    }
 }
