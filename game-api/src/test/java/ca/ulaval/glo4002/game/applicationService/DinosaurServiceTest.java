@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -20,8 +21,11 @@ class DinosaurServiceTest {
 
     private final static Species A_SPECIES = Species.Diplodocus;
     private final static int SOME_WEIGHT = 134;
+    private final static int HEAVY_WEIGHT = 2614;
     private final static String A_NAME = "ehwr";
     private final static String ANOTHER_NAME = "ehwrwfgh";
+    private final static String A_STRONG_DINOSAUR_NAME = "ehwrwfghpls";
+    private final static String TIE_MESSAGE = "tie";
     private final static Gender THE_MALE_GENDER = Gender.M;
     private final static Gender THE_FEMALE_GENDER = Gender.F;
 
@@ -31,6 +35,7 @@ class DinosaurServiceTest {
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
     private Dinosaur aTyrannosaurus;
+    private Dinosaur aStrongDinosaur;
     private BabyDinosaur aBabyDinosaur;
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
@@ -48,6 +53,8 @@ class DinosaurServiceTest {
                 new Dinosaur(A_SPECIES, SOME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
         aTyrannosaurus =
                 new Dinosaur(Species.TyrannosaurusRex, SOME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
+        aStrongDinosaur =
+                new Dinosaur(A_SPECIES, HEAVY_WEIGHT, A_STRONG_DINOSAUR_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
         aBabyDinosaur =
                 new BabyDinosaur(A_SPECIES, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy, aDinosaur,
                         anotherDinosaur);
@@ -163,22 +170,36 @@ class DinosaurServiceTest {
     }
 
     @Test
-    public void givenAMaleAndAFemaleDinosaurThatAreNotATyrannosaurusRex_whenOrganizeSumoFight_thenHerdShouldOrganizeAFight(){
-        dinosaurService.organizeSumoFight(aDinosaur, anotherDinosaur);
+    public void givenTwoDinosaursThatAreNotATyrannosaurusRex_whenPrepareSumoFight_thenHerdShouldOrganizeAFight(){
+        dinosaurService.prepareSumoFight(aDinosaur, anotherDinosaur);
 
-        verify(herd).organizeSumoFight(aDinosaur, anotherDinosaur);
+        verify(herd).predictWinnerSumoFight(aDinosaur, anotherDinosaur);
     }
 
     @Test
-    public void givenATyrannosaurusRexChallenger_whenOrganizeSumoFight_thenShouldThrowArmsTooShortException() {
+    public void givenATyrannosaurusRexChallenger_whenPrepareSumoFight_thenShouldThrowArmsTooShortException() {
         assertThrows(ArmsTooShortException.class,
-                ()->dinosaurService.organizeSumoFight(aTyrannosaurus, aDinosaur));
+                ()->dinosaurService.prepareSumoFight(aTyrannosaurus, aDinosaur));
     }
 
     @Test
-    public void givenATyrannosaurusRexChallengee_whenOrganizeSumoFight_thenShouldThrowArmsTooShortException() {
+    public void givenATyrannosaurusRexChallengee_whenPrepareSumoFight_thenShouldThrowArmsTooShortException() {
         assertThrows(ArmsTooShortException.class,
-                ()->dinosaurService.organizeSumoFight(aDinosaur, aTyrannosaurus));
+                ()->dinosaurService.prepareSumoFight(aDinosaur, aTyrannosaurus));
+    }
+
+    @Test
+    public void givenTwoDinosaursThatAreNotATyrannosaurusRex_whenPrepareSumoFight_thenShouldReturnTheWinnerName(){
+        String winnerName = dinosaurService.prepareSumoFight(aDinosaur, aStrongDinosaur);
+
+        assertEquals(A_STRONG_DINOSAUR_NAME, winnerName);
+    }
+
+    @Test
+    public void givenTwoDinosaursWithTheSameStrength_whenPrepareSumoFight_thenTheFightShouldBeTie(){
+        String winnerName = dinosaurService.prepareSumoFight(aDinosaur, aStrongDinosaur);
+
+        assertEquals(TIE_MESSAGE, winnerName);
     }
 
     private void initializeADinosaurDTO() {

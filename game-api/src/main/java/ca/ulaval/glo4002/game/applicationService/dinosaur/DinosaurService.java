@@ -36,12 +36,12 @@ public class DinosaurService {
         babyDinosaur.ifPresent(game::addDinosaur);
     }
 
-    public void organizeSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
+    public String prepareSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
         if(dinosaurChallenger.getSpecies()==Species.TyrannosaurusRex||
                 dinosaurChallengee.getSpecies()==Species.TyrannosaurusRex){
             throw new ArmsTooShortException();
         }
-        herd.organizeSumoFight(dinosaurChallenger, dinosaurChallengee);
+        return herd.predictWinnerSumoFight(dinosaurChallenger, dinosaurChallengee);
     }
 
     public Dinosaur showDinosaur(String dinosaurName) {

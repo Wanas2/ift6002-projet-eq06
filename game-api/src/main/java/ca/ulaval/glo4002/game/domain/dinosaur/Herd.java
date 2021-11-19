@@ -88,7 +88,6 @@ public class Herd {
         List<Dinosaur> dinosaursWinners = sumoFightOrganizer.sumoFight(firstDinosaurFighter, secondDinosaurFighter); //A utiliser pour feedDinosaur
     }
 
-    // A utiliser dans la méthode addSumoFight de DinosaurService qui sera ensuite appelée dans DinosaurResource
     public String predictWinnerSumoFight(Dinosaur challenger, Dinosaur challenged) {
         return sumoFightOrganizer.scheduleSumoFight(challenger, challenged);
     }
