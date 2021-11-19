@@ -55,7 +55,7 @@ class FoodTest {
     @Test
     public void givenAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
         int foodQuantityToDecrease = 2;
-        int expectedFoodQuantity = FOOD_QUANTITY-foodQuantityToDecrease;
+        int expectedFoodQuantity = FOOD_QUANTITY - foodQuantityToDecrease;
 
         food.decreaseQuantity(foodQuantityToDecrease);
 

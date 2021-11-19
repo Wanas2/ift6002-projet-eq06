@@ -10,7 +10,9 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
@@ -24,6 +26,7 @@ import ca.ulaval.glo4002.game.interfaces.rest.mappers.*;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectConfig extends ResourceConfig {
 
@@ -37,18 +40,19 @@ public class ProjectConfig extends ResourceConfig {
         HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
 
         Turn turn = new Turn();
-        CookItSubscription cookItSubscription = new CookItSubscription();
+        FoodProvider foodProvider = new CookItSubscription();
         Pantry pantry = pantryRepository.find().
-                orElse(new Pantry(cookItSubscription));
+                orElse(new Pantry(foodProvider));
 
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
         Herd herd = herdRepository.
                 find()
-                .orElse(new Herd(new ArrayList<>()));
+                .orElse(new Herd(new ArrayList<>(), List.of(new CarnivorousDinosaurFeeder(),
+                        new HerbivorousDinosaurFeeder())));
         Game game = new Game(herd, pantry, turn);
         FoodValidator foodValidator = new FoodValidator();
 
-        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry, pantry,pantry);
+        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry,pantry);
 
         DinosaurBreederExternal dinoBreeder = new DinosaurBreederExternal();
         ParentsGenderValidator parentsGenderValidator = new ParentsGenderValidator();
@@ -58,7 +62,7 @@ public class ProjectConfig extends ResourceConfig {
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
-        FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
+        FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
 
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
         DinosaurService dinosaurService = new DinosaurService(dinosaurFactory, herd, game, dinosaurBabyFetcher);
@@ -83,5 +87,8 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
+        register(new DinosaurAlreadyParticipatingExceptionMapper());
+        register(new MaxCombatsReachedExceptionMapper());
+        register(new ArmsTooShortExceptionMapper());
     }
 }

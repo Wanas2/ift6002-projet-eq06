@@ -5,19 +5,16 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
-import ca.ulaval.glo4002.game.domain.food.FoodStorage;
 
 public class DinosaurFactory {
 
     private final CarnivorousFoodStorage carnivorousFoodStorage;
     private final HerbivorousFoodStorage herbivorousFoodStorage;
-    private final FoodStorage foodStorage;
 
     public DinosaurFactory(CarnivorousFoodStorage carnivorousFoodStorage,
-                           HerbivorousFoodStorage herbivorousFoodStorage, FoodStorage foodStorage) {
+                           HerbivorousFoodStorage herbivorousFoodStorage) {
         this.carnivorousFoodStorage = carnivorousFoodStorage;
         this.herbivorousFoodStorage = herbivorousFoodStorage;
-        this.foodStorage = foodStorage;
     }
 
     public Dinosaur create(String genderName, int weight, String speciesName, String name) {
@@ -75,7 +72,8 @@ public class DinosaurFactory {
                 foodConsumptionStrategy = new HerbivorousFoodConsumptionStrategy(herbivorousFoodStorage);
                 break;
             case OMNIVOROUS:
-                foodConsumptionStrategy = new OmnivorousFoodConsumptionStrategy(foodStorage);
+                foodConsumptionStrategy = new OmnivorousFoodConsumptionStrategy(carnivorousFoodStorage,
+                        herbivorousFoodStorage);
                 break;
             default:
                 throw new InvalidSpeciesException();

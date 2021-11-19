@@ -2,10 +2,10 @@ package ca.ulaval.glo4002.game.domain;
 
 
 import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
+import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
 import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
@@ -29,19 +29,26 @@ public class Game {
         turn.acquireNewAction(addDinosaurAction);
     }
 
-    public void addFood(Map<FoodType, Food> foods) {
+    public void addFood(List<Food> foods) {
         ExecutableAction addFoodAction = new AddFoodAction(pantry, foods);
         turn.acquireNewAction(addFoodAction);
+    }
+
+    public void addSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
+        ExecutableAction addSumoFightAction = new SumoFightAction(herd, firstDinosaurFighter, secondDinosaurFighter);
+        turn.acquireNewAction(addSumoFightAction);
     }
 
     public int playTurn() {
         int turnNumber = turn.playActions();
 
         pantry.incrementFreshFoodAges();
-        pantry.addCurrentTurnFoodBatchToFreshFood();
-        pantry.removeExpiredFoodFromFreshFood();
+        pantry.storeFood();
 
+        pantry.splitWater();
         herd.feedDinosaurs();
+        pantry.mergeWater();
+
         herd.increaseDinosaursAge();
 
         return turnNumber;
