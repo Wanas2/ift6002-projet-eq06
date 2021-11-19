@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.game.domain.food;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +13,7 @@ class FoodTest {
 
     private Food food;
     private Food foodOfADifferentType;
-    private Food foodExpiringIn2Turns;
+    private Food foodExpiringIn4Turns;
 
     @BeforeEach
     void setUp() {
@@ -28,13 +27,15 @@ class FoodTest {
     }
 
     @Test
-    public void givenAFoodWhichExpireIn2Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
-        foodExpiringIn2Turns = new Food(FOOD_TYPE_1, FOOD_QUANTITY);
+    public void givenAFoodWhichExpireIn4Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
+        foodExpiringIn4Turns = new Food(FOOD_TYPE_1, FOOD_QUANTITY);
 
-        foodExpiringIn2Turns.incrementAgeByOne();
-        foodExpiringIn2Turns.incrementAgeByOne();
+        foodExpiringIn4Turns.incrementAgeByOne();
+        foodExpiringIn4Turns.incrementAgeByOne();
+        foodExpiringIn4Turns.incrementAgeByOne();
+        foodExpiringIn4Turns.incrementAgeByOne();
 
-        assertTrue(foodExpiringIn2Turns.isExpired());
+        assertTrue(foodExpiringIn4Turns.isExpired());
     }
 
     @Test
