@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.game.applicationService;
 
 import ca.ulaval.glo4002.game.domain.Game;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.domain.food.PantryRepository;
