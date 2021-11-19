@@ -33,12 +33,7 @@ public class DinosaurService {
         Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
 
         Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
-        if(babyDinosaur.isPresent()) {
-            System.out.println("**********************************************");
-            System.out.println("Baby is present");
-            System.out.println("**********************************************");
-            game.addDinosaur(babyDinosaur.get());
-        }
+        babyDinosaur.ifPresent(game::addDinosaur);
     }
 
     public void organizeSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
