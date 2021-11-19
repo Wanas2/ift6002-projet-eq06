@@ -27,7 +27,7 @@ class FoodTest {
     }
 
     @Test
-    public void givenAFoodWhichExpireIn4Turns_whenIncrementAgeByTwo_thenFoodShouldExpire() {
+    public void givenAFoodWhichExpireIn4Turns_whenIncrementAgeByOne_thenFoodShouldExpire() {
         foodExpiringIn4Turns = new Food(FOOD_TYPE_1, FOOD_QUANTITY);
 
         foodExpiringIn4Turns.incrementAgeByOne();
@@ -54,7 +54,7 @@ class FoodTest {
     }
 
     @Test
-    public void givenAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
+    public void givenAFoodAndAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
         int foodQuantityToDecrease = 2;
         int expectedFoodQuantity = FOOD_QUANTITY - foodQuantityToDecrease;
 

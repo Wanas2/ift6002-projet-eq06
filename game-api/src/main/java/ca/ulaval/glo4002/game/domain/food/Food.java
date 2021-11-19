@@ -32,7 +32,7 @@ public class Food {
         this.quantity += quantity;
     }
 
-    public void incrementAgeByOne() {
+        public void incrementAgeByOne() {
         if(age < type.numberOfTurnBeforeExpiry()) {
             age += 1;
         } else {
