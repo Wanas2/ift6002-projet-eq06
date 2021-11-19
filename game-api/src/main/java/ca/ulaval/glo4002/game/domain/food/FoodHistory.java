@@ -3,26 +3,13 @@ package ca.ulaval.glo4002.game.domain.food;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class FoodQuantitySummaryCalculator {
+public class FoodHistory {
 
     private final Map<FoodType, Integer> freshFoodQuantities = new HashMap<>();
     private final Map<FoodType, Integer> expiredFoodQuantities = new HashMap<>();
     private final Map<FoodType, Integer> consumedFoodQuantities = new HashMap<>();
 
-    public Map<FoodType, Integer> getFreshFoodQuantities(List<Food> allFreshFood) {
-        computeFreshFoodQuantitySummary(allFreshFood);
-        return freshFoodQuantities;
-    }
-
-    public Map<FoodType, Integer> getExpiredFoodQuantities() {
-        return expiredFoodQuantities;
-    }
-
-    public Map<FoodType, Integer> getConsumedFoodQuantities() {
-        return consumedFoodQuantities;
-    }
-
-    public FoodQuantitySummaryCalculator() {
+    public FoodHistory() {
         initializeExpiredFoodQuantities();
         initiateConsumedFoodQuantities();
     }
@@ -39,17 +26,19 @@ public class FoodQuantitySummaryCalculator {
         consumedFoodQuantities.put(FoodType.WATER, 0);
     }
 
-    public Map<FoodState, Map<FoodType, Integer>> getAllFoodQuantities() {
-        Map<FoodState, Map<FoodType, Integer>> allFoodsSummary = new HashMap<>();
-
-        allFoodsSummary.put(FoodState.FRESH, freshFoodQuantities);
-        allFoodsSummary.put(FoodState.CONSUMED, consumedFoodQuantities);
-        allFoodsSummary.put(FoodState.EXPIRED, expiredFoodQuantities);
-
-        return allFoodsSummary;
+    public Map<FoodType, Integer> getFreshFoodQuantities() {
+        return freshFoodQuantities;
     }
 
-    public void computeFreshFoodQuantitySummary(List<Food> allFreshFood) {
+    public Map<FoodType, Integer> getExpiredFoodQuantities() {
+        return expiredFoodQuantities;
+    }
+
+    public Map<FoodType, Integer> getConsumedFoodQuantities() {
+        return consumedFoodQuantities;
+    }
+
+    public void computeFreshFoodQuantities(List<Food> allFreshFood) {
         for(FoodType foodType : FoodType.values()) {
             Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(foodType);
             int foodQuantity = allFreshFood.stream()

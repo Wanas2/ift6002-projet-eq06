@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.game.applicationService;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.FoodQuantitySummaryCalculator;
+import ca.ulaval.glo4002.game.domain.food.FoodHistory;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,17 +24,17 @@ class ResourceServiceTest {
     private Food aFoodItem2;
     private Food aFoodItem3;
     private List<Food> someFoodCreated;
-    private FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
+    private FoodHistory foodHistory;
     private Pantry pantry;
     private Game game;
     private ResourceService resourceService;
 
     @BeforeEach
     void setUp() {
-        foodQuantitySummaryCalculator = mock(FoodQuantitySummaryCalculator.class);
+        foodHistory = mock(FoodHistory.class);
         pantry = mock(Pantry.class);
         game = mock(Game.class);
-        resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
+        resourceService = new ResourceService(foodHistory, pantry, game);
     }
 
     @Test
@@ -50,7 +50,7 @@ class ResourceServiceTest {
     public void whenGetFoodQuantitySummary_thenSummaryShouldBeCalculated() {
         resourceService.getFoodQuantitySummary();
 
-        verify(foodQuantitySummaryCalculator).getAllFoodQuantities();
+        verify(pantry).getFoodHistory();
     }
 
     private void initializeSomeFood() {

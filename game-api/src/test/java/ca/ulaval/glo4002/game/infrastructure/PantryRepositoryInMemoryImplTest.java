@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PantryRepositoryInMemoryImplTest {
 
     private FoodProvider cookItSubscription;
-    private FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
+    private FoodHistory foodHistory;
     private Pantry aPantry;
     private PantryRepository pantryRepository;
 
@@ -21,8 +21,8 @@ class PantryRepositoryInMemoryImplTest {
     void setUp() {
         pantryRepository = new PantryRepositoryInMemoryImpl();
         cookItSubscription = mock(CookItSubscription.class);
-        foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
-        aPantry = new Pantry(cookItSubscription, foodQuantitySummaryCalculator);
+        foodHistory = new FoodHistory();
+        aPantry = new Pantry(cookItSubscription, foodHistory);
     }
 
     @Test

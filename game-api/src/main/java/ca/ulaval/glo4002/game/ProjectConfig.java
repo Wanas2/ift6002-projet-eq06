@@ -38,9 +38,9 @@ public class ProjectConfig extends ResourceConfig {
 
         Turn turn = new Turn();
         FoodProvider foodProvider = new CookItSubscription();
-        FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
+        FoodHistory foodHistory = new FoodHistory();
         Pantry pantry = pantryRepository.find().
-                orElse(new Pantry(foodProvider, foodQuantitySummaryCalculator));
+                orElse(new Pantry(foodProvider, foodHistory));
 
         Herd herd = herdRepository.
                 find()
@@ -60,7 +60,7 @@ public class ProjectConfig extends ResourceConfig {
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
 
-        ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
+        ResourceService resourceService = new ResourceService(foodHistory, pantry, game);
         DinosaurService dinosaurService = new DinosaurService(dinosaurFactory, herd, game, dinosaurBabyFetcher);
         GameService gameService = new GameService(game, herd, pantry, pantryRepository, herdRepository);
 

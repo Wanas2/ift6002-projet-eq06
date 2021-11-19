@@ -1,13 +1,36 @@
 package ca.ulaval.glo4002.game.domain.food;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class WaterSplitter {
+public class WaterDistributor {
 
     private List<Food> firstHalfOfWater = new LinkedList<>();
     private List<Food> secondHalfOfWater = new LinkedList<>();
     private Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
+
+    public int giveExactOrMostPossibleWater(List<Food> waterContainer, int requestedQuantity, FoodHistory foodHistory) {
+        int remainingFoodQuantityToProvide = requestedQuantity;
+        int totalFoodGiven = 0;
+
+        List<Food> allFoodToRemove = new ArrayList<>();
+        for(Food food : waterContainer) {
+            if(remainingFoodQuantityToProvide <= food.quantity()) {
+                food.decreaseQuantity(remainingFoodQuantityToProvide);
+                foodHistory.
+                        increaseConsumedQuantity(new Food(food.getType(), remainingFoodQuantityToProvide));
+                totalFoodGiven += remainingFoodQuantityToProvide;
+                break;
+            } else {
+                foodHistory.increaseConsumedQuantity(food);
+                totalFoodGiven += food.quantity();
+                remainingFoodQuantityToProvide -= food.quantity();
+                allFoodToRemove.add(food);
+            }
+        }
+
+        waterContainer.removeAll(allFoodToRemove);
+        return totalFoodGiven;
+    }
 
     public Map<Integer, List<Food>> splitWater(List<Food> allFreshFood) {
         Map<Integer, List<Food>> splittedWater = new HashMap<>();
@@ -27,20 +50,6 @@ public class WaterSplitter {
         allFreshFood.removeAll(allFoodToRemove);
         splittedWater.put(1, firstHalfOfWater);
         splittedWater.put(2, secondHalfOfWater);
-
-
-        /********************************************/
-        List <Food> allWater = allFreshFood.stream()
-                .filter(food -> food.getType().equals(FoodType.WATER))
-                .collect(Collectors.toList());
-
-        for(Food water : allWater) {
-
-        }
-//        int splitQuantity = splitIn2(food.quantity(), food.getAge());
-
-
-        allFreshFood.removeAll(allWater);
 
         return splittedWater;
     }
