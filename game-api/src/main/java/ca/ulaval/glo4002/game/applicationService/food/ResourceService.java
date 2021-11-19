@@ -7,12 +7,10 @@ import java.util.List;
 
 public class ResourceService {
 
-    private final FoodHistory foodHistory;
     private final Pantry pantry;
     private final Game game;
 
-    public ResourceService(FoodHistory foodHistory, Pantry pantry, Game game) {
-        this.foodHistory = foodHistory;
+    public ResourceService(Pantry pantry, Game game) {
         this.pantry = pantry;
         this.game = game;
     }
@@ -22,7 +20,6 @@ public class ResourceService {
     }
 
     public FoodHistory getFoodQuantitySummary() {
-        foodHistory.computeFreshFoodQuantities(pantry.getAllFreshFood());
         return pantry.getFoodHistory();
     }
 }

@@ -34,7 +34,7 @@ class ResourceServiceTest {
         foodHistory = mock(FoodHistory.class);
         pantry = mock(Pantry.class);
         game = mock(Game.class);
-        resourceService = new ResourceService(foodHistory, pantry, game);
+        resourceService = new ResourceService(pantry, game);
     }
 
     @Test

@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 public class FoodDistributor {
 
-    public int giveExactOrMostPossibleFoodType(FoodType foodTypeToProvide, List<Food> allFreshFood,
-                                                int requestedQuantity, FoodHistory foodHistory) {
+    public int distributeExactOrMostPossible(FoodType foodTypeToProvide, List<Food> allFreshFood, int requestedQuantity,
+                                             FoodHistory foodHistory) {
         int remainingFoodQuantityToProvide = requestedQuantity;
         int totalFoodGiven = 0;
 

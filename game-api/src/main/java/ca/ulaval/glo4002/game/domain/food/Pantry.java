@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.game.domain.food;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class Pantry implements FoodStorage {
 
@@ -37,24 +36,24 @@ public class Pantry implements FoodStorage {
 
     @Override
     public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        return foodDistributor.giveExactOrMostPossibleFoodType(FoodType.SALAD, allFreshFood, requestedSaladQuantity,
+        return foodDistributor.distributeExactOrMostPossible(FoodType.SALAD, allFreshFood, requestedSaladQuantity,
                 foodHistory);
     }
 
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
-        return foodDistributor.giveExactOrMostPossibleFoodType(FoodType.BURGER, allFreshFood, requestedBurgerQuantity,
+        return foodDistributor.distributeExactOrMostPossible(FoodType.BURGER, allFreshFood, requestedBurgerQuantity,
                 foodHistory);
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesiredToCarnivorous(int requestedWaterQuantity) {
-        return waterDistributor.giveExactOrMostPossibleWater(waterForCarnivorous, requestedWaterQuantity, foodHistory);
+        return waterDistributor.distributeExactOrMostPossible(waterForCarnivorous, requestedWaterQuantity, foodHistory);
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesiredToHerbivorous(int requestedWaterQuantity) {
-        return waterDistributor.giveExactOrMostPossibleWater(waterForHerbivorous, requestedWaterQuantity, foodHistory);
+        return waterDistributor.distributeExactOrMostPossible(waterForHerbivorous, requestedWaterQuantity, foodHistory);
     }
 
     public void splitWaterInTwo() {
@@ -122,6 +121,7 @@ public class Pantry implements FoodStorage {
     }
 
     public FoodHistory getFoodHistory() {
+        foodHistory.computeFreshFoodQuantities(allFreshFood);
         return foodHistory;
     }
 

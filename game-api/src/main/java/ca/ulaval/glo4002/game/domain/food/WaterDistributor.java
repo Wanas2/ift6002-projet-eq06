@@ -8,7 +8,7 @@ public class WaterDistributor {
     private List<Food> secondHalfOfWater = new LinkedList<>();
     private Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
 
-    public int giveExactOrMostPossibleWater(List<Food> waterContainer, int requestedQuantity, FoodHistory foodHistory) {
+    public int distributeExactOrMostPossible(FoodType foodTypeToProvide, List<Food> waterContainer, int requestedQuantity, FoodHistory foodHistory) {
         int remainingFoodQuantityToProvide = requestedQuantity;
         int totalFoodGiven = 0;
 
