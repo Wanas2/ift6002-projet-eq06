@@ -201,4 +201,11 @@ public class HerdTest {
 
         verify(sumoFightOrganizer).reset();
     }
+
+    @Test
+    public void givenDinosaurs_whenPredictWinnerSumoFight_thenScheduleSumoFightOfSumoFightOrganizerShouldBeCalled() {
+        herd.predictWinnerSumoFight(aCarnivorousDinosaur, anHerbivorousDinosaur);
+
+        verify(sumoFightOrganizer).scheduleSumoFight(aCarnivorousDinosaur, anHerbivorousDinosaur);
+    }
 }

@@ -14,14 +14,26 @@ public class SumoFightOrganizer {
         this.sumoFightOrganizerValidator = sumoFightOrganizerValidator;
     }
 
-    public String sumoFight(Dinosaur challenger, Dinosaur challenged) {
+    public List<Dinosaur> sumoFight(Dinosaur challenger, Dinosaur challenged) {
+        int strengthDifference = challenger.compareStrength(challenged);
+        if(strengthDifference > 0) {
+            return new ArrayList<>(Collections.singleton(challenger));
+        } else if(strengthDifference < 0) {
+            return new ArrayList<>(Collections.singleton(challenged));
+        }
+
+        return new ArrayList<>(Arrays.asList(challenger, challenged));
+    }
+
+    public String scheduleSumoFight(Dinosaur challenger, Dinosaur challenged) {
         sumoFightOrganizerValidator.validateSumoFight(numberOfFightDone, MAX_NUMBER_OF_FIGHTS_PER_TURN);
         sumoFightOrganizerValidator.validateSumoFighter(dinosaursAlreadyFought, challenger, challenged);
         numberOfFightDone++;
         dinosaursAlreadyFought.addAll(Arrays.asList(challenger, challenged));
-        if(challenger.compareStrength(challenged) > 0) {
+        int strengthDifference = challenger.compareStrength(challenged);
+        if(strengthDifference > 0) {
             return challenger.getName();
-        } else if(challenger.compareStrength(challenged) < 0) {
+        } else if(strengthDifference < 0) {
             return challenged.getName();
         }
 
