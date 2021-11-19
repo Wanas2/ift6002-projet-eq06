@@ -7,16 +7,15 @@ import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
+import ca.ulaval.glo4002.game.domain.GameRepository;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
-import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
-import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
-import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
+import ca.ulaval.glo4002.game.infrastructure.GameRepositoryInMemory;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
@@ -36,23 +35,26 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerResources() {
-        PantryRepository pantryRepository = new PantryRepositoryInMemoryImpl();
-        HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
+        GameRepository gameRepository = new GameRepositoryInMemory();
 
-        Turn turn = new Turn();
         FoodProvider foodProvider = new CookItSubscription();
-        Pantry pantry = pantryRepository.find().
-                orElse(new Pantry(foodProvider));
+
+        Game game = gameRepository
+                    .find()
+                    .orElse(new Game(
+                            new Herd(new ArrayList<>(), List.of(new CarnivorousDinosaurFeeder(),
+                                    new HerbivorousDinosaurFeeder())),
+                            new Pantry(foodProvider),
+                            new Turn()
+                    ));
+
+        Pantry pantry = game.getPantry();
+        Herd herd = game.getHerd();
 
         FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
-        Herd herd = herdRepository.
-                find()
-                .orElse(new Herd(new ArrayList<>(), List.of(new CarnivorousDinosaurFeeder(),
-                        new HerbivorousDinosaurFeeder())));
-        Game game = new Game(herd, pantry, turn);
         FoodValidator foodValidator = new FoodValidator();
 
-        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry,pantry);
+        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry, pantry);
 
         DinosaurBreederExternal dinoBreeder = new DinosaurBreederExternal();
         ParentsGenderValidator parentsGenderValidator = new ParentsGenderValidator();
@@ -66,7 +68,7 @@ public class ProjectConfig extends ResourceConfig {
 
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
         DinosaurService dinosaurService = new DinosaurService(dinosaurFactory, herd, game, dinosaurBabyFetcher);
-        GameService gameService = new GameService(game, herd, pantry, pantryRepository, herdRepository);
+        GameService gameService = new GameService(game, gameRepository);
 
         GameResource gameResource = new GameResource(gameService, turnAssembler);
         FoodResource foodResource = new FoodResource(resourceService, foodValidator, foodAssembler,
@@ -87,8 +89,5 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
-        register(new DinosaurAlreadyParticipatingExceptionMapper());
-        register(new MaxCombatsReachedExceptionMapper());
-        register(new ArmsTooShortExceptionMapper());
     }
 }

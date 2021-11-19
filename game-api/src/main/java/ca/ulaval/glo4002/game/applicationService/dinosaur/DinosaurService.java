@@ -16,8 +16,8 @@ public class DinosaurService {
 
     public DinosaurService(DinosaurFactory dinosaurFactory, Herd herd, Game game, BabyFetcher babyFetcher) {
         this.dinosaurFactory = dinosaurFactory;
-        this.herd = herd;
         this.game = game;
+        this.herd = herd;
         this.babyFetcher = babyFetcher;
     }
 
@@ -34,9 +34,6 @@ public class DinosaurService {
 
         Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
         if(babyDinosaur.isPresent()) {
-            System.out.println("**********************************************");
-            System.out.println("Baby is present");
-            System.out.println("**********************************************");
             game.addDinosaur(babyDinosaur.get());
         }
     }

@@ -59,4 +59,12 @@ public class Game {
         herd.reset();
         pantry.reset();
     }
+
+    public Herd getHerd() {
+        return this.herd;
+    }
+
+    public Pantry getPantry() {
+        return this.pantry;
+    }
 }
