@@ -5,6 +5,11 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.MaxCombatsReachedExcept
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -18,56 +23,76 @@ public class SumoFightOrganizerTest {
 
     private Dinosaur aStrongerDinosaur;
     private Dinosaur aDinosaur;
-    private Dinosaur aDinosaurWithSameStrength;
+    private Dinosaur aWeakDinosaur;
     private SumoFightOrganizer sumoFightOrganizer;
 
     @BeforeEach
     public void setUp() {
         aStrongerDinosaur = mock(Dinosaur.class);
         aDinosaur = mock(Dinosaur.class);
-        aDinosaurWithSameStrength = mock(Dinosaur.class);
+        aWeakDinosaur = mock(Dinosaur.class);
 
         SumoFightOrganizerValidator sumoFightOrganizerValidator = new SumoFightOrganizerValidator();
         sumoFightOrganizer = new SumoFightOrganizer(sumoFightOrganizerValidator);
     }
 
     @Test
-    public void givenTwoDinosaursWithSameStrength_whenSumoFight_thenFightShouldBeTie() {
-        when(aDinosaurWithSameStrength.compareStrength(aDinosaurWithSameStrength)).thenReturn(NULL_DIFFERENCE);
+    public void givenTwoDinosaursWithSameStrength_whenSumoFight_thenTheTwoDinosaursShouldBeReturn() {
+        when(aWeakDinosaur.compareStrength(aWeakDinosaur)).thenReturn(NULL_DIFFERENCE);
+        List<Dinosaur> winners = new ArrayList<>(Arrays.asList(aWeakDinosaur, aWeakDinosaur));
 
-        String result = sumoFightOrganizer.sumoFight(aDinosaurWithSameStrength, aDinosaurWithSameStrength);
+        List<Dinosaur> result = sumoFightOrganizer.sumoFight(aWeakDinosaur, aWeakDinosaur);
+
+        assertEquals(winners, result);
+    }
+
+    @Test
+    public void givenTwoDinosaursWithSameStrength_whenSumoFight_thenTheStrongestDinosaurShouldBeReturn() {
+        when(aStrongerDinosaur.compareStrength(aDinosaur)).thenReturn(POSITIVE_DIFFERENCE);
+        List<Dinosaur> winner = new ArrayList<>(Collections.singleton(aStrongerDinosaur));
+
+        List<Dinosaur> result = sumoFightOrganizer.sumoFight(aStrongerDinosaur, aDinosaur);
+
+        assertEquals(winner, result);
+    }
+
+    @Test
+    public void givenTwoDinosaursWithSameStrength_whenScheduleSumoFight_thenFightShouldBeTie() {
+        when(aWeakDinosaur.compareStrength(aWeakDinosaur)).thenReturn(NULL_DIFFERENCE);
+
+        String result = sumoFightOrganizer.scheduleSumoFight(aWeakDinosaur, aWeakDinosaur);
 
         assertEquals(RESULT_DRAW, result);
     }
 
     @Test
-    public void givenTwoDinosaursWithDifferentStrength_whenSumoFight_thenShouldReturnTheNameOfStrongestDinosaur() {
+    public void givenTwoDinosaursWithDifferentStrength_whenScheduleSumoFight_thenShouldReturnTheNameOfStrongestDinosaur() {
         when(aStrongerDinosaur.compareStrength(aDinosaur)).thenReturn(POSITIVE_DIFFERENCE);
         when(aStrongerDinosaur.getName()).thenReturn(DINOSAUR_NAME);
 
-        String result = sumoFightOrganizer.sumoFight(aStrongerDinosaur, aDinosaur);
+        String result = sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aDinosaur);
 
         assertEquals(DINOSAUR_NAME, result);
     }
 
     @Test
-    public void givenDinosaurAlreadyFighting_whenSumoFight_thenShouldThrowDinosaurAlreadyParticipatingException() {
+    public void givenDinosaurAlreadyFighting_whenScheduleSumoFight_thenShouldThrowDinosaurAlreadyParticipatingException() {
         when(aStrongerDinosaur.compareStrength(aDinosaur)).thenReturn(POSITIVE_DIFFERENCE);
 
-        sumoFightOrganizer.sumoFight(aStrongerDinosaur, aDinosaur);
+        sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aDinosaur);
 
         assertThrows(DinosaurAlreadyParticipatingException.class,
-                () -> sumoFightOrganizer.sumoFight(aStrongerDinosaur, aDinosaurWithSameStrength));
+                () -> sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aWeakDinosaur));
     }
 
     @Test
-    public void givenASumoFightOrganizerWithTwoSumoFights_whenSumoFight_thenShouldThrowMaxCombatsReachedException() {
+    public void givenASumoFightOrganizerWithTwoSumoFights_whenScheduleSumoFight_thenShouldThrowMaxCombatsReachedException() {
         when(aStrongerDinosaur.compareStrength(aStrongerDinosaur)).thenReturn(NULL_DIFFERENCE);
-        when(aDinosaurWithSameStrength.compareStrength(aDinosaurWithSameStrength)).thenReturn(POSITIVE_DIFFERENCE);
+        when(aWeakDinosaur.compareStrength(aWeakDinosaur)).thenReturn(POSITIVE_DIFFERENCE);
 
-        sumoFightOrganizer.sumoFight(aStrongerDinosaur, aStrongerDinosaur);
-        sumoFightOrganizer.sumoFight(aDinosaurWithSameStrength, aDinosaurWithSameStrength);
+        sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aStrongerDinosaur);
+        sumoFightOrganizer.scheduleSumoFight(aWeakDinosaur, aWeakDinosaur);
 
-        assertThrows(MaxCombatsReachedException.class, () -> sumoFightOrganizer.sumoFight(aDinosaur, aDinosaur));
+        assertThrows(MaxCombatsReachedException.class, () -> sumoFightOrganizer.scheduleSumoFight(aDinosaur, aDinosaur));
     }
 }

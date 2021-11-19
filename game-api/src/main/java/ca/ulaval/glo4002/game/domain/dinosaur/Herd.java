@@ -85,7 +85,12 @@ public class Herd {
     }
 
     public void organizeSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
-        String result = sumoFightOrganizer.sumoFight(firstDinosaurFighter, secondDinosaurFighter); //A utiliser pour feedDinosaur
+        List<Dinosaur> dinosaursWinners = sumoFightOrganizer.sumoFight(firstDinosaurFighter, secondDinosaurFighter); //A utiliser pour feedDinosaur
+    }
+
+    // A utiliser dans la méthode addSumoFight de DinosaurService qui sera ensuite appelée dans DinosaurResource
+    public String predictWinnerSumoFight(Dinosaur challenger, Dinosaur challenged) {
+        return sumoFightOrganizer.scheduleSumoFight(challenger, challenged);
     }
 
     public void resetSumoFight() {
