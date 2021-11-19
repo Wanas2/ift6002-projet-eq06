@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.game.domain.GameRepository;
 import java.util.Optional;
 
 public class GameRepositoryInMemory implements GameRepository {
+
     private Game game;
 
     @Override
