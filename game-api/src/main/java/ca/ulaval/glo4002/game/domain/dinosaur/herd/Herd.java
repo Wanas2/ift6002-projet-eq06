@@ -1,19 +1,21 @@
-package ca.ulaval.glo4002.game.domain.dinosaur;
+package ca.ulaval.glo4002.game.domain.dinosaur.herd;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class Herd {
 
     private final List<Dinosaur> dinosaurs;
+    private final List<DinosaurFeeder> dinosaurFeeders;
 
-    public Herd(List<Dinosaur> dinosaurs) {
+    public Herd(List<Dinosaur> dinosaurs, List<DinosaurFeeder> dinosaurFeeders) {
         this.dinosaurs = dinosaurs;
+        this.dinosaurFeeders = dinosaurFeeders;
     }
 
     public boolean hasDinosaurWithName(String name) {
@@ -32,25 +34,10 @@ public class Herd {
     }
 
     public void feedDinosaurs() {
-        List<FoodNeed> herbivorousFoodNeeds = new ArrayList<>();
-        List<FoodNeed> carnivorousFoodNeeds = new ArrayList<>();
-        List<Dinosaur> dinosaursSortedFromWeakerToStronger =
-                dinosaurs.stream().sorted().collect(Collectors.toList());
+        Map<Dinosaur,List<FoodNeed>> dinosaursWithNeed = new HashMap<>();
+        dinosaurs.forEach(dinosaur -> dinosaursWithNeed.put(dinosaur,dinosaur.askForFood()));
 
-        for(Dinosaur dinosaur: dinosaursSortedFromWeakerToStronger){
-            List<FoodNeed> foodNeeds = dinosaur.askForFood();
-            for(FoodNeed foodNeed: foodNeeds){
-                if (foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS){
-                    carnivorousFoodNeeds.add(0,foodNeed);
-                }
-                else if (foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS){
-                    herbivorousFoodNeeds.add(foodNeed);
-                }
-            }
-        }
-
-        herbivorousFoodNeeds.forEach(FoodNeed::satisfy);
-        carnivorousFoodNeeds.forEach(FoodNeed::satisfy);
+        dinosaurFeeders.forEach(dinosaurFeeder -> dinosaurFeeder.feedDinosaurs(dinosaursWithNeed));
 
         removeFastingDinosaurs();
     }
@@ -75,10 +62,14 @@ public class Herd {
     }
 
     public List<Dinosaur> getAllDinosaurs() {
-        return new ArrayList<>(dinosaurs);
+        return dinosaurs;
     }
 
     private void removeFastingDinosaurs() {
         dinosaurs.removeIf((dinosaur) -> !dinosaur.isAlive());
+    }
+
+    public void organizeSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
+
     }
 }

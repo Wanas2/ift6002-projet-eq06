@@ -11,7 +11,9 @@ import ca.ulaval.glo4002.game.domain.GameRepository;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.GameRepositoryInMemory;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
@@ -23,6 +25,7 @@ import ca.ulaval.glo4002.game.interfaces.rest.mappers.*;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectConfig extends ResourceConfig {
 
@@ -35,10 +38,12 @@ public class ProjectConfig extends ResourceConfig {
         GameRepository gameRepository = new GameRepositoryInMemory();
 
         FoodProvider foodProvider = new CookItSubscription();
+
         Game game = gameRepository
                     .find()
                     .orElse(new Game(
-                            new Herd(new ArrayList<>()),
+                            new Herd(new ArrayList<>(), List.of(new CarnivorousDinosaurFeeder(),
+                                    new HerbivorousDinosaurFeeder())),
                             new Pantry(foodProvider),
                             new Turn()
                     ));
@@ -59,11 +64,10 @@ public class ProjectConfig extends ResourceConfig {
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
-        FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
+        FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
 
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
         DinosaurService dinosaurService = new DinosaurService(dinosaurFactory, herd, game, dinosaurBabyFetcher);
-
         GameService gameService = new GameService(game, gameRepository);
 
         GameResource gameResource = new GameResource(gameService, turnAssembler);

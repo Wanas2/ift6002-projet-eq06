@@ -42,7 +42,7 @@ class GameServiceTest {
     }
 
     @Test
-    public void whenReset_thenPantryIsIsDeleted() {
+    public void whenReset_thenTheSavedGameIsDeleted() {
         gameService.reset();
 
         verify(gameRepository).delete();
