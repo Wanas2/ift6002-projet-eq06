@@ -22,6 +22,7 @@ class DinosaurServiceTest {
     private final static int SOME_WEIGHT = 134;
     private final static String A_NAME = "ehwr";
     private final static String ANOTHER_NAME = "ehwrwfgh";
+    private final static String A_TYRANNOSAURUS_NAME = "rwfgh";
     private final static Gender THE_MALE_GENDER = Gender.M;
     private final static Gender THE_FEMALE_GENDER = Gender.F;
 
@@ -47,7 +48,7 @@ class DinosaurServiceTest {
         anotherDinosaur =
                 new Dinosaur(A_SPECIES, SOME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
         aTyrannosaurus =
-                new Dinosaur(Species.TyrannosaurusRex, SOME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
+                new Dinosaur(Species.TyrannosaurusRex, SOME_WEIGHT, A_TYRANNOSAURUS_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
         aBabyDinosaur =
                 new BabyDinosaur(A_SPECIES, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy, aDinosaur,
                         anotherDinosaur);
@@ -163,22 +164,42 @@ class DinosaurServiceTest {
     }
 
     @Test
+    public void givenTwoDinosaursNames_whenPrepareSumoFight_thenDinosaurServiceShouldPrepareTheRightDinosaurs(){
+        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(ANOTHER_NAME)).thenReturn(anotherDinosaur);
+
+        dinosaurService.prepareSumoFight(A_NAME, ANOTHER_NAME);
+
+        verify(herd).getDinosaurWithName(A_NAME);
+        verify(herd).getDinosaurWithName(ANOTHER_NAME);
+    }
+
+    @Test
     public void givenTwoDinosaursThatAreNotATyrannosaurusRex_whenPrepareSumoFight_thenHerdShouldOrganizeAFight(){
-        dinosaurService.prepareSumoFight(aDinosaur, anotherDinosaur);
+        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(ANOTHER_NAME)).thenReturn(anotherDinosaur);
+
+        dinosaurService.prepareSumoFight(A_NAME, ANOTHER_NAME);
 
         verify(herd).predictWinnerSumoFight(aDinosaur, anotherDinosaur);
     }
 
     @Test
     public void givenATyrannosaurusRexChallenger_whenPrepareSumoFight_thenShouldThrowArmsTooShortException() {
+        when(herd.getDinosaurWithName(A_TYRANNOSAURUS_NAME)).thenReturn(aTyrannosaurus);
+        when(herd.getDinosaurWithName(ANOTHER_NAME)).thenReturn(anotherDinosaur);
+
         assertThrows(ArmsTooShortException.class,
-                ()->dinosaurService.prepareSumoFight(aTyrannosaurus, aDinosaur));
+                ()->dinosaurService.prepareSumoFight(A_TYRANNOSAURUS_NAME, ANOTHER_NAME));
     }
 
     @Test
     public void givenATyrannosaurusRexChallengee_whenPrepareSumoFight_thenShouldThrowArmsTooShortException() {
+        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(A_TYRANNOSAURUS_NAME)).thenReturn(aTyrannosaurus);
+
         assertThrows(ArmsTooShortException.class,
-                ()->dinosaurService.prepareSumoFight(aDinosaur, aTyrannosaurus));
+                ()->dinosaurService.prepareSumoFight(A_NAME, A_TYRANNOSAURUS_NAME));
     }
 
     private void initializeADinosaurDTO() {
