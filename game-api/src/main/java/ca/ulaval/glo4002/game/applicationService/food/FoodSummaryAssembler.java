@@ -15,10 +15,7 @@ public class FoodSummaryAssembler {
     }
 
     public FoodSummaryDTO toDTO(Map<FoodState, Map<FoodType, Integer>> allFoodSummary) {
-        FoodSummaryDTO foodSummaryDTO = new FoodSummaryDTO();
-        foodSummaryDTO.fresh = foodAssembler.toDTO(allFoodSummary.get(FoodState.FRESH));
-        foodSummaryDTO.expired = foodAssembler.toDTO(allFoodSummary.get(FoodState.EXPIRED));
-        foodSummaryDTO.consumed = foodAssembler.toDTO(allFoodSummary.get(FoodState.CONSUMED));
+        FoodSummaryDTO foodSummaryDTO = new FoodSummaryDTO(foodAssembler.toDTO(allFoodSummary.get(FoodState.FRESH)), foodAssembler.toDTO(allFoodSummary.get(FoodState.EXPIRED)), foodAssembler.toDTO(allFoodSummary.get(FoodState.CONSUMED)));
         return foodSummaryDTO;
     }
 }

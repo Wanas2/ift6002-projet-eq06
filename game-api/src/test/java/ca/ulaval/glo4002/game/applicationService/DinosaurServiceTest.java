@@ -155,12 +155,10 @@ class DinosaurServiceTest {
     }
 
     private void initializeABreedingDTO() {
-        aBreedingRequestDTO = new BreedingRequestDTO();
         String babyName = "wrrwrww";
         String theFathersName = "wgrwr";
         String theMothersName = "mko";
-        aBreedingRequestDTO.name = babyName;
-        aBreedingRequestDTO.fatherName = theFathersName;
-        aBreedingRequestDTO.motherName = theMothersName;
+
+        aBreedingRequestDTO = new BreedingRequestDTO(babyName, theFathersName, theMothersName);
     }
 }

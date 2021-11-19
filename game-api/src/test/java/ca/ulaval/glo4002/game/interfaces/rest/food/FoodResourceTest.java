@@ -44,10 +44,7 @@ class FoodResourceTest {
 
     @BeforeEach
     void setUp() {
-        aFoodDTO = new FoodDTO();
-        aFoodDTO.qtyBurger = A_QUANTITY_OF_BURGER;
-        aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD;
-        aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS;
+        aFoodDTO = new FoodDTO(A_QUANTITY_OF_BURGER, A_QUANTITY_OF_SALAD, A_QUANTITY_OF_WATER_IN_LITERS);
 
         resourceService = mock(ResourceService.class);
         foodValidator = new FoodValidator();
