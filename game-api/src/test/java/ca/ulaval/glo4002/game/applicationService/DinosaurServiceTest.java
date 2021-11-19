@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.game.applicationService.dinosaur.DuplicateNameException
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.ArmsTooShortException;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.BreedingRequestDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +30,7 @@ class DinosaurServiceTest {
     private DinosaurDTO aDinosaurDTO;
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
+    private Dinosaur aTyrannosaurus;
     private BabyDinosaur aBabyDinosaur;
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
@@ -44,6 +46,8 @@ class DinosaurServiceTest {
         aDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
         anotherDinosaur =
                 new Dinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
+        aTyrannosaurus =
+                new Dinosaur(Species.TyrannosaurusRex, SOMME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
         aBabyDinosaur =
                 new BabyDinosaur(A_SPECIES, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy, aDinosaur,
                         anotherDinosaur);
@@ -143,6 +147,25 @@ class DinosaurServiceTest {
                 aBreedingRequestDTO.motherName);
 
         verify(game).addDinosaur(aBabyDinosaur);
+    }
+
+    @Test
+    public void givenAMaleAndAFemaleDinosaurThatAreNotATyrannosaurusRex_whenOrganizeSumoFight_thenHerdShouldOrganizeAFight(){
+        dinosaurService.organizeSumoFight(aDinosaur, anotherDinosaur);
+
+        verify(herd).organizeSumoFight(aDinosaur, anotherDinosaur);
+    }
+
+    @Test
+    public void givenATyrannosaurusRexChallenger_whenOrganizeSumoFight_thenShouldThrowArmsTooShortException() {
+        assertThrows(ArmsTooShortException.class,
+                ()->dinosaurService.organizeSumoFight(aTyrannosaurus, aDinosaur));
+    }
+
+    @Test
+    public void givenATyrannosaurusRexChallengee_whenOrganizeSumoFight_thenShouldThrowArmsTooShortException() {
+        assertThrows(ArmsTooShortException.class,
+                ()->dinosaurService.organizeSumoFight(aDinosaur, aTyrannosaurus));
     }
 
     private void initializeADinosaurDTO() {

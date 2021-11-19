@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.game.applicationService.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.ArmsTooShortException;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,14 @@ public class DinosaurService {
             System.out.println("**********************************************");
             game.addDinosaur(babyDinosaur.get());
         }
+    }
+
+    public void organizeSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
+        if(dinosaurChallenger.getSpecies()==Species.TyrannosaurusRex||
+                dinosaurChallengee.getSpecies()==Species.TyrannosaurusRex){
+            throw new ArmsTooShortException();
+        }
+        herd.organizeSumoFight(dinosaurChallenger, dinosaurChallengee);
     }
 
     public Dinosaur showDinosaur(String dinosaurName) {
