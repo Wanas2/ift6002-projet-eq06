@@ -32,7 +32,7 @@ public class Food {
         this.quantity += quantity;
     }
 
-        public void incrementAgeByOne() {
+    public void incrementAgeByOne() {
         if(age < type.numberOfTurnBeforeExpiry()) {
             age += 1;
         } else {
@@ -46,18 +46,6 @@ public class Food {
             return;
         }
         this.quantity -= quantity;
-    }
-
-    public void decreaseQuantity(Food food) throws FoodTypesNotMatchingException {
-        if((food.type).equals(type)) {
-            if(food.quantity > this.quantity) {
-                this.quantity = 0;
-                return;
-            }
-            this.quantity -= quantity;
-        } else {
-            throw new FoodTypesNotMatchingException("Trying to add two foods whose types are different");
-        }
     }
 
     public boolean isExpired() {
