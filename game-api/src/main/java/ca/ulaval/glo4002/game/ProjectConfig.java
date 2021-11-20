@@ -14,6 +14,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.WeakerToStrongerEatingOrder;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.GameRepositoryInMemory;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
@@ -37,16 +38,7 @@ public class ProjectConfig extends ResourceConfig {
     private void registerResources() {
         GameRepository gameRepository = new GameRepositoryInMemory();
 
-        FoodProvider foodProvider = new CookItSubscription();
-
-        Game game = gameRepository
-                    .find()
-                    .orElse(new Game(
-                            new Herd(new ArrayList<>(), List.of(new CarnivorousDinosaurFeeder(),
-                                    new HerbivorousDinosaurFeeder())),
-                            new Pantry(foodProvider),
-                            new Turn()
-                    ));
+        Game game = gameRepository.find().orElse(provideNewGame());
 
         Pantry pantry = game.getPantry();
         Herd herd = game.getHerd();
@@ -89,5 +81,19 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
+    }
+
+    private Game provideNewGame(){
+        FoodProvider foodProvider = new CookItSubscription();
+        Pantry pantry = new Pantry(foodProvider);
+
+        WeakerToStrongerEatingOrder eatingOrder = new WeakerToStrongerEatingOrder();
+        CarnivorousDinosaurFeeder carnivorousDinosaurFeeder = new CarnivorousDinosaurFeeder(eatingOrder);
+        HerbivorousDinosaurFeeder herbivorousDinosaurFeeder = new HerbivorousDinosaurFeeder(eatingOrder);
+        Herd herd = new Herd(new ArrayList<>(), List.of(carnivorousDinosaurFeeder,herbivorousDinosaurFeeder));
+
+        Turn turn = new Turn();
+
+        return new Game(herd,pantry,turn);
     }
 }

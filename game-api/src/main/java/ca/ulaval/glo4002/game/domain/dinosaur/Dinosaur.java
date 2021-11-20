@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 
 import java.util.List;
 
-public class Dinosaur implements Comparable<Dinosaur> {
+public class Dinosaur{
 
     private Species species;
     private int weight;
@@ -32,12 +32,6 @@ public class Dinosaur implements Comparable<Dinosaur> {
         return foodConsumptionStrategy.getFoodNeeds(weight,age);
     }
 
-    @Override
-    public int compareTo(Dinosaur dinosaur) {
-        int comparingStrength = Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
-        return comparingStrength != 0 ? comparingStrength : -this.name.compareTo(dinosaur.name);
-    }
-
     public void age() {
         age++;
     }
@@ -60,5 +54,9 @@ public class Dinosaur implements Comparable<Dinosaur> {
 
     private int calculateStrength() {
         return (int)Math.ceil(weight*gender.getGenderFactor()*species.getConsumptionStrength());
+    }
+
+    public int compareStrength(Dinosaur dinosaur) {
+        return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
     }
 }
