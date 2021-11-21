@@ -147,13 +147,6 @@ public class DinosaurResourceTest {
         verify(dinosaurService).showAllDinosaurs();
     }
 
-
-
-
-
-
-
-
     @Test
     public void givenASumoRequestDTOWithValidData_whenSumoFight_thenShouldPrepareSumoFight() {
         dinosaurResource.sumoFight(aSumoRequestDTO);
