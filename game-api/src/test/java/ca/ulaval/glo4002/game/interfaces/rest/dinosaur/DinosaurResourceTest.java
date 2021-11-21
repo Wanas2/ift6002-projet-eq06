@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,13 +24,14 @@ public class DinosaurResourceTest {
     private final static int STATUS_200_OK = 200;
     private final static String A_DINOSAUR_NAME = "Bobi";
     private final static String ANOTHER_DINOSAUR_NAME = "Bob";
-    private final static int WEIGHT = 17;
+    private final static int A_WEIGHT = 235;
     private final static String GENDER = "f";
     private final static String SPECIES = "Ankylosaurus";
     private FoodConsumptionStrategy consumptionStrategy;
 
     private BreedingRequestDTO aBreedingRequestDTO;
     private DinosaurDTO aDinosaurDTO;
+    private GrowDTO aGrowDTO;
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
     private List<Dinosaur> dinosaurs;
@@ -41,9 +41,10 @@ public class DinosaurResourceTest {
     @BeforeEach
     public void setup() {
         initializeABreedingDTO();
-        aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
-        aDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
-        anotherDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, A_WEIGHT, GENDER, SPECIES);
+        aGrowDTO = new GrowDTO(A_WEIGHT);
+        aDinosaur = new Dinosaur(Species.Ankylosaurus, A_WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        anotherDinosaur = new Dinosaur(Species.Ankylosaurus, A_WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
@@ -67,7 +68,7 @@ public class DinosaurResourceTest {
 
     @Test
     public void givenADinosaurDTOWithWeightNotStrictlyPositive_whenAddDinosaur_thenShouldThrowInvalidWeightException() {
-        int anInvalidWeight = -5;
+        int anInvalidWeight = 90;
         aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, anInvalidWeight, GENDER, SPECIES);
 
         assertThrows(InvalidWeightException.class,
@@ -141,6 +142,20 @@ public class DinosaurResourceTest {
         dinosaurResource.showAllDinosaurs();
 
         verify(dinosaurService).showAllDinosaurs();
+    }
+
+    @Test
+    public void givenADinosaurNameAndAGrowDTO_whenPatchDinosaur_thenTheServiceShouldBeCalledWithThoseArguments(){
+        dinosaurResource.patchDinosaur(A_DINOSAUR_NAME, aGrowDTO);
+
+        verify(dinosaurService).patchDinosaurWeight(A_DINOSAUR_NAME, A_WEIGHT);
+    }
+
+    @Test
+    public void givenADinosaurNameAndAGrowDTO_whenPatchDinosaur_thenResponseStatusShouldBe200(){
+        Response response = dinosaurResource.patchDinosaur(A_DINOSAUR_NAME, aGrowDTO);
+
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 
     private void initializeABreedingDTO() {
