@@ -25,11 +25,11 @@ public class DinosaurResource {
     @POST
     @Path("/dinosaurs")
     public Response addDinosaur(DinosaurDTO dinosaurDTO) {
-        if(dinosaurDTO.weight <= 0) {
+        if(dinosaurDTO.weight < 100) {
             throw new InvalidWeightException();
         }
         dinosaurService.addDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
-        return Response.ok().build();
+            return Response.ok().build();
     }
 
     @POST
@@ -57,5 +57,12 @@ public class DinosaurResource {
                 .collect(Collectors.toList());
 
         return Response.ok().entity(dinosaurDTOs).build();
+    }
+
+    @PATCH
+    @Path("/dinosaurs/{name}")
+    public Response patchDinosaur(@PathParam("name") String name, GrowDTO growDTO) {
+        dinosaurService.patchDinosaurWeight(name, growDTO.weight);
+        return Response.ok().build();
     }
 }

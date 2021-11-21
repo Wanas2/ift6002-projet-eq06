@@ -48,6 +48,10 @@ public class DinosaurService {
         return herd.predictWinnerSumoFight(dinosaurChallenger, dinosaurChallengee);
     }
 
+    public void patchDinosaurWeight(String dinosaurName, int weight){
+        //TODO
+    }
+
     public Dinosaur showDinosaur(String dinosaurName) {
         return herd.getDinosaurWithName(dinosaurName);
     }
