@@ -1,6 +1,5 @@
-package ca.ulaval.glo4002.game.domain.dinosaur;
+package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

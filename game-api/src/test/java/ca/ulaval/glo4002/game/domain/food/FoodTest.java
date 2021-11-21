@@ -7,13 +7,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FoodTest {
 
-    private final FoodType FOOD_TYPE = FoodType.BURGER;
-    private final int FOOD_QUANTITY = 4;
+    private final static FoodType FOOD_TYPE_1 = FoodType.BURGER;
+    private final static FoodType FOOD_TYPE_2 = FoodType.SALAD;
+    private final static int FOOD_QUANTITY = 4;
+
     private Food food;
+    private Food foodOfADifferentType;
+    private Food foodExpiringIn4Turns;
 
     @BeforeEach
     void setUp() {
-        food = new Food(FOOD_TYPE, FOOD_QUANTITY);
+        food = new Food(FOOD_TYPE_1, FOOD_QUANTITY);
+        foodOfADifferentType = new Food(FOOD_TYPE_2, FOOD_QUANTITY);
+    }
+
+    @Test
+    public void initiallyFoodIsFresh() {
+        assertFalse(food.isExpired());
+    }
+
+    @Test
+    public void givenAFoodWhichExpireIn4Turns_whenIncrementAgeByOne_thenFoodShouldExpire() {
+        foodExpiringIn4Turns = new Food(FOOD_TYPE_1, FOOD_QUANTITY);
+
+        foodExpiringIn4Turns.incrementAgeByOne();
+        foodExpiringIn4Turns.incrementAgeByOne();
+        foodExpiringIn4Turns.incrementAgeByOne();
+        foodExpiringIn4Turns.incrementAgeByOne();
+
+        assertTrue(foodExpiringIn4Turns.isExpired());
     }
 
     @Test
@@ -27,9 +49,14 @@ class FoodTest {
     }
 
     @Test
-    public void givenAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
+    public void givenFoodOfADifferentTypeQuantityToAdd_whenIncreaseQuantity_thenExceptionShouldBeThrown() {
+        assertThrows(FoodTypesNotMatchingException.class, () -> food.increaseQuantity(foodOfADifferentType));
+    }
+
+    @Test
+    public void givenAFoodAndAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
         int foodQuantityToDecrease = 2;
-        int expectedFoodQuantity = FOOD_QUANTITY-foodQuantityToDecrease;
+        int expectedFoodQuantity = FOOD_QUANTITY - foodQuantityToDecrease;
 
         food.decreaseQuantity(foodQuantityToDecrease);
 

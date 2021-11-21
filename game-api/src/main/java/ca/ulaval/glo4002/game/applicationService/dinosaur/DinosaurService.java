@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.game.applicationService.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.ArmsTooShortException;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,9 +34,18 @@ public class DinosaurService {
         Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
 
         Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
-        if(babyDinosaur.isPresent()) {
-            game.addDinosaur(babyDinosaur.get());
+        babyDinosaur.ifPresent(game::addDinosaur);
+    }
+
+    public String prepareSumoFight(String dinosaurChallengerName, String dinosaurChallengeeName) {
+        Dinosaur dinosaurChallenger = herd.getDinosaurWithName(dinosaurChallengerName);
+        Dinosaur dinosaurChallengee = herd.getDinosaurWithName(dinosaurChallengeeName);
+
+        if(dinosaurChallenger.getSpecies()==Species.TyrannosaurusRex||
+                dinosaurChallengee.getSpecies()==Species.TyrannosaurusRex){
+            throw new ArmsTooShortException();
         }
+        return herd.predictWinnerSumoFight(dinosaurChallenger, dinosaurChallengee);
     }
 
     public Dinosaur showDinosaur(String dinosaurName) {
