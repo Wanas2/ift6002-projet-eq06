@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.game.applicationService.dinosaur.DuplicateNameException
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.BreedingRequestDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurDTO;
 import org.junit.jupiter.api.BeforeEach;

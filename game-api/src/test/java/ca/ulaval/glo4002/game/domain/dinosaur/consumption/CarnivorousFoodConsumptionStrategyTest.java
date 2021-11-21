@@ -1,9 +1,5 @@
-package ca.ulaval.glo4002.game.domain.dinosaur;
+package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.CarnivorousFoodConsumptionStrategy;
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.CarnivorousFoodStorage;
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumption;
-import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
