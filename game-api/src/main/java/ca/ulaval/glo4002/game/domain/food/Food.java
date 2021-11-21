@@ -19,10 +19,6 @@ public class Food {
         this.age = age;
     }
 
-    public void setQuantity(int quantity){
-        this.quantity=quantity;
-    }
-
     public void increaseQuantity(Food food) throws FoodTypesNotMatchingException {
         if((food.type).equals(type)) {
             quantity += food.quantity;
@@ -50,18 +46,6 @@ public class Food {
             return;
         }
         this.quantity -= quantity;
-    }
-
-    public void decreaseQuantity(Food food) throws FoodTypesNotMatchingException {
-        if((food.type).equals(type)) {
-            if(food.quantity > this.quantity) {
-                this.quantity = 0;
-                return;
-            }
-            this.quantity -= quantity;
-        } else {
-            throw new FoodTypesNotMatchingException("Trying to add two foods whose types are different");
-        }
     }
 
     public boolean isExpired() {
