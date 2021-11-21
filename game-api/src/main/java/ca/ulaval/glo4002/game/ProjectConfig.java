@@ -78,7 +78,8 @@ public class ProjectConfig extends ResourceConfig {
         GameResource gameResource = new GameResource(gameService, turnAssembler);
         FoodResource foodResource = new FoodResource(resourceService, foodValidator, foodAssembler,
                 foodSummaryAssembler);
-        DinosaurResource dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler, sumoAssembler);
+        DinosaurResource dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler,
+                sumoAssembler);
 
         register(gameResource);
         register(foodResource);
