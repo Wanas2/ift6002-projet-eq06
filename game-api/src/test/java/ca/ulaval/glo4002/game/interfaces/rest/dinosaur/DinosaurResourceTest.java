@@ -162,7 +162,6 @@ public class DinosaurResourceTest {
         assertEquals(STATUS_200_OK, response.getStatus());
     }
 
-
     private void initializeABreedingDTO() {
         aBreedingRequestDTO = new BreedingRequestDTO();
         String babyName = "wrrwrww";
