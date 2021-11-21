@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.SumoAssembler;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
 import ca.ulaval.glo4002.game.domain.dinosaur.Species;
@@ -47,7 +48,8 @@ public class DinosaurResourceTest {
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
-        dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler);
+        SumoAssembler sumoAssembler = new SumoAssembler();
+        dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler, sumoAssembler);
     }
 
     @Test

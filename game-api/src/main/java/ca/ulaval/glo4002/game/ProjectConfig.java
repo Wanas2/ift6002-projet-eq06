@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.game;
 import ca.ulaval.glo4002.game.applicationService.*;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.SumoAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
@@ -67,6 +68,7 @@ public class ProjectConfig extends ResourceConfig {
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
+        SumoAssembler sumoAssembler = new SumoAssembler();
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
 
         ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
@@ -76,7 +78,7 @@ public class ProjectConfig extends ResourceConfig {
         GameResource gameResource = new GameResource(gameService, turnAssembler);
         FoodResource foodResource = new FoodResource(resourceService, foodValidator, foodAssembler,
                 foodSummaryAssembler);
-        DinosaurResource dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler);
+        DinosaurResource dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler, sumoAssembler);
 
         register(gameResource);
         register(foodResource);
