@@ -7,5 +7,4 @@ public class SumoAssembler {
     public SumoResponseDTO toDTO(String predictedWinner) {
        return new SumoResponseDTO(predictedWinner);
     }
-
 }

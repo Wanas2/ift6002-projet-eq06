@@ -33,6 +33,7 @@ public class DinosaurResourceTest {
 
     private BreedingRequestDTO aBreedingRequestDTO;
     private DinosaurDTO aDinosaurDTO;
+    private SumoRequestDTO aSumoRequestDTO;
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
     private List<Dinosaur> dinosaurs;
@@ -45,6 +46,7 @@ public class DinosaurResourceTest {
         aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
         aDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         anotherDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        aSumoRequestDTO = new SumoRequestDTO(A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
@@ -144,6 +146,29 @@ public class DinosaurResourceTest {
 
         verify(dinosaurService).showAllDinosaurs();
     }
+
+
+
+
+
+
+
+
+    @Test
+    public void givenASumoRequestDTOWithValidData_whenSumoFight_thenShouldPrepareSumoFight() {
+        dinosaurResource.sumoFight(aSumoRequestDTO);
+
+        verify(dinosaurService).
+                prepareSumoFight(aSumoRequestDTO.challenger, aSumoRequestDTO.challengee);
+    }
+
+    @Test
+    public void givenASumoRequestDTOWithValidData_whenSumoFight_thenResponseStatusShouldBe200() {
+        Response response = dinosaurResource.sumoFight(aSumoRequestDTO);
+
+        assertEquals(STATUS_200_OK, response.getStatus());
+    }
+
 
     private void initializeABreedingDTO() {
         aBreedingRequestDTO = new BreedingRequestDTO();
