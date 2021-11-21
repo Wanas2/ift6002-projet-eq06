@@ -24,6 +24,8 @@ class PantryTest {
     private List<Food> foodWithOnlyTwoBurgers;
     private List<Food> foodWithOnlySixBurgers;
     private FoodHistory foodHistory;
+    private FoodDistributor foodDistributor;
+    private WaterSplitter waterSplitter;
     private FoodProvider foodProvider;
     private Pantry pantry;
 
@@ -38,8 +40,10 @@ class PantryTest {
         aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD_ORDERED;
         aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
         foodProvider = mock(CookItSubscription.class);
+        foodDistributor = new FoodDistributor();
+        waterSplitter = new WaterSplitter();
         foodHistory = new FoodHistory();
-        pantry = new Pantry(foodProvider, foodHistory);
+        pantry = new Pantry(foodProvider, foodDistributor, waterSplitter, foodHistory);
     }
 
     @Test

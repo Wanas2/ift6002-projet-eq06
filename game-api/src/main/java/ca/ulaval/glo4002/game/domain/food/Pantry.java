@@ -5,20 +5,20 @@ import java.util.function.Predicate;
 
 public class Pantry implements FoodStorage {
 
-    private final FoodProvider foodProvider;
-    private final FoodDistributor foodDistributor;
-    private final WaterDistributor waterDistributor;
-    private final FoodHistory foodHistory;
     private List<Food> currentTurnFoodBatch = new ArrayList<>();
     private List<Food> allFreshFood = new LinkedList<>();
     private List<Food> waterForCarnivorous = new LinkedList<>();
     private List<Food> waterForHerbivorous = new LinkedList<>();
+    private final FoodProvider foodProvider;
+    private final FoodDistributor foodDistributor;
+    private final WaterSplitter waterSplitter;
+    private final FoodHistory foodHistory;
 
-    public Pantry(FoodProvider foodProvider, FoodDistributor foodDistributor, WaterDistributor waterDistributor,
+    public Pantry(FoodProvider foodProvider, FoodDistributor foodDistributor, WaterSplitter waterSplitter,
                   FoodHistory foodHistory) {
         this.foodProvider = foodProvider;
         this.foodDistributor = foodDistributor;
-        this.waterDistributor = waterDistributor;
+        this.waterSplitter = waterSplitter;
         this.foodHistory = foodHistory;
     }
 
@@ -32,36 +32,6 @@ public class Pantry implements FoodStorage {
 
     public List<Food> getAllFreshFood() {
         return allFreshFood;
-    }
-
-    @Override
-    public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        return foodDistributor.distributeExactOrMostPossible(FoodType.SALAD, allFreshFood, requestedSaladQuantity,
-                foodHistory);
-    }
-
-    @Override
-    public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
-        return foodDistributor.distributeExactOrMostPossible(FoodType.BURGER, allFreshFood, requestedBurgerQuantity,
-                foodHistory);
-    }
-
-    @Override
-    public int giveExactOrMostPossibleWaterDesiredToCarnivorous(int requestedWaterQuantity) {
-        return waterDistributor.distributeExactOrMostPossible(waterForCarnivorous, requestedWaterQuantity, foodHistory);
-    }
-
-    @Override
-    public int giveExactOrMostPossibleWaterDesiredToHerbivorous(int requestedWaterQuantity) {
-        return waterDistributor.distributeExactOrMostPossible(waterForHerbivorous, requestedWaterQuantity, foodHistory);
-    }
-
-    public void splitWaterInTwo() {
-        waterDistributor.splitWater(allFreshFood);
-    }
-
-    public void mergeWater() {
-        waterDistributor.mergeWater(allFreshFood);
     }
 
     public void obtainNewlyOrderedFood(List<Food> orderedFood) {
@@ -113,6 +83,40 @@ public class Pantry implements FoodStorage {
             }
         }
         allFreshFood.removeAll(allFoodsToRemove);
+    }
+
+    public void splitWaterInTwo() {
+        waterSplitter.splitWater(allFreshFood);
+    }
+
+    @Override
+    public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
+        return foodDistributor
+                .distributeExactOrMostPossible(FoodType.SALAD, allFreshFood, requestedSaladQuantity, foodHistory);
+    }
+
+    @Override
+    public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
+        return foodDistributor
+                .distributeExactOrMostPossible(FoodType.BURGER, allFreshFood, requestedBurgerQuantity, foodHistory);
+    }
+
+    @Override
+    public int giveExactOrMostPossibleWaterDesiredToCarnivorous(int requestedWaterQuantity) {
+        List<Food> waterForCarnivorous = waterSplitter.getWaterForCarnivorous();
+        return foodDistributor
+                .distributeExactOrMostPossible(FoodType.WATER, waterForCarnivorous, requestedWaterQuantity, foodHistory);
+    }
+
+    @Override
+    public int giveExactOrMostPossibleWaterDesiredToHerbivorous(int requestedWaterQuantity) {
+        List<Food> waterForHerbivorous = waterSplitter.getWaterForHerbivorous();
+        return foodDistributor
+                .distributeExactOrMostPossible(FoodType.WATER, waterForHerbivorous, requestedWaterQuantity, foodHistory);
+    }
+
+    public void mergeWater() {
+        waterSplitter.mergeWater(allFreshFood);
     }
 
     public void reset() {
