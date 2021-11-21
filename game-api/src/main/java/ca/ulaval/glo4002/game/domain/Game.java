@@ -44,13 +44,11 @@ public class Game {
 
         pantry.incrementFreshFoodAges();
         pantry.storeFood();
-
         pantry.splitWater();
         herd.feedDinosaurs();
         pantry.mergeWater();
 
         herd.increaseDinosaursAge();
-
         herd.resetSumoFight();
 
         return turnNumber;

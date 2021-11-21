@@ -7,7 +7,8 @@ import java.util.List;
 
 public class SumoFightOrganizerValidator {
 
-    public void validateSumoFighter(List<Dinosaur> dinosaursAlreadyFighting, Dinosaur firstFighter, Dinosaur secondFighter) {
+    public void validateSumoFighter(List<Dinosaur> dinosaursAlreadyFighting, Dinosaur firstFighter,
+                                    Dinosaur secondFighter) {
         if(dinosaursAlreadyFighting.contains(firstFighter) || dinosaursAlreadyFighting.contains(secondFighter)){
             throw new DinosaurAlreadyParticipatingException();
         }
