@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.herd;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.SumoFightOrganizer;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
 
@@ -11,10 +12,12 @@ import java.util.Map;
 public class Herd {
 
     private final List<Dinosaur> dinosaurs;
+    private final SumoFightOrganizer sumoFightOrganizer;
     private final List<DinosaurFeeder> dinosaurFeeders;
 
-    public Herd(List<Dinosaur> dinosaurs, List<DinosaurFeeder> dinosaurFeeders) {
+    public Herd(List<Dinosaur> dinosaurs, SumoFightOrganizer sumoFightOrganizer, List<DinosaurFeeder> dinosaurFeeders) {
         this.dinosaurs = dinosaurs;
+        this.sumoFightOrganizer = sumoFightOrganizer;
         this.dinosaurFeeders = dinosaurFeeders;
     }
 
@@ -70,6 +73,15 @@ public class Herd {
     }
 
     public void organizeSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
+        List<Dinosaur> dinosaursWinners = sumoFightOrganizer.sumoFight(firstDinosaurFighter, secondDinosaurFighter); //A utiliser pour feedDinosaur
+    }
 
+    // A utiliser dans la méthode addSumoFight de DinosaurService qui sera ensuite appelée dans DinosaurResource
+    public String predictWinnerSumoFight(Dinosaur challenger, Dinosaur challenged) {
+        return sumoFightOrganizer.scheduleSumoFight(challenger, challenged);
+    }
+
+    public void resetSumoFight() {
+        sumoFightOrganizer.reset();
     }
 }

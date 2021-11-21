@@ -38,6 +38,10 @@ public class Dinosaur implements Comparable<Dinosaur> {
         return comparingStrength != 0 ? comparingStrength : -this.name.compareTo(dinosaur.name);
     }
 
+    public int compareStrength(Dinosaur dinosaur) {
+        return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
+    }
+
     public void age() {
         age++;
     }

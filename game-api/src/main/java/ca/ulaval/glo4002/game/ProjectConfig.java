@@ -9,6 +9,7 @@ import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.GameRepository;
 import ca.ulaval.glo4002.game.domain.Turn;
+import ca.ulaval.glo4002.game.domain.dinosaur.*;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
@@ -38,12 +39,14 @@ public class ProjectConfig extends ResourceConfig {
         GameRepository gameRepository = new GameRepositoryInMemory();
 
         FoodProvider foodProvider = new CookItSubscription();
+        SumoFightOrganizerValidator sumoFightOrganizerValidator = new SumoFightOrganizerValidator();
+        SumoFightOrganizer sumoFightOrganizer = new SumoFightOrganizer(sumoFightOrganizerValidator);
 
         Game game = gameRepository
                     .find()
                     .orElse(new Game(
-                            new Herd(new ArrayList<>(), List.of(new CarnivorousDinosaurFeeder(),
-                                    new HerbivorousDinosaurFeeder())),
+                            new Herd(new ArrayList<>(), sumoFightOrganizer,
+                                    List.of(new CarnivorousDinosaurFeeder(), new HerbivorousDinosaurFeeder())),
                             new Pantry(foodProvider),
                             new Turn()
                     ));
