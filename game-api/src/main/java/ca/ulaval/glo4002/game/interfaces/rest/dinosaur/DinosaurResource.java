@@ -29,7 +29,7 @@ public class DinosaurResource {
             throw new InvalidWeightException();
         }
         dinosaurService.addDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
-            return Response.ok().build();
+        return Response.ok().build();
     }
 
     @POST
