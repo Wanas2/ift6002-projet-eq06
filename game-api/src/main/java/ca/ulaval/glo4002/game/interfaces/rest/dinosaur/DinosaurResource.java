@@ -58,4 +58,12 @@ public class DinosaurResource {
 
         return Response.ok().entity(dinosaurDTOs).build();
     }
+
+    @POST
+    @Path("/sumodino")
+    public Response sumoFight(SumoRequestDTO sumoRequestDTO) {
+        String predictedWinner = dinosaurService.prepareSumoFight(sumoRequestDTO.challenger, sumoRequestDTO.challengee);
+        SumoResponseDTO sumoResponseDTO = new SumoResponseDTO(predictedWinner);
+        return Response.ok().entity(sumoResponseDTO).build();
+    }
 }
