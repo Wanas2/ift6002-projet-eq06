@@ -164,7 +164,8 @@ public class DinosaurResourceTest {
 
     @Test
     public void givenASumoRequestDTO_whenSumoFight_thenSumoResponseDTOShouldBeCreated() {
-        String expectedPredictedWinner = dinosaurService.prepareSumoFight(aSumoRequestDTO.challenger, aSumoRequestDTO.challengee);
+        String expectedPredictedWinner = dinosaurService.prepareSumoFight(aSumoRequestDTO.challenger,
+                aSumoRequestDTO.challengee);
         Response response = dinosaurResource.sumoFight(aSumoRequestDTO);
         SumoResponseDTO sumoResponseDTO = (SumoResponseDTO) response.getEntity();
 
