@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface FoodConsumptionStrategy {
 
-    List<FoodNeed> getNormalFoodNeeds(int weight);
+    List<FoodNeed> getNonStarvingFoodNeeds(int weight);
 
     List<FoodNeed> getStarvingFoodNeeds(int weight);
 

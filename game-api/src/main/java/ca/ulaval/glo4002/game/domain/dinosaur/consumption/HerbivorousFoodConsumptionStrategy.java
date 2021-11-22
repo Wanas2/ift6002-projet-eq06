@@ -6,7 +6,7 @@ import java.util.List;
 public class HerbivorousFoodConsumptionStrategy implements FoodConsumptionStrategy {
 
     private final static int STARVING_FACTOR = 2;
-    private final static int NORMAL_FACTOR = 1;
+    private final static int NON_STARVING_FACTOR = 1;
     private final static double WATER_FACTOR = 0.6;
     private final static double FOOD_FACTOR = 0.0025;
 
@@ -18,8 +18,8 @@ public class HerbivorousFoodConsumptionStrategy implements FoodConsumptionStrate
     }
 
     @Override
-    public List<FoodNeed> getNormalFoodNeeds(int weight) {
-        return getFoodNeeds(weight,NORMAL_FACTOR);
+    public List<FoodNeed> getNonStarvingFoodNeeds(int weight) {
+        return getFoodNeeds(weight, NON_STARVING_FACTOR);
     }
 
     @Override

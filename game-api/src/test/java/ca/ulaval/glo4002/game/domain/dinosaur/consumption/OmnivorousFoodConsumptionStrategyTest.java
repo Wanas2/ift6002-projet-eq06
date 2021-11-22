@@ -32,8 +32,8 @@ public class OmnivorousFoodConsumptionStrategyTest {
     }
 
     @Test
-    public void whenGetFoodNeeds_thenFoodNeedsShouldBeOneCarnivorousAndOneHerbivorousNeed() {
-        List<FoodNeed> foodNeeds = strategy.getNormalFoodNeeds(WEIGHT);
+    public void whenGetNonStarvingFoodNeeds_thenFoodNeedsShouldBeOneCarnivorousAndOneHerbivorousNeed() {
+        List<FoodNeed> foodNeeds = strategy.getNonStarvingFoodNeeds(WEIGHT);
 
         assertEquals(2,foodNeeds.size());
         assertTrue(foodNeeds.stream()
@@ -54,8 +54,8 @@ public class OmnivorousFoodConsumptionStrategyTest {
     }
 
     @Test
-    public void whenGetNormalFoodNeeds_thenFoodNeedsShouldTakeTheRightAmount() {
-        List<FoodNeed> foodNeeds = strategy.getNormalFoodNeeds(WEIGHT);
+    public void whenGetNonStarvingFoodNeeds_thenFoodNeedsShouldTakeTheRightAmount() {
+        List<FoodNeed> foodNeeds = strategy.getNonStarvingFoodNeeds(WEIGHT);
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(carnivorousFoodStorage).giveExactOrMostPossibleBurgerDesired(EXPECTED_NORMAL_BURGERS);
@@ -85,7 +85,7 @@ public class OmnivorousFoodConsumptionStrategyTest {
                 .thenReturn(EXPECTED_NORMAL_BURGERS);
         when(carnivorousFoodStorage.giveExactOrMostPossibleWaterDesiredToCarnivorous(EXPECTED_NORMAL_WATER))
                 .thenReturn(EXPECTED_NORMAL_WATER);
-        List<FoodNeed> foodNeeds = strategy.getNormalFoodNeeds(WEIGHT);
+        List<FoodNeed> foodNeeds = strategy.getNonStarvingFoodNeeds(WEIGHT);
         foodNeeds.forEach(FoodNeed::satisfy);
 
         boolean areFoodNeedsSatisfied = strategy.areFoodNeedsSatisfied();
