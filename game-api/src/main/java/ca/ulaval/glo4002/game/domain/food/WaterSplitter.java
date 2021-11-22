@@ -25,7 +25,7 @@ public class WaterSplitter {
                 .collect(Collectors.toList());
 
         for(Food batchOfWater: allWater) {
-            int splitQuantityOfWater = splitCurrentBatchOfWaterInTwo(batchOfWater);
+            int splitQuantityOfWater = splitBatchOfWaterInTwo(batchOfWater);
             Food food1 = new Food(FoodType.WATER, splitQuantityOfWater, batchOfWater.getAge());
             Food food2 = new Food(FoodType.WATER, splitQuantityOfWater, batchOfWater.getAge());
             waterForCarnivorous.add(food1);
@@ -35,55 +35,41 @@ public class WaterSplitter {
         allFreshFood.removeAll(allWater);
     }
 
-    private int splitCurrentBatchOfWaterInTwo(Food batchOfWater) {
+    public void mergeWater(List<Food> allFreshFood) {
+        for(Food waterBatchForHerbivorous : waterForHerbivorous) {
+            Optional<Food> waterBatchForCarnivorous =
+                    getWaterBatchOfMatchingAge(waterForCarnivorous, waterBatchForHerbivorous.getAge());
+
+            waterBatchForCarnivorous.ifPresent (
+                    waterBatch -> {
+                        try {
+                            waterBatchForHerbivorous.increaseQuantity(waterBatch);
+                        } catch (FoodTypesNotMatchingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+            );
+        }
+
+        waterLeftOutAfterSplit.forEach((age, quantity) ->
+                allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
+
+        waterLeftOutAfterSplit = new HashMap<>();
+        allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
+    }
+
+    private int splitBatchOfWaterInTwo(Food batchOfWater) {
         if(batchOfWater.quantity() % 2 != 0) {
             waterLeftOutAfterSplit.put(batchOfWater.getAge(), batchOfWater.quantity() % 2);
         }
         return batchOfWater.quantity() / 2;
     }
 
-    public void mergeWater(List<Food> allFreshFood) {
-        List<Food> foodsToRemove = new ArrayList<>();
-        for(Food food: waterForHerbivorous){
-            boolean hasBeenMerged = false;
-            int quantityToAdd = 0;
-            int foodAge = food.getAge();
-            Food foodToRemove = null;
-            for(Food food2: waterForCarnivorous){
-                if (food2.getAge()==foodAge){
-                    quantityToAdd+=food2.quantity();
-                    if(waterLeftOutAfterSplit.containsKey(food.getAge())){
-                        quantityToAdd+= waterLeftOutAfterSplit.get(foodAge);
-                        waterLeftOutAfterSplit.remove(foodAge);
-                    }
-                    food.increaseQuantity(quantityToAdd);
-                    allFreshFood.add(food);
-                    hasBeenMerged=true;
-                    foodToRemove=food2;
-                    break;
-                }
-            }
-            if(foodToRemove!=null)
-                waterForCarnivorous.remove(foodToRemove);
-            if(!hasBeenMerged){
-                allFreshFood.add(food);
-            }
-            foodsToRemove.add(food);
-        }
-        waterForHerbivorous.removeAll(foodsToRemove);
-        foodsToRemove = new ArrayList<>();
-        for(Food food: waterForCarnivorous){
-            if(waterLeftOutAfterSplit.containsKey(food.getAge())){
-                food.increaseQuantity(waterLeftOutAfterSplit.get(food.getAge()));
-                waterLeftOutAfterSplit.remove(food.getAge());
-            }
-            allFreshFood.add(food);
-            foodsToRemove.add(food);
-        }
-        waterForCarnivorous.removeAll(foodsToRemove);
-        waterLeftOutAfterSplit.forEach((age, quantity) ->
-                allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
-        waterLeftOutAfterSplit = new HashMap<>();
-        allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
+    private Optional<Food> getWaterBatchOfMatchingAge(List<Food> waterBatches, int requiredAge) {
+        Predicate<Food> mustBeOfRequiredAge = foodFiltered -> foodFiltered.getAge() == requiredAge;
+
+        return waterBatches.stream()
+                .filter(mustBeOfRequiredAge)
+                .findFirst();
     }
 }
