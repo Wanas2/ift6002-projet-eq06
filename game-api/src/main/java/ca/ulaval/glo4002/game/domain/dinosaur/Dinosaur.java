@@ -29,8 +29,10 @@ public class Dinosaur implements Comparable<Dinosaur> {
     }
 
     public List<FoodNeed> askForFood() {
-        return isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :
-                            foodConsumptionStrategy.getNormalFoodNeeds(weight);
+        List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :
+                            foodConsumptionStrategy.getNonStarvingFoodNeeds(weight);
+        isStarving = false;
+        return foodNeeds;
     }
 
     @Override
@@ -41,10 +43,6 @@ public class Dinosaur implements Comparable<Dinosaur> {
 
     public int compareStrength(Dinosaur dinosaur) {
         return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
-    }
-
-    public void age() {
-        isStarving = false;
     }
 
     public String getName() {

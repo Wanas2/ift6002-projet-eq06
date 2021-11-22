@@ -44,12 +44,6 @@ public class Herd {
         removeFastingDinosaurs();
     }
 
-    public void increaseDinosaursAge() {
-        for(Dinosaur dino : dinosaurs) {
-            dino.age();
-        }
-    }
-
     public void reset() {
         dinosaurs.clear();
     }

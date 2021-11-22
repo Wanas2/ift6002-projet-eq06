@@ -137,15 +137,6 @@ public class HerdTest {
     }
 
     @Test
-    public void givenADinosaurInHerd_whenIncreaseDinosaursAge_ThenDinosaurAgeShouldIncrease() {
-        herd.addDinosaur(aDinosaur);
-
-        herd.increaseDinosaursAge();
-
-        verify(aDinosaur).age();
-    }
-
-    @Test
     public void givenTwoDinosaursInHerd_whenOrganizeSumoFight_thenSumoFightShouldBeCalled() {
         herd.organizeSumoFight(aDinosaurInHerd, anotherDinosaurInHerd);
 

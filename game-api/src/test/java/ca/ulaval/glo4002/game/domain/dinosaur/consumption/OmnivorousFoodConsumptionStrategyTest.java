@@ -19,6 +19,7 @@ public class OmnivorousFoodConsumptionStrategyTest {
     private final static int EXPECTED_DOUBLE_SALADS = 1;
     private final static int EXPECTED_DOUBLE_BURGERS = 1;
     private final static int EXPECTED_DOUBLE_WATER = 49;
+    private final static int NUMBER_OF_NEEDS = 2;
 
     private OmnivorousFoodConsumptionStrategy strategy;
     private HerbivorousFoodStorage herbivorousFoodStorage;
@@ -35,7 +36,7 @@ public class OmnivorousFoodConsumptionStrategyTest {
     public void whenGetNonStarvingFoodNeeds_thenFoodNeedsShouldBeOneCarnivorousAndOneHerbivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getNonStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(2,foodNeeds.size());
+        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
         assertTrue(foodNeeds.stream()
                 .anyMatch((foodNeed -> foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)));
         assertTrue(foodNeeds.stream()

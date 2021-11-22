@@ -68,11 +68,11 @@ public class DinosaurTest {
 
     @Test
     public void givenDinosaurIsNotStarving_whenAskForFood_thenDinosaurShouldGetNormalFoodNeed() {
-        aDinosaur.age();
+        aDinosaur.askForFood();
 
         aDinosaur.askForFood();
 
-        verify(aFoodConsumptionStrategy).getNormalFoodNeeds(DINOSAUR_WEIGHT);
+        verify(aFoodConsumptionStrategy).getNonStarvingFoodNeeds(DINOSAUR_WEIGHT);
     }
 
     @Test

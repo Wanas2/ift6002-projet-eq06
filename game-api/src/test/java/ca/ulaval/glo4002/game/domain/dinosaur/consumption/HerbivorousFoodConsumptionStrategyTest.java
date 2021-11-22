@@ -16,6 +16,7 @@ public class HerbivorousFoodConsumptionStrategyTest {
     private final static int EXPECTED_NORMAL_WATER = 49;
     private final static int EXPECTED_DOUBLE_SALADS = 1;
     private final static int EXPECTED_DOUBLE_WATER = 98;
+    private final static int NUMBER_OF_NEEDS = 1;
 
     private HerbivorousFoodConsumptionStrategy strategy;
     private HerbivorousFoodStorage foodStorage;
@@ -30,7 +31,7 @@ public class HerbivorousFoodConsumptionStrategyTest {
     public void whenGetNonStarvingFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getNonStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(1,foodNeeds.size());
+        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
         assertEquals(FoodConsumption.HERBIVOROUS,foodNeeds.get(0).getFoodConsumption());
     }
 

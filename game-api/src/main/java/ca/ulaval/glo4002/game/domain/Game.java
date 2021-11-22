@@ -48,7 +48,6 @@ public class Game {
         herd.feedDinosaurs();
         pantry.mergeWater();
 
-        herd.increaseDinosaursAge();
         herd.resetSumoFight();
 
         return turnNumber;
