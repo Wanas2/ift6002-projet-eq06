@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.game.domain.food;
 
 import java.util.*;
 
-public class WaterSplitter { // Todo Il faut un nouveau nom. On fait "split et merge", pas seulement "split"
+public class WaterSplitter {
 
     private List<Food> waterForCarnivorous = new LinkedList<>();
     private List<Food> waterForHerbivorous = new LinkedList<>();

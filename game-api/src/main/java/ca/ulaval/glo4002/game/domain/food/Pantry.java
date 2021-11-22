@@ -79,28 +79,31 @@ public class Pantry implements FoodStorage {
 
     @Override
     public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
-        return foodDistributor
-                .distributeExactOrMostPossible(FoodType.SALAD, allFreshFoods, requestedSaladQuantity, foodHistory);
+        return foodDistributor.distributeExactOrMostPossibleFoodAsked(FoodType.SALAD, allFreshFoods,
+                requestedSaladQuantity, foodHistory);
     }
 
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
         return foodDistributor
-                .distributeExactOrMostPossible(FoodType.BURGER, allFreshFoods, requestedBurgerQuantity, foodHistory);
+                .distributeExactOrMostPossibleFoodAsked(FoodType.BURGER, allFreshFoods, requestedBurgerQuantity,
+                        foodHistory);
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesiredToCarnivorous(int requestedWaterQuantity) {
         List<Food> waterForCarnivorous = waterSplitter.getWaterForCarnivorous();
         return foodDistributor
-                .distributeExactOrMostPossible(FoodType.WATER, waterForCarnivorous, requestedWaterQuantity, foodHistory);
+                .distributeExactOrMostPossibleFoodAsked(FoodType.WATER, waterForCarnivorous, requestedWaterQuantity,
+                        foodHistory);
     }
 
     @Override
     public int giveExactOrMostPossibleWaterDesiredToHerbivorous(int requestedWaterQuantity) {
         List<Food> waterForHerbivorous = waterSplitter.getWaterForHerbivorous();
         return foodDistributor
-                .distributeExactOrMostPossible(FoodType.WATER, waterForHerbivorous, requestedWaterQuantity, foodHistory);
+                .distributeExactOrMostPossibleFoodAsked(FoodType.WATER, waterForHerbivorous, requestedWaterQuantity,
+                        foodHistory);
     }
 
     public void mergeWater() {

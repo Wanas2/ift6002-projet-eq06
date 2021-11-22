@@ -2,21 +2,23 @@ package ca.ulaval.glo4002.game.domain.food;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class FoodDistributor {
 
-    public int distributeExactOrMostPossible(FoodType foodTypeToProvide, List<Food> allFreshFood, int requestedQuantity,
-                                             FoodHistory foodHistory) {
-        int remainingFoodQuantityToProvide = requestedQuantity;
+    public int distributeExactOrMostPossibleFoodAsked(FoodType foodTypeToProvide, List<Food> allFreshFood,
+                                                      int requestedQuantity, FoodHistory foodHistory) {
         int totalFoodGiven = 0;
+        int remainingFoodQuantityToProvide = requestedQuantity;
+        Predicate<Food> mustBeOfFoodTypeToProvide = foodFiltered -> foodFiltered.getType().equals(foodTypeToProvide);
 
-        List<Food> allFood = allFreshFood.stream()
-                .filter(food -> food.getType().equals(foodTypeToProvide))
+        List<Food> allFoodsMatchingFoodTypeToProvide = allFreshFood.stream()
+                .filter(mustBeOfFoodTypeToProvide)
                 .collect(Collectors.toList());
 
-        List<Food> allFoodToRemove = new ArrayList<>();
-        for(Food food : allFood) {
+        List<Food> allFoodsProvided = new ArrayList<>();
+        for(Food food : allFoodsMatchingFoodTypeToProvide) {
             if(remainingFoodQuantityToProvide <= food.quantity()) {
                 food.decreaseQuantity(remainingFoodQuantityToProvide);
                 foodHistory.
@@ -27,11 +29,11 @@ public class FoodDistributor {
                 foodHistory.increaseConsumedQuantity(food);
                 totalFoodGiven += food.quantity();
                 remainingFoodQuantityToProvide -= food.quantity();
-                allFoodToRemove.add(food);
+                allFoodsProvided.add(food);
             }
         }
 
-        allFreshFood.removeAll(allFoodToRemove);
+        allFreshFood.removeAll(allFoodsProvided);
         return totalFoodGiven;
     }
 }
