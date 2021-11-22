@@ -6,9 +6,7 @@ import java.util.function.Predicate;
 public class Pantry implements FoodStorage {
 
     private List<Food> currentTurnFoodBatch = new ArrayList<>();
-    private List<Food> allFreshFood = new LinkedList<>();
-    private List<Food> waterForCarnivorous = new LinkedList<>();
-    private List<Food> waterForHerbivorous = new LinkedList<>();
+    private List<Food> allFreshFoods = new LinkedList<>();
     private final FoodProvider foodProvider;
     private final FoodDistributor foodDistributor;
     private final WaterSplitter waterSplitter;
@@ -22,29 +20,21 @@ public class Pantry implements FoodStorage {
         this.foodHistory = foodHistory;
     }
 
-    public List<Food> getWaterForCarnivorous() {
-        return waterForCarnivorous;
+    public List<Food> getAllFreshFoods() {
+        return allFreshFoods;
     }
 
-    public List<Food> getWaterForHerbivorous() {
-        return waterForHerbivorous;
-    }
-
-    public List<Food> getAllFreshFood() {
-        return allFreshFood;
-    }
-
-    public void obtainNewlyOrderedFood(List<Food> orderedFood) {
-        int newFoodAge = 0;
+    public void obtainNewlyOrderedFoods(List<Food> orderedFoods) {
+        int defaultAgeForNewFood = 0;
 
         for(FoodType foodType : FoodType.values()) {
-            Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(foodType);
-            Optional<Food> foodOrderedOfMatchingType = orderedFood.stream()
-                    .filter(foodTypeFilter)
+            Predicate<Food> foodOfCurrentType = foodFiltered -> foodFiltered.getType().equals(foodType);
+            Optional<Food> foodOrderedOfMatchingType = orderedFoods.stream()
+                    .filter(foodOfCurrentType)
                     .findFirst();
 
             foodOrderedOfMatchingType.ifPresent(food ->
-                    addToMatchingFood(food, currentTurnFoodBatch, foodType, newFoodAge));
+                    addToMatchingFood(food, currentTurnFoodBatch, foodType, defaultAgeForNewFood));
         }
     }
 
@@ -69,36 +59,36 @@ public class Pantry implements FoodStorage {
                     -> addToMatchingFood(food, newBatchOfFood, foodType, newFoodAge));
         }
 
-        allFreshFood.addAll(newBatchOfFood);
+        allFreshFoods.addAll(newBatchOfFood);
         currentTurnFoodBatch = new ArrayList<>();
     }
 
     public void incrementFreshFoodAges() {
         List<Food> allFoodsToRemove = new ArrayList<>();
-        for(Food food: allFreshFood) {
+        for(Food food: allFreshFoods) {
             food.incrementAgeByOne();
             if(food.isExpired()) {
                 foodHistory.increaseExpiredQuantity(food);
                 allFoodsToRemove.add(food);
             }
         }
-        allFreshFood.removeAll(allFoodsToRemove);
+        allFreshFoods.removeAll(allFoodsToRemove);
     }
 
     public void splitWaterInTwo() {
-        waterSplitter.splitWater(allFreshFood);
+        waterSplitter.splitWater(allFreshFoods);
     }
 
     @Override
     public int giveExactOrMostPossibleSaladDesired(int requestedSaladQuantity) {
         return foodDistributor
-                .distributeExactOrMostPossible(FoodType.SALAD, allFreshFood, requestedSaladQuantity, foodHistory);
+                .distributeExactOrMostPossible(FoodType.SALAD, allFreshFoods, requestedSaladQuantity, foodHistory);
     }
 
     @Override
     public int giveExactOrMostPossibleBurgerDesired(int requestedBurgerQuantity) {
         return foodDistributor
-                .distributeExactOrMostPossible(FoodType.BURGER, allFreshFood, requestedBurgerQuantity, foodHistory);
+                .distributeExactOrMostPossible(FoodType.BURGER, allFreshFoods, requestedBurgerQuantity, foodHistory);
     }
 
     @Override
@@ -116,16 +106,16 @@ public class Pantry implements FoodStorage {
     }
 
     public void mergeWater() {
-        waterSplitter.mergeWater(allFreshFood);
+        waterSplitter.mergeWater(allFreshFoods);
     }
 
     public void reset() {
-        allFreshFood = new LinkedList<>();
+        allFreshFoods = new LinkedList<>();
         foodHistory.reset();
     }
 
     public FoodHistory getFoodHistory() {
-        foodHistory.computeFreshFoodQuantities(allFreshFood);
+        foodHistory.computeFreshFoodQuantities(allFreshFoods);
         return foodHistory;
     }
 

@@ -52,7 +52,7 @@ public class FoodHistoryTest {
 
     @Test
     public void givenAPantry_whenComputeSummary_thenFoodSummaryShouldBeProvided() {
-        when(pantry.getAllFreshFood()).thenReturn(allFreshFood);
+        when(pantry.getAllFreshFoods()).thenReturn(allFreshFood);
 
 //        foodHistory.computeFreshFoodQuantitySummary(pantry.getAllFreshFood());
 //        Map<FoodState, Map<FoodType, Integer>> expectedFoodSummary =

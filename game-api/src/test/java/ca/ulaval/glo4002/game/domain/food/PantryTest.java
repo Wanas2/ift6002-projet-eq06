@@ -48,14 +48,14 @@ class PantryTest {
 
     @Test
     public void initiallyNoFoodIsStoredInPantry() {
-        assertTrue(pantry.getAllFreshFood().isEmpty());
+        assertTrue(pantry.getAllFreshFoods().isEmpty());
     }
 
     @Test
     public void givenSomeFoodOrdered_whenObtainNewlyOrderedFood_thenPantryStillHasNoFreshFood() {
-        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
+        pantry.obtainNewlyOrderedFoods(foodWithOnlyOneBurger);
 
-        assertTrue(pantry.getAllFreshFood().isEmpty());
+        assertTrue(pantry.getAllFreshFoods().isEmpty());
     }
 
     @Test
@@ -68,13 +68,13 @@ class PantryTest {
     @Test
     public void givenSomeNewlyFoodOrdered_whenStoreFood_PantryNowHasFreshFood() {
         when(foodProvider.provideFood()).thenReturn(foodWithOnlySixBurgers);
-        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
+        pantry.obtainNewlyOrderedFoods(foodWithOnlyOneBurger);
 
         pantry.storeFood();
 
-        pantry.getAllFreshFood().forEach(food -> System.out.println(food.quantity()));
+        pantry.getAllFreshFoods().forEach(food -> System.out.println(food.quantity()));
 
-        assertFalse(pantry.getAllFreshFood().isEmpty());
+        assertFalse(pantry.getAllFreshFoods().isEmpty());
     }
 
     @Test
@@ -97,10 +97,10 @@ class PantryTest {
         int expectedRemainingFreshBurgers = 0;
         int expectedConsumedBurgers = 7;
         when(foodProvider.provideFood()).thenReturn(foodWithOnlySixBurgers);
-        pantry.obtainNewlyOrderedFood(foodWithOnlyOneBurger);
+        pantry.obtainNewlyOrderedFoods(foodWithOnlyOneBurger);
 
         pantry.giveExactOrMostPossibleBurgerDesired(requestedQuantityOfBurgers);
-        int quantityOfAllFreshBurgersInPanty = pantry.getAllFreshFood().stream()
+        int quantityOfAllFreshBurgersInPanty = pantry.getAllFreshFoods().stream()
                 .filter(foodInTheBatch -> foodInTheBatch.getType().equals(FoodType.BURGER))
                 .mapToInt(Food::quantity).sum();
 
@@ -127,9 +127,9 @@ class PantryTest {
 
     }
     private void printer(){
-        pantry.getWaterForCarnivorous().forEach(food -> System.out.println(food.quantity()));
-        System.out.println();
-        pantry.getWaterForHerbivorous().forEach(food -> System.out.println(food.quantity()));
+//        pantry.getWaterForCarnivorous().forEach(food -> System.out.println(food.quantity()));
+//        System.out.println();
+//        pantry.getWaterForHerbivorous().forEach(food -> System.out.println(food.quantity()));
     }
 
     private void initializeFoodWithQuantityZero() {

@@ -17,6 +17,6 @@ public class AddFoodAction implements ExecutableAction {
 
     @Override
     public void execute() {
-        pantry.obtainNewlyOrderedFood(foods);
+        pantry.obtainNewlyOrderedFoods(foods);
     }
 }
