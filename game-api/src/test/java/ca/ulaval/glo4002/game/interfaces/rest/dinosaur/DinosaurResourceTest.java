@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.applicationService.dinosaur.SumoAssembler;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
 import ca.ulaval.glo4002.game.domain.dinosaur.Species;
@@ -32,6 +33,7 @@ public class DinosaurResourceTest {
 
     private BreedingRequestDTO aBreedingRequestDTO;
     private DinosaurDTO aDinosaurDTO;
+    private SumoRequestDTO aSumoRequestDTO;
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
     private List<Dinosaur> dinosaurs;
@@ -44,10 +46,12 @@ public class DinosaurResourceTest {
         aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
         aDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         anotherDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        aSumoRequestDTO = new SumoRequestDTO(A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
-        dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler);
+        SumoAssembler sumoAssembler = new SumoAssembler();
+        dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler, sumoAssembler);
     }
 
     @Test
@@ -141,6 +145,31 @@ public class DinosaurResourceTest {
         dinosaurResource.showAllDinosaurs();
 
         verify(dinosaurService).showAllDinosaurs();
+    }
+
+    @Test
+    public void givenASumoRequestDTOWithValidData_whenSumoFight_thenShouldPrepareSumoFight() {
+        dinosaurResource.sumoFight(aSumoRequestDTO);
+
+        verify(dinosaurService).
+                prepareSumoFight(aSumoRequestDTO.challenger, aSumoRequestDTO.challengee);
+    }
+
+    @Test
+    public void givenASumoRequestDTOWithValidData_whenSumoFight_thenResponseStatusShouldBe200() {
+        Response response = dinosaurResource.sumoFight(aSumoRequestDTO);
+
+        assertEquals(STATUS_200_OK, response.getStatus());
+    }
+
+    @Test
+    public void givenASumoRequestDTO_whenSumoFight_thenSumoResponseDTOShouldBeCreated() {
+        String expectedPredictedWinner = dinosaurService.prepareSumoFight(aSumoRequestDTO.challenger,
+                aSumoRequestDTO.challengee);
+        Response response = dinosaurResource.sumoFight(aSumoRequestDTO);
+        SumoResponseDTO sumoResponseDTO = (SumoResponseDTO) response.getEntity();
+
+        assertEquals(expectedPredictedWinner,sumoResponseDTO.predictedWinner);
     }
 
     private void initializeABreedingDTO() {
