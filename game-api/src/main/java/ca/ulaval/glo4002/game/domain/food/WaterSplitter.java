@@ -37,29 +37,17 @@ public class WaterSplitter {
 
     public void mergeWater(List<Food> allFreshFood) {
         for(Food waterBatchForHerbivorous : waterForHerbivorous) {
-            Optional<Food> waterBatchForCarnivorous =
-                    getWaterBatchOfMatchingAge(waterForCarnivorous, waterBatchForHerbivorous.getAge());
-
-            waterBatchForCarnivorous.ifPresent (
-                    waterBatch -> {
-                        try {
-                            waterBatchForHerbivorous.increaseQuantity(waterBatch);
-                        } catch (FoodTypesNotMatchingException e) {
-                            e.printStackTrace();
-                        }
-                    }
-            );
-
+            addWaterBatchForForCarnivorousIntoWaterBatchForHerbivorous(waterBatchForHerbivorous);
             int quantityOfWaterOfMatchingAgeLeftAfterSplit =
-                    waterLeftOutAfterSplit.getOrDefault(waterBatchForHerbivorous.getAge(), 0);
+                    waterLeftOutAfterSplit.getOrDefault(waterBatchForHerbivorous.getAge(), 0); // Todo Verifier ceci
             waterBatchForHerbivorous.increaseQuantity(quantityOfWaterOfMatchingAgeLeftAfterSplit);
         }
         allFreshFood.addAll(waterForHerbivorous);
 
         waterLeftOutAfterSplit.forEach((age, quantity) ->
-                allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
+                allFreshFood.add(new Food(FoodType.WATER, quantity, age))); // Todo Verifier ceci
 
-        waterLeftOutAfterSplit = new HashMap<>();
+        reset(); // Todo C'est un bon nom?
         allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
     }
 
@@ -76,5 +64,26 @@ public class WaterSplitter {
         return waterBatches.stream()
                 .filter(mustBeOfRequiredAge)
                 .findFirst();
+    }
+
+    private void addWaterBatchForForCarnivorousIntoWaterBatchForHerbivorous(Food waterBatchForHerbivorous) {
+        Optional<Food> waterBatchForCarnivorous =
+                getWaterBatchOfMatchingAge(waterForCarnivorous, waterBatchForHerbivorous.getAge());
+
+        waterBatchForCarnivorous.ifPresent (
+                waterBatch -> {
+                    try {
+                        waterBatchForHerbivorous.increaseQuantity(waterBatch);
+                    } catch (FoodTypesNotMatchingException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+    private void reset() {
+        waterLeftOutAfterSplit = new HashMap<>();
+        waterForCarnivorous = new LinkedList<>();
+        waterForHerbivorous = new LinkedList<>();
     }
 }
