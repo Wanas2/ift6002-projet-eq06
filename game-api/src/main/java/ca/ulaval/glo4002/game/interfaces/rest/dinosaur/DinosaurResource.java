@@ -19,7 +19,8 @@ public class DinosaurResource {
     private final DinosaurAssembler dinosaurAssembler;
     private final SumoAssembler sumoAssembler;
 
-    public DinosaurResource(DinosaurService dinosaurService, DinosaurAssembler dinosaurAssembler, SumoAssembler sumoAssembler) {
+    public DinosaurResource(DinosaurService dinosaurService, DinosaurAssembler dinosaurAssembler,
+                            SumoAssembler sumoAssembler) {
         this.dinosaurService = dinosaurService;
         this.dinosaurAssembler = dinosaurAssembler;
         this.sumoAssembler = sumoAssembler;
@@ -65,7 +66,8 @@ public class DinosaurResource {
     @POST
     @Path("/sumodino")
     public Response sumoFight(SumoRequestDTO sumoRequestDTO) {
-        String predictedWinner = dinosaurService.prepareSumoFight(sumoRequestDTO.challenger, sumoRequestDTO.challengee);
+        String predictedWinner = dinosaurService.prepareSumoFight(sumoRequestDTO.challenger,
+                sumoRequestDTO.challengee);
         SumoResponseDTO sumoResponseDTO = sumoAssembler.toDTO(predictedWinner);
         return Response.ok().entity(sumoResponseDTO).build();
     }

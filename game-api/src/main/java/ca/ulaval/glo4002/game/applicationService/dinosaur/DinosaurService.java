@@ -45,6 +45,7 @@ public class DinosaurService {
                 dinosaurChallengee.getSpecies()==Species.TyrannosaurusRex){
             throw new ArmsTooShortException();
         }
+        game.addSumoFight(dinosaurChallenger,dinosaurChallengee);
         return herd.predictWinnerSumoFight(dinosaurChallenger, dinosaurChallengee);
     }
 
