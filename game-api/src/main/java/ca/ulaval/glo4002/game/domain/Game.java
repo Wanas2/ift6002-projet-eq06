@@ -43,7 +43,7 @@ public class Game {
         int turnNumber = turn.playActions();
 
         pantry.incrementFreshFoodAges();
-        pantry.storeFood();
+        pantry.storeAllNewlyOrderedFoods();
         pantry.splitWaterInTwo();
         herd.feedDinosaurs();
         pantry.mergeWater();

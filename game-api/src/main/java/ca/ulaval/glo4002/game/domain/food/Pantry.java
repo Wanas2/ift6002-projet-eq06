@@ -25,38 +25,36 @@ public class Pantry implements FoodStorage {
     }
 
     public void obtainNewlyOrderedFoods(List<Food> orderedFoods) {
-        int defaultAgeForNewFood = 0;
-
         for(FoodType foodType : FoodType.values()) {
-            Predicate<Food> foodOfCurrentType = foodFiltered -> foodFiltered.getType().equals(foodType);
+            Predicate<Food> mustBeOfOfCurrentFoodType = foodFiltered -> foodFiltered.getType().equals(foodType);
+
             Optional<Food> foodOrderedOfMatchingType = orderedFoods.stream()
-                    .filter(foodOfCurrentType)
+                    .filter(mustBeOfOfCurrentFoodType)
                     .findFirst();
 
             foodOrderedOfMatchingType.ifPresent(food ->
-                    addToMatchingFood(food, currentTurnFoodBatch, foodType, defaultAgeForNewFood));
+                    addToMatchingFood(food, currentTurnFoodBatch));
         }
     }
 
-    public void storeFood() {
-        int newFoodAge = 0;
+    public void storeAllNewlyOrderedFoods() {
         List<Food> newBatchOfFood = new ArrayList<>();
         List<Food> foodFromProvider = foodProvider.provideFood();
 
         for (FoodType foodType : FoodType.values()) {
-            Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(foodType);
+            Predicate<Food> mustBeOfOfCurrentFoodType = foodFiltered -> foodFiltered.getType().equals(foodType);
 
             Optional<Food> foodFromCurrentTurnFoodBatch = currentTurnFoodBatch.stream()
-                    .filter(foodTypeFilter)
+                    .filter(mustBeOfOfCurrentFoodType)
                     .findFirst();
             foodFromCurrentTurnFoodBatch.ifPresent(food
-                    -> addToMatchingFood(food, newBatchOfFood, foodType, newFoodAge));
+                    -> addToMatchingFood(food, newBatchOfFood));
 
             Optional<Food> foodFromFoodProvider = foodFromProvider.stream()
-                    .filter(foodTypeFilter)
+                    .filter(mustBeOfOfCurrentFoodType)
                     .findFirst();
             foodFromFoodProvider.ifPresent(food
-                    -> addToMatchingFood(food, newBatchOfFood, foodType, newFoodAge));
+                    -> addToMatchingFood(food, newBatchOfFood));
         }
 
         allFreshFoods.addAll(newBatchOfFood);
@@ -109,30 +107,27 @@ public class Pantry implements FoodStorage {
         waterSplitter.mergeWater(allFreshFoods);
     }
 
-    public void reset() {
-        allFreshFoods = new LinkedList<>();
-        foodHistory.reset();
-    }
-
     public FoodHistory getFoodHistory() {
         foodHistory.computeFreshFoodQuantities(allFreshFoods);
         return foodHistory;
     }
 
-    private void addToMatchingFood(Food foodToAdd, List<Food> foodToAddTo, FoodType requiredFoodType,
-                                   int requiredFoodAge) {
-        Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(requiredFoodType);
-        Predicate<Food> foodAgeFilter = foodFiltered -> foodFiltered.getAge() == requiredFoodAge;
+    public void reset() {
+        allFreshFoods = new LinkedList<>();
+        foodHistory.reset();
+    }
 
-        if(!containNewFoodOfFoodType(foodToAddTo, requiredFoodType)) {
-            foodToAddTo.add(new Food(requiredFoodType, 0));
-        }
+    private void addToMatchingFood(Food foodToAdd, List<Food> foodsToAddTo) {
+        Predicate<Food> mustBeOfRequiredFoodType = foodFiltered -> foodFiltered.getType().equals(foodToAdd.getType());
+        Predicate<Food> mustBeOfRequiredFoodAge = foodFiltered -> foodFiltered.getAge() == foodToAdd.getAge();
 
-        Optional<Food> foodOfRequiredTypeToAddTo = foodToAddTo.stream()
-                .filter(foodTypeFilter.and(foodAgeFilter))
+        createEmptyMatchingFoodIsNotPresent(foodsToAddTo, foodToAdd.getType(), foodToAdd.getAge());
+
+        Optional<Food> matchingFoodToAddTo = foodsToAddTo.stream()
+                .filter(mustBeOfRequiredFoodType.and(mustBeOfRequiredFoodAge))
                 .findFirst();
 
-        foodOfRequiredTypeToAddTo.ifPresent((food -> {
+        matchingFoodToAddTo.ifPresent((food -> {
             try {
                 food.increaseQuantity(foodToAdd);
             } catch (FoodTypesNotMatchingException e) {
@@ -141,15 +136,17 @@ public class Pantry implements FoodStorage {
         }));
     }
 
-    private boolean containNewFoodOfFoodType(List<Food> food, FoodType requiredFoodType) {
-        int newFoodAge = 0;
-        Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(requiredFoodType);
-        Predicate<Food> foodAgeFilter = foodFiltered -> foodFiltered.getAge() == newFoodAge;
+    private void createEmptyMatchingFoodIsNotPresent(List<Food> foods, FoodType requiredFoodType,
+                                                        int requiredFoodAge) {
+        Predicate<Food> mustBeOfRequiredFoodType = foodFiltered -> foodFiltered.getType().equals(requiredFoodType);
+        Predicate<Food> mustBeOfRequiredFoodAge = foodFiltered -> foodFiltered.getAge() == requiredFoodAge;
 
-        Optional<Food> matchingFood = food.stream()
-                .filter(foodTypeFilter.and(foodAgeFilter))
+        Optional<Food> matchingFood = foods.stream()
+                .filter(mustBeOfRequiredFoodType.and(mustBeOfRequiredFoodAge))
                 .findFirst();
 
-        return matchingFood.isPresent();
+        if(matchingFood.isEmpty()) {
+            foods.add(new Food(requiredFoodType, 0));
+        }
     }
 }

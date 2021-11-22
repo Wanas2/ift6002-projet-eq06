@@ -60,7 +60,7 @@ class PantryTest {
 
     @Test
     public void whenStoreFood_thenFoodFromTheProviderIsObtained() {
-        pantry.storeFood();
+        pantry.storeAllNewlyOrderedFoods();
 
         verify(foodProvider).provideFood();
     }
@@ -70,7 +70,7 @@ class PantryTest {
         when(foodProvider.provideFood()).thenReturn(foodWithOnlySixBurgers);
         pantry.obtainNewlyOrderedFoods(foodWithOnlyOneBurger);
 
-        pantry.storeFood();
+        pantry.storeAllNewlyOrderedFoods();
 
         pantry.getAllFreshFoods().forEach(food -> System.out.println(food.quantity()));
 
