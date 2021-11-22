@@ -27,7 +27,6 @@ class DinosaurServiceTest {
     private final static String A_FATHER_NAME = "wgrwr";
     private final static String A_MOTHER_NAME = "mko";
 
-
     private FoodConsumptionStrategy aFoodConsumptionStrategy;
     private DinosaurDTO aDinosaurDTO;
     private Dinosaur aDinosaur;
