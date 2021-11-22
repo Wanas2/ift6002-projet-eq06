@@ -49,7 +49,12 @@ public class WaterSplitter {
                         }
                     }
             );
+
+            int quantityOfWaterOfMatchingAgeLeftAfterSplit =
+                    waterLeftOutAfterSplit.getOrDefault(waterBatchForHerbivorous.getAge(), 0);
+            waterBatchForHerbivorous.increaseQuantity(quantityOfWaterOfMatchingAgeLeftAfterSplit);
         }
+        allFreshFood.addAll(waterForHerbivorous);
 
         waterLeftOutAfterSplit.forEach((age, quantity) ->
                 allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
