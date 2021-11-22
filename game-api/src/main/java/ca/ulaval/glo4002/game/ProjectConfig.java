@@ -10,6 +10,7 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.GameRepository;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
@@ -90,10 +91,10 @@ public class ProjectConfig extends ResourceConfig {
         WeakerToStrongerEatingOrder eatingOrder = new WeakerToStrongerEatingOrder();
         CarnivorousDinosaurFeeder carnivorousDinosaurFeeder = new CarnivorousDinosaurFeeder(eatingOrder);
         HerbivorousDinosaurFeeder herbivorousDinosaurFeeder = new HerbivorousDinosaurFeeder(eatingOrder);
-        Herd herd = new Herd(new ArrayList<>(), List.of(carnivorousDinosaurFeeder,herbivorousDinosaurFeeder));
+        List<Dinosaur> dinosaurs = new ArrayList<>();
+        Herd herd = new Herd(dinosaurs, List.of(carnivorousDinosaurFeeder,herbivorousDinosaurFeeder));
 
         Turn turn = new Turn();
-
         return new Game(herd,pantry,turn);
     }
 }
