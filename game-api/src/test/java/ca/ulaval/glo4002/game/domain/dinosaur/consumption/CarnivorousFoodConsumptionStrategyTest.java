@@ -40,7 +40,7 @@ public class CarnivorousFoodConsumptionStrategyTest {
     public void whenGetStarvingFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(1,foodNeeds.size());
+        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
         assertEquals(FoodConsumption.CARNIVOROUS,foodNeeds.get(0).getFoodConsumption());
     }
 

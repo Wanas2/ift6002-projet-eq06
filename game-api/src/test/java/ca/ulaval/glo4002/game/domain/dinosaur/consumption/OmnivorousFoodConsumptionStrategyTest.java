@@ -47,7 +47,7 @@ public class OmnivorousFoodConsumptionStrategyTest {
     public void whenGetStarvingFoodNeeds_thenFoodNeedsShouldBeOneCarnivorousAndOneHerbivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(2,foodNeeds.size());
+        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
         assertTrue(foodNeeds.stream()
                 .anyMatch((foodNeed -> foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)));
         assertTrue(foodNeeds.stream()
