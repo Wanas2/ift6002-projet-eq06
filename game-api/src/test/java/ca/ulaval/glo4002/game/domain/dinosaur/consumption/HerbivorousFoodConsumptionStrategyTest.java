@@ -6,12 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 public class HerbivorousFoodConsumptionStrategyTest {
 
-    private final static int OTHER_AGE = 3;
     private final static int WEIGHT = 81;
     private final static int EXPECTED_NORMAL_SALADS = 1;
     private final static int EXPECTED_NORMAL_WATER = 49;
@@ -28,16 +27,24 @@ public class HerbivorousFoodConsumptionStrategyTest {
     }
 
     @Test
-    public void whenGetFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
-        List<FoodNeed> foodNeeds = strategy.getFoodNeeds(WEIGHT, OTHER_AGE);
+    public void whenGetNormalFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
+        List<FoodNeed> foodNeeds = strategy.getNormalFoodNeeds(WEIGHT);
 
         assertEquals(1,foodNeeds.size());
         assertEquals(FoodConsumption.HERBIVOROUS,foodNeeds.get(0).getFoodConsumption());
     }
 
     @Test
-    public void givenAgeIsNot0_whenGetFoodNeeds_thenFoodNeedsShouldTakeTheRightAmount() {
-        List<FoodNeed> foodNeeds = strategy.getFoodNeeds(WEIGHT, OTHER_AGE);
+    public void whenGetStarvingFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
+        List<FoodNeed> foodNeeds = strategy.getStarvingFoodNeeds(WEIGHT);
+
+        assertEquals(1,foodNeeds.size());
+        assertEquals(FoodConsumption.HERBIVOROUS,foodNeeds.get(0).getFoodConsumption());
+    }
+
+    @Test
+    public void whenGetNormalFoodNeeds_thenFoodNeedsShouldTakeTheRightAmount() {
+        List<FoodNeed> foodNeeds = strategy.getNormalFoodNeeds(WEIGHT);
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(foodStorage).giveExactOrMostPossibleSaladDesired(EXPECTED_NORMAL_SALADS);
@@ -45,11 +52,25 @@ public class HerbivorousFoodConsumptionStrategyTest {
     }
 
     @Test
-    public void givenAgeIs0_whenGetFoodNeeds_thenFoodNeedsShouldTakeTheDoubleOfRightAmount() {
-        List<FoodNeed> foodNeeds = strategy.getFoodNeeds(WEIGHT, 0);
+    public void whenGetStarvingFoodNeeds_thenFoodNeedsShouldTakeTheDoubleOfRightAmount() {
+        List<FoodNeed> foodNeeds = strategy.getStarvingFoodNeeds(WEIGHT);
 
         foodNeeds.forEach(FoodNeed::satisfy);
         verify(foodStorage).giveExactOrMostPossibleSaladDesired(EXPECTED_DOUBLE_SALADS);
         verify(foodStorage).giveExactOrMostPossibleWaterDesiredToHerbivorous(EXPECTED_DOUBLE_WATER);
+    }
+
+    @Test
+    public void givenFoodNeedsAreSatisfied_whenAreFoodNeedsSatisfied_thenShouldBeSatisfied() {
+        when(foodStorage.giveExactOrMostPossibleSaladDesired(EXPECTED_NORMAL_SALADS))
+                .thenReturn(EXPECTED_NORMAL_SALADS);
+        when(foodStorage.giveExactOrMostPossibleWaterDesiredToHerbivorous(EXPECTED_NORMAL_WATER))
+                .thenReturn(EXPECTED_NORMAL_WATER);
+        List<FoodNeed> foodNeeds = strategy.getNormalFoodNeeds(WEIGHT);
+        foodNeeds.forEach(FoodNeed::satisfy);
+
+        boolean areFoodNeedsSatisfied = strategy.areFoodNeedsSatisfied();
+
+        assertTrue(areFoodNeedsSatisfied);
     }
 }

@@ -5,9 +5,10 @@ import java.util.List;
 
 public class HerbivorousFoodConsumptionStrategy implements FoodConsumptionStrategy {
 
-    private final int STARVING_FACTOR = 2;
-    private final double WATER_FACTOR = 0.6;
-    private final double FOOD_FACTOR = 0.0025;
+    private final static int STARVING_FACTOR = 2;
+    private final static int NORMAL_FACTOR = 1;
+    private final static double WATER_FACTOR = 0.6;
+    private final static double FOOD_FACTOR = 0.0025;
 
     private final HerbivorousFoodStorage herbivorousFoodStorage;
     private HerbivorousFoodNeed herbivorousFoodNeed;
@@ -17,19 +18,27 @@ public class HerbivorousFoodConsumptionStrategy implements FoodConsumptionStrate
     }
 
     @Override
-    public List<FoodNeed> getFoodNeeds(int weight, int age) {
-        int starvingFactor = age == 0 ? STARVING_FACTOR : 1;
-        int waterNeeded = (int)Math.ceil(starvingFactor*weight*WATER_FACTOR);
-        int saladNeeded = (int)Math.ceil(starvingFactor*weight*FOOD_FACTOR);
-        herbivorousFoodNeed = new HerbivorousFoodNeed(herbivorousFoodStorage,saladNeeded,waterNeeded);
+    public List<FoodNeed> getNormalFoodNeeds(int weight) {
+        return getFoodNeeds(weight,NORMAL_FACTOR);
+    }
 
-        List<FoodNeed> needs = new ArrayList<>();
-        needs.add(herbivorousFoodNeed);
-        return needs;
+    @Override
+    public List<FoodNeed> getStarvingFoodNeeds(int weight) {
+        return getFoodNeeds(weight,STARVING_FACTOR);
     }
 
     @Override
     public boolean areFoodNeedsSatisfied() {
         return herbivorousFoodNeed == null || herbivorousFoodNeed.isSatisfied();
+    }
+
+    private List<FoodNeed> getFoodNeeds(int weight, int foodConsumptionFactor) {
+        int waterNeeded = (int)Math.ceil(foodConsumptionFactor*weight*WATER_FACTOR);
+        int saladNeeded = (int)Math.ceil(foodConsumptionFactor*weight*FOOD_FACTOR);
+        herbivorousFoodNeed = new HerbivorousFoodNeed(herbivorousFoodStorage,saladNeeded,waterNeeded);
+
+        List<FoodNeed> needs = new ArrayList<>();
+        needs.add(herbivorousFoodNeed);
+        return needs;
     }
 }

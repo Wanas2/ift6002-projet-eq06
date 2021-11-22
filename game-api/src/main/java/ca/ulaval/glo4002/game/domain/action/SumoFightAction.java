@@ -6,17 +6,17 @@ import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 public class SumoFightAction implements ExecutableAction {
 
     private final Herd herd;
-    private final Dinosaur firstDinosaurFighter;
-    private final Dinosaur secondDinosaurFighter;
+    private final Dinosaur dinosaurChallenger;
+    private final Dinosaur dinosaurChallengee;
 
-    public SumoFightAction(Herd herd, Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
+    public SumoFightAction(Herd herd, Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
         this.herd = herd;
-        this.firstDinosaurFighter = firstDinosaurFighter;
-        this.secondDinosaurFighter = secondDinosaurFighter;
+        this.dinosaurChallenger = dinosaurChallenger;
+        this.dinosaurChallengee = dinosaurChallengee;
     }
 
     @Override
     public void execute() {
-        herd.organizeSumoFight(firstDinosaurFighter,secondDinosaurFighter);
+        herd.organizeSumoFight(dinosaurChallenger, dinosaurChallengee);
     }
 }
