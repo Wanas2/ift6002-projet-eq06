@@ -162,6 +162,13 @@ public class DinosaurResourceTest {
         assertEquals(STATUS_200_OK, response.getStatus());
     }
 
+    @Test
+    public void givenASumoRequestDTO_whenSumoFight_thenSumoResponseDTOShouldBeCreated() {
+        Response response = dinosaurResource.sumoFight(aSumoRequestDTO);
+
+        assertTrue(response.hasEntity());
+    }
+
     private void initializeABreedingDTO() {
         aBreedingRequestDTO = new BreedingRequestDTO();
         String babyName = "wrrwrww";
