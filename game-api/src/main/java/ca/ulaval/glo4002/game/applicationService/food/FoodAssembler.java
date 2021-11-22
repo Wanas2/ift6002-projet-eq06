@@ -26,7 +26,9 @@ public class FoodAssembler {
     }
 
     public FoodDTO toDTO(Map<FoodType, Integer> food) {
-        FoodDTO foodDTO = new FoodDTO(food.get(FoodType.BURGER), food.get(FoodType.SALAD), food.get(FoodType.WATER));
-        return foodDTO;
+        int burgerQuantity = food.get(FoodType.BURGER);
+        int SaladQuantity = food.get(FoodType.SALAD);
+        int WaterQuantity = food.get(FoodType.WATER);
+        return new FoodDTO(burgerQuantity, SaladQuantity, WaterQuantity);
     }
 }

@@ -23,8 +23,11 @@ class DinosaurServiceTest {
     private final static String ANOTHER_NAME = "ehwrwfgh";
     private final static Gender THE_MALE_GENDER = Gender.M;
     private final static Gender THE_FEMALE_GENDER = Gender.F;
+    private final static String A_BABY_NAME = "wrrwrww";
+    private final static String A_FATHER_NAME = "wgrwr";
+    private final static String A_MOTHER_NAME = "mko";
 
-    private BreedingRequestDTO aBreedingRequestDTO;
+
     private FoodConsumptionStrategy aFoodConsumptionStrategy;
     private DinosaurDTO aDinosaurDTO;
     private Dinosaur aDinosaur;
@@ -39,7 +42,6 @@ class DinosaurServiceTest {
     @BeforeEach
     void setUp() {
         initializeADinosaurDTO();
-        initializeABreedingDTO();
         aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
         aDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
         anotherDinosaur =
@@ -107,40 +109,40 @@ class DinosaurServiceTest {
 
     @Test
     public void givenABreedingRequestDTO_whenBreedDino_thenHerdShouldGetTheFatherDinosaurByItsName() {
-        dinosaurService.breedDinosaur(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
-                aBreedingRequestDTO.motherName);
+        dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME,
+                A_MOTHER_NAME);
 
-        verify(herd).getDinosaurWithName(aBreedingRequestDTO.fatherName);
+        verify(herd).getDinosaurWithName(A_FATHER_NAME);
     }
 
     @Test
     public void givenABreedingRequestDTO_whenBreedDino_thenHerdShouldGetTheMotherDinosaurByItsName() {
-        dinosaurService.breedDinosaur(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
-                aBreedingRequestDTO.motherName);
+        dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME,
+                A_MOTHER_NAME);
 
-        verify(herd).getDinosaurWithName(aBreedingRequestDTO.motherName);
+        verify(herd).getDinosaurWithName(A_MOTHER_NAME);
     }
 
     @Test
     public void givenAMaleAndAFemaleDinosaur_whenBreedDino_thenShouldFetchTheBabyDinosaur() {
-        when(herd.getDinosaurWithName(aBreedingRequestDTO.fatherName)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(aBreedingRequestDTO.motherName)).thenReturn(anotherDinosaur);
+        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherDinosaur);
 
-        dinosaurService.breedDinosaur(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
-                aBreedingRequestDTO.motherName);
+        dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME,
+                A_MOTHER_NAME);
 
-        verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.name);
+        verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, A_BABY_NAME);
     }
 
     @Test
     public void givenAMaleAndAFemaleDinosaur_whenBreedDino_thenGameShouldAddDinosaur() {
-        when(herd.getDinosaurWithName(aBreedingRequestDTO.fatherName)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(aBreedingRequestDTO.motherName)).thenReturn(anotherDinosaur);
-        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, aBreedingRequestDTO.name))
+        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherDinosaur);
+        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, A_BABY_NAME))
                 .thenReturn(Optional.of(aBabyDinosaur));
 
-        dinosaurService.breedDinosaur(aBreedingRequestDTO.name, aBreedingRequestDTO.fatherName,
-                aBreedingRequestDTO.motherName);
+        dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME,
+                A_MOTHER_NAME);
 
         verify(game).addDinosaur(aBabyDinosaur);
     }
@@ -152,13 +154,5 @@ class DinosaurServiceTest {
         String aSpecies = "Diplodocus";
 
         aDinosaurDTO = new DinosaurDTO(aName, someWeight, aGender, aSpecies);
-    }
-
-    private void initializeABreedingDTO() {
-        String babyName = "wrrwrww";
-        String theFathersName = "wgrwr";
-        String theMothersName = "mko";
-
-        aBreedingRequestDTO = new BreedingRequestDTO(babyName, theFathersName, theMothersName);
     }
 }
