@@ -11,11 +11,10 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.GameRepository;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
-import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
-import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
-import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.WeakerToStrongerEatingOrder;
 import ca.ulaval.glo4002.game.domain.food.*;
 import ca.ulaval.glo4002.game.infrastructure.GameRepositoryInMemory;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
@@ -39,18 +38,7 @@ public class ProjectConfig extends ResourceConfig {
     private void registerResources() {
         GameRepository gameRepository = new GameRepositoryInMemory();
 
-        FoodProvider foodProvider = new CookItSubscription();
-        SumoFightOrganizerValidator sumoFightOrganizerValidator = new SumoFightOrganizerValidator();
-        SumoFightOrganizer sumoFightOrganizer = new SumoFightOrganizer(sumoFightOrganizerValidator);
-
-        Game game = gameRepository
-                    .find()
-                    .orElse(new Game(
-                            new Herd(new ArrayList<>(), sumoFightOrganizer,
-                                    List.of(new CarnivorousDinosaurFeeder(), new HerbivorousDinosaurFeeder())),
-                            new Pantry(foodProvider),
-                            new Turn()
-                    ));
+        Game game = gameRepository.find().orElse(provideNewGame());
 
         Pantry pantry = game.getPantry();
         Herd herd = game.getHerd();
@@ -98,5 +86,22 @@ public class ProjectConfig extends ResourceConfig {
         register(new MaxCombatsReachedExceptionMapper());
         register(new ArmsTooShortExceptionMapper());
         register(new DinosaurAlreadyParticipatingExceptionMapper());
+    }
+
+    private Game provideNewGame(){
+        FoodProvider foodProvider = new CookItSubscription();
+        Pantry pantry = new Pantry(foodProvider);
+
+        WeakerToStrongerEatingOrder eatingOrder = new WeakerToStrongerEatingOrder();
+        CarnivorousDinosaurFeeder carnivorousDinosaurFeeder = new CarnivorousDinosaurFeeder(eatingOrder);
+        HerbivorousDinosaurFeeder herbivorousDinosaurFeeder = new HerbivorousDinosaurFeeder(eatingOrder);
+        List<Dinosaur> dinosaurs = new ArrayList<>();
+        SumoFightOrganizerValidator sumoFightOrganizerValidator = new SumoFightOrganizerValidator();
+        SumoFightOrganizer sumoFightOrganizer = new SumoFightOrganizer(sumoFightOrganizerValidator);
+        Herd herd = new Herd(dinosaurs,sumoFightOrganizer,
+                List.of(carnivorousDinosaurFeeder,herbivorousDinosaurFeeder));
+
+        Turn turn = new Turn();
+        return new Game(herd,pantry,turn);
     }
 }
