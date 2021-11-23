@@ -20,8 +20,8 @@ public class BabyFetcherFromExternalAPITest {
     private BabyFetcherFromExternalAPI aBabyFetcher;
     private DinosaurBreederExternal externalBreeder;
     private DinosaurFactory factory;
-    private Dinosaur aMaleDinosaur;
-    private Dinosaur aFemaleDinosaur;
+    private AdultDinosaur aMaleDinosaur;
+    private AdultDinosaur aFemaleDinosaur;
     private BabyDinosaur aBabyDinosaur;
 
     @BeforeEach
@@ -35,9 +35,9 @@ public class BabyFetcherFromExternalAPITest {
         int weight = 17;
 
         aBabyFetcher = new BabyFetcherFromExternalAPI(externalBreeder, factory, validator);
-        aMaleDinosaur = new Dinosaur(Species.Spinosaurus, weight, maleName, Gender.M,
+        aMaleDinosaur = new AdultDinosaur(Species.Spinosaurus, weight, maleName, Gender.M,
                 mock(FoodConsumptionStrategy.class));
-        aFemaleDinosaur = new Dinosaur(Species.Spinosaurus, weight, femaleName, Gender.F,
+        aFemaleDinosaur = new AdultDinosaur(Species.Spinosaurus, weight, femaleName, Gender.F,
                 mock(FoodConsumptionStrategy.class));
         aBabyDinosaur = new BabyDinosaur(Species.Spinosaurus, BABY_NAME, Gender.M,
                 mock(FoodConsumptionStrategy.class), aMaleDinosaur, aFemaleDinosaur);

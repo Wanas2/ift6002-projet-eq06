@@ -1,9 +1,6 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.herd;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
-import ca.ulaval.glo4002.game.domain.dinosaur.Species;
-import ca.ulaval.glo4002.game.domain.dinosaur.SumoFightOrganizer;
+import ca.ulaval.glo4002.game.domain.dinosaur.*;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
@@ -30,10 +27,10 @@ public class HerdTest {
 
     private FoodConsumptionStrategy dinosaurStrategy;
     private FoodConsumptionStrategy anotherDinosaurStrategy;
-    private Dinosaur aDinosaurInHerd;
-    private Dinosaur anotherDinosaurInHerd;
-    private Dinosaur aDinosaur;
-    private Dinosaur anotherDinosaur;
+    private AdultDinosaur aDinosaurInHerd;
+    private AdultDinosaur anotherDinosaurInHerd;
+    private AdultDinosaur aDinosaur;
+    private AdultDinosaur anotherDinosaur;
     private final List<Dinosaur> dinosaurs = new ArrayList<>();
     private DinosaurFeeder aDinosaurFeeder;
     private DinosaurFeeder anotherDinosaurFeeder;
@@ -45,15 +42,15 @@ public class HerdTest {
         dinosaurStrategy = mock(FoodConsumptionStrategy.class);
         anotherDinosaurStrategy = mock(FoodConsumptionStrategy.class);
 
-        aDinosaurInHerd = new Dinosaur(Species.Allosaurus, DINOSAUR_WEIGHT, DINOSAUR_NAME,
+        aDinosaurInHerd = new AdultDinosaur(Species.Allosaurus, DINOSAUR_WEIGHT, DINOSAUR_NAME,
                 Gender.M, dinosaurStrategy);
-        anotherDinosaurInHerd = new Dinosaur(Species.TyrannosaurusRex, ANOTHER_DINOSAUR_WEIGHT,
+        anotherDinosaurInHerd = new AdultDinosaur(Species.TyrannosaurusRex, ANOTHER_DINOSAUR_WEIGHT,
                 ANOTHER_DINOSAUR_NAME, Gender.M, anotherDinosaurStrategy);
         dinosaurs.add(aDinosaurInHerd);
         dinosaurs.add(anotherDinosaurInHerd);
 
-        aDinosaur = mock(Dinosaur.class);
-        anotherDinosaur = mock(Dinosaur.class);
+        aDinosaur = mock(AdultDinosaur.class);
+        anotherDinosaur = mock(AdultDinosaur.class);
 
         sumoFightOrganizer = mock(SumoFightOrganizer.class);
         aDinosaurFeeder = mock(DinosaurFeeder.class);
@@ -63,20 +60,20 @@ public class HerdTest {
 
     @Test
     public void givenADinosaurWithNameNotAlreadyExisting_addDinosaur_thenDinosaurShouldBeAdded() {
-        Dinosaur aDinosaurWithNonExistingName = new Dinosaur(Species.Allosaurus,DINOSAUR_WEIGHT,
+        AdultDinosaur aDinosaurWithNonExistingName = new AdultDinosaur(Species.Allosaurus,DINOSAUR_WEIGHT,
                 NON_EXISTING_DINOSAUR_NAME, Gender.M,dinosaurStrategy);
 
-        herd.addDinosaur(aDinosaurWithNonExistingName);
+        herd.addAdultDinosaur(aDinosaurWithNonExistingName);
 
         assertTrue(dinosaurs.contains(aDinosaurWithNonExistingName));
     }
 
     @Test
     public void givenADinosaurWithNameAlreadyExisting_whenAddDinosaur_thenDinosaurShouldNotBeAdded() {
-        Dinosaur aDinosaurWithExistingName = new Dinosaur(Species.Allosaurus,DINOSAUR_WEIGHT,
+        AdultDinosaur aDinosaurWithExistingName = new AdultDinosaur(Species.Allosaurus,DINOSAUR_WEIGHT,
                 DINOSAUR_NAME, Gender.M,dinosaurStrategy);
 
-        herd.addDinosaur(aDinosaurWithExistingName);
+        herd.addAdultDinosaur(aDinosaurWithExistingName);
 
         assertFalse(dinosaurs.contains(aDinosaurWithExistingName));
     }

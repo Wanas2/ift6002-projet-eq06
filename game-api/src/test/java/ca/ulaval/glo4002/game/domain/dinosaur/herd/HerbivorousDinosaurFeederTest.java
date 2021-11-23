@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.herd;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
 import ca.ulaval.glo4002.game.domain.dinosaur.Species;
@@ -35,9 +36,9 @@ public class HerbivorousDinosaurFeederTest {
         FoodConsumptionStrategy herbivorousStrategy = mock(FoodConsumptionStrategy.class);
         FoodConsumptionStrategy strongerDinosaurHerbivorousStrategy = mock(FoodConsumptionStrategy.class);
 
-        Dinosaur aHerbivorousDinosaur = new Dinosaur(Species.Allosaurus, HERBIVOROUS_WEIGHT, HERBIVOROUS_NAME,
+        Dinosaur aHerbivorousDinosaur = new AdultDinosaur(Species.Allosaurus, HERBIVOROUS_WEIGHT, HERBIVOROUS_NAME,
                 Gender.M, herbivorousStrategy);
-        Dinosaur aStrongerHerbivorousDinosaur = new Dinosaur(Species.Allosaurus, STRONGER_HERBIVOROUS_WEIGHT,
+        Dinosaur aStrongerHerbivorousDinosaur = new AdultDinosaur(Species.Allosaurus, STRONGER_HERBIVOROUS_WEIGHT,
                 STRONGER_HERBIVOROUS_NAME, Gender.M, strongerDinosaurHerbivorousStrategy);
 
         weakerDinosaurFoodNeed = mock(FoodNeed.class);

@@ -5,14 +5,14 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 
 import java.util.List;
 
-public class Dinosaur implements Comparable<Dinosaur> {
+abstract public class Dinosaur implements Comparable<Dinosaur> {
 
     private Species species;
-    private int weight;
+    protected int weight;
     private String name;
     private Gender gender;
-    private final FoodConsumptionStrategy foodConsumptionStrategy;
-    private boolean isAlive = true;
+    protected final FoodConsumptionStrategy foodConsumptionStrategy;
+    protected boolean isAlive = true;
     private boolean isStarving = true;
 
     public Dinosaur(Species species, int weight, String name, Gender gender,
@@ -24,9 +24,9 @@ public class Dinosaur implements Comparable<Dinosaur> {
         this.foodConsumptionStrategy = foodConsumptionStrategy;
     }
 
-    public boolean isAlive() {
-        return isAlive && foodConsumptionStrategy.areFoodNeedsSatisfied();
-    }
+    abstract public boolean isAlive();
+
+    abstract public void modifyWeight(int weightValue);
 
     public List<FoodNeed> askForFood() {
         List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :

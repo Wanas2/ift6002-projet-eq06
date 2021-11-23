@@ -17,12 +17,12 @@ public class DinosaurFactory {
         this.herbivorousFoodStorage = herbivorousFoodStorage;
     }
 
-    public Dinosaur create(String genderName, int weight, String speciesName, String name) {
+    public AdultDinosaur create(String genderName, int weight, String speciesName, String name) {
         Gender gender = findCorrespondingGender(genderName);
         Species species = findCorrespondingSpecies(speciesName);
         FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);
 
-        return new Dinosaur(species, weight, name, gender, foodConsumptionStrategy);
+        return new AdultDinosaur(species, weight, name, gender, foodConsumptionStrategy);
     }
 
     public BabyDinosaur createBaby(String genderName, String speciesName, String name, Dinosaur fatherDinosaur,
