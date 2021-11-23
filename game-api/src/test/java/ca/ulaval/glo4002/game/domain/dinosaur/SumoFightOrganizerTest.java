@@ -89,10 +89,21 @@ public class SumoFightOrganizerTest {
     public void givenASumoFightOrganizerWithTwoSumoFights_whenScheduleSumoFight_thenShouldThrowMaxCombatsReachedException() {
         when(aStrongerDinosaur.compareStrength(aStrongerDinosaur)).thenReturn(NULL_DIFFERENCE);
         when(aWeakDinosaur.compareStrength(aWeakDinosaur)).thenReturn(POSITIVE_DIFFERENCE);
-
         sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aStrongerDinosaur);
         sumoFightOrganizer.scheduleSumoFight(aWeakDinosaur, aWeakDinosaur);
 
         assertThrows(MaxCombatsReachedException.class, () -> sumoFightOrganizer.scheduleSumoFight(aDinosaur, aDinosaur));
+    }
+
+    @Test
+    public void givenASumoFightOrganizerWithTwoSumoFights_whenReset_thenShouldResetTheFights() {
+        when(aStrongerDinosaur.compareStrength(aStrongerDinosaur)).thenReturn(NULL_DIFFERENCE);
+        when(aWeakDinosaur.compareStrength(aWeakDinosaur)).thenReturn(POSITIVE_DIFFERENCE);
+        sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aStrongerDinosaur);
+        sumoFightOrganizer.scheduleSumoFight(aWeakDinosaur, aWeakDinosaur);
+
+        sumoFightOrganizer.reset();
+
+        assertDoesNotThrow(() -> sumoFightOrganizer.scheduleSumoFight(aDinosaur, aDinosaur));
     }
 }

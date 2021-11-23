@@ -32,11 +32,12 @@ public class HerdTest {
     private FoodConsumptionStrategy anotherDinosaurStrategy;
     private Dinosaur aDinosaurInHerd;
     private Dinosaur anotherDinosaurInHerd;
+    private Dinosaur aDinosaur;
+    private Dinosaur anotherDinosaur;
     private final List<Dinosaur> dinosaurs = new ArrayList<>();
     private DinosaurFeeder aDinosaurFeeder;
     private DinosaurFeeder anotherDinosaurFeeder;
     private SumoFightOrganizer sumoFightOrganizer;
-    private final List<DinosaurFeeder> dinosaurFeeders = new ArrayList<>();
     private Herd herd;
 
     @BeforeEach
@@ -50,6 +51,9 @@ public class HerdTest {
                 ANOTHER_DINOSAUR_NAME, Gender.M, anotherDinosaurStrategy);
         dinosaurs.add(aDinosaurInHerd);
         dinosaurs.add(anotherDinosaurInHerd);
+
+        aDinosaur = mock(Dinosaur.class);
+        anotherDinosaur = mock(Dinosaur.class);
 
         sumoFightOrganizer = mock(SumoFightOrganizer.class);
         aDinosaurFeeder = mock(DinosaurFeeder.class);
@@ -106,9 +110,9 @@ public class HerdTest {
     @Test
     public void givenHerd_whenFeedDinosaurs_thenOnlyFastingDinosaursShouldBeRemoved() {
         when(dinosaurStrategy.areFoodNeedsSatisfied()).thenReturn(true);
-        when(dinosaurStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(dinosaurStrategy.getStarvingFoodNeeds(anyInt())).thenReturn(new ArrayList<>());
         when(anotherDinosaurStrategy.areFoodNeedsSatisfied()).thenReturn(false);
-        when(anotherDinosaurStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(new ArrayList<>());
+        when(anotherDinosaurStrategy.getStarvingFoodNeeds(anyInt())).thenReturn(new ArrayList<>());
 
         herd.feedDinosaurs();
 
@@ -120,8 +124,8 @@ public class HerdTest {
     public void giveDinosaurFoodNeeds_whenFeedDinosaurs_thenAllDinosaurFeederShouldFeed() {
         List<FoodNeed> dinosaurFoodNeeds = new ArrayList<>();
         List<FoodNeed> anotherDinosaurFoodNeeds = new ArrayList<>();
-        when(dinosaurStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(dinosaurFoodNeeds);
-        when(anotherDinosaurStrategy.getFoodNeeds(anyInt(),anyInt())).thenReturn(anotherDinosaurFoodNeeds);
+        when(dinosaurStrategy.getStarvingFoodNeeds(anyInt())).thenReturn(dinosaurFoodNeeds);
+        when(anotherDinosaurStrategy.getStarvingFoodNeeds(anyInt())).thenReturn(anotherDinosaurFoodNeeds);
 
         herd.feedDinosaurs();
 
@@ -133,20 +137,30 @@ public class HerdTest {
     }
 
     @Test
-    public void givenADinosaurInHerd_whenIncreaseDinosaursAge_ThenDinosaurAgeShouldIncrease() {
-        Dinosaur fakeDinosaur = mock(Dinosaur.class);
-        herd.addDinosaur(fakeDinosaur);
-
-        herd.increaseDinosaursAge();
-
-        verify(fakeDinosaur).age();
-    }
-
-    @Test
     public void givenTwoDinosaursInHerd_whenOrganizeSumoFight_thenSumoFightShouldBeCalled() {
         herd.organizeSumoFight(aDinosaurInHerd, anotherDinosaurInHerd);
 
         verify(sumoFightOrganizer).sumoFight(aDinosaurInHerd, anotherDinosaurInHerd);
+    }
+
+    @Test
+    public void givenTwoDinosaursInHerd_whenOrganizeSumoFight_thenWinnerDinosaurShouldWinFight() {
+        when(sumoFightOrganizer.sumoFight(aDinosaur, anotherDinosaur))
+                .thenReturn(List.of(aDinosaur));
+
+        herd.organizeSumoFight(aDinosaur, anotherDinosaur);
+
+        verify(aDinosaur).winFight();
+    }
+
+    @Test
+    public void givenTwoDinosaursInHerd_whenOrganizeSumoFight_thenDinosaurNotWinningShouldLoseFight() {
+        when(sumoFightOrganizer.sumoFight(aDinosaur, anotherDinosaur))
+                .thenReturn(List.of(aDinosaur));
+
+        herd.organizeSumoFight(aDinosaur, anotherDinosaur);
+
+        verify(anotherDinosaur).loseFight();
     }
 
     @Test

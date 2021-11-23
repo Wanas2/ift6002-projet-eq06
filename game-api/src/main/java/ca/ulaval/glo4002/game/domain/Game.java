@@ -34,8 +34,8 @@ public class Game {
         turn.acquireNewAction(addFoodAction);
     }
 
-    public void addSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
-        ExecutableAction addSumoFightAction = new SumoFightAction(herd, firstDinosaurFighter, secondDinosaurFighter);
+    public void addSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
+        ExecutableAction addSumoFightAction = new SumoFightAction(herd, dinosaurChallenger, dinosaurChallengee);
         turn.acquireNewAction(addSumoFightAction);
     }
 
@@ -48,7 +48,6 @@ public class Game {
         herd.feedDinosaurs();
         pantry.mergeWater();
 
-        herd.increaseDinosaursAge();
         herd.resetSumoFight();
 
         return turnNumber;

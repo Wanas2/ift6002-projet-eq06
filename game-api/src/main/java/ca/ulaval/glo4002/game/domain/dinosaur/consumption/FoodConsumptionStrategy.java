@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface FoodConsumptionStrategy {
 
-    List<FoodNeed> getFoodNeeds(int weight, int age);
+    List<FoodNeed> getNonStarvingFoodNeeds(int weight);
+
+    List<FoodNeed> getStarvingFoodNeeds(int weight);
 
     boolean areFoodNeedsSatisfied();
 }

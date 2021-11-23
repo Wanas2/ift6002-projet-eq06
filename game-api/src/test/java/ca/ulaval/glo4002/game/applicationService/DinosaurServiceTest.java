@@ -5,7 +5,6 @@ import ca.ulaval.glo4002.game.applicationService.dinosaur.DuplicateNameException
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.ArmsTooShortException;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.BreedingRequestDTO;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurDTO;
@@ -28,11 +27,9 @@ class DinosaurServiceTest {
     private final static Gender THE_FEMALE_GENDER = Gender.F;
 
     private BreedingRequestDTO aBreedingRequestDTO;
-    private FoodConsumptionStrategy aFoodConsumptionStrategy;
     private DinosaurDTO aDinosaurDTO;
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
-    private Dinosaur aTyrannosaurus;
     private BabyDinosaur aBabyDinosaur;
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
@@ -44,12 +41,10 @@ class DinosaurServiceTest {
     void setUp() {
         initializeADinosaurDTO();
         initializeABreedingDTO();
-        aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
+        FoodConsumptionStrategy aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
         aDinosaur = new Dinosaur(A_SPECIES, SOME_WEIGHT, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
         anotherDinosaur =
                 new Dinosaur(A_SPECIES, SOME_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
-        aTyrannosaurus =
-                new Dinosaur(Species.TyrannosaurusRex, SOME_WEIGHT, A_TYRANNOSAURUS_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
         aBabyDinosaur =
                 new BabyDinosaur(A_SPECIES, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy, aDinosaur,
                         anotherDinosaur);
@@ -183,24 +178,6 @@ class DinosaurServiceTest {
         dinosaurService.prepareSumoFight(A_NAME, ANOTHER_NAME);
 
         verify(herd).predictWinnerSumoFight(aDinosaur, anotherDinosaur);
-    }
-
-    @Test
-    public void givenATyrannosaurusRexChallenger_whenPrepareSumoFight_thenShouldThrowArmsTooShortException() {
-        when(herd.getDinosaurWithName(A_TYRANNOSAURUS_NAME)).thenReturn(aTyrannosaurus);
-        when(herd.getDinosaurWithName(ANOTHER_NAME)).thenReturn(anotherDinosaur);
-
-        assertThrows(ArmsTooShortException.class,
-                ()->dinosaurService.prepareSumoFight(A_TYRANNOSAURUS_NAME, ANOTHER_NAME));
-    }
-
-    @Test
-    public void givenATyrannosaurusRexChallengee_whenPrepareSumoFight_thenShouldThrowArmsTooShortException() {
-        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(A_TYRANNOSAURUS_NAME)).thenReturn(aTyrannosaurus);
-
-        assertThrows(ArmsTooShortException.class,
-                ()->dinosaurService.prepareSumoFight(A_NAME, A_TYRANNOSAURUS_NAME));
     }
 
     private void initializeADinosaurDTO() {

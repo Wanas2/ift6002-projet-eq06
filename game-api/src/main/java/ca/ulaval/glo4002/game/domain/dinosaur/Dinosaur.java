@@ -12,7 +12,8 @@ public class Dinosaur implements Comparable<Dinosaur> {
     private String name;
     private Gender gender;
     private final FoodConsumptionStrategy foodConsumptionStrategy;
-    private int age;
+    private boolean isAlive = true;
+    private boolean isStarving = true;
 
     public Dinosaur(Species species, int weight, String name, Gender gender,
                     FoodConsumptionStrategy foodConsumptionStrategy) {
@@ -21,15 +22,17 @@ public class Dinosaur implements Comparable<Dinosaur> {
         this.name = name;
         this.gender = gender;
         this.foodConsumptionStrategy = foodConsumptionStrategy;
-        this.age = 0;
     }
 
     public boolean isAlive() {
-        return foodConsumptionStrategy.areFoodNeedsSatisfied();
+        return isAlive && foodConsumptionStrategy.areFoodNeedsSatisfied();
     }
 
     public List<FoodNeed> askForFood() {
-        return foodConsumptionStrategy.getFoodNeeds(weight,age);
+        List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :
+                            foodConsumptionStrategy.getNonStarvingFoodNeeds(weight);
+        isStarving = false;
+        return foodNeeds;
     }
 
     @Override
@@ -40,10 +43,6 @@ public class Dinosaur implements Comparable<Dinosaur> {
 
     public int compareStrength(Dinosaur dinosaur) {
         return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
-    }
-
-    public void age() {
-        age++;
     }
 
     public String getName() {
@@ -60,6 +59,14 @@ public class Dinosaur implements Comparable<Dinosaur> {
 
     public Species getSpecies() {
         return species;
+    }
+
+    public void loseFight() {
+        isAlive = false;
+    }
+
+    public void winFight() {
+        isStarving = true;
     }
 
     private int calculateStrength() {
