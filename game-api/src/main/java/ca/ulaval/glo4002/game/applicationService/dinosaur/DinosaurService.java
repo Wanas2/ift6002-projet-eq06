@@ -16,8 +16,8 @@ public class DinosaurService {
 
     public DinosaurService(DinosaurFactory dinosaurFactory, Herd herd, Game game, BabyFetcher babyFetcher) {
         this.dinosaurFactory = dinosaurFactory;
-        this.game = game;
         this.herd = herd;
+        this.game = game;
         this.babyFetcher = babyFetcher;
     }
 
@@ -33,9 +33,16 @@ public class DinosaurService {
         Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
 
         Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
-        if(babyDinosaur.isPresent()) {
-            game.addDinosaur(babyDinosaur.get());
-        }
+        babyDinosaur.ifPresent(game::addDinosaur);
+    }
+
+    public String prepareSumoFight(String dinosaurChallengerName, String dinosaurChallengeeName) {
+        Dinosaur dinosaurChallenger = herd.getDinosaurWithName(dinosaurChallengerName);
+        Dinosaur dinosaurChallengee = herd.getDinosaurWithName(dinosaurChallengeeName);
+
+        String predictedWinner = herd.predictWinnerSumoFight(dinosaurChallenger, dinosaurChallengee);
+        game.addSumoFight(dinosaurChallenger,dinosaurChallengee);
+        return predictedWinner;
     }
 
     public Dinosaur showDinosaur(String dinosaurName) {

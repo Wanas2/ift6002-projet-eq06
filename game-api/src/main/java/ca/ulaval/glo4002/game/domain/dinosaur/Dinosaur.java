@@ -12,7 +12,8 @@ public class Dinosaur{
     private String name;
     private Gender gender;
     private final FoodConsumptionStrategy foodConsumptionStrategy;
-    private int age;
+    private boolean isAlive = true;
+    private boolean isStarving = true;
 
     public Dinosaur(Species species, int weight, String name, Gender gender,
                     FoodConsumptionStrategy foodConsumptionStrategy) {
@@ -21,19 +22,25 @@ public class Dinosaur{
         this.name = name;
         this.gender = gender;
         this.foodConsumptionStrategy = foodConsumptionStrategy;
-        this.age = 0;
     }
 
     public boolean isAlive() {
-        return foodConsumptionStrategy.areFoodNeedsSatisfied();
+        return isAlive && foodConsumptionStrategy.areFoodNeedsSatisfied();
     }
 
     public List<FoodNeed> askForFood() {
-        return foodConsumptionStrategy.getFoodNeeds(weight,age);
+        List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :
+                            foodConsumptionStrategy.getNonStarvingFoodNeeds(weight);
+        isStarving = false;
+        return foodNeeds;
     }
 
-    public void age() {
-        age++;
+    public void loseFight() {
+        isAlive = false;
+    }
+
+    public void winFight() {
+        isStarving = true;
     }
 
     public String getName() {
@@ -52,11 +59,11 @@ public class Dinosaur{
         return species;
     }
 
-    private int calculateStrength() {
-        return (int)Math.ceil(weight*gender.getGenderFactor()*species.getConsumptionStrength());
-    }
-
     public int compareStrength(Dinosaur dinosaur) {
         return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
+    }
+
+    private int calculateStrength() {
+        return (int)Math.ceil(weight*gender.getGenderFactor()*species.getConsumptionStrength());
     }
 }
