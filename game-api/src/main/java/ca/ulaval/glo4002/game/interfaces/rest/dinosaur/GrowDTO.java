@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GrowDTO {
 
-    public int weight;
+    public final int weight;
 
     @JsonCreator
     public GrowDTO(@JsonProperty(value = "weight", required = true) int weight){

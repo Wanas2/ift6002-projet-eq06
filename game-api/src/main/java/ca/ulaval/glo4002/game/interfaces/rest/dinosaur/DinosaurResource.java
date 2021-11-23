@@ -25,6 +25,7 @@ public class DinosaurResource {
     @POST
     @Path("/dinosaurs")
     public Response addDinosaur(DinosaurDTO dinosaurDTO) {
+        //TODO Mettre avec les autres validations
         if(dinosaurDTO.weight < 100) {
             throw new InvalidWeightException();
         }
@@ -62,7 +63,7 @@ public class DinosaurResource {
     @PATCH
     @Path("/dinosaurs/{name}")
     public Response patchDinosaur(@PathParam("name") String name, GrowDTO growDTO) {
-        dinosaurService.patchDinosaurWeight(name, growDTO.weight);
+        dinosaurService.updateDinosaurWeight(name, growDTO.weight);
         return Response.ok().build();
     }
 }

@@ -48,7 +48,7 @@ public class DinosaurService {
         return herd.predictWinnerSumoFight(dinosaurChallenger, dinosaurChallengee);
     }
 
-    public void patchDinosaurWeight(String dinosaurName, int weight){
+    public void updateDinosaurWeight(String dinosaurName, int weight){
         //TODO
     }
 

@@ -67,7 +67,7 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurDTOWithWeightNotStrictlyPositive_whenAddDinosaur_thenShouldThrowInvalidWeightException() {
+    public void givenADinosaurDTOWithWeightUnderOneHundred_whenAddDinosaur_thenShouldThrowInvalidWeightException() {
         int anInvalidWeight = 90;
         aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, anInvalidWeight, GENDER, SPECIES);
 
@@ -148,7 +148,7 @@ public class DinosaurResourceTest {
     public void givenADinosaurNameAndAGrowDTO_whenPatchDinosaur_thenTheServiceShouldBeCalledWithThoseArguments(){
         dinosaurResource.patchDinosaur(A_DINOSAUR_NAME, aGrowDTO);
 
-        verify(dinosaurService).patchDinosaurWeight(A_DINOSAUR_NAME, A_WEIGHT);
+        verify(dinosaurService).updateDinosaurWeight(A_DINOSAUR_NAME, A_WEIGHT);
     }
 
     @Test
