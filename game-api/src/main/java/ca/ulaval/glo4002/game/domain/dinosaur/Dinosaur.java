@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 
 import java.util.List;
 
-abstract public class Dinosaur implements Comparable<Dinosaur> {
+abstract public class Dinosaur {
 
     private Species species;
     protected int weight;
