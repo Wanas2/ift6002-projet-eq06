@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.ArmsTooShortException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.DinosaurAlreadyParticipatingException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.MaxCombatsReachedException;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,39 +20,54 @@ public class SumoFightOrganizerValidatorTest {
     private final static int NUMBER_OF_FIGHTS_DONE = 1;
 
     private final List<Dinosaur> dinosaursAlreadyFought = new ArrayList<>();
-    private Dinosaur firstFighter;
-    private Dinosaur secondFighter;
+    private Dinosaur aDinosaur;
+    private Dinosaur anotherDinosaur;
+    private Dinosaur aTyrannosaurusRex;
     private SumoFightOrganizerValidator sumoFightOrganizerValidator;
 
     @BeforeEach
     public void setUp() {
-        firstFighter = mock(Dinosaur.class);
-        secondFighter = mock(Dinosaur.class);
+        FoodConsumptionStrategy foodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
+        aDinosaur = new Dinosaur(Species.Allosaurus,476,"David",Gender.M,foodConsumptionStrategy);
+        anotherDinosaur = new Dinosaur(Species.Allosaurus,276,"Bob",Gender.M,foodConsumptionStrategy);
+        aTyrannosaurusRex = new Dinosaur(Species.TyrannosaurusRex,152,"Jean",Gender.F,
+                foodConsumptionStrategy);
 
         sumoFightOrganizerValidator = new SumoFightOrganizerValidator();
     }
 
     @Test
-    public void givenDinosaursHaveNotFought_whenValidateFighter_thenShouldNotThrowDinosaurAlreadyParticipatingException() {
-        assertDoesNotThrow(() -> sumoFightOrganizerValidator.validateSumoFighter(dinosaursAlreadyFought, firstFighter, secondFighter));
+    public void givenDinosaursHaveNotFought_whenValidateFighters_thenShouldNotThrowDinosaurAlreadyParticipatingException() {
+        assertDoesNotThrow(() -> sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
+                aDinosaur, anotherDinosaur));
     }
 
     @Test
-    public void givenDinosaurAlreadyFighting_whenValidateFighter_thenShouldThrowDinosaurAlreadyParticipatingException() {
-        dinosaursAlreadyFought.add(firstFighter);
+    public void givenDinosaurAlreadyFighting_whenValidateFighters_thenShouldThrowDinosaurAlreadyParticipatingException() {
+        dinosaursAlreadyFought.add(aDinosaur);
 
         assertThrows(DinosaurAlreadyParticipatingException.class,
-                () -> sumoFightOrganizerValidator.validateSumoFighter(dinosaursAlreadyFought, firstFighter, secondFighter));
+                () -> sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
+                        aDinosaur, anotherDinosaur));
+    }
+
+    @Test
+    public void givenADinosaurIsTyrannosaurusRex_whenValidateFighters_thenShouldThrowArmsTooShortException() {
+        assertThrows(ArmsTooShortException.class,
+                () -> sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
+                        aDinosaur, aTyrannosaurusRex));
     }
 
     @Test
     public void givenNumberOfFightsDoneLessThanMaxNumberFights_whenValidateSumoFight_thenShouldNotThrowMaxCombatsReachedException() {
-        assertDoesNotThrow(() -> sumoFightOrganizerValidator.validateSumoFight(NUMBER_OF_FIGHTS_DONE, MAX_NUMBER_OF_FIGHTS_PER_TURN));
+        assertDoesNotThrow(() -> sumoFightOrganizerValidator.validateSumoFight(NUMBER_OF_FIGHTS_DONE,
+                MAX_NUMBER_OF_FIGHTS_PER_TURN));
     }
 
     @Test
     public void givenNumberOfFightsDoneEqualToMaxNumberFights_whenValidateSumoFight_thenShouldThrowMaxCombatsReachedException() {
         assertThrows(MaxCombatsReachedException.class,
-                ()-> sumoFightOrganizerValidator.validateSumoFight(MAX_NUMBER_OF_FIGHTS_PER_TURN, MAX_NUMBER_OF_FIGHTS_PER_TURN));
+                ()-> sumoFightOrganizerValidator.validateSumoFight(MAX_NUMBER_OF_FIGHTS_PER_TURN,
+                        MAX_NUMBER_OF_FIGHTS_PER_TURN));
     }
 }

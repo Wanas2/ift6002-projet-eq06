@@ -28,8 +28,9 @@ public class SumoFightOrganizer {
 
     public String scheduleSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengeee) {
         sumoFightOrganizerValidator.validateSumoFight(numberOfFightDone, MAX_NUMBER_OF_FIGHTS_PER_TURN);
-        sumoFightOrganizerValidator
-                .validateSumoFighter(dinosaursAlreadyFought, dinosaurChallenger, dinosaurChallengeee);
+        sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
+                dinosaurChallenger, dinosaurChallengeee);
+
         numberOfFightDone++;
         dinosaursAlreadyFought.addAll(Arrays.asList(dinosaurChallenger, dinosaurChallengeee));
         int strengthDifference = dinosaurChallenger.compareStrength(dinosaurChallengeee);
