@@ -32,7 +32,7 @@ public class CarnivorousDinosaurFeederTest {
 
     @BeforeEach
     void setUp() {
-        carnivorousDinosaurFeeder = new CarnivorousDinosaurFeeder();
+        carnivorousDinosaurFeeder = new CarnivorousDinosaurFeeder(new WeakerToStrongerEatingOrder());
 
         FoodConsumptionStrategy carnivorousStrategy = mock(FoodConsumptionStrategy.class);
         FoodConsumptionStrategy strongerDinosaurCarnivorousStrategy = mock(FoodConsumptionStrategy.class);

@@ -31,7 +31,7 @@ public class HerbivorousDinosaurFeederTest {
 
     @BeforeEach
     void setUp() {
-        herbivorousDinosaurFeeder = new HerbivorousDinosaurFeeder();
+        herbivorousDinosaurFeeder = new HerbivorousDinosaurFeeder(new WeakerToStrongerEatingOrder());
 
         FoodConsumptionStrategy herbivorousStrategy = mock(FoodConsumptionStrategy.class);
         FoodConsumptionStrategy strongerDinosaurHerbivorousStrategy = mock(FoodConsumptionStrategy.class);

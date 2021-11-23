@@ -35,14 +35,12 @@ abstract public class Dinosaur implements Comparable<Dinosaur> {
         return foodNeeds;
     }
 
-    @Override
-    public int compareTo(Dinosaur dinosaur) {
-        int comparingStrength = Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
-        return comparingStrength != 0 ? comparingStrength : -this.name.compareTo(dinosaur.name);
+    public void loseFight() {
+        isAlive = false;
     }
 
-    public int compareStrength(Dinosaur dinosaur) {
-        return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
+    public void winFight() {
+        isStarving = true;
     }
 
     public String getName() {
@@ -61,12 +59,8 @@ abstract public class Dinosaur implements Comparable<Dinosaur> {
         return species;
     }
 
-    public void loseFight() {
-        isAlive = false;
-    }
-
-    public void winFight() {
-        isStarving = true;
+    public int compareStrength(Dinosaur dinosaur) {
+        return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
     }
 
     private int calculateStrength() {
