@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
+import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
 import ca.ulaval.glo4002.game.domain.dinosaur.Species;
@@ -49,9 +50,9 @@ public class DinosaurResourceTest {
         aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
         aBreedingRequestDTO = new BreedingRequestDTO(A_BABY_DINOSAUR_NAME, A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
         consumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         anotherDinosaur =
-                new Dinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+                new AdultDinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         aSumoRequestDTO = new SumoRequestDTO(A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
@@ -62,15 +63,15 @@ public class DinosaurResourceTest {
 
     @Test
     public void givenADinosaurDTOWithValidData_whenAddDinosaur_thenShouldAddTheDinosaur() {
-        dinosaurResource.addDinosaur(aDinosaurDTO);
+        dinosaurResource.addAdultDinosaur(aDinosaurDTO);
 
         verify(dinosaurService).
-                addDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
+                addAdultDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
     }
 
     @Test
     public void givenADinosaurDTOWithValidData_whenAddDinosaur_thenResponseStatusShouldBe200() {
-        Response response = dinosaurResource.addDinosaur(aDinosaurDTO);
+        Response response = dinosaurResource.addAdultDinosaur(aDinosaurDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());
     }
@@ -81,7 +82,7 @@ public class DinosaurResourceTest {
         aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, anInvalidWeight, GENDER, SPECIES);
 
         assertThrows(InvalidWeightException.class,
-                ()->dinosaurResource.addDinosaur(aDinosaurDTO));
+                ()->dinosaurResource.addAdultDinosaur(aDinosaurDTO));
     }
 
     @Test

@@ -30,8 +30,8 @@ class DinosaurServiceTest {
     private final static String A_FATHER_NAME = "father";
     private final static String A_MOTHER_NAME = "mother";
 
-    private Dinosaur aDinosaur;
-    private Dinosaur anotherDinosaur;
+    private AdultDinosaur adultDinosaur;
+    private AdultDinosaur anotherAdultDinosaur;
     private BabyDinosaur aBabyDinosaur;
     private DinosaurFactory dinosaurFactory;
     private Herd herd;
@@ -42,12 +42,12 @@ class DinosaurServiceTest {
     @BeforeEach
     void setUp() {
         FoodConsumptionStrategy aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaur = new Dinosaur(A_SPECIES, A_WEIGHT, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
-        anotherDinosaur =
-                new Dinosaur(A_SPECIES, A_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
+        adultDinosaur = new AdultDinosaur(A_SPECIES, A_WEIGHT, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
+        anotherAdultDinosaur =
+                new AdultDinosaur(A_SPECIES, A_WEIGHT, ANOTHER_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
         aBabyDinosaur =
-                new BabyDinosaur(A_SPECIES, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy, aDinosaur,
-                        anotherDinosaur);
+                new BabyDinosaur(A_SPECIES, A_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy, adultDinosaur,
+                        anotherAdultDinosaur);
         dinosaurFactory = mock(DinosaurFactory.class);
         herd = mock(Herd.class);
         game = mock(Game.class);
@@ -59,19 +59,19 @@ class DinosaurServiceTest {
     public void givenADinosaurNameNotInHerd_whenAddDinosaur_thenShouldCreateAppropriateDinosaur() {
         when(herd.hasDinosaurWithName(A_NAME)).thenReturn(false);
 
-        dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString());
+        dinosaurService.addAdultDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString());
 
-        verify(dinosaurFactory).create(A_GENDER, A_WEIGHT, ANOTHER_SPECIES.toString(), A_NAME);
+        verify(dinosaurFactory).createAdultDinosaur(A_GENDER, A_WEIGHT, ANOTHER_SPECIES.toString(), A_NAME);
     }
 
     @Test
     public void givenADinosaurNameNotInHerd_whenAddDinosaur_thenGameShouldAddTheDinosaur() {
         when(herd.hasDinosaurWithName(A_NAME)).thenReturn(false);
-        when(dinosaurFactory.create(A_GENDER, A_WEIGHT, ANOTHER_SPECIES.toString(), A_NAME)).thenReturn(aDinosaur);
+        when(dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, ANOTHER_SPECIES.toString(), A_NAME)).thenReturn(adultDinosaur);
 
-        dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString());
+        dinosaurService.addAdultDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString());
 
-        verify(game).addDinosaur(aDinosaur);
+        verify(game).addAdultDinosaur(adultDinosaur);
     }
 
     @Test
@@ -80,7 +80,7 @@ class DinosaurServiceTest {
 
         assertThrows(
                 DuplicateNameException.class,
-                () -> dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString())
+                () -> dinosaurService.addAdultDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString())
         );
     }
 
@@ -93,16 +93,16 @@ class DinosaurServiceTest {
 
     @Test
     public void givenADinosaurName_whenShowDinosaur_thenTheDinosaurShouldBeReturned() {
-        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(A_NAME)).thenReturn(adultDinosaur);
 
         Dinosaur dinosaurReturned = dinosaurService.showDinosaur(A_NAME);
 
-        assertEquals(aDinosaur, dinosaurReturned);
+        assertEquals(adultDinosaur, dinosaurReturned);
     }
 
     @Test
     public void whenShowAllDinosaurs_thenAllTheDinosaursShouldBeReturned() {
-        List<Dinosaur> allDinosaursExpected = Arrays.asList(aDinosaur, anotherDinosaur);
+        List<Dinosaur> allDinosaursExpected = Arrays.asList(adultDinosaur, anotherAdultDinosaur);
         when(herd.getAllDinosaurs()).thenReturn(allDinosaursExpected);
 
         List<Dinosaur> DinosaursReturned = dinosaurService.showAllDinosaurs();
@@ -119,44 +119,44 @@ class DinosaurServiceTest {
 
     @Test
     public void givenCompatibleMaleAndFemaleDinosaursInHerd_whenBreedDinosaur_thenGameShouldAddDinosaur() {
-        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherDinosaur);
-        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, A_BABY_NAME))
+        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(adultDinosaur);
+        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherAdultDinosaur);
+        when(babyFetcher.fetch(adultDinosaur, anotherAdultDinosaur, A_BABY_NAME))
                 .thenReturn(Optional.of(aBabyDinosaur));
 
         dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME, A_MOTHER_NAME);
 
-        verify(game).addDinosaur(aBabyDinosaur);
+        verify(game).addBabyDinosaur(aBabyDinosaur);
     }
 
     @Test
     public void givenIncompatibleMaleAndFemaleDinosaursInHerd_whenBreedDinosaur_thenGameShouldNotAddDinosaur() {
-        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherDinosaur);
-        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, A_BABY_NAME))
+        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(adultDinosaur);
+        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherAdultDinosaur);
+        when(babyFetcher.fetch(adultDinosaur, anotherAdultDinosaur, A_BABY_NAME))
                 .thenReturn(Optional.empty());
 
         dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME, A_MOTHER_NAME);
 
-        verify(game, never()).addDinosaur(aBabyDinosaur);
+        verify(game, never()).addBabyDinosaur(aBabyDinosaur);
     }
 
     @Test
     public void givenAMaleAndAFemaleDinosaur_whenBreedDino_thenShouldFetchTheBabyDinosaur() {
-        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherDinosaur);
+        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(adultDinosaur);
+        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherAdultDinosaur);
 
         dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME, A_MOTHER_NAME);
 
-        verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, A_BABY_NAME);
+        verify(babyFetcher).fetch(adultDinosaur, anotherAdultDinosaur, A_BABY_NAME);
     }
 
     @Test
     public void givenTwoDinosaurs_whenPrepareSumoFight_thenThePredictedWinnerNameShouldBeReturned() {
         String expectedWinnerName = "winner";
-        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(ANOTHER_NAME)).thenReturn(anotherDinosaur);
-        when(herd.predictWinnerSumoFight(aDinosaur, anotherDinosaur)).thenReturn(expectedWinnerName);
+        when(herd.getDinosaurWithName(A_NAME)).thenReturn(adultDinosaur);
+        when(herd.getDinosaurWithName(ANOTHER_NAME)).thenReturn(anotherAdultDinosaur);
+        when(herd.predictWinnerSumoFight(adultDinosaur, anotherAdultDinosaur)).thenReturn(expectedWinnerName);
 
         String predictedNameReturned = dinosaurService.prepareSumoFight(A_NAME, ANOTHER_NAME);
 
