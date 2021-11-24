@@ -5,11 +5,10 @@ import ca.ulaval.glo4002.game.domain.food.FoodHistory;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +24,7 @@ class FoodDistributorTest {
     @BeforeEach
     void setUp() {
         allFreshFoods = new LinkedList<>();
-        foodHistory = new FoodHistory();
+        foodHistory = mock(FoodHistory.class);
         foodDistributor = new FoodDistributor();
     }
 
@@ -75,6 +74,19 @@ class FoodDistributorTest {
     }
 
     @Test
+    public void givenQuantityOfFoodRequestedIsLessThenOrEqualToThatAvailableOfFreshFoods_whenDistributeExactOrMostPossibleFoodAsked_thenTheConsumedFoodFoodQuantityIsIncreased() {
+        int requestedFoodQuantity = 5;
+        int quantityOfAvailableFreshFood = 10;
+
+        Food food = new Food(A_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshFood);
+        allFreshFoods.add(food);
+        foodDistributor.distributeExactOrMostPossibleFoodAsked(A_FOOD_TYPE_TO_PROVIDE, allFreshFoods,
+                requestedFoodQuantity, foodHistory);
+
+        verify(foodHistory).increaseConsumedQuantity(any(Food.class));
+    }
+
+    @Test
     public void givenQuantityOfFoodRequestedIsGreaterThenThatOfAvailableFreshFoods_whenDistributeExactOrMostPossibleFoodAsked_thenQuantityOfAvailableFreshFoodIsGiven() {
         int requestedFoodQuantity = 10;
         int quantityOfAvailableFreshFood = 5;
@@ -83,7 +95,6 @@ class FoodDistributorTest {
         allFreshFoods.add(food);
         int totalFoodGivenQuantity = foodDistributor.distributeExactOrMostPossibleFoodAsked(A_FOOD_TYPE_TO_PROVIDE,
                 allFreshFoods, requestedFoodQuantity, foodHistory);
-
 
         assertEquals(quantityOfAvailableFreshFood, totalFoodGivenQuantity);
     }
@@ -109,5 +120,16 @@ class FoodDistributorTest {
         assertEquals(expectedRemainingFoodQuantity, remainingFoodQuantityAfterGiving);
     }
 
-    
+    @Test
+    public void givenQuantityOfFoodRequestedIsGreaterThenThatOfAvailableFreshFoods_whenDistributeExactOrMostPossibleFoodAsked_thenTheConsumedFoodFoodQuantityIsIncreasedWithTheQuantityOfTheGivenFood() {
+        int requestedFoodQuantity = 15;
+        int quantityOfAvailableFreshFood = 10;
+
+        Food food = new Food(A_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshFood);
+        allFreshFoods.add(food);
+        foodDistributor.distributeExactOrMostPossibleFoodAsked(A_FOOD_TYPE_TO_PROVIDE, allFreshFoods,
+                requestedFoodQuantity, foodHistory);
+
+        verify(foodHistory).increaseConsumedQuantity(food);
+    }
 }
