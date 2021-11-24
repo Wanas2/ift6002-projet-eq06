@@ -12,9 +12,10 @@ public class WaterSplitter {
 
     private List<Food> waterForCarnivorous = new LinkedList<>();
     private List<Food> waterForHerbivorous = new LinkedList<>();
-    private Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
+    public Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
 
     public void splitWater(List<Food> allFreshFood) {
+        allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
         Predicate<Food> mustBeWater = foodFiltered -> foodFiltered.getType().equals(FoodType.WATER);
         List<Food> allWater = allFreshFood.stream()
                 .filter(mustBeWater)
