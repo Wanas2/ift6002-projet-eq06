@@ -4,7 +4,7 @@ package ca.ulaval.glo4002.game.domain;
 import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
 import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
@@ -34,8 +34,8 @@ public class Game {
         turn.acquireNewAction(addFoodAction);
     }
 
-    public void addSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
-        ExecutableAction addSumoFightAction = new SumoFightAction(herd, firstDinosaurFighter, secondDinosaurFighter);
+    public void addSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
+        ExecutableAction addSumoFightAction = new SumoFightAction(herd, dinosaurChallenger, dinosaurChallengee);
         turn.acquireNewAction(addSumoFightAction);
     }
 
@@ -44,12 +44,11 @@ public class Game {
 
         pantry.incrementFreshFoodAges();
         pantry.storeFood();
-
         pantry.splitWater();
         herd.feedDinosaurs();
         pantry.mergeWater();
 
-        herd.increaseDinosaursAge();
+        herd.resetSumoFight();
 
         return turnNumber;
     }
@@ -58,5 +57,13 @@ public class Game {
         turn.reset();
         herd.reset();
         pantry.reset();
+    }
+
+    public Herd getHerd() {
+        return this.herd;
+    }
+
+    public Pantry getPantry() {
+        return this.pantry;
     }
 }

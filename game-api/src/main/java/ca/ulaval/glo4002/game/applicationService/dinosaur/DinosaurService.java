@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.game.applicationService.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.dinosaur.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,15 @@ public class DinosaurService {
 
         Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
         babyDinosaur.ifPresent(game::addDinosaur);
+    }
+
+    public String prepareSumoFight(String dinosaurChallengerName, String dinosaurChallengeeName) {
+        Dinosaur dinosaurChallenger = herd.getDinosaurWithName(dinosaurChallengerName);
+        Dinosaur dinosaurChallengee = herd.getDinosaurWithName(dinosaurChallengeeName);
+
+        String predictedWinner = herd.predictWinnerSumoFight(dinosaurChallenger, dinosaurChallengee);
+        game.addSumoFight(dinosaurChallenger,dinosaurChallengee);
+        return predictedWinner;
     }
 
     public Dinosaur showDinosaur(String dinosaurName) {
