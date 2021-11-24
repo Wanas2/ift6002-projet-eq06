@@ -29,7 +29,6 @@ public class FoodAssembler {
         int burgerQuantity = food.get(FoodType.BURGER);
         int SaladQuantity = food.get(FoodType.SALAD);
         int WaterQuantity = food.get(FoodType.WATER);
-
         return new FoodDTO(burgerQuantity, SaladQuantity, WaterQuantity);
     }
 }
