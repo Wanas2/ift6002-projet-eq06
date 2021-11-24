@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.game.interfaces.rest.game;
 
 import ca.ulaval.glo4002.game.applicationService.GameService;
-import ca.ulaval.glo4002.game.applicationService.TurnAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.TurnAssembler;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
