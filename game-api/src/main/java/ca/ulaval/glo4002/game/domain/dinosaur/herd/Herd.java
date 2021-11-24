@@ -5,9 +5,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.SumoFightOrganizer;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Herd {
 
@@ -15,7 +13,8 @@ public class Herd {
     private final SumoFightOrganizer sumoFightOrganizer;
     private final List<DinosaurFeeder> dinosaurFeeders;
 
-    public Herd(List<Dinosaur> dinosaurs, SumoFightOrganizer sumoFightOrganizer, List<DinosaurFeeder> dinosaurFeeders) {
+    public Herd(List<Dinosaur> dinosaurs, SumoFightOrganizer sumoFightOrganizer,
+                List<DinosaurFeeder> dinosaurFeeders) {
         this.dinosaurs = dinosaurs;
         this.sumoFightOrganizer = sumoFightOrganizer;
         this.dinosaurFeeders = dinosaurFeeders;
@@ -45,12 +44,6 @@ public class Herd {
         removeFastingDinosaurs();
     }
 
-    public void increaseDinosaursAge() {
-        for(Dinosaur dino : dinosaurs) {
-            dino.age();
-        }
-    }
-
     public void reset() {
         dinosaurs.clear();
     }
@@ -72,12 +65,20 @@ public class Herd {
         dinosaurs.removeIf((dinosaur) -> !dinosaur.isAlive());
     }
 
-    public void organizeSumoFight(Dinosaur firstDinosaurFighter, Dinosaur secondDinosaurFighter) {
-        List<Dinosaur> dinosaursWinners = sumoFightOrganizer.sumoFight(firstDinosaurFighter, secondDinosaurFighter); //A utiliser pour feedDinosaur
+    public void organizeSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
+        List<Dinosaur> dinosaursWinners = sumoFightOrganizer.sumoFight(dinosaurChallenger,
+                dinosaurChallengee);
+
+        List<Dinosaur> dinosaursLosers = new ArrayList<>();
+        Collections.addAll(dinosaursLosers,dinosaurChallenger,dinosaurChallengee);
+        dinosaursLosers.removeAll(dinosaursWinners);
+
+        dinosaursWinners.forEach(Dinosaur::winFight);
+        dinosaursLosers.forEach(Dinosaur::loseFight);
     }
 
-    public String predictWinnerSumoFight(Dinosaur challenger, Dinosaur challenged) {
-        return sumoFightOrganizer.scheduleSumoFight(challenger, challenged);
+    public String predictWinnerSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
+        return sumoFightOrganizer.scheduleSumoFight(dinosaurChallenger, dinosaurChallengee);
     }
 
     public void resetSumoFight() {

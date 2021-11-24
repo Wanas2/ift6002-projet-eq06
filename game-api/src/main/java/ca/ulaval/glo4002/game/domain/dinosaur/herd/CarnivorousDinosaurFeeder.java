@@ -11,10 +11,18 @@ import java.util.stream.Collectors;
 
 public class CarnivorousDinosaurFeeder implements DinosaurFeeder {
 
+    private final WeakerToStrongerEatingOrder eatingOrder;
+
+    public CarnivorousDinosaurFeeder(WeakerToStrongerEatingOrder eatingOrder){
+        this.eatingOrder = eatingOrder;
+    }
+
     @Override
     public void feedDinosaurs(Map<Dinosaur, List<FoodNeed>> dinosaursWithNeed) {
+        Comparator<Dinosaur> comparator = eatingOrder::compareDinosaurEatingOrder;
+
         List<FoodNeed> carnivorousFoodNeedFromStrongerToWeaker = dinosaursWithNeed.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
+                .sorted(Map.Entry.comparingByKey(comparator.reversed()))
                 .flatMap(entry -> entry.getValue().stream())
                 .filter(foodNeed -> foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)
                 .collect(Collectors.toList());
