@@ -1,14 +1,14 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
+package ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DinosaurDTO {
 
-    public String name;
-    public int weight;
-    public String gender;
-    public String species;
+    public final String name;
+    public final int weight;
+    public final String gender;
+    public final String species;
 
     @JsonCreator
     public DinosaurDTO(@JsonProperty(value = "name", required = true) String name,

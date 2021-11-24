@@ -1,9 +1,8 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.herd;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.domain.dinosaur.SumoFightOrganizer;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizer;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.NonExistentNameException;
 
 import java.util.*;
 

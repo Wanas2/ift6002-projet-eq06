@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.mappers;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.MaxCombatsReachedException;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.MaxCombatsReachedException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

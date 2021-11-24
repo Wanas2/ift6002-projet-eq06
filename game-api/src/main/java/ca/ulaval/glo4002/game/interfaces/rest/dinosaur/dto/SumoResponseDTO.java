@@ -1,6 +1,7 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
+package ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SumoResponseDTO {
 

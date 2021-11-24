@@ -1,9 +1,10 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.ArmsTooShortException;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.DinosaurAlreadyParticipatingException;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.MaxCombatsReachedException;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.ArmsTooShortException;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.DinosaurAlreadyParticipatingException;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.MaxCombatsReachedException;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizerValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

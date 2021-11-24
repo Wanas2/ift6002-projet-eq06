@@ -1,4 +1,6 @@
-package ca.ulaval.glo4002.game.domain.dinosaur;
+package ca.ulaval.glo4002.game.domain.dinosaur.sumoFight;
+
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 
 import java.util.*;
 

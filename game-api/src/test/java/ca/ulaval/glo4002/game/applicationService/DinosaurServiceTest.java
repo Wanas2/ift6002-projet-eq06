@@ -19,16 +19,16 @@ import static org.mockito.Mockito.*;
 class DinosaurServiceTest {
 
     private final static Species A_SPECIES = Species.Diplodocus;
+    private final static Species ANOTHER_SPECIES = Species.Allosaurus;
     private final static int A_WEIGHT = 134;
     private final static String A_NAME = "name";
     private final static String ANOTHER_NAME = "another_name";
     private final static Gender THE_MALE_GENDER = Gender.M;
     private final static Gender THE_FEMALE_GENDER = Gender.F;
     private final static String A_GENDER = "Gender";
-    private final static String MY_SPECIES = "Species";
-    private final static String BABY_NAME = "baby";
-    private final static String FATHER_NAME = "father";
-    private final static String MOTHER_NAME = "mother";
+    private final static String A_BABY_NAME = "baby";
+    private final static String A_FATHER_NAME = "father";
+    private final static String A_MOTHER_NAME = "mother";
 
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
@@ -56,20 +56,20 @@ class DinosaurServiceTest {
     }
 
     @Test
-    public void givenADinosaurNameNotInHerd_whenAddDinosaur_thenShouldCreateADinosaur() {
+    public void givenADinosaurNameNotInHerd_whenAddDinosaur_thenShouldCreateAppropriateDinosaur() {
         when(herd.hasDinosaurWithName(A_NAME)).thenReturn(false);
 
-        dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, MY_SPECIES);
+        dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString());
 
-        verify(dinosaurFactory).create(A_GENDER, A_WEIGHT, MY_SPECIES, A_NAME);
+        verify(dinosaurFactory).create(A_GENDER, A_WEIGHT, ANOTHER_SPECIES.toString(), A_NAME);
     }
 
     @Test
     public void givenADinosaurNameNotInHerd_whenAddDinosaur_thenGameShouldAddTheDinosaur() {
         when(herd.hasDinosaurWithName(A_NAME)).thenReturn(false);
-        when(dinosaurFactory.create(A_GENDER, A_WEIGHT, MY_SPECIES, A_NAME)).thenReturn(aDinosaur);
+        when(dinosaurFactory.create(A_GENDER, A_WEIGHT, ANOTHER_SPECIES.toString(), A_NAME)).thenReturn(aDinosaur);
 
-        dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, MY_SPECIES);
+        dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString());
 
         verify(game).addDinosaur(aDinosaur);
     }
@@ -80,8 +80,15 @@ class DinosaurServiceTest {
 
         assertThrows(
                 DuplicateNameException.class,
-                () -> dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, MY_SPECIES)
+                () -> dinosaurService.addDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString())
         );
+    }
+
+    @Test
+    public void givenADinosaurName_whenShowDinosaur_thenDinosaurWithNameShouldBeReceived() {
+        dinosaurService.showDinosaur(A_NAME);
+
+        verify(herd).getDinosaurWithName(A_NAME);
     }
 
     @Test
@@ -104,27 +111,44 @@ class DinosaurServiceTest {
     }
 
     @Test
+    public void whenShowAllDinosaurs_thenHerdShouldGetAllDinosaurs() {
+        dinosaurService.showAllDinosaurs();
+
+        verify(herd).getAllDinosaurs();
+    }
+
+    @Test
     public void givenCompatibleMaleAndFemaleDinosaursInHerd_whenBreedDinosaur_thenGameShouldAddDinosaur() {
-        when(herd.getDinosaurWithName(FATHER_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(MOTHER_NAME)).thenReturn(anotherDinosaur);
-        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, BABY_NAME))
+        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherDinosaur);
+        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, A_BABY_NAME))
                 .thenReturn(Optional.of(aBabyDinosaur));
 
-        dinosaurService.breedDinosaur(BABY_NAME, FATHER_NAME, MOTHER_NAME);
+        dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME, A_MOTHER_NAME);
 
         verify(game).addDinosaur(aBabyDinosaur);
     }
 
     @Test
     public void givenIncompatibleMaleAndFemaleDinosaursInHerd_whenBreedDinosaur_thenGameShouldNotAddDinosaur() {
-        when(herd.getDinosaurWithName(FATHER_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(MOTHER_NAME)).thenReturn(anotherDinosaur);
-        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, BABY_NAME))
+        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherDinosaur);
+        when(babyFetcher.fetch(aDinosaur, anotherDinosaur, A_BABY_NAME))
                 .thenReturn(Optional.empty());
 
-        dinosaurService.breedDinosaur(BABY_NAME, FATHER_NAME, MOTHER_NAME);
+        dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME, A_MOTHER_NAME);
 
         verify(game, never()).addDinosaur(aBabyDinosaur);
+    }
+
+    @Test
+    public void givenAMaleAndAFemaleDinosaur_whenBreedDino_thenShouldFetchTheBabyDinosaur() {
+        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(aDinosaur);
+        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherDinosaur);
+
+        dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME, A_MOTHER_NAME);
+
+        verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, A_BABY_NAME);
     }
 
     @Test
