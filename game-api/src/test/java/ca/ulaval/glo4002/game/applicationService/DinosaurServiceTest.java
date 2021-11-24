@@ -85,13 +85,6 @@ class DinosaurServiceTest {
     }
 
     @Test
-    public void givenADinosaurName_whenShowDinosaur_thenShouldGetTheDinosaurWithThatName() {
-        dinosaurService.showDinosaur(A_NAME);
-
-        verify(herd).getDinosaurWithName(A_NAME);
-    }
-
-    @Test
     public void givenADinosaurName_whenShowDinosaur_thenTheDinosaurShouldBeReturned() {
         when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
 
@@ -101,12 +94,6 @@ class DinosaurServiceTest {
     }
 
     @Test
-    public void whenShowAllDinosaurs_thenShouldGetAllDinosaurs() {
-        dinosaurService.showAllDinosaurs();
-
-        verify(herd).getAllDinosaurs();
-    }
-    @Test
     public void whenShowAllDinosaurs_thenAllTheDinosaursShouldBeReturned() {
         List<Dinosaur> allDinosaursExpected = Arrays.asList(aDinosaur, anotherDinosaur);
         when(herd.getAllDinosaurs()).thenReturn(allDinosaursExpected);
@@ -114,16 +101,6 @@ class DinosaurServiceTest {
         List<Dinosaur> DinosaursReturned = dinosaurService.showAllDinosaurs();
 
         assertEquals(allDinosaursExpected, DinosaursReturned);
-    }
-
-    @Test
-    public void givenAMaleAndAFemaleDinosaurs_whenBreedDinosaur_thenShouldFetchTheBabyDinosaur() {
-        when(herd.getDinosaurWithName(FATHER_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(MOTHER_NAME)).thenReturn(anotherDinosaur);
-
-        dinosaurService.breedDinosaur(BABY_NAME, FATHER_NAME, MOTHER_NAME);
-
-        verify(babyFetcher).fetch(aDinosaur, anotherDinosaur, BABY_NAME);
     }
 
     @Test
@@ -148,16 +125,6 @@ class DinosaurServiceTest {
         dinosaurService.breedDinosaur(BABY_NAME, FATHER_NAME, MOTHER_NAME);
 
         verify(game, never()).addDinosaur(aBabyDinosaur);
-    }
-
-    @Test
-    public void givenTwoDinosaurs_whenPrepareSumoFight_thenHerdShouldOrganizeAFight(){
-        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
-        when(herd.getDinosaurWithName(ANOTHER_NAME)).thenReturn(anotherDinosaur);
-
-        dinosaurService.prepareSumoFight(A_NAME, ANOTHER_NAME);
-
-        verify(herd).predictWinnerSumoFight(aDinosaur, anotherDinosaur);
     }
 
     @Test
