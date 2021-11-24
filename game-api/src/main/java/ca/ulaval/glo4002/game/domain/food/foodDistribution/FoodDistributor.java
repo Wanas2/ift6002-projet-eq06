@@ -33,6 +33,7 @@ public class FoodDistributor {
                 foodHistory.increaseConsumedQuantity(food);
                 totalFoodGivenQuantity += food.quantity();
                 remainingFoodQuantityToProvide -= food.quantity();
+
                 allFoodsProvided.add(food);
             }
         }
