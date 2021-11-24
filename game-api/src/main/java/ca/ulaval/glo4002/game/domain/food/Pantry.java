@@ -23,10 +23,6 @@ public class Pantry implements FoodStorage {
         this.foodHistory = foodHistory;
     }
 
-    public List<Food> getAllFreshFoods() {
-        return allFreshFoods;
-    }
-
     public void obtainNewlyOrderedFoods(List<Food> orderedFoods) {
         for(FoodType foodType : FoodType.values()) {
             Predicate<Food> mustBeOfOfCurrentFoodType = foodFiltered -> foodFiltered.getType().equals(foodType);
@@ -121,6 +117,10 @@ public class Pantry implements FoodStorage {
     public void reset() {
         allFreshFoods = new LinkedList<>();
         foodHistory.reset();
+    }
+
+    public List<Food> getAllFreshFoods() {
+        return allFreshFoods;
     }
 
     private void addToMatchingFood(Food foodToAdd, List<Food> foodsToAddTo) {
