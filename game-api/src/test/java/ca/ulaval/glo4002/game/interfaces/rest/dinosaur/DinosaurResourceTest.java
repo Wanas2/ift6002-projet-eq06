@@ -5,6 +5,12 @@ import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
 import ca.ulaval.glo4002.game.domain.dinosaur.Species;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.DinosaurAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.SumoAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.BreedingRequestDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.DinosaurDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.SumoRequestDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.SumoResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

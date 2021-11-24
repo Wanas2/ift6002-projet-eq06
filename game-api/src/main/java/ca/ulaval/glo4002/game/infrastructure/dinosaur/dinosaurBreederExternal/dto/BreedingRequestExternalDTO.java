@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
+package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

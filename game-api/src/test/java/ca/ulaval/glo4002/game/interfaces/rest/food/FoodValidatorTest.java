@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
+import ca.ulaval.glo4002.game.interfaces.rest.food.dto.FoodDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

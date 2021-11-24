@@ -1,11 +1,10 @@
-package ca.ulaval.glo4002.game.interfaces.rest.food;
+package ca.ulaval.glo4002.game.interfaces.rest.food.assembler;
 
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
-import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.food.dto.FoodDTO;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.dto.BreedingRequestExternalDTO;
 
 public class BreedingAssembler {
 

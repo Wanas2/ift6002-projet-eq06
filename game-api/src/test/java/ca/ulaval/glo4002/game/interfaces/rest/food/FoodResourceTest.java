@@ -3,23 +3,22 @@ package ca.ulaval.glo4002.game.interfaces.rest.food;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodHistory;
-import ca.ulaval.glo4002.game.domain.food.FoodState;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
+import ca.ulaval.glo4002.game.interfaces.rest.food.assembler.FoodAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.food.assembler.FoodSummaryAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.food.dto.FoodDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.mock;
 import static org.mockito.BDDMockito.verify;
-import static org.mockito.Mockito.when;
 
 class FoodResourceTest {
 

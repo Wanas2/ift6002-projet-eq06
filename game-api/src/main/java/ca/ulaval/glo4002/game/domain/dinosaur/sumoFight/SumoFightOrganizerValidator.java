@@ -1,8 +1,10 @@
-package ca.ulaval.glo4002.game.domain.dinosaur;
+package ca.ulaval.glo4002.game.domain.dinosaur.sumoFight;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.ArmsTooShortException;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.DinosaurAlreadyParticipatingException;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.MaxCombatsReachedException;
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.Species;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.ArmsTooShortException;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.DinosaurAlreadyParticipatingException;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.MaxCombatsReachedException;
 
 import java.util.List;
 

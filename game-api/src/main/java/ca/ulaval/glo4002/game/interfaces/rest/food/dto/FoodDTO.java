@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest.food;
+package ca.ulaval.glo4002.game.interfaces.rest.food.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

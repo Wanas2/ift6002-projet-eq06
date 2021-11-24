@@ -1,6 +1,8 @@
-package ca.ulaval.glo4002.game.interfaces.rest.food;
+package ca.ulaval.glo4002.game.interfaces.rest.food.assembler;
 
 import ca.ulaval.glo4002.game.domain.food.FoodHistory;
+import ca.ulaval.glo4002.game.interfaces.rest.food.dto.FoodDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.food.dto.FoodSummaryDTO;
 
 public class FoodSummaryAssembler {
 

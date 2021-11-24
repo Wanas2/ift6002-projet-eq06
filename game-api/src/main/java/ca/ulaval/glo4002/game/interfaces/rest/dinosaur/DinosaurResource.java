@@ -2,6 +2,12 @@ package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.DinosaurAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.SumoAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.BreedingRequestDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.DinosaurDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.SumoRequestDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.SumoResponseDTO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -1,7 +1,7 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
+package ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.DinosaurDTO;
 
 public class DinosaurAssembler {
 

@@ -1,12 +1,14 @@
 package ca.ulaval.glo4002.game;
 
 import ca.ulaval.glo4002.game.applicationService.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizer;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizerValidator;
 import ca.ulaval.glo4002.game.interfaces.rest.game.TurnAssembler;
-import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
-import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.SumoAssembler;
-import ca.ulaval.glo4002.game.interfaces.rest.food.FoodAssembler;
-import ca.ulaval.glo4002.game.interfaces.rest.food.FoodSummaryAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.SumoAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.food.assembler.FoodAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.food.assembler.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.GameRepository;
