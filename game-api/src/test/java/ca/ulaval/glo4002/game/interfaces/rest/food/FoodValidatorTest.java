@@ -23,7 +23,6 @@ class FoodValidatorTest {
 
     @Test
     public void givenANegativeQuantityOfBurger_whenValidateFoodEntries_thenShouldThrowException() {
-        initiateFoodWithCorrectQuantity();
         foodDTO = new FoodDTO(A_NEGATIVE_QUANTITY, A_POSITIVE_QUANTITY_OF_SALAD, A_POSITIVE_QUANTITY_OF_WATER_IN_LITERS);
 
         assertThrows(InvalidResourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
@@ -31,7 +30,6 @@ class FoodValidatorTest {
 
     @Test
     public void givenANegativeQuantityOfSalad_whenValidateFoodEntries_thenShouldThrowException() {
-        initiateFoodWithCorrectQuantity();
         foodDTO = new FoodDTO(A_POSITIVE_QUANTITY_OF_BURGER, A_NEGATIVE_QUANTITY, A_POSITIVE_QUANTITY_OF_WATER_IN_LITERS);
 
         assertThrows(InvalidResourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
@@ -39,7 +37,6 @@ class FoodValidatorTest {
 
     @Test
     public void givenANegativeQuantityOfWater_whenValidateFoodEntries_thenShouldThrowException() {
-        initiateFoodWithCorrectQuantity();
         foodDTO = new FoodDTO(A_POSITIVE_QUANTITY_OF_BURGER, A_POSITIVE_QUANTITY_OF_SALAD, A_NEGATIVE_QUANTITY);
 
         assertThrows(InvalidResourceQuantityException.class, ()->foodValidator.validateFoodEntries(foodDTO));
@@ -47,12 +44,8 @@ class FoodValidatorTest {
 
     @Test
     public void givenCorrectQuantityOfFood_whenValidateFoodEntries_thenShouldNotThrowException() {
-        initiateFoodWithCorrectQuantity();
-
+        foodDTO = new FoodDTO(A_POSITIVE_QUANTITY_OF_BURGER, A_POSITIVE_QUANTITY_OF_SALAD,
+                A_POSITIVE_QUANTITY_OF_WATER_IN_LITERS);
         assertDoesNotThrow(()->foodValidator.validateFoodEntries(foodDTO));
-    }
-
-    private void initiateFoodWithCorrectQuantity() {
-        foodDTO = new FoodDTO(A_POSITIVE_QUANTITY_OF_BURGER, A_POSITIVE_QUANTITY_OF_SALAD, A_POSITIVE_QUANTITY_OF_WATER_IN_LITERS);
     }
 }

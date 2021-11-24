@@ -5,7 +5,8 @@ import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 public class BreedingAssembler {
 
     public BreedingRequestExternalDTO toDTO(Dinosaur fatherDinosaur, Dinosaur motherDinosaur) {
-        return new BreedingRequestExternalDTO(fatherDinosaur.getSpecies().toString(),
-                motherDinosaur.getSpecies().toString());
+        String fatherSpecies = fatherDinosaur.getSpecies().toString();
+        String motherSpecies = motherDinosaur.getSpecies().toString();
+        return new BreedingRequestExternalDTO(fatherSpecies, motherSpecies);
     }
 }

@@ -10,9 +10,9 @@ public class FoodDTO {
     public final int qtyWater;
 
     @JsonCreator
-    public FoodDTO(@JsonProperty(value = "qtyBurger", required = false) int qtyBurger,
-                   @JsonProperty(value = "qtySalad", required = false) int qtySalad,
-                   @JsonProperty(value = "qtyWater", required = false) int qtyWater) {
+    public FoodDTO(@JsonProperty(value = "qtyBurger") int qtyBurger,
+                   @JsonProperty(value = "qtySalad") int qtySalad,
+                   @JsonProperty(value = "qtyWater") int qtyWater) {
         this.qtyBurger = qtyBurger;
         this.qtySalad = qtySalad;
         this.qtyWater = qtyWater;

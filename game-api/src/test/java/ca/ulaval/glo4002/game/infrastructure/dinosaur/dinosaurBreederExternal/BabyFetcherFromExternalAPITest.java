@@ -16,6 +16,8 @@ import static org.mockito.Mockito.when;
 public class BabyFetcherFromExternalAPITest {
 
     private static final String BABY_NAME = "Marie";
+    private static final String THE_FEMALE_GENDER = Gender.F.toString();
+    private static final String A_DINOSAUR_SPECIES = Species.Spinosaurus.toString();
 
     private BabyFetcherFromExternalAPI aBabyFetcher;
     private DinosaurBreederExternal externalBreeder;
@@ -46,7 +48,8 @@ public class BabyFetcherFromExternalAPITest {
     @Test
     public void givenAFatherAndAMotherDinosaur_whenFetch_thenShouldReturnABaby()
             throws SpeciesWillNotBreedException {
-        BabyDinosaurResponseDTO responseDTO = new BabyDinosaurResponseDTO("F", "Spinosaurus");
+        BabyDinosaurResponseDTO responseDTO =
+                new BabyDinosaurResponseDTO(THE_FEMALE_GENDER, A_DINOSAUR_SPECIES);
         when(externalBreeder.breed(any(WebTarget.class), any(BreedingRequestExternalDTO.class)))
                 .thenReturn(responseDTO);
         when(factory.createBaby(responseDTO.gender, responseDTO.offspring, BABY_NAME,
