@@ -12,7 +12,7 @@ public class WaterSplitter {
 
     private List<Food> waterForCarnivorous = new LinkedList<>();
     private List<Food> waterForHerbivorous = new LinkedList<>();
-    public Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
+    private Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
 
     public void splitWater(List<Food> allFreshFood) {
         Predicate<Food> mustBeWater = foodFiltered -> foodFiltered.getType().equals(FoodType.WATER);
