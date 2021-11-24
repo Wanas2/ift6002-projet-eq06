@@ -21,6 +21,7 @@ import static org.mockito.Mockito.*;
 public class DinosaurResourceTest {
 
     private final static int STATUS_200_OK = 200;
+    private final static String A_BABY_DINOSAUR_NAME = "Junior";
     private final static String A_DINOSAUR_NAME = "Bobi";
     private final static String ANOTHER_DINOSAUR_NAME = "Bob";
     private final static int WEIGHT = 17;
@@ -39,10 +40,12 @@ public class DinosaurResourceTest {
 
     @BeforeEach
     public void setup() {
-        initializeABreedingDTO();
         aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
+        aBreedingRequestDTO = new BreedingRequestDTO(A_BABY_DINOSAUR_NAME, A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
+        consumptionStrategy = mock(FoodConsumptionStrategy.class);
         aDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
-        anotherDinosaur = new Dinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        anotherDinosaur =
+                new Dinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         aSumoRequestDTO = new SumoRequestDTO(A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
@@ -167,15 +170,5 @@ public class DinosaurResourceTest {
         SumoResponseDTO sumoResponseDTO = (SumoResponseDTO) response.getEntity();
 
         assertEquals(expectedPredictedWinner,sumoResponseDTO.predictedWinner);
-    }
-
-    private void initializeABreedingDTO() {
-        aBreedingRequestDTO = new BreedingRequestDTO();
-        String babyName = "wrrwrww";
-        String theFathersName = "wgrwr";
-        String theMothersName = "mko";
-        aBreedingRequestDTO.name = babyName;
-        aBreedingRequestDTO.fatherName = theFathersName;
-        aBreedingRequestDTO.motherName = theMothersName;
     }
 }

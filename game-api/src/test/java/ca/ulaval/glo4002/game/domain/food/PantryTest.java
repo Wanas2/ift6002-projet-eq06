@@ -18,7 +18,6 @@ class PantryTest {
     private final static int A_QUANTITY_OF_SALAD_ORDERED = 2;
     private final static int A_QUANTITY_OF_WATER_IN_LITERS_ORDERED = 19;
 
-    private FoodDTO aFoodDTO;
     private List<Food> foodWithQuantityZero;
     private List<Food> foodWithOnlyOneBurger;
     private List<Food> foodWithOnlyTwoBurgers;
@@ -32,10 +31,6 @@ class PantryTest {
         initializeFoodWithOnlyTwoBurgers();
         initializeSomeFood();
 
-        aFoodDTO = new FoodDTO();
-        aFoodDTO.qtyBurger = A_QUANTITY_OF_ONE_BURGER_ORDERED;
-        aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD_ORDERED;
-        aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS_ORDERED;
         foodProvider = mock(CookItSubscription.class);
         pantry = new Pantry(foodProvider);
     }
