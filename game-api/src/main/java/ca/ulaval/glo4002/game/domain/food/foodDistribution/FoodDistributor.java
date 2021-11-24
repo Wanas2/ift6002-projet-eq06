@@ -13,7 +13,7 @@ public class FoodDistributor {
 
     public int distributeExactOrMostPossibleFoodAsked(FoodType foodTypeToProvide, List<Food> allFreshFood,
                                                       int requestedQuantity, FoodHistory foodHistory) {
-        int totalFoodGiven = 0;
+        int totalFoodGivenQuantity = 0;
         int remainingFoodQuantityToProvide = requestedQuantity;
         Predicate<Food> mustBeOfFoodTypeToProvide = foodFiltered -> foodFiltered.getType().equals(foodTypeToProvide);
 
@@ -27,17 +27,17 @@ public class FoodDistributor {
                 food.decreaseQuantity(remainingFoodQuantityToProvide);
                 foodHistory.
                         increaseConsumedQuantity(new Food(food.getType(), remainingFoodQuantityToProvide));
-                totalFoodGiven += remainingFoodQuantityToProvide;
+                totalFoodGivenQuantity += remainingFoodQuantityToProvide;
                 break;
             } else {
                 foodHistory.increaseConsumedQuantity(food);
-                totalFoodGiven += food.quantity();
+                totalFoodGivenQuantity += food.quantity();
                 remainingFoodQuantityToProvide -= food.quantity();
                 allFoodsProvided.add(food);
             }
         }
 
         allFreshFood.removeAll(allFoodsProvided);
-        return totalFoodGiven;
+        return totalFoodGivenQuantity;
     }
 }
