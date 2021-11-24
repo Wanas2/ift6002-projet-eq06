@@ -136,14 +136,14 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurNameAndAGrowDTO_whenPatchDinosaur_thenTheServiceShouldBeCalledWithThoseArguments(){
+    public void givenADinosaurNameAndAGrowDTO_whenUpdateDinosaur_thenTheServiceShouldBeCalledWithThoseArguments(){
         dinosaurResource.updateDinosaur(A_DINOSAUR_NAME, aGrowDTO);
 
         verify(dinosaurService).updateDinosaurWeight(A_DINOSAUR_NAME, A_WEIGHT);
     }
 
     @Test
-    public void givenADinosaurNameAndAGrowDTO_whenPatchDinosaur_thenResponseStatusShouldBe200(){
+    public void givenADinosaurNameAndAGrowDTO_whenUpdateDinosaur_thenResponseStatusShouldBe200(){
         Response response = dinosaurResource.updateDinosaur(A_DINOSAUR_NAME, aGrowDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());
