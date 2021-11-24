@@ -16,6 +16,8 @@ import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.*;
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.FoodDistributor;
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.WaterSplitter;
 import ca.ulaval.glo4002.game.infrastructure.GameRepositoryInMemory;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurResource;

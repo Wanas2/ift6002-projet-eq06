@@ -1,4 +1,8 @@
-package ca.ulaval.glo4002.game.domain.food;
+package ca.ulaval.glo4002.game.domain.food.foodDistribution;
+
+import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodType;
+import ca.ulaval.glo4002.game.domain.food.FoodTypesNotMatchingException;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -36,17 +40,18 @@ public class WaterSplitter {
     }
 
     public void mergeWater(List<Food> allFreshFood) {
-        for(Food waterBatchForHerbivorous : waterForHerbivorous) {
-            addWaterBatchForForCarnivorousIntoWaterBatchForHerbivorous(waterBatchForHerbivorous);
+        List<Food> allMergedWaterBatches = new LinkedList<>();
+        allMergedWaterBatches.addAll(waterForCarnivorous);
+
+        for(Food waterBatch : allMergedWaterBatches) {
+            addMatchingWaterBatchOfHerbivorous(waterBatch);
             int quantityOfWaterOfMatchingAgeLeftAfterSplit =
-                    waterLeftOutAfterSplit.getOrDefault(waterBatchForHerbivorous.getAge(), 0); // Todo Verifier ceci
-            waterBatchForHerbivorous.increaseQuantity(quantityOfWaterOfMatchingAgeLeftAfterSplit);
+                    waterLeftOutAfterSplit.getOrDefault(waterBatch.getAge(), 0);
+            waterBatch.increaseQuantity(quantityOfWaterOfMatchingAgeLeftAfterSplit);
         }
-        allFreshFood.addAll(waterForHerbivorous);
 
-        waterLeftOutAfterSplit.forEach((age, quantity) ->
-                allFreshFood.add(new Food(FoodType.WATER, quantity, age))); // Todo Verifier ceci
-
+        allMergedWaterBatches.addAll(waterForHerbivorous);
+        allFreshFood.addAll(allMergedWaterBatches);
         resetWatterSplitter();
         allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
     }
@@ -58,27 +63,28 @@ public class WaterSplitter {
         return batchOfWater.quantity() / 2;
     }
 
+    private void addMatchingWaterBatchOfHerbivorous(Food waterBatchToAddTo) {
+        Optional<Food> matchingWaterBatch =
+                getWaterBatchOfMatchingAge(waterForHerbivorous, waterBatchToAddTo.getAge());
+
+        matchingWaterBatch.ifPresent (
+                waterBatch -> {
+                    try {
+                        waterBatchToAddTo.increaseQuantity(waterBatch);
+                        waterForHerbivorous.remove(waterBatch);
+                    } catch (FoodTypesNotMatchingException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
     private Optional<Food> getWaterBatchOfMatchingAge(List<Food> waterBatches, int requiredAge) {
         Predicate<Food> mustBeOfRequiredAge = foodFiltered -> foodFiltered.getAge() == requiredAge;
 
         return waterBatches.stream()
                 .filter(mustBeOfRequiredAge)
                 .findFirst();
-    }
-
-    private void addWaterBatchForForCarnivorousIntoWaterBatchForHerbivorous(Food waterBatchForHerbivorous) {
-        Optional<Food> waterBatchForCarnivorous =
-                getWaterBatchOfMatchingAge(waterForCarnivorous, waterBatchForHerbivorous.getAge());
-
-        waterBatchForCarnivorous.ifPresent (
-                waterBatch -> {
-                    try {
-                        waterBatchForHerbivorous.increaseQuantity(waterBatch);
-                    } catch (FoodTypesNotMatchingException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
     }
 
     private void resetWatterSplitter() {

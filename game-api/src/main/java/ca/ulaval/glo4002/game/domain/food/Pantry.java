@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.game.domain.food;
 
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.FoodDistributor;
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.WaterSplitter;
+
 import java.util.*;
 import java.util.function.Predicate;
 

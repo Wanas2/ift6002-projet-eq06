@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.game.domain.food;
 
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.FoodDistributor;
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.WaterSplitter;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodDTO;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,8 @@
-package ca.ulaval.glo4002.game.domain.food;
+package ca.ulaval.glo4002.game.domain.food.foodDistribution;
+
+import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodHistory;
+import ca.ulaval.glo4002.game.domain.food.FoodType;
 
 import java.util.ArrayList;
 import java.util.List;
