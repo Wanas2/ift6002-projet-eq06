@@ -45,7 +45,7 @@ public class WaterSplitter {
         allMergedWaterBatches.addAll(waterForHerbivorous);
         allFreshFood.addAll(allMergedWaterBatches);
         resetWaterSplitter();
-        allFreshFood.sort(Comparator.comparing(Food::getAge));
+        allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
     }
 
     public List<Food> getWaterForCarnivorous() {
