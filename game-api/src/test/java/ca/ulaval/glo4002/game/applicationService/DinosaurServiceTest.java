@@ -9,6 +9,8 @@ import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +26,9 @@ class DinosaurServiceTest {
     private final static Gender THE_FEMALE_GENDER = Gender.F;
     private final static String A_GENDER = "Gender";
     private final static String MY_SPECIES = "Species";
+    private final static String BABY_NAME = "baby";
+    private final static String FATHER_NAME = "father";
+    private final static String MOTHER_NAME = "mother";
 
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
@@ -87,17 +92,32 @@ class DinosaurServiceTest {
     }
 
     @Test
+    public void givenADinosaurName_whenShowDinosaur_thenTheDinosaurShouldBeReturned() {
+        when(herd.getDinosaurWithName(A_NAME)).thenReturn(aDinosaur);
+
+        Dinosaur dinosaurReturned = dinosaurService.showDinosaur(A_NAME);
+
+        assertEquals(aDinosaur, dinosaurReturned);
+    }
+
+    @Test
     public void whenShowAllDinosaurs_thenShouldGetAllDinosaurs() {
         dinosaurService.showAllDinosaurs();
 
         verify(herd).getAllDinosaurs();
     }
+    @Test
+    public void whenShowAllDinosaurs_thenAllTheDinosaursShouldBeReturned() {
+        List<Dinosaur> allDinosaursExpected = Arrays.asList(aDinosaur, anotherDinosaur);
+        when(herd.getAllDinosaurs()).thenReturn(allDinosaursExpected);
+
+        List<Dinosaur> DinosaursReturned = dinosaurService.showAllDinosaurs();
+
+        assertEquals(allDinosaursExpected, DinosaursReturned);
+    }
 
     @Test
     public void givenAMaleAndAFemaleDinosaurs_whenBreedDinosaur_thenShouldFetchTheBabyDinosaur() {
-        String BABY_NAME = "baby";
-        String FATHER_NAME = "father";
-        String MOTHER_NAME = "mother";
         when(herd.getDinosaurWithName(FATHER_NAME)).thenReturn(aDinosaur);
         when(herd.getDinosaurWithName(MOTHER_NAME)).thenReturn(anotherDinosaur);
 
@@ -108,9 +128,6 @@ class DinosaurServiceTest {
 
     @Test
     public void givenCompatibleMaleAndFemaleDinosaursInHerd_whenBreedDinosaur_thenGameShouldAddDinosaur() {
-        String BABY_NAME = "baby";
-        String FATHER_NAME = "father";
-        String MOTHER_NAME = "mother";
         when(herd.getDinosaurWithName(FATHER_NAME)).thenReturn(aDinosaur);
         when(herd.getDinosaurWithName(MOTHER_NAME)).thenReturn(anotherDinosaur);
         when(babyFetcher.fetch(aDinosaur, anotherDinosaur, BABY_NAME))
@@ -123,9 +140,6 @@ class DinosaurServiceTest {
 
     @Test
     public void givenIncompatibleMaleAndFemaleDinosaursInHerd_whenBreedDinosaur_thenGameShouldNotAddDinosaur() {
-        String BABY_NAME = "baby";
-        String FATHER_NAME = "father";
-        String MOTHER_NAME = "mother";
         when(herd.getDinosaurWithName(FATHER_NAME)).thenReturn(aDinosaur);
         when(herd.getDinosaurWithName(MOTHER_NAME)).thenReturn(anotherDinosaur);
         when(babyFetcher.fetch(aDinosaur, anotherDinosaur, BABY_NAME))
