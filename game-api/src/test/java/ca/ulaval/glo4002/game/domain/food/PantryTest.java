@@ -112,6 +112,4 @@ class PantryTest {
 
         verify(waterSplitter).splitWater(pantry.getAllFreshFoods());
     }
-
-
 }
