@@ -4,16 +4,13 @@ import ca.ulaval.glo4002.game.domain.Game;
 import ca.ulaval.glo4002.game.domain.food.*;
 
 import java.util.List;
-import java.util.Map;
 
 public class ResourceService {
 
-    private final FoodQuantitySummaryCalculator foodQuantitySummaryCalculator;
     private final Pantry pantry;
     private final Game game;
 
-    public ResourceService(FoodQuantitySummaryCalculator foodQuantitySummaryCalculator, Pantry pantry, Game game) {
-        this.foodQuantitySummaryCalculator = foodQuantitySummaryCalculator;
+    public ResourceService(Pantry pantry, Game game) {
         this.pantry = pantry;
         this.game = game;
     }
@@ -22,7 +19,7 @@ public class ResourceService {
         game.addFood(food);
     }
 
-    public Map<FoodState, Map<FoodType, Integer>> getFoodQuantitySummary() {
-        return foodQuantitySummaryCalculator.computeSummaries(pantry);
+    public FoodHistory getFoodQuantitySummary() {
+        return pantry.getFoodHistory();
     }
 }

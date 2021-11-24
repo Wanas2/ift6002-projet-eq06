@@ -17,6 +17,8 @@ import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.WeakerToStrongerEatingOrder;
 import ca.ulaval.glo4002.game.domain.food.*;
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.FoodDistributor;
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.WaterSplitter;
 import ca.ulaval.glo4002.game.infrastructure.GameRepositoryInMemory;
 import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurResource;
@@ -44,9 +46,7 @@ public class ProjectConfig extends ResourceConfig {
         Pantry pantry = game.getPantry();
         Herd herd = game.getHerd();
 
-        FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
         FoodValidator foodValidator = new FoodValidator();
-
         DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry, pantry);
 
         DinosaurBreederExternal dinoBreeder = new DinosaurBreederExternal();
@@ -60,7 +60,7 @@ public class ProjectConfig extends ResourceConfig {
         SumoAssembler sumoAssembler = new SumoAssembler();
         FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
 
-        ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
+        ResourceService resourceService = new ResourceService(pantry, game);
         DinosaurService dinosaurService = new DinosaurService(dinosaurFactory, herd, game, dinosaurBabyFetcher);
         GameService gameService = new GameService(game, gameRepository);
 
@@ -91,7 +91,10 @@ public class ProjectConfig extends ResourceConfig {
 
     private Game provideNewGame(){
         FoodProvider foodProvider = new CookItSubscription();
-        Pantry pantry = new Pantry(foodProvider);
+        FoodDistributor foodDistributor = new FoodDistributor();
+        WaterSplitter waterSplitter = new WaterSplitter();
+        FoodHistory foodHistory = new FoodHistory();
+        Pantry pantry = new Pantry(foodProvider, foodDistributor, waterSplitter, foodHistory);
 
         WeakerToStrongerEatingOrder eatingOrder = new WeakerToStrongerEatingOrder();
         CarnivorousDinosaurFeeder carnivorousDinosaurFeeder = new CarnivorousDinosaurFeeder(eatingOrder);

@@ -1,9 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
-import ca.ulaval.glo4002.game.domain.food.FoodState;
-import ca.ulaval.glo4002.game.domain.food.FoodType;
-
-import java.util.Map;
+import ca.ulaval.glo4002.game.domain.food.FoodHistory;
 
 public class FoodSummaryAssembler {
 
@@ -13,10 +10,10 @@ public class FoodSummaryAssembler {
         this.foodAssembler = foodAssembler;
     }
 
-    public FoodSummaryDTO toDTO(Map<FoodState, Map<FoodType, Integer>> allFoodSummary) {
-        FoodDTO freshFoodDTO = foodAssembler.toDTO(allFoodSummary.get(FoodState.FRESH));
-        FoodDTO expiredFoodDTO = foodAssembler.toDTO(allFoodSummary.get(FoodState.EXPIRED));
-        FoodDTO consumedFoodDTO = foodAssembler.toDTO(allFoodSummary.get(FoodState.CONSUMED));
+    public FoodSummaryDTO toDTO(FoodHistory foodHistory) {
+        FoodDTO freshFoodDTO = foodAssembler.toDTO(foodHistory.getFreshFoodQuantities());
+        FoodDTO expiredFoodDTO = foodAssembler.toDTO(foodHistory.getExpiredFoodQuantities());
+        FoodDTO consumedFoodDTO = foodAssembler.toDTO(foodHistory.getConsumedFoodQuantities());
         return new FoodSummaryDTO(freshFoodDTO, expiredFoodDTO, consumedFoodDTO);
     }
 }
