@@ -47,7 +47,7 @@ public class WaterSplitter {
         waterLeftOutAfterSplit.forEach((age, quantity) ->
                 allFreshFood.add(new Food(FoodType.WATER, quantity, age))); // Todo Verifier ceci
 
-        reset(); // Todo C'est un bon nom?
+        resetWatterSplitter();
         allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
     }
 
@@ -81,7 +81,7 @@ public class WaterSplitter {
         );
     }
 
-    private void reset() {
+    private void resetWatterSplitter() {
         waterLeftOutAfterSplit = new HashMap<>();
         waterForCarnivorous = new LinkedList<>();
         waterForHerbivorous = new LinkedList<>();
