@@ -46,9 +46,7 @@ public class BabyFetcherFromExternalAPITest {
     @Test
     public void givenAFatherAndAMotherDinosaur_whenFetch_thenShouldReturnABaby()
             throws SpeciesWillNotBreedException {
-        BabyDinosaurResponseDTO responseDTO = new BabyDinosaurResponseDTO();
-        responseDTO.gender = "F";
-        responseDTO.offspring = "Spinosaurus";
+        BabyDinosaurResponseDTO responseDTO = new BabyDinosaurResponseDTO("F", "Spinosaurus");
         when(externalBreeder.breed(any(WebTarget.class), any(BreedingRequestExternalDTO.class)))
                 .thenReturn(responseDTO);
         when(factory.createBaby(responseDTO.gender, responseDTO.offspring, BABY_NAME,
