@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.applicationService.dinosaur;
+package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.SumoResponseDTO;
 
