@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.game;
 
 import ca.ulaval.glo4002.game.applicationService.*;
-import ca.ulaval.glo4002.game.interfaces.rest.TurnAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.game.TurnAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.SumoAssembler;
