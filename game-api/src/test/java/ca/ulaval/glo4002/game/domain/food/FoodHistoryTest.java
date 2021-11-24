@@ -5,16 +5,17 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class FoodHistoryTest {
 
-    private static final FoodType A_FOOD_TYPE = FoodType.BURGER;
-    private static final FoodType ANOTHER_FOOD_TYPE = FoodType.SALAD;
-    private static final int FOOD_QUANTITY_1 = 12;
-    private static final int FOOD_QUANTITY_2 = 5;
-    private static final int FOOD_QUANTITY_3 = 8;
+    private static final FoodType A_FOOD_TYPE_1 = FoodType.BURGER;
+    private static final FoodType A_FOOD_TYPE_2 = FoodType.SALAD;
+    private static final FoodType A_FOOD_TYPE_3 = FoodType.WATER;
+    private static final int A_FOOD_QUANTITY_1 = 12;
+    private static final int A_FOOD_QUANTITY_2 = 5;
+    private static final int A_FOOD_QUANTITY_3 = 8;
 
     private FoodHistory foodHistory;
 
@@ -38,7 +39,7 @@ public class FoodHistoryTest {
     }
 
     @Test void givenSomeFood_whenIncreaseExpiredQuantity_thenExpiredFoodQuantityIsIncreased() {
-        Food food = new Food(A_FOOD_TYPE, FOOD_QUANTITY_1);
+        Food food = new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_1);
 
         foodHistory.increaseExpiredQuantity(food);
 
@@ -49,7 +50,7 @@ public class FoodHistoryTest {
     }
 
     @Test void givenSomeFood_whenIncreaseConsumedQuantity_theConsumedFoodQuantityIsIncreased() {
-        Food food = new Food(A_FOOD_TYPE, FOOD_QUANTITY_1);
+        Food food = new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_1);
 
         foodHistory.increaseConsumedQuantity(food);
 
@@ -60,22 +61,33 @@ public class FoodHistoryTest {
     }
 
     @Test
-    public void givenSomeFreshFood_whenComputeFreshFoodQuantities_thenTheQuantityMustBeComputed() {
+    public void givenSomeFreshFood_whenComputeFreshFoodQuantities_thenSumsOfEachFoodTypesShouldBeComputedCorrectly() {
+        int expectedFoodType1Quantity = A_FOOD_QUANTITY_1 + A_FOOD_QUANTITY_2;
+        int expectedFoodType2Quantity = A_FOOD_QUANTITY_2 + A_FOOD_QUANTITY_3;
+        int expectedFoodType3Quantity = 0;
         List<Food> allFreshFoods = new ArrayList<>();
-        allFreshFoods.add(new Food(A_FOOD_TYPE, FOOD_QUANTITY_1));
-        allFreshFoods.add(new Food(A_FOOD_TYPE, FOOD_QUANTITY_2));
-        allFreshFoods.add(new Food(ANOTHER_FOOD_TYPE, FOOD_QUANTITY_2));
-        allFreshFoods.add(new Food(ANOTHER_FOOD_TYPE, FOOD_QUANTITY_3));
+        allFreshFoods.add(new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_1));
+        allFreshFoods.add(new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_2));
+        allFreshFoods.add(new Food(A_FOOD_TYPE_2, A_FOOD_QUANTITY_2));
+        allFreshFoods.add(new Food(A_FOOD_TYPE_2, A_FOOD_QUANTITY_3));
 
-//        foodHistory.computeFreshFoodQuantities();
+        foodHistory.computeFreshFoodQuantities(allFreshFoods);
+
+        int foodType1Quantity = foodHistory.getFreshFoodQuantities().get(A_FOOD_TYPE_1);
+        int foodType2Quantity = foodHistory.getFreshFoodQuantities().get(A_FOOD_TYPE_2);
+        int foodType3Quantity = foodHistory.getFreshFoodQuantities().get(A_FOOD_TYPE_3);
+
+        assertEquals(expectedFoodType1Quantity, foodType1Quantity);
+        assertEquals(expectedFoodType2Quantity, foodType2Quantity);
+        assertEquals(expectedFoodType3Quantity, foodType3Quantity);
     }
 
     @Test
     public void givenAllFoodQuantitiesAreGreaterThanZero_whenReset_thenAllFoodQuantityShouldBeZero() {
         List<Food> allFreshFoods = new ArrayList<>();
-        allFreshFoods.add(new Food(A_FOOD_TYPE, FOOD_QUANTITY_1));
+        allFreshFoods.add(new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_1));
         foodHistory.computeFreshFoodQuantities(allFreshFoods);
-        Food food = new Food(A_FOOD_TYPE, FOOD_QUANTITY_1);
+        Food food = new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_1);
         foodHistory.increaseConsumedQuantity(food);
         foodHistory.increaseExpiredQuantity(food);
 
