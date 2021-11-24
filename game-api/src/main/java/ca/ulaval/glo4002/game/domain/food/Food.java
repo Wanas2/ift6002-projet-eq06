@@ -52,10 +52,6 @@ public class Food {
         return age >= type.numberOfTurnBeforeExpiry();
     }
 
-    public FoodState getState() {
-        return foodState;
-    }
-
     public int getAge() {
         return age;
     }
