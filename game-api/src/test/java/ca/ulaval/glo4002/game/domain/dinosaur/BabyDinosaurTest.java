@@ -4,12 +4,13 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrateg
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BabyDinosaurTest {
+
+    private final static int WEIGHT = 34;
 
     private Dinosaur fatherDinosaur;
     private Dinosaur motherDinosaur;
@@ -54,5 +55,13 @@ public class BabyDinosaurTest {
         boolean isBabyAlive = aBabyDinosaur.isAlive();
 
         assertTrue(isBabyAlive);
+    }
+
+    @Test
+    public void givenABabyDinosaur_whenIncreaseWeight_thenWeightShouldBeIncreased() {
+        aBabyDinosaur.increaseWeight();
+        int newWeight = aBabyDinosaur.getWeight();
+
+        assertEquals(WEIGHT, newWeight);
     }
 }

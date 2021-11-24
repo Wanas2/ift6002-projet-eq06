@@ -24,6 +24,7 @@ public class HerdTest {
     private final static String NON_EXISTING_DINOSAUR_NAME = "Alfred";
     private final static int DINOSAUR_WEIGHT = 80;
     private final static int ANOTHER_DINOSAUR_WEIGHT= 100;
+    private final static int WEIGHT_VARIATION = 65;
 
     private FoodConsumptionStrategy dinosaurStrategy;
     private FoodConsumptionStrategy anotherDinosaurStrategy;
@@ -59,7 +60,7 @@ public class HerdTest {
     }
 
     @Test
-    public void givenADinosaurWithNameNotAlreadyExisting_addDinosaur_thenDinosaurShouldBeAdded() {
+    public void givenADinosaurWithNameNotAlreadyExisting_whenAddDinosaur_thenDinosaurShouldBeAdded() {
         AdultDinosaur aDinosaurWithNonExistingName = new AdultDinosaur(Species.Allosaurus,DINOSAUR_WEIGHT,
                 NON_EXISTING_DINOSAUR_NAME, Gender.M,dinosaurStrategy);
 
@@ -187,4 +188,16 @@ public class HerdTest {
 
         assertEquals(dinosaurs, allDinosaursInHerd);
     }
+
+    @Test
+    public void givenDinosaurNameAndWeightVariation_whenModifyWeight_thenDinosaurWeightShouldBeModified() {
+        int dinosaurWeight = DINOSAUR_WEIGHT + WEIGHT_VARIATION;
+
+        herd.modifyDinosaurWeight(DINOSAUR_NAME, WEIGHT_VARIATION);
+        int newDinosaurWeight = aDinosaurInHerd.getWeight();
+
+        assertEquals(dinosaurWeight, newDinosaurWeight);
+    }
+
+    //TODO Lancer l'exception si P < 100 et aussi pour Baby
 }

@@ -17,7 +17,7 @@ public class DinosaurFactory {
         this.herbivorousFoodStorage = herbivorousFoodStorage;
     }
 
-    public AdultDinosaur create(String genderName, int weight, String speciesName, String name) {
+    public AdultDinosaur createAdultDinosaur(String genderName, int weight, String speciesName, String name) {
         Gender gender = findCorrespondingGender(genderName);
         Species species = findCorrespondingSpecies(speciesName);
         FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);

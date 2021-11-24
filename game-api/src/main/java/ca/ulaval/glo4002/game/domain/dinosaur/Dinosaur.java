@@ -12,8 +12,8 @@ abstract public class Dinosaur {
     private String name;
     private Gender gender;
     protected final FoodConsumptionStrategy foodConsumptionStrategy;
-    protected boolean isAlive = true;
-    private boolean isStarving = true;
+    private boolean isAlive = true;
+    protected boolean isStarving = true;
 
     public Dinosaur(Species species, int weight, String name, Gender gender,
                     FoodConsumptionStrategy foodConsumptionStrategy) {
@@ -24,7 +24,9 @@ abstract public class Dinosaur {
         this.foodConsumptionStrategy = foodConsumptionStrategy;
     }
 
-    abstract public boolean isAlive();
+    public boolean isAlive() {
+        return isAlive && foodConsumptionStrategy.areFoodNeedsSatisfied();
+    }
 
     abstract public void modifyWeight(int weightValue);
 

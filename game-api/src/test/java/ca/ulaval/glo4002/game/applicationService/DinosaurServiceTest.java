@@ -57,7 +57,7 @@ class DinosaurServiceTest {
 
     @Test
     public void givenADinosaurDTO_whenAddDinosaur_thenShouldVerifyIfDinosaurWithSameNameExists() {
-        dinosaurService.addDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
+        dinosaurService.addAdultDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
 
         verify(herd).hasDinosaurWithName(aDinosaurDTO.name);
     }
@@ -68,26 +68,26 @@ class DinosaurServiceTest {
 
         assertThrows(DuplicateNameException.class,
                 ()->dinosaurService.
-                        addDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species));
+                        addAdultDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species));
     }
 
     @Test
     public void givenADinosaurDTO_whenAddDinosaur_thenShouldCreateAppropriateDinosaur() {
         when(herd.hasDinosaurWithName(aDinosaurDTO.name)).thenReturn(false);
 
-        dinosaurService.addDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
+        dinosaurService.addAdultDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
 
-        verify(dinosaurFactory).create(aDinosaurDTO.gender, aDinosaurDTO.weight, aDinosaurDTO.species,
+        verify(dinosaurFactory).createAdultDinosaur(aDinosaurDTO.gender, aDinosaurDTO.weight, aDinosaurDTO.species,
                 aDinosaurDTO.name);
     }
 
     @Test
     public void givenADinosaurDTO_whenAddDinosaur_thenGameShouldAddTheDinosaur() {
         when(herd.hasDinosaurWithName(aDinosaurDTO.name)).thenReturn(false);
-        when(dinosaurFactory.create(aDinosaurDTO.gender, aDinosaurDTO.weight, aDinosaurDTO.species,
+        when(dinosaurFactory.createAdultDinosaur(aDinosaurDTO.gender, aDinosaurDTO.weight, aDinosaurDTO.species,
                 aDinosaurDTO.name)).thenReturn(adultDinosaur);
 
-        dinosaurService.addDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
+        dinosaurService.addAdultDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
 
         verify(game).addAdultDinosaur(adultDinosaur);
     }

@@ -6,8 +6,8 @@ import java.util.Optional;
 
 public class BabyDinosaur extends Dinosaur {
 
-    protected final static int INITIAL_BABY_WEIGHT = 1;
-    private final static int BABY_WEIGHT_TO_ADD = 33;
+    private final static int INITIAL_BABY_WEIGHT = 1;
+    private final static int WEIGHT_INCREASE_PER_TURN = 33;
     private final static int WEIGHT_TO_BECOME_ADULT = 100;
 
     protected Dinosaur fatherDinosaur;
@@ -23,27 +23,29 @@ public class BabyDinosaur extends Dinosaur {
 
     @Override
     public boolean isAlive() {
-        return isAlive && (fatherDinosaur.isAlive() || motherDinosaur.isAlive());
+        return super.isAlive() && (fatherDinosaur.isAlive() || motherDinosaur.isAlive());
     }
 
     @Override
     public void modifyWeight(int weightValue) {
-        System.out.println("Impossible"); // A remplacer par l'exception INVALID_BABY_WEIGHT_CHANGE
+        System.out.println("Impossible"); // TODO A remplacer par l'exception INVALID_BABY_WEIGHT_CHANGE
     }
 
     public void increaseWeight() {
         if(this.weight < WEIGHT_TO_BECOME_ADULT) {
-            this.weight += BABY_WEIGHT_TO_ADD;
+            this.weight += WEIGHT_INCREASE_PER_TURN;
         }
     }
 
     public Optional<AdultDinosaur> becomeAdult() {
-        Optional<AdultDinosaur> adultDinosaur = Optional.empty();
+        Optional<AdultDinosaur> potentialAdultDinosaur = Optional.empty();
         if (this.weight >= WEIGHT_TO_BECOME_ADULT) {
-            adultDinosaur = Optional.of(new AdultDinosaur(this.getSpecies(), this.weight,
-                    this.getName(), this.getGender(), this.foodConsumptionStrategy));
+            AdultDinosaur adultDinosaur = new AdultDinosaur(this.getSpecies(), this.weight,
+                    this.getName(), this.getGender(), this.foodConsumptionStrategy);
+            adultDinosaur.isStarving = false;
+            potentialAdultDinosaur = Optional.of(adultDinosaur);
         }
 
-        return adultDinosaur;
+        return potentialAdultDinosaur;
     }
 }

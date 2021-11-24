@@ -57,15 +57,15 @@ public class DinosaurResourceTest {
 
     @Test
     public void givenADinosaurDTOWithValidData_whenAddDinosaur_thenShouldAddTheDinosaur() {
-        dinosaurResource.addDinosaur(aDinosaurDTO);
+        dinosaurResource.addAdultDinosaur(aDinosaurDTO);
 
         verify(dinosaurService).
-                addDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
+                addAdultDinosaur(aDinosaurDTO.name, aDinosaurDTO.weight, aDinosaurDTO.gender, aDinosaurDTO.species);
     }
 
     @Test
     public void givenADinosaurDTOWithValidData_whenAddDinosaur_thenResponseStatusShouldBe200() {
-        Response response = dinosaurResource.addDinosaur(aDinosaurDTO);
+        Response response = dinosaurResource.addAdultDinosaur(aDinosaurDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());
     }
@@ -76,7 +76,7 @@ public class DinosaurResourceTest {
         aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, anInvalidWeight, GENDER, SPECIES);
 
         assertThrows(InvalidWeightException.class,
-                ()->dinosaurResource.addDinosaur(aDinosaurDTO));
+                ()->dinosaurResource.addAdultDinosaur(aDinosaurDTO));
     }
 
     @Test

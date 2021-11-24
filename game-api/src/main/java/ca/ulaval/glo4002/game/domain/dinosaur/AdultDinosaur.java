@@ -4,21 +4,17 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrateg
 
 public class AdultDinosaur extends Dinosaur{
 
-    private final static int WEIGHT_LIMIT = 100;
+    private final static int MINIMUM_WEIGHT = 100;
+
     public AdultDinosaur(Species species, int weight, String name, Gender gender, FoodConsumptionStrategy foodConsumptionStrategy) {
         super(species, weight, name, gender, foodConsumptionStrategy);
     }
 
     @Override
-    public boolean isAlive() {
-        return isAlive && foodConsumptionStrategy.areFoodNeedsSatisfied();
-    }
-
-    @Override
-    public void modifyWeight(int weightValue) {
-        int newWeight = this.weight + weightValue;
-        if(newWeight < WEIGHT_LIMIT) {
-            System.out.println("Impossible"); // A remplacer par l'exception INVALID_WEIGHT_CHANGE
+    public void modifyWeight(int weightVariation) {
+        int newWeight = this.weight + weightVariation;
+        if(newWeight < MINIMUM_WEIGHT) {
+            System.out.println("Impossible"); // TODO A remplacer par l'exception INVALID_WEIGHT_CHANGE
         }
         this.weight = newWeight;
     }

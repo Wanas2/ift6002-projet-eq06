@@ -40,7 +40,7 @@ public class DinosaurFactoryTest {
         String anInvalidGender = "X";
 
         assertThrows(InvalidGenderException.class,
-                ()->dinosaurFactory.create(anInvalidGender, A_WEIGHT, A_SPECIES, A_NAME));
+                ()->dinosaurFactory.createAdultDinosaur(anInvalidGender, A_WEIGHT, A_SPECIES, A_NAME));
     }
 
     @Test
@@ -48,12 +48,12 @@ public class DinosaurFactoryTest {
         String anInvalidSpecies = "Labrador";
 
         assertThrows(InvalidSpeciesException.class,
-                ()->dinosaurFactory.create(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
+                ()->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
     }
 
     @Test
     public void givenCorrectParameters_whenCreateDinosaur_thenShouldNotThrow() {
-        assertDoesNotThrow(()->dinosaurFactory.create(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
+        assertDoesNotThrow(()->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
     }
 
     @Test

@@ -28,11 +28,11 @@ public class DinosaurResource {
 
     @POST
     @Path("/dinosaurs")
-    public Response addDinosaur(DinosaurDTO dinosaurDTO) {
+    public Response addAdultDinosaur(DinosaurDTO dinosaurDTO) {
         if(dinosaurDTO.weight <= 0) {
             throw new InvalidWeightException();
         }
-        dinosaurService.addDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
+        dinosaurService.addAdultDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
         return Response.ok().build();
     }
 

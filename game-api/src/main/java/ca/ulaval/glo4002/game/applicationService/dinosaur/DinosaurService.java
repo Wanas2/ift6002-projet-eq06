@@ -21,10 +21,10 @@ public class DinosaurService {
         this.babyFetcher = babyFetcher;
     }
 
-    public void addDinosaur(String name, int weight, String gender, String species) {
+    public void addAdultDinosaur(String name, int weight, String gender, String species) {
         if(herd.hasDinosaurWithName(name))
             throw new DuplicateNameException();
-        AdultDinosaur adultDinosaur = dinosaurFactory.create(gender, weight, species, name);
+        AdultDinosaur adultDinosaur = dinosaurFactory.createAdultDinosaur(gender, weight, species, name);
         game.addAdultDinosaur(adultDinosaur);
     }
 
