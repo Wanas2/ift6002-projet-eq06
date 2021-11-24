@@ -1,8 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
-import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
-import ca.ulaval.glo4002.game.applicationService.dinosaur.SumoAssembler;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 
 import javax.ws.rs.*;

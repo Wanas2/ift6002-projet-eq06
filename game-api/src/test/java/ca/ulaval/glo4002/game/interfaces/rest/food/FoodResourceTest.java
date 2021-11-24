@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.game.interfaces.rest.food;
 
-import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
-import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.FoodHistory;
@@ -19,7 +17,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.mock;
 import static org.mockito.BDDMockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,10 +42,7 @@ class FoodResourceTest {
 
     @BeforeEach
     void setUp() {
-        aFoodDTO = new FoodDTO();
-        aFoodDTO.qtyBurger = A_QUANTITY_OF_BURGER;
-        aFoodDTO.qtySalad = A_QUANTITY_OF_SALAD;
-        aFoodDTO.qtyWater = A_QUANTITY_OF_WATER_IN_LITERS;
+        aFoodDTO = new FoodDTO(A_QUANTITY_OF_BURGER, A_QUANTITY_OF_SALAD, A_QUANTITY_OF_WATER_IN_LITERS);
 
         foodHistory = mock(FoodHistory.class);
         resourceService = mock(ResourceService.class);

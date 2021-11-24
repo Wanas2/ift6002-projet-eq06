@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
+import ca.ulaval.glo4002.game.domain.dinosaur.Species;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
@@ -20,6 +22,10 @@ public class DinosaurBreederExternalTest {
 
     private final static int STATUS_200_OK = 200;
     private final static int STATUS_400_BAD_REQUEST = 400;
+    private final static String A_FATHER_SPECIES = Species.Diplodocus.toString();
+    private final static String A_MOTHER_SPECIES = Species.Ankylosaurus.toString();
+    private final static String A_GENDER = Gender.F.toString();
+    private final static String AN_OFFSPRING = "anOffspring";
 
     private DinosaurBreederExternal dinosaurBreederExternal;
     private BreedingRequestExternalDTO breedingRequestExternalDTO;
@@ -36,9 +42,7 @@ public class DinosaurBreederExternalTest {
         when(invocationBuilder.post(any(Entity.class))).thenReturn(responseOfExternalService);
 
         dinosaurBreederExternal = new DinosaurBreederExternal();
-        breedingRequestExternalDTO = new BreedingRequestExternalDTO();
-        breedingRequestExternalDTO.fatherSpecies = "aSpecies";
-        breedingRequestExternalDTO.motherSpecies = "anotherSpecies";
+        breedingRequestExternalDTO = new BreedingRequestExternalDTO(A_FATHER_SPECIES, A_MOTHER_SPECIES);
     }
 
     @Test
@@ -53,9 +57,7 @@ public class DinosaurBreederExternalTest {
 
     @Test
     public void givenExternalServiceAnswersWithOk_whenBreed_thenTheBabyResponseDTOFromTheResponseShouldBeReturned() throws SpeciesWillNotBreedException {
-        BabyDinosaurResponseDTO expectedBabyDinosaurResponseDTO = new BabyDinosaurResponseDTO();
-        expectedBabyDinosaurResponseDTO.gender = "aGender";
-        expectedBabyDinosaurResponseDTO.offspring = "anOffspring";
+        BabyDinosaurResponseDTO expectedBabyDinosaurResponseDTO = new BabyDinosaurResponseDTO(A_GENDER, AN_OFFSPRING);
         when(responseOfExternalService.getStatus()).thenReturn(STATUS_200_OK);
         when(responseOfExternalService.readEntity(BabyDinosaurResponseDTO.class))
                 .thenReturn(expectedBabyDinosaurResponseDTO);
