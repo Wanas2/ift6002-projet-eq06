@@ -14,14 +14,6 @@ public class WaterSplitter {
     private List<Food> waterForHerbivorous = new LinkedList<>();
     private Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
 
-    public List<Food> getWaterForCarnivorous() {
-        return waterForCarnivorous;
-    }
-
-    public List<Food> getWaterForHerbivorous() {
-        return waterForHerbivorous;
-    }
-
     public void splitWater(List<Food> allFreshFood) {
         Predicate<Food> mustBeWater = foodFiltered -> foodFiltered.getType().equals(FoodType.WATER);
         List<Food> allWater = allFreshFood.stream()
@@ -56,6 +48,14 @@ public class WaterSplitter {
         allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
     }
 
+    public List<Food> getWaterForCarnivorous() {
+        return waterForCarnivorous;
+    }
+
+    public List<Food> getWaterForHerbivorous() {
+        return waterForHerbivorous;
+    }
+    
     private int splitBatchOfWaterInTwo(Food batchOfWater) {
         if(batchOfWater.quantity() % 2 != 0) {
             waterLeftOutAfterSplit.put(batchOfWater.getAge(), batchOfWater.quantity() % 2);
