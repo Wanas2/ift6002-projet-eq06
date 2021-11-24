@@ -38,10 +38,10 @@ public class FoodHistory {
         return consumedFoodQuantities;
     }
 
-    public void computeFreshFoodQuantities(List<Food> allFreshFood) {
+    public void computeFreshFoodQuantities(List<Food> allFreshFoods) {
         for(FoodType foodType : FoodType.values()) {
             Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(foodType);
-            int foodQuantity = allFreshFood.stream()
+            int foodQuantity = allFreshFoods.stream()
                     .filter(foodTypeFilter)
                     .mapToInt(Food::quantity).sum();
 

@@ -9,12 +9,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FoodDistributorTest {
 
     private static final FoodType A_FOOD_TYPE_TO_PROVIDE = FoodType.BURGER;
+    private static final FoodType ANOTHER_FOOD_TYPE_TO_PROVIDE = FoodType.SALAD;
 
     private List<Food> allFreshFoods;
     private FoodHistory foodHistory;
@@ -27,8 +29,24 @@ class FoodDistributorTest {
         foodDistributor = new FoodDistributor();
     }
 
-    public void givenARequestedFoodType_whenDistributeExactOrMostPossibleFoodAsked_thenTheRestedFoodTypeIsGiven() {
+    @Test
+    public void givenARequestedFoodType_whenDistributeExactOrMostPossibleFoodAsked_thenTheRequestedFoodTypeIsGiven() {
+        int requestedFoodQuantity = 4;
+        int quantityOfAvailableFreshBurgersBeforeGiving = 10;
+        int quantityOfAvailableFreshSaladsBeforeGiving = 15;
+        int expectedRemainingBurgerQuantity = quantityOfAvailableFreshBurgersBeforeGiving - requestedFoodQuantity;
+        Food freshBurgers = new Food(A_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshBurgersBeforeGiving);
+        Food freshSalads = new Food(ANOTHER_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshSaladsBeforeGiving);
+        allFreshFoods.add(freshBurgers);
+        allFreshFoods.add(freshSalads);
 
+        foodDistributor.distributeExactOrMostPossibleFoodAsked(A_FOOD_TYPE_TO_PROVIDE, allFreshFoods,
+                requestedFoodQuantity, foodHistory);
+        int remainingBurgerQuantity  = allFreshFoods.get(0).quantity();
+        int remainingSaladQuantity  = allFreshFoods.get(1).quantity();
+
+        assertEquals(expectedRemainingBurgerQuantity, remainingBurgerQuantity);
+        assertEquals(quantityOfAvailableFreshSaladsBeforeGiving, remainingSaladQuantity);
     }
 
     @Test
@@ -70,5 +88,26 @@ class FoodDistributorTest {
         assertEquals(quantityOfAvailableFreshFood, totalFoodGivenQuantity);
     }
 
+    @Test
+    public void givenQuantityOfFoodRequestedIsGreaterThenThatFirstBatchOfFreshFood_whenDistributeExactOrMostPossibleFoodAsked_thenFoodIsGottenFromOtherBatchesOfFreshFood() {
+        int requestedFoodQuantity = 12;
+        int quantityOfAvailableFreshBurgersInFirstBatch = 5;
+        int quantityOfAvailableFreshBurgersInSecondBatch = 10;
+        int expectedRemainingFoodQuantity = quantityOfAvailableFreshBurgersInFirstBatch +
+                quantityOfAvailableFreshBurgersInSecondBatch
+                - requestedFoodQuantity;
+        allFreshFoods.add(new Food(A_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshBurgersInFirstBatch));
+        allFreshFoods.add(new Food(A_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshBurgersInSecondBatch));
 
+        foodDistributor.distributeExactOrMostPossibleFoodAsked(A_FOOD_TYPE_TO_PROVIDE, allFreshFoods,
+                requestedFoodQuantity, foodHistory);
+
+        int remainingFoodQuantityAfterGiving = allFreshFoods.stream()
+                .filter(foodFiltered -> foodFiltered.getType().equals(A_FOOD_TYPE_TO_PROVIDE))
+                .mapToInt(Food::quantity).sum();
+
+        assertEquals(expectedRemainingFoodQuantity, remainingFoodQuantityAfterGiving);
+    }
+
+    
 }
