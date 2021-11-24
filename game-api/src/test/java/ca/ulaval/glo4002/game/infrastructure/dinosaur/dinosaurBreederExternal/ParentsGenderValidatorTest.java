@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal;
 
+import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
 import ca.ulaval.glo4002.game.domain.dinosaur.Species;
@@ -30,8 +31,8 @@ class ParentsGenderValidatorTest {
     @BeforeEach
     void setUp() {
         aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aFemaleDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
-        aMaleDinosaur = new Dinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
+        aFemaleDinosaur = new AdultDinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
+        aMaleDinosaur = new AdultDinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
         parentsGenderValidator = new ParentsGenderValidator();
     }
 
@@ -39,7 +40,7 @@ class ParentsGenderValidatorTest {
     public void givenAFatherDinoOfWrongGender_whenValidateParentGender_thenInvalidFatherException() {
         Gender wrongGender = Gender.F;
         Dinosaur aFatherDinosaurOfTheWrongGender =
-                new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, wrongGender, aFoodConsumptionStrategy);
+                new AdultDinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, wrongGender, aFoodConsumptionStrategy);
 
         assertThrows(InvalidFatherException.class,
                 ()->parentsGenderValidator.validateParentGender(aFatherDinosaurOfTheWrongGender, aFemaleDinosaur));
@@ -49,7 +50,7 @@ class ParentsGenderValidatorTest {
     public void givenAMotherDinoOfWrongGender_whenValidateParentGender_thenInvalidMotherException() {
         Gender wrongGender = Gender.M;
         Dinosaur aMotherDinosaurOfTheWrongGender =
-                new Dinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, wrongGender, aFoodConsumptionStrategy);
+                new AdultDinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, wrongGender, aFoodConsumptionStrategy);
 
         assertThrows(InvalidMotherException.class,
                 ()->parentsGenderValidator.validateParentGender(aMaleDinosaur, aMotherDinosaurOfTheWrongGender));

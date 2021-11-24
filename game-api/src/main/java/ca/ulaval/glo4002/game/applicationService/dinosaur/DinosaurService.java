@@ -21,11 +21,11 @@ public class DinosaurService {
         this.babyFetcher = babyFetcher;
     }
 
-    public void addDinosaur(String name, int weight, String gender, String species) {
+    public void addAdultDinosaur(String name, int weight, String gender, String species) {
         if(herd.hasDinosaurWithName(name))
             throw new DuplicateNameException();
-        Dinosaur dinosaur = dinosaurFactory.create(gender, weight, species, name);
-        game.addDinosaur(dinosaur);
+        AdultDinosaur adultDinosaur = dinosaurFactory.createAdultDinosaur(gender, weight, species, name);
+        game.addAdultDinosaur(adultDinosaur);
     }
 
     public void breedDinosaur(String babyDinosaurName, String fatherName, String motherName) {
@@ -33,7 +33,7 @@ public class DinosaurService {
         Dinosaur motherDinosaur = herd.getDinosaurWithName(motherName);
 
         Optional<BabyDinosaur> babyDinosaur = babyFetcher.fetch(fatherDinosaur, motherDinosaur, babyDinosaurName);
-        babyDinosaur.ifPresent(game::addDinosaur);
+        babyDinosaur.ifPresent(game::addBabyDinosaur);
     }
 
     public String prepareSumoFight(String dinosaurChallengerName, String dinosaurChallengeeName) {

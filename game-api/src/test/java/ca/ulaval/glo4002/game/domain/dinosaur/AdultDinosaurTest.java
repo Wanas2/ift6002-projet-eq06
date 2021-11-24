@@ -7,22 +7,22 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class DinosaurTest {
+public class AdultDinosaurTest {
 
     private final static int DINOSAUR_WEIGHT = 87;
     private final static int STRONGER_DINOSAUR_WEIGHT = 9999;
     private final static int WEAKER_THAN = -1;
 
-    private Dinosaur aDinosaur;
-    private Dinosaur aStrongerDinosaur;
+    private AdultDinosaur adultDinosaur;
+    private AdultDinosaur aStrongerDinosaur;
     private FoodConsumptionStrategy aFoodConsumptionStrategy;
 
     @BeforeEach
     public void setup() {
         aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaur = new Dinosaur(Species.Ankylosaurus, DINOSAUR_WEIGHT, "Bobi", Gender.F,
+        adultDinosaur = new AdultDinosaur(Species.Ankylosaurus, DINOSAUR_WEIGHT, "Bobi", Gender.F,
                 aFoodConsumptionStrategy);
-        aStrongerDinosaur = new Dinosaur(Species.Ankylosaurus, STRONGER_DINOSAUR_WEIGHT, "Bob",
+        aStrongerDinosaur = new AdultDinosaur(Species.Ankylosaurus, STRONGER_DINOSAUR_WEIGHT, "Bob",
                 Gender.F, aFoodConsumptionStrategy);
     }
 
@@ -30,7 +30,7 @@ public class DinosaurTest {
     public void givenADinosaurWithFoodNeedsNotSatisfied_whenIsAlive_thenDinosaurShouldNotBeALive() {
         when(aFoodConsumptionStrategy.areFoodNeedsSatisfied()).thenReturn(false);
 
-        boolean isAlive = aDinosaur.isAlive();
+        boolean isAlive = adultDinosaur.isAlive();
 
         assertFalse(isAlive);
     }
@@ -39,45 +39,45 @@ public class DinosaurTest {
     public void givenADinosaurWithFoodNeedsSatisfied_whenIsAlive_thenDinosaurShouldBeAlive() {
         when(aFoodConsumptionStrategy.areFoodNeedsSatisfied()).thenReturn(true);
 
-        boolean isAlive = aDinosaur.isAlive();
+        boolean isAlive = adultDinosaur.isAlive();
 
         assertTrue(isAlive);
     }
 
     @Test
     public void whenLoseFight_thenDinosaurShouldNotBeAlive() {
-        aDinosaur.loseFight();
+        adultDinosaur.loseFight();
 
-        assertFalse(aDinosaur.isAlive());
+        assertFalse(adultDinosaur.isAlive());
     }
 
     @Test
     public void whenWinFight_thenDinosaurShouldBeStarving() {
-        aDinosaur.winFight();
+        adultDinosaur.winFight();
 
-        aDinosaur.askForFood();
+        adultDinosaur.askForFood();
         verify(aFoodConsumptionStrategy).getStarvingFoodNeeds(anyInt());
     }
 
     @Test
     public void givenDinosaurIsStarving_whenAskForFood_thenDinosaurShouldGetStarvingFoodNeed() {
-        aDinosaur.askForFood();
+        adultDinosaur.askForFood();
 
         verify(aFoodConsumptionStrategy).getStarvingFoodNeeds(DINOSAUR_WEIGHT);
     }
 
     @Test
     public void givenDinosaurIsNotStarving_whenAskForFood_thenDinosaurShouldGetNormalFoodNeed() {
-        aDinosaur.askForFood();
+        adultDinosaur.askForFood();
 
-        aDinosaur.askForFood();
+        adultDinosaur.askForFood();
 
         verify(aFoodConsumptionStrategy).getNonStarvingFoodNeeds(DINOSAUR_WEIGHT);
     }
 
     @Test
     public void givenAStrongerDinosaur_whenCompareStrength_thenDinosaurShouldBeWeakerThanTheStronger() {
-        int strengthComparison = aDinosaur.compareStrength(aStrongerDinosaur);
+        int strengthComparison = adultDinosaur.compareStrength(aStrongerDinosaur);
 
         assertEquals(WEAKER_THAN,strengthComparison);
     }
