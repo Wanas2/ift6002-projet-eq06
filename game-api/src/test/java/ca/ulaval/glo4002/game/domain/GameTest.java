@@ -10,7 +10,6 @@ import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -25,11 +24,9 @@ class GameTest {
     private Dinosaur anotherDinosaur;
     private Game game;
     private Pantry pantry;
-    private List<Food> food;
 
     @BeforeEach
     void setUp() {
-        initializeFood();
         turn = mock(Turn.class);
         herd = mock(Herd.class);
         aDinosaur = mock(Dinosaur.class);
@@ -40,7 +37,9 @@ class GameTest {
 
     @Test
     public void whenAddFood_thenTurnShouldAcquireANewAction() {
-        game.addFood(food);
+        List<Food> foods = someFoods();
+
+        game.addFood(foods);
 
         verify(turn).acquireNewAction(any(AddFoodAction.class));
     }
@@ -111,11 +110,9 @@ class GameTest {
         verify(herd).reset();
     }
 
-    private void initializeFood() {
+    private List<Food> someFoods() {
         Food aFoodItem = mock(Food.class);
         Food anotherFoodItem = mock(Food.class);
-        food = new ArrayList<>();
-        food.add(aFoodItem);
-        food.add(anotherFoodItem);
+        return List.of(aFoodItem,anotherFoodItem);
     }
 }

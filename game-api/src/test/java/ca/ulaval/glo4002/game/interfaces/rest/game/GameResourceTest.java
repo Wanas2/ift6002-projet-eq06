@@ -15,13 +15,12 @@ public class GameResourceTest {
     private final static int A_TURN_NUMBER = 143;
 
     private GameService gameService;
-    private TurnAssembler turnAssembler;
     private GameResource gameResource;
 
     @BeforeEach
     public void setUp() {
         gameService = mock(GameService.class);
-        turnAssembler = new TurnAssembler();
+        TurnAssembler turnAssembler = new TurnAssembler();
         gameResource = new GameResource(gameService, turnAssembler);
     }
 
@@ -37,8 +36,8 @@ public class GameResourceTest {
         when(gameService.playTurn()).thenReturn(A_TURN_NUMBER);
 
         Response response = gameResource.playTurn();
-        TurnNumberDTO responseEntity = (TurnNumberDTO)response.getEntity();
 
+        TurnNumberDTO responseEntity = (TurnNumberDTO)response.getEntity();
         assertEquals(A_TURN_NUMBER, responseEntity.turnNumber);
     }
 

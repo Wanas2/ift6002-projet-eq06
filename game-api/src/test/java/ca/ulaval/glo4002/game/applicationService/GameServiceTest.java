@@ -21,7 +21,7 @@ class GameServiceTest {
     }
 
     @Test
-    public void givenFoods_whenPlayTurn_thenGameIsPlayed() {
+    public void whenPlayTurn_thenGameIsPlayed() {
         gameService.playTurn();
 
         verify(game).playTurn();
