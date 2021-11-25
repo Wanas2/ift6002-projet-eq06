@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
+package ca.ulaval.glo4002.game.domain.dinosaur.exceptions;
 
 public class InvalidWeightException extends RuntimeException {
 }
