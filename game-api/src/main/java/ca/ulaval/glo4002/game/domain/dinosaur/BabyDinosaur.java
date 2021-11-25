@@ -11,8 +11,8 @@ public class BabyDinosaur extends Dinosaur {
     private final static int WEIGHT_INCREASE_PER_TURN = 33;
     private final static int WEIGHT_TO_BECOME_ADULT = 100;
 
-    protected Dinosaur fatherDinosaur;
-    protected Dinosaur motherDinosaur;
+    protected final Dinosaur fatherDinosaur;
+    protected final Dinosaur motherDinosaur;
 
     public BabyDinosaur(Species species, String name, Gender gender,
                         FoodConsumptionStrategy foodConsumptionStrategy, Dinosaur fatherDinosaur,

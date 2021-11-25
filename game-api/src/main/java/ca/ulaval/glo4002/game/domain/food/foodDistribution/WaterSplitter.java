@@ -32,8 +32,7 @@ public class WaterSplitter {
     }
 
     public void mergeWater(List<Food> allFreshFood) {
-        List<Food> allMergedWaterBatches = new LinkedList<>();
-        allMergedWaterBatches.addAll(waterForCarnivorous);
+        List<Food> allMergedWaterBatches = new LinkedList<>(waterForCarnivorous);
 
         for(Food waterBatch: allMergedWaterBatches) {
             addMatchingWaterBatchOfHerbivorous(waterBatch);
