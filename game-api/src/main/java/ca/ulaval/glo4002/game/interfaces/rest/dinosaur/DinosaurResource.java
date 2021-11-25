@@ -33,9 +33,6 @@ public class DinosaurResource {
     @POST
     @Path("/dinosaurs")
     public Response addDinosaur(DinosaurDTO dinosaurDTO) {
-        if(dinosaurDTO.weight <= 0) {
-            throw new InvalidWeightException();
-        }
         dinosaurService.addDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
         return Response.ok().build();
     }
@@ -74,5 +71,12 @@ public class DinosaurResource {
                 sumoRequestDTO.challengee);
         SumoResponseDTO sumoResponseDTO = sumoAssembler.toDTO(predictedWinner);
         return Response.ok().entity(sumoResponseDTO).build();
+    }
+
+    @PATCH
+    @Path("/dinosaurs/{name}")
+    public Response updateDinosaur(@PathParam("name") String name, GrowDTO growDTO) {
+        dinosaurService.updateDinosaurWeight(name, growDTO.weight);
+        return Response.ok().build();
     }
 }
