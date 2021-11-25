@@ -8,7 +8,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 
 public class OmnivorousFoodConsumptionStrategyTest {
 
@@ -36,22 +35,22 @@ public class OmnivorousFoodConsumptionStrategyTest {
     public void whenGetNonStarvingFoodNeeds_thenFoodNeedsShouldBeOneCarnivorousAndOneHerbivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getNonStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
+        assertEquals(NUMBER_OF_NEEDS, foodNeeds.size());
         assertTrue(foodNeeds.stream()
-                .anyMatch((foodNeed -> foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)));
+                .anyMatch((foodNeed->foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)));
         assertTrue(foodNeeds.stream()
-                .anyMatch((foodNeed -> foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS)));
+                .anyMatch((foodNeed->foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS)));
     }
 
     @Test
     public void whenGetStarvingFoodNeeds_thenFoodNeedsShouldBeOneCarnivorousAndOneHerbivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
+        assertEquals(NUMBER_OF_NEEDS, foodNeeds.size());
         assertTrue(foodNeeds.stream()
-                .anyMatch((foodNeed -> foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)));
+                .anyMatch((foodNeed->foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)));
         assertTrue(foodNeeds.stream()
-                .anyMatch((foodNeed -> foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS)));
+                .anyMatch((foodNeed->foodNeed.getFoodConsumption() == FoodConsumption.HERBIVOROUS)));
     }
 
     @Test

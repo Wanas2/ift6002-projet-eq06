@@ -3,18 +3,20 @@ package ca.ulaval.glo4002.game.domain.food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class CookItSubscriptionTest {
 
-    private int EXPECTED_BURGER_QUANTITY = 100;
-    private int EXPECTED_SALAD_QUANTITY = 250;
-    private int EXPECTED_WATER_QUANTITY = 10000;
+    private final int EXPECTED_BURGER_QUANTITY = 100;
+    private final int EXPECTED_SALAD_QUANTITY = 250;
+    private final int EXPECTED_WATER_QUANTITY = 10000;
 
-    private List <Food> foods;
+    private List<Food> foods;
     private FoodProvider cookItSubscription;
 
     @BeforeEach
@@ -34,13 +36,13 @@ public class CookItSubscriptionTest {
     public void whenProvidingFood_thenTheRightAmountOfFoodShouldBeProvided() {
         foods = cookItSubscription.provideFood();
         Optional<Food> burgers = foods.stream().
-                filter(food -> food.getType().equals(FoodType.BURGER)).
+                filter(food->food.getType().equals(FoodType.BURGER)).
                 findFirst();
         Optional<Food> salads = foods.stream().
-                filter(food -> food.getType().equals(FoodType.SALAD)).
+                filter(food->food.getType().equals(FoodType.SALAD)).
                 findFirst();
         Optional<Food> water = foods.stream().
-                filter(food -> food.getType().equals(FoodType.WATER)).
+                filter(food->food.getType().equals(FoodType.WATER)).
                 findFirst();
 
         assertEquals(EXPECTED_BURGER_QUANTITY, burgers.get().quantity());

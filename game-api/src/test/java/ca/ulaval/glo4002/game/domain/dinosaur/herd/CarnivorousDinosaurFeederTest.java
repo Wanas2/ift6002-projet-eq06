@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 
 public class CarnivorousDinosaurFeederTest {
 
@@ -28,7 +27,7 @@ public class CarnivorousDinosaurFeederTest {
 
     private FoodNeed weakerDinosaurFoodNeed;
     private FoodNeed strongerDinosaurFoodNeed;
-    private Map<Dinosaur,List<FoodNeed>> dinosaursWithNeed;
+    private Map<Dinosaur, List<FoodNeed>> dinosaursWithNeed;
 
     @BeforeEach
     void setUp() {
@@ -48,12 +47,12 @@ public class CarnivorousDinosaurFeederTest {
         when(strongerDinosaurFoodNeed.getFoodConsumption()).thenReturn(FoodConsumption.CARNIVOROUS);
 
         dinosaursWithNeed = Map.of(aCarnivorousDinosaur, List.of(weakerDinosaurFoodNeed),
-                aStrongerCarnivorousDinosaur,List.of(strongerDinosaurFoodNeed));
+                aStrongerCarnivorousDinosaur, List.of(strongerDinosaurFoodNeed));
     }
 
     @Test
     public void whenFeedDinosaurs_thenFoodNeedFromStrongerDinosaursShouldBeSatisfiedFirst() {
-        InOrder correctOrder = inOrder(strongerDinosaurFoodNeed,weakerDinosaurFoodNeed);
+        InOrder correctOrder = inOrder(strongerDinosaurFoodNeed, weakerDinosaurFoodNeed);
 
         carnivorousDinosaurFeeder.feedDinosaurs(dinosaursWithNeed);
 

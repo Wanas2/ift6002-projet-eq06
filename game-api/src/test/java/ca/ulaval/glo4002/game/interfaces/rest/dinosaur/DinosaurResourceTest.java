@@ -16,11 +16,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTest {
@@ -98,11 +98,11 @@ public class DinosaurResourceTest {
         when(dinosaurService.showDinosaur(A_DINOSAUR_NAME)).thenReturn(aDinosaur);
 
         Response response = dinosaurResource.showDinosaur(A_DINOSAUR_NAME);
-        DinosaurDTO expectedDinosaur = (DinosaurDTO) response.getEntity();
+        DinosaurDTO expectedDinosaur = (DinosaurDTO)response.getEntity();
 
         assertEquals(expectedDinosaur.name, A_DINOSAUR_NAME);
-        assertEquals(expectedDinosaur.weight , aDinosaurDTO.weight);
-        assertEquals(expectedDinosaur.gender , aDinosaurDTO.gender);
+        assertEquals(expectedDinosaur.weight, aDinosaurDTO.weight);
+        assertEquals(expectedDinosaur.gender, aDinosaurDTO.gender);
     }
 
     @Test
@@ -172,14 +172,14 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurNameAndAGrowDTO_whenUpdateDinosaur_thenTheServiceShouldBeCalledWithThoseArguments(){
+    public void givenADinosaurNameAndAGrowDTO_whenUpdateDinosaur_thenTheServiceShouldBeCalledWithThoseArguments() {
         dinosaurResource.updateDinosaur(A_DINOSAUR_NAME, aGrowDTO);
 
         verify(dinosaurService).updateDinosaurWeight(A_DINOSAUR_NAME, A_WEIGHT);
     }
 
     @Test
-    public void givenADinosaurNameAndAGrowDTO_whenUpdateDinosaur_thenResponseStatusShouldBe200(){
+    public void givenADinosaurNameAndAGrowDTO_whenUpdateDinosaur_thenResponseStatusShouldBe200() {
         Response response = dinosaurResource.updateDinosaur(A_DINOSAUR_NAME, aGrowDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());

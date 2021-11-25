@@ -24,7 +24,7 @@ public class CarnivorousFoodConsumptionStrategy implements FoodConsumptionStrate
 
     @Override
     public List<FoodNeed> getStarvingFoodNeeds(int weight) {
-        return getFoodNeeds(weight,STARVING_FACTOR);
+        return getFoodNeeds(weight, STARVING_FACTOR);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CarnivorousFoodConsumptionStrategy implements FoodConsumptionStrate
     private List<FoodNeed> getFoodNeeds(int weight, int foodConsumptionFactor) {
         int waterNeeded = (int)Math.ceil(foodConsumptionFactor*weight*WATER_FACTOR);
         int burgerNeeded = (int)Math.ceil(foodConsumptionFactor*weight*FOOD_FACTOR);
-        carnivorousFoodNeed = new CarnivorousFoodNeed(carnivorousFoodStorage,burgerNeeded,waterNeeded);
+        carnivorousFoodNeed = new CarnivorousFoodNeed(carnivorousFoodStorage, burgerNeeded, waterNeeded);
 
         List<FoodNeed> needs = new ArrayList<>();
         needs.add(carnivorousFoodNeed);

@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizerValidator;
 import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.ArmsTooShortException;
 import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.DinosaurAlreadyParticipatingException;
 import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.MaxCombatsReachedException;
-import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizerValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,9 +35,12 @@ public class SumoFightOrganizerValidatorTest {
         int dinosaurWeight = 476;
         int anotherWeight = 276;
         int tyrannosaurusWeight = 152;
-        aDinosaur = new AdultDinosaur(Species.Allosaurus,dinosaurWeight,dinosaurName,Gender.M,foodConsumptionStrategy);
-        anotherDinosaur = new AdultDinosaur(Species.Allosaurus,anotherWeight,anotherDinosaurName,Gender.M,foodConsumptionStrategy);
-        aTyrannosaurusRex = new AdultDinosaur(Species.TyrannosaurusRex,tyrannosaurusWeight,tyrannosaurusName,Gender.F,
+        aDinosaur = new AdultDinosaur(Species.Allosaurus, dinosaurWeight, dinosaurName, Gender.M,
+                foodConsumptionStrategy);
+        anotherDinosaur = new AdultDinosaur(Species.Allosaurus, anotherWeight, anotherDinosaurName, Gender.M,
+                foodConsumptionStrategy);
+        aTyrannosaurusRex = new AdultDinosaur(Species.TyrannosaurusRex, tyrannosaurusWeight, tyrannosaurusName,
+                Gender.F,
                 foodConsumptionStrategy);
 
         sumoFightOrganizerValidator = new SumoFightOrganizerValidator();
@@ -45,7 +48,7 @@ public class SumoFightOrganizerValidatorTest {
 
     @Test
     public void givenDinosaursHaveNotFought_whenValidateFighters_thenShouldNotThrowDinosaurAlreadyParticipatingException() {
-        assertDoesNotThrow(() -> sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
+        assertDoesNotThrow(()->sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
                 aDinosaur, anotherDinosaur));
     }
 
@@ -54,27 +57,27 @@ public class SumoFightOrganizerValidatorTest {
         dinosaursAlreadyFought.add(aDinosaur);
 
         assertThrows(DinosaurAlreadyParticipatingException.class,
-                () -> sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
+                ()->sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
                         aDinosaur, anotherDinosaur));
     }
 
     @Test
     public void givenADinosaurIsTyrannosaurusRex_whenValidateFighters_thenShouldThrowArmsTooShortException() {
         assertThrows(ArmsTooShortException.class,
-                () -> sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
+                ()->sumoFightOrganizerValidator.validateSumoFighters(dinosaursAlreadyFought,
                         aDinosaur, aTyrannosaurusRex));
     }
 
     @Test
     public void givenNumberOfFightsDoneLessThanMaxNumberFights_whenValidateSumoFight_thenShouldNotThrowMaxCombatsReachedException() {
-        assertDoesNotThrow(() -> sumoFightOrganizerValidator.validateSumoFight(NUMBER_OF_FIGHTS_DONE,
+        assertDoesNotThrow(()->sumoFightOrganizerValidator.validateSumoFight(NUMBER_OF_FIGHTS_DONE,
                 MAX_NUMBER_OF_FIGHTS_PER_TURN));
     }
 
     @Test
     public void givenNumberOfFightsDoneEqualToMaxNumberFights_whenValidateSumoFight_thenShouldThrowMaxCombatsReachedException() {
         assertThrows(MaxCombatsReachedException.class,
-                ()-> sumoFightOrganizerValidator.validateSumoFight(MAX_NUMBER_OF_FIGHTS_PER_TURN,
+                ()->sumoFightOrganizerValidator.validateSumoFight(MAX_NUMBER_OF_FIGHTS_PER_TURN,
                         MAX_NUMBER_OF_FIGHTS_PER_TURN));
     }
 }

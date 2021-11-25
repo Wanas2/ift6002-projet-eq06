@@ -31,8 +31,10 @@ class ParentsGenderValidatorTest {
     @BeforeEach
     void setUp() {
         aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aFemaleDinosaur = new AdultDinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, THE_FEMALE_GENDER, aFoodConsumptionStrategy);
-        aMaleDinosaur = new AdultDinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, THE_MALE_GENDER, aFoodConsumptionStrategy);
+        aFemaleDinosaur = new AdultDinosaur(A_SPECIES, SOMME_WEIGHT, A_NAME, THE_FEMALE_GENDER,
+                aFoodConsumptionStrategy);
+        aMaleDinosaur = new AdultDinosaur(A_SPECIES, SOMME_WEIGHT, ANOTHER_NAME, THE_MALE_GENDER,
+                aFoodConsumptionStrategy);
         parentsGenderValidator = new ParentsGenderValidator();
     }
 

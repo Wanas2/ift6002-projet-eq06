@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.game.applicationService.food;
 
 import ca.ulaval.glo4002.game.domain.Game;
-import ca.ulaval.glo4002.game.domain.food.*;
+import ca.ulaval.glo4002.game.domain.food.Food;
+import ca.ulaval.glo4002.game.domain.food.FoodHistory;
+import ca.ulaval.glo4002.game.domain.food.Pantry;
 
 import java.util.List;
 

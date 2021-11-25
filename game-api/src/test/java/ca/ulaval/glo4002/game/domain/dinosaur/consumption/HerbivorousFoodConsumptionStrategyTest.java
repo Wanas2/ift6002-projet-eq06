@@ -31,16 +31,16 @@ public class HerbivorousFoodConsumptionStrategyTest {
     public void whenGetNonStarvingFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getNonStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
-        assertEquals(FoodConsumption.HERBIVOROUS,foodNeeds.get(0).getFoodConsumption());
+        assertEquals(NUMBER_OF_NEEDS, foodNeeds.size());
+        assertEquals(FoodConsumption.HERBIVOROUS, foodNeeds.get(0).getFoodConsumption());
     }
 
     @Test
     public void whenGetStarvingFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
-        assertEquals(FoodConsumption.HERBIVOROUS,foodNeeds.get(0).getFoodConsumption());
+        assertEquals(NUMBER_OF_NEEDS, foodNeeds.size());
+        assertEquals(FoodConsumption.HERBIVOROUS, foodNeeds.get(0).getFoodConsumption());
     }
 
     @Test

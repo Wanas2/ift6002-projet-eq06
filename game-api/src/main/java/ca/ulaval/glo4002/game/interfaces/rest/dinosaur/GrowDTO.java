@@ -8,7 +8,7 @@ public class GrowDTO {
     public final int weight;
 
     @JsonCreator
-    public GrowDTO(@JsonProperty(value = "weight", required = true) int weight){
-        this.weight=weight;
+    public GrowDTO(@JsonProperty(value = "weight", required = true) int weight) {
+        this.weight = weight;
     }
 }

@@ -22,8 +22,9 @@ public class DinosaurService {
     }
 
     public void addAdultDinosaur(String name, int weight, String gender, String species) {
-        if(herd.hasDinosaurWithName(name))
+        if(herd.hasDinosaurWithName(name)) {
             throw new DuplicateNameException();
+        }
         AdultDinosaur adultDinosaur = dinosaurFactory.createAdultDinosaur(gender, weight, species, name);
         game.addAdultDinosaur(adultDinosaur);
     }
@@ -41,11 +42,11 @@ public class DinosaurService {
         Dinosaur dinosaurChallengee = herd.getDinosaurWithName(dinosaurChallengeeName);
 
         String predictedWinner = herd.predictWinnerSumoFight(dinosaurChallenger, dinosaurChallengee);
-        game.addSumoFight(dinosaurChallenger,dinosaurChallengee);
+        game.addSumoFight(dinosaurChallenger, dinosaurChallengee);
         return predictedWinner;
     }
 
-    public void updateDinosaurWeight(String dinosaurName, int weight){
+    public void updateDinosaurWeight(String dinosaurName, int weight) {
         Dinosaur dinosaur = herd.getDinosaurWithName(dinosaurName);
         dinosaur.validateWeightVariation(weight);
         game.modifyDinosaurWeight(weight, dinosaur);

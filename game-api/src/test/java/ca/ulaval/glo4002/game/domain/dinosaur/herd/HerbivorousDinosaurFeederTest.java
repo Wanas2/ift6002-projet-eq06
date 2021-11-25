@@ -27,7 +27,7 @@ public class HerbivorousDinosaurFeederTest {
 
     private FoodNeed weakerDinosaurFoodNeed;
     private FoodNeed strongerDinosaurFoodNeed;
-    private Map<Dinosaur,List<FoodNeed>> dinosaursWithNeed;
+    private Map<Dinosaur, List<FoodNeed>> dinosaursWithNeed;
 
     @BeforeEach
     void setUp() {
@@ -47,12 +47,12 @@ public class HerbivorousDinosaurFeederTest {
         when(strongerDinosaurFoodNeed.getFoodConsumption()).thenReturn(FoodConsumption.HERBIVOROUS);
 
         dinosaursWithNeed = Map.of(aHerbivorousDinosaur, List.of(weakerDinosaurFoodNeed),
-                aStrongerHerbivorousDinosaur,List.of(strongerDinosaurFoodNeed));
+                aStrongerHerbivorousDinosaur, List.of(strongerDinosaurFoodNeed));
     }
 
     @Test
     public void whenFeedDinosaurs_thenFoodNeedFromWeakerDinosaursShouldBeSatisfiedFirst() {
-        InOrder correctOrder = inOrder(weakerDinosaurFoodNeed,strongerDinosaurFoodNeed);
+        InOrder correctOrder = inOrder(weakerDinosaurFoodNeed, strongerDinosaurFoodNeed);
 
         herbivorousDinosaurFeeder.feedDinosaurs(dinosaursWithNeed);
 

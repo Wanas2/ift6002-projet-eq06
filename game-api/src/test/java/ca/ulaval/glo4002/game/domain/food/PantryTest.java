@@ -2,14 +2,14 @@ package ca.ulaval.glo4002.game.domain.food;
 
 import ca.ulaval.glo4002.game.domain.food.foodDistribution.FoodDistributor;
 import ca.ulaval.glo4002.game.domain.food.foodDistribution.WaterSplitter;
-
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-import java.util.*;
-
 
 class PantryTest {
 
@@ -89,7 +89,7 @@ class PantryTest {
     }
 
     @Test
-    public void whenGiveExactOrMostPossibleSaladDesired_thenShouldDistributeTheFoodAsked(){
+    public void whenGiveExactOrMostPossibleSaladDesired_thenShouldDistributeTheFoodAsked() {
         pantry.giveExactOrMostPossibleSaladDesired(A_FOOD_QUANTITY_1);
 
         verify(foodDistributor).distributeExactOrMostPossibleFoodAsked(FoodType.SALAD,
@@ -97,7 +97,7 @@ class PantryTest {
     }
 
     @Test
-    public void whenGiveExactOrMostPossibleBurgerDesired_thenShouldDistributeTheFoodAsked(){
+    public void whenGiveExactOrMostPossibleBurgerDesired_thenShouldDistributeTheFoodAsked() {
         pantry.giveExactOrMostPossibleBurgerDesired(A_FOOD_QUANTITY_1);
 
         verify(foodDistributor).distributeExactOrMostPossibleFoodAsked(FoodType.BURGER,
@@ -105,7 +105,7 @@ class PantryTest {
     }
 
     @Test
-    public void whenGiveExactOrMostPossibleWaterDesiredForCarnivorous_thenShouldDistributeTheFoodAsked(){
+    public void whenGiveExactOrMostPossibleWaterDesiredForCarnivorous_thenShouldDistributeTheFoodAsked() {
         pantry.giveExactOrMostPossibleWaterDesiredToCarnivorous(A_FOOD_QUANTITY_1);
 
         verify(foodDistributor).distributeExactOrMostPossibleFoodAsked(FoodType.WATER,
@@ -113,7 +113,7 @@ class PantryTest {
     }
 
     @Test
-    public void whenGiveExactOrMostPossibleWaterDesiredForHerbivorous_thenShouldDistributeTheFoodAsked(){
+    public void whenGiveExactOrMostPossibleWaterDesiredForHerbivorous_thenShouldDistributeTheFoodAsked() {
         pantry.giveExactOrMostPossibleWaterDesiredToHerbivorous(A_FOOD_QUANTITY_1);
 
         verify(foodDistributor).distributeExactOrMostPossibleFoodAsked(FoodType.WATER,
@@ -121,14 +121,14 @@ class PantryTest {
     }
 
     @Test
-    public void whenObtainFoodHistory_thenShouldComputeFreshFoodQuantities(){
+    public void whenObtainFoodHistory_thenShouldComputeFreshFoodQuantities() {
         pantry.obtainFoodHistory();
 
         verify(foodHistory).computeFreshFoodQuantities(pantry.getAllFreshFoods());
     }
 
     @Test
-    public void whenMergeWater_thenWaterShouldBeMerged(){
+    public void whenMergeWater_thenWaterShouldBeMerged() {
         pantry.mergeWater();
 
         verify(waterSplitter).mergeWater(pantry.getAllFreshFoods());
@@ -170,7 +170,7 @@ class PantryTest {
     }
 
     @Test
-    public void givenSomeFreshFoodStored_whenReset_thenPantryHasNoFreshFoodLeft(){
+    public void givenSomeFreshFoodStored_whenReset_thenPantryHasNoFreshFoodLeft() {
         orderedFoods.add(food1);
         pantry.obtainNewlyOrderedFoods(orderedFoods);
         pantry.storeAllNewlyOrderedFoods();
@@ -181,7 +181,7 @@ class PantryTest {
     }
 
     @Test
-    public void whenReset_thenHistoryShouldBeReset(){
+    public void whenReset_thenHistoryShouldBeReset() {
         pantry.reset();
 
         verify(foodHistory).reset();

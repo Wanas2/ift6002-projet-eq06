@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WaterSplitterTest {
 
-    private static final int AN_ODD_QUANTITY= 945;
+    private static final int AN_ODD_QUANTITY = 945;
     private static final int AN_EVEN_QUANTITY = 628;
     private static final int ANOTHER_EVEN_QUANTITY = 1494;
     private static final int AN_AGE = 2;
@@ -46,7 +46,7 @@ class WaterSplitterTest {
     }
 
     @Test
-    public void givenSomeBatchesOfWater_whenSplitWater_thenAllBatchesAreSplitIntoBothContainers(){
+    public void givenSomeBatchesOfWater_whenSplitWater_thenAllBatchesAreSplitIntoBothContainers() {
         int expectedSizeOfWaterContainer = 2;
         Food batchOfWater1 = new Food(FoodType.WATER, AN_EVEN_QUANTITY, AN_AGE);
         Food batchOfWater2 = new Food(FoodType.WATER, AN_EVEN_QUANTITY, ANOTHER_AGE);
@@ -60,35 +60,39 @@ class WaterSplitterTest {
     }
 
     @Test
-    public void givenAnEvenQuantityOfWater_whenSplitWater_thenTheWaterIsSplitEquallyIntoBothContainers(){
+    public void givenAnEvenQuantityOfWater_whenSplitWater_thenTheWaterIsSplitEquallyIntoBothContainers() {
         int expectedQuantityOfWater = AN_EVEN_QUANTITY/2;
         Food batchOfWater1 = new Food(FoodType.WATER, AN_EVEN_QUANTITY, AN_AGE);
         allFreshWater.add(batchOfWater1);
 
         waterSplitter.splitWater(allFreshWater);
-        int waterForCarnivorousQuantity = waterSplitter.getWaterForCarnivorous().stream().mapToInt(Food::quantity).sum();
-        int waterForHerbivorousQuantity = waterSplitter.getWaterForHerbivorous().stream().mapToInt(Food::quantity).sum();
+        int waterForCarnivorousQuantity =
+                waterSplitter.getWaterForCarnivorous().stream().mapToInt(Food::quantity).sum();
+        int waterForHerbivorousQuantity =
+                waterSplitter.getWaterForHerbivorous().stream().mapToInt(Food::quantity).sum();
 
         assertEquals(expectedQuantityOfWater, waterForCarnivorousQuantity);
         assertEquals(expectedQuantityOfWater, waterForHerbivorousQuantity);
     }
 
     @Test
-    public void givenAnOddQuantityOfWater_whenSplitWater_thenTheWaterSplitEquallyIntoBothContainers(){
+    public void givenAnOddQuantityOfWater_whenSplitWater_thenTheWaterSplitEquallyIntoBothContainers() {
         int expectedQuantityOfWater = AN_ODD_QUANTITY/2;
         Food batchOfWater1 = new Food(FoodType.WATER, AN_ODD_QUANTITY, AN_AGE);
         allFreshWater.add(batchOfWater1);
 
         waterSplitter.splitWater(allFreshWater);
-        int waterForCarnivorousQuantity = waterSplitter.getWaterForCarnivorous().stream().mapToInt(Food::quantity).sum();
-        int waterForHerbivorousQuantity = waterSplitter.getWaterForHerbivorous().stream().mapToInt(Food::quantity).sum();
+        int waterForCarnivorousQuantity =
+                waterSplitter.getWaterForCarnivorous().stream().mapToInt(Food::quantity).sum();
+        int waterForHerbivorousQuantity =
+                waterSplitter.getWaterForHerbivorous().stream().mapToInt(Food::quantity).sum();
 
         assertEquals(expectedQuantityOfWater, waterForCarnivorousQuantity);
         assertEquals(expectedQuantityOfWater, waterForHerbivorousQuantity);
     }
 
     @Test
-    public void givenMultipleBatchesOfWater_whenSplitWater_thenAllBatchesAreSplitEquallyIntoBothContainers(){
+    public void givenMultipleBatchesOfWater_whenSplitWater_thenAllBatchesAreSplitEquallyIntoBothContainers() {
         int expectedQuantityOfWaterInFirstBatch = AN_EVEN_QUANTITY/2;
         int expectedQuantityOfWaterInSecondBatch = ANOTHER_EVEN_QUANTITY/2;
         Food batchOfWater1 = new Food(FoodType.WATER, AN_EVEN_QUANTITY, AN_AGE);
@@ -105,7 +109,7 @@ class WaterSplitterTest {
     }
 
     @Test
-    public void givenABatchOfWater_whenMergeWater_thenBothSplitWaterAreMergedBack(){
+    public void givenABatchOfWater_whenMergeWater_thenBothSplitWaterAreMergedBack() {
         Food batchOfWater1 = new Food(FoodType.WATER, AN_ODD_QUANTITY, AN_AGE);
         allFreshWater.add(batchOfWater1);
 
@@ -117,7 +121,7 @@ class WaterSplitterTest {
     }
 
     @Test
-    public void givenWater_whenMergeWater_thenBothWaterContainersAreEmpty(){
+    public void givenWater_whenMergeWater_thenBothWaterContainersAreEmpty() {
         Food batchOfWater1 = new Food(FoodType.WATER, AN_ODD_QUANTITY, AN_AGE);
         allFreshWater.add(batchOfWater1);
 

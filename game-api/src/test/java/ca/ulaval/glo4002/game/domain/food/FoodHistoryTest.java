@@ -3,10 +3,10 @@ package ca.ulaval.glo4002.game.domain.food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FoodHistoryTest {
 
@@ -38,7 +38,8 @@ public class FoodHistoryTest {
         assertEquals(0, expiredFoodQuantity);
     }
 
-    @Test void givenSomeFood_whenIncreaseExpiredQuantity_thenExpiredFoodQuantityIsIncreased() {
+    @Test
+    void givenSomeFood_whenIncreaseExpiredQuantity_thenExpiredFoodQuantityIsIncreased() {
         Food food = new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_1);
 
         foodHistory.increaseExpiredQuantity(food);
@@ -49,7 +50,8 @@ public class FoodHistoryTest {
         assertEquals(food.quantity(), expiredFoodQuantity);
     }
 
-    @Test void givenSomeFood_whenIncreaseConsumedQuantity_theConsumedFoodQuantityIsIncreased() {
+    @Test
+    void givenSomeFood_whenIncreaseConsumedQuantity_theConsumedFoodQuantityIsIncreased() {
         Food food = new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_1);
 
         foodHistory.increaseConsumedQuantity(food);
@@ -62,8 +64,8 @@ public class FoodHistoryTest {
 
     @Test
     public void givenSomeFreshFood_whenComputeFreshFoodQuantities_thenSumsOfEachFoodTypesShouldBeComputedCorrectly() {
-        int expectedFoodType1Quantity = A_FOOD_QUANTITY_1 + A_FOOD_QUANTITY_2;
-        int expectedFoodType2Quantity = A_FOOD_QUANTITY_2 + A_FOOD_QUANTITY_3;
+        int expectedFoodType1Quantity = A_FOOD_QUANTITY_1+A_FOOD_QUANTITY_2;
+        int expectedFoodType2Quantity = A_FOOD_QUANTITY_2+A_FOOD_QUANTITY_3;
         int expectedFoodType3Quantity = 0;
         List<Food> allFreshFoods = new ArrayList<>();
         allFreshFoods.add(new Food(A_FOOD_TYPE_1, A_FOOD_QUANTITY_1));

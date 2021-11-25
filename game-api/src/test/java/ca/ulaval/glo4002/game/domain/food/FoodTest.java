@@ -50,13 +50,13 @@ class FoodTest {
 
     @Test
     public void givenFoodOfADifferentTypeQuantityToAdd_whenIncreaseQuantity_thenExceptionShouldBeThrown() {
-        assertThrows(FoodTypesNotMatchingException.class, () -> food.increaseQuantity(foodOfADifferentType));
+        assertThrows(FoodTypesNotMatchingException.class, ()->food.increaseQuantity(foodOfADifferentType));
     }
 
     @Test
     public void givenAFoodAndAFoodQuantityToDecrease_whenDecreaseQuantity_thenQuantityShouldBeDecreased() {
         int foodQuantityToDecrease = 2;
-        int expectedFoodQuantity = FOOD_QUANTITY - foodQuantityToDecrease;
+        int expectedFoodQuantity = FOOD_QUANTITY-foodQuantityToDecrease;
 
         food.decreaseQuantity(foodQuantityToDecrease);
 

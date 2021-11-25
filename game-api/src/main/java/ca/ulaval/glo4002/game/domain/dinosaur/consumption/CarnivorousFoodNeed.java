@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
-public class CarnivorousFoodNeed implements FoodNeed{
+public class CarnivorousFoodNeed implements FoodNeed {
 
     private final FoodConsumption foodConsumption = FoodConsumption.CARNIVOROUS;
     private final CarnivorousFoodStorage foodStorage;

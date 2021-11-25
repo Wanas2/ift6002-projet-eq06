@@ -15,14 +15,14 @@ public class FoodDistributor {
                                                       int requestedQuantity, FoodHistory foodHistory) {
         int totalFoodGivenQuantity = 0;
         int remainingFoodQuantityToProvide = requestedQuantity;
-        Predicate<Food> mustBeOfFoodTypeToProvide = foodFiltered -> foodFiltered.getType().equals(foodTypeToProvide);
+        Predicate<Food> mustBeOfFoodTypeToProvide = foodFiltered->foodFiltered.getType().equals(foodTypeToProvide);
 
         List<Food> allFoodsMatchingFoodTypeToProvide = allFreshFood.stream()
                 .filter(mustBeOfFoodTypeToProvide)
                 .collect(Collectors.toList());
 
         List<Food> allFoodsProvided = new ArrayList<>();
-        for(Food food : allFoodsMatchingFoodTypeToProvide) {
+        for(Food food: allFoodsMatchingFoodTypeToProvide) {
             if(remainingFoodQuantityToProvide <= food.quantity()) {
                 food.decreaseQuantity(remainingFoodQuantityToProvide);
                 foodHistory.

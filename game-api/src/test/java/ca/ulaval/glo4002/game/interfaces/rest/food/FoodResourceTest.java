@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +56,7 @@ class FoodResourceTest {
     }
 
     @Test
-    public void whenGetFoodQuantitySummary_thenShouldGetFoodQuantitySummary(){
+    public void whenGetFoodQuantitySummary_thenShouldGetFoodQuantitySummary() {
         initializeFreshFood();
         foodHistory.computeFreshFoodQuantities(freshFood);
         when(resourceService.getFoodQuantitySummary()).thenReturn(foodHistory);
@@ -68,7 +67,7 @@ class FoodResourceTest {
     }
 
     @Test
-    public void whenGetFoodQuantitySummary_thenFoodSummaryDTOShouldBeCreated(){
+    public void whenGetFoodQuantitySummary_thenFoodSummaryDTOShouldBeCreated() {
         initializeFreshFood();
         foodHistory.computeFreshFoodQuantities(freshFood);
         when(resourceService.getFoodQuantitySummary()).thenReturn(foodHistory);
@@ -83,7 +82,7 @@ class FoodResourceTest {
     }
 
     @Test
-    public void whenGetFoodQuantitySummary_thenResponseStatusShouldBe200(){
+    public void whenGetFoodQuantitySummary_thenResponseStatusShouldBe200() {
         initializeFreshFood();
         foodHistory.computeFreshFoodQuantities(freshFood);
         when(resourceService.getFoodQuantitySummary()).thenReturn(foodHistory);

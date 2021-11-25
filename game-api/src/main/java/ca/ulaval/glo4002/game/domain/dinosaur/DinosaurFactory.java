@@ -32,7 +32,7 @@ public class DinosaurFactory {
 
     public BabyDinosaur createBaby(String genderName, String speciesName, String name, Dinosaur fatherDinosaur,
                                    Dinosaur motherDinosaur) {
-        validateParentsGender(fatherDinosaur,motherDinosaur);
+        validateParentsGender(fatherDinosaur, motherDinosaur);
         Gender gender = findCorrespondingGender(genderName);
         Species species = findCorrespondingSpecies(speciesName);
         FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);
@@ -41,10 +41,10 @@ public class DinosaurFactory {
     }
 
     private void validateParentsGender(Dinosaur fatherDinosaur, Dinosaur motherDinosaur) {
-        if (fatherDinosaur.getGender() != Gender.M){
+        if(fatherDinosaur.getGender() != Gender.M) {
             throw new InvalidFatherException();
         }
-        if (motherDinosaur.getGender() != Gender.F){
+        if(motherDinosaur.getGender() != Gender.F) {
             throw new InvalidMotherException();
         }
     }
@@ -53,7 +53,7 @@ public class DinosaurFactory {
         gender = gender.toUpperCase();
         try {
             return Gender.valueOf(gender);
-        } catch (IllegalArgumentException e) {
+        } catch(IllegalArgumentException e) {
             throw new InvalidGenderException();
         }
     }

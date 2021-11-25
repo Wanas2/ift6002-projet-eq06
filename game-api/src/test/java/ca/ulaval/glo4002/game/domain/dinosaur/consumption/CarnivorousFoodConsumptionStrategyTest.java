@@ -8,7 +8,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 
 public class CarnivorousFoodConsumptionStrategyTest {
 
@@ -32,16 +31,16 @@ public class CarnivorousFoodConsumptionStrategyTest {
     public void whenGetNonStarvingFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getNonStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
-        assertEquals(FoodConsumption.CARNIVOROUS,foodNeeds.get(0).getFoodConsumption());
+        assertEquals(NUMBER_OF_NEEDS, foodNeeds.size());
+        assertEquals(FoodConsumption.CARNIVOROUS, foodNeeds.get(0).getFoodConsumption());
     }
 
     @Test
     public void whenGetStarvingFoodNeeds_thenFoodNeedsShouldBeOnlyOneCarnivorousNeed() {
         List<FoodNeed> foodNeeds = strategy.getStarvingFoodNeeds(WEIGHT);
 
-        assertEquals(NUMBER_OF_NEEDS,foodNeeds.size());
-        assertEquals(FoodConsumption.CARNIVOROUS,foodNeeds.get(0).getFoodConsumption());
+        assertEquals(NUMBER_OF_NEEDS, foodNeeds.size());
+        assertEquals(FoodConsumption.CARNIVOROUS, foodNeeds.get(0).getFoodConsumption());
     }
 
     @Test

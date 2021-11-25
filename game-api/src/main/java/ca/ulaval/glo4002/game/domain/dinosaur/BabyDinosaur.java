@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidBabyWeightChangeException;
-import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightChangeException;
 
 import java.util.Optional;
 
@@ -40,7 +39,7 @@ public class BabyDinosaur extends Dinosaur {
 
     public Optional<AdultDinosaur> becomeAdult() {
         Optional<AdultDinosaur> potentialAdultDinosaur = Optional.empty();
-        if (this.weight >= WEIGHT_TO_BECOME_ADULT) {
+        if(this.weight >= WEIGHT_TO_BECOME_ADULT) {
             AdultDinosaur adultDinosaur = new AdultDinosaur(this.getSpecies(), this.weight,
                     this.getName(), this.getGender(), this.foodConsumptionStrategy);
             adultDinosaur.isStarving = false;

@@ -8,5 +8,5 @@ import java.util.Map;
 
 public interface DinosaurFeeder {
 
-    void feedDinosaurs(Map<Dinosaur,List<FoodNeed>> dinosaursWithNeed);
+    void feedDinosaurs(Map<Dinosaur, List<FoodNeed>> dinosaursWithNeed);
 }

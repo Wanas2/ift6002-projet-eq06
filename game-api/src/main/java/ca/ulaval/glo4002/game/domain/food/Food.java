@@ -22,8 +22,7 @@ public class Food {
     public void increaseQuantity(Food food) throws FoodTypesNotMatchingException {
         if((food.type).equals(type)) {
             quantity += food.quantity;
-        }
-        else {
+        } else {
             throw new FoodTypesNotMatchingException();
         }
     }

@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.DinosaurAlreadyParticipatingException;
-import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.MaxCombatsReachedException;
 import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizer;
 import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizerValidator;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.DinosaurAlreadyParticipatingException;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.exceptions.MaxCombatsReachedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -84,7 +84,7 @@ public class SumoFightOrganizerTest {
         sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aDinosaur);
 
         assertThrows(DinosaurAlreadyParticipatingException.class,
-                () -> sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aWeakDinosaur));
+                ()->sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aWeakDinosaur));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class SumoFightOrganizerTest {
         sumoFightOrganizer.scheduleSumoFight(aStrongerDinosaur, aStrongerDinosaur);
         sumoFightOrganizer.scheduleSumoFight(aWeakDinosaur, aWeakDinosaur);
 
-        assertThrows(MaxCombatsReachedException.class, () -> sumoFightOrganizer.scheduleSumoFight(aDinosaur, aDinosaur));
+        assertThrows(MaxCombatsReachedException.class, ()->sumoFightOrganizer.scheduleSumoFight(aDinosaur, aDinosaur));
     }
 
     @Test
@@ -106,6 +106,6 @@ public class SumoFightOrganizerTest {
 
         sumoFightOrganizer.reset();
 
-        assertDoesNotThrow(() -> sumoFightOrganizer.scheduleSumoFight(aDinosaur, aDinosaur));
+        assertDoesNotThrow(()->sumoFightOrganizer.scheduleSumoFight(aDinosaur, aDinosaur));
     }
 }

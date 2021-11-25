@@ -21,7 +21,7 @@ public class GameRepositoryInMemoryTest {
     }
 
     @Test
-    public void shouldBeInitiallyEmpty(){
+    public void shouldBeInitiallyEmpty() {
         assertTrue(gameRepository.find().isEmpty());
     }
 
@@ -49,5 +49,4 @@ public class GameRepositoryInMemoryTest {
 
         assertTrue(gameRepository.find().isEmpty());
     }
-
 }

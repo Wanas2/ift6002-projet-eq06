@@ -31,8 +31,8 @@ public class GeneralBadRequestExceptionMapperTest {
     public void whenBadRequestResponse_thenResponseShouldContainErrorCodeAndMessage() {
         Response response = mapper.badRequestResponse(AN_ERROR_CODE, A_MESSAGE);
 
-        ExceptionDTO responseBody = (ExceptionDTO) response.getEntity();
+        ExceptionDTO responseBody = (ExceptionDTO)response.getEntity();
         assertEquals(AN_ERROR_CODE, responseBody.error);
-        assertEquals(A_MESSAGE,responseBody.description);
+        assertEquals(A_MESSAGE, responseBody.description);
     }
 }

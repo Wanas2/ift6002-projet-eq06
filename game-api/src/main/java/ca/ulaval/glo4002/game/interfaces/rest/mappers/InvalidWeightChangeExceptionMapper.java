@@ -11,7 +11,8 @@ public class InvalidWeightChangeExceptionMapper extends GeneralBadRequestExcepti
         implements ExceptionMapper<InvalidWeightChangeException> {
 
     private final static String ERROR_CODE = "INVALID_WEIGHT_CHANGE";
-    private final static String ERROR_MESSAGE = "The specified weight loss must not make the dinosaur weight less than 100 kg.";
+    private final static String ERROR_MESSAGE = "The specified weight loss must not make the dinosaur weight less " +
+            "than 100 kg.";
 
     @Override
     public Response toResponse(InvalidWeightChangeException exception) {

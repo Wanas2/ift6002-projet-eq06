@@ -25,8 +25,8 @@ public class AdultDinosaurTest {
     }
 
     @Test
-    void givenAPositiveWeightVariation_whenModifyWeight_thenTheWeightVariationShouldBeAddedToTheDinosaurWeight(){
-        int dinosaurWeightAfterWeightIncrease = aDinosaur.getWeight() + A_POSITIVE_WEIGHT_VARIATION;
+    void givenAPositiveWeightVariation_whenModifyWeight_thenTheWeightVariationShouldBeAddedToTheDinosaurWeight() {
+        int dinosaurWeightAfterWeightIncrease = aDinosaur.getWeight()+A_POSITIVE_WEIGHT_VARIATION;
 
         aDinosaur.modifyWeight(A_POSITIVE_WEIGHT_VARIATION);
         int newDinosaurWeight = aDinosaur.getWeight();
@@ -36,10 +36,10 @@ public class AdultDinosaurTest {
 
     @Test
     public void givenANegativeWeightVariationMoreThanACurrentWeight_whenModifyWeight_ThenShouldThrowInvalidWeightChangeException() {
-        int weightVariation = -(DINOSAUR_WEIGHT + 1);
+        int weightVariation = -(DINOSAUR_WEIGHT+1);
 
         assertThrows(InvalidWeightChangeException.class,
-                () -> aDinosaur.validateWeightVariation(weightVariation)
+                ()->aDinosaur.validateWeightVariation(weightVariation)
         );
     }
 }

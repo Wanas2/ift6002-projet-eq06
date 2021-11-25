@@ -98,10 +98,10 @@ class DinosaurTest {
     public void givenAStrongerDinosaur_whenCompareStrength_thenDinosaurShouldBeWeakerThanTheStronger() {
         int strengthComparison = aDinosaurImpl.compareStrength(aStrongerDinosaurImpl);
 
-        assertEquals(WEAKER_THAN,strengthComparison);
+        assertEquals(WEAKER_THAN, strengthComparison);
     }
 
-    class DinosaurImpl extends Dinosaur{
+    class DinosaurImpl extends Dinosaur {
 
         public DinosaurImpl(Species species, int weight, String name, Gender gender,
                             FoodConsumptionStrategy foodConsumptionStrategy) {

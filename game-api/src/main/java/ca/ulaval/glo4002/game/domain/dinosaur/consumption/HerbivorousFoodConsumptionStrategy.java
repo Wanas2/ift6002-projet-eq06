@@ -24,7 +24,7 @@ public class HerbivorousFoodConsumptionStrategy implements FoodConsumptionStrate
 
     @Override
     public List<FoodNeed> getStarvingFoodNeeds(int weight) {
-        return getFoodNeeds(weight,STARVING_FACTOR);
+        return getFoodNeeds(weight, STARVING_FACTOR);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class HerbivorousFoodConsumptionStrategy implements FoodConsumptionStrate
     private List<FoodNeed> getFoodNeeds(int weight, int foodConsumptionFactor) {
         int waterNeeded = (int)Math.ceil(foodConsumptionFactor*weight*WATER_FACTOR);
         int saladNeeded = (int)Math.ceil(foodConsumptionFactor*weight*FOOD_FACTOR);
-        herbivorousFoodNeed = new HerbivorousFoodNeed(herbivorousFoodStorage,saladNeeded,waterNeeded);
+        herbivorousFoodNeed = new HerbivorousFoodNeed(herbivorousFoodStorage, saladNeeded, waterNeeded);
 
         List<FoodNeed> needs = new ArrayList<>();
         needs.add(herbivorousFoodNeed);

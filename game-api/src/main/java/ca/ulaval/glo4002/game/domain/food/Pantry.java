@@ -3,7 +3,10 @@ package ca.ulaval.glo4002.game.domain.food;
 import ca.ulaval.glo4002.game.domain.food.foodDistribution.FoodDistributor;
 import ca.ulaval.glo4002.game.domain.food.foodDistribution.WaterSplitter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class Pantry implements FoodStorage {
@@ -24,14 +27,14 @@ public class Pantry implements FoodStorage {
     }
 
     public void obtainNewlyOrderedFoods(List<Food> orderedFoods) {
-        for(FoodType foodType : FoodType.values()) {
-            Predicate<Food> mustBeOfOfCurrentFoodType = foodFiltered -> foodFiltered.getType().equals(foodType);
+        for(FoodType foodType: FoodType.values()) {
+            Predicate<Food> mustBeOfOfCurrentFoodType = foodFiltered->foodFiltered.getType().equals(foodType);
 
             Optional<Food> foodOrderedOfMatchingType = orderedFoods.stream()
                     .filter(mustBeOfOfCurrentFoodType)
                     .findFirst();
 
-            foodOrderedOfMatchingType.ifPresent(food ->
+            foodOrderedOfMatchingType.ifPresent(food->
                     addToMatchingFood(food, currentTurnFoodBatch));
         }
     }
@@ -40,20 +43,20 @@ public class Pantry implements FoodStorage {
         List<Food> newBatchOfFood = new ArrayList<>();
         List<Food> foodFromProvider = foodProvider.provideFood();
 
-        for (FoodType foodType : FoodType.values()) {
-            Predicate<Food> mustBeOfOfCurrentFoodType = foodFiltered -> foodFiltered.getType().equals(foodType);
+        for(FoodType foodType: FoodType.values()) {
+            Predicate<Food> mustBeOfOfCurrentFoodType = foodFiltered->foodFiltered.getType().equals(foodType);
 
             Optional<Food> foodFromCurrentTurnFoodBatch = currentTurnFoodBatch.stream()
                     .filter(mustBeOfOfCurrentFoodType)
                     .findFirst();
             foodFromCurrentTurnFoodBatch.ifPresent(food
-                    -> addToMatchingFood(food, newBatchOfFood));
+                    ->addToMatchingFood(food, newBatchOfFood));
 
             Optional<Food> foodFromFoodProvider = foodFromProvider.stream()
                     .filter(mustBeOfOfCurrentFoodType)
                     .findFirst();
             foodFromFoodProvider.ifPresent(food
-                    -> addToMatchingFood(food, newBatchOfFood));
+                    ->addToMatchingFood(food, newBatchOfFood));
         }
 
         allFreshFoods.addAll(newBatchOfFood);
@@ -124,8 +127,8 @@ public class Pantry implements FoodStorage {
     }
 
     private void addToMatchingFood(Food foodToAdd, List<Food> foodsToAddTo) {
-        Predicate<Food> mustBeOfRequiredFoodType = foodFiltered -> foodFiltered.getType().equals(foodToAdd.getType());
-        Predicate<Food> mustBeOfRequiredFoodAge = foodFiltered -> foodFiltered.getAge() == foodToAdd.getAge();
+        Predicate<Food> mustBeOfRequiredFoodType = foodFiltered->foodFiltered.getType().equals(foodToAdd.getType());
+        Predicate<Food> mustBeOfRequiredFoodAge = foodFiltered->foodFiltered.getAge() == foodToAdd.getAge();
 
         createEmptyMatchingFoodIsNotPresent(foodsToAddTo, foodToAdd.getType(), foodToAdd.getAge());
 
@@ -133,19 +136,19 @@ public class Pantry implements FoodStorage {
                 .filter(mustBeOfRequiredFoodType.and(mustBeOfRequiredFoodAge))
                 .findFirst();
 
-        matchingFoodToAddTo.ifPresent((food -> {
+        matchingFoodToAddTo.ifPresent((food->{
             try {
                 food.increaseQuantity(foodToAdd);
-            } catch (FoodTypesNotMatchingException e) {
+            } catch(FoodTypesNotMatchingException e) {
                 e.printStackTrace();
             }
         }));
     }
 
     private void createEmptyMatchingFoodIsNotPresent(List<Food> foods, FoodType requiredFoodType,
-                                                        int requiredFoodAge) {
-        Predicate<Food> mustBeOfRequiredFoodType = foodFiltered -> foodFiltered.getType().equals(requiredFoodType);
-        Predicate<Food> mustBeOfRequiredFoodAge = foodFiltered -> foodFiltered.getAge() == requiredFoodAge;
+                                                     int requiredFoodAge) {
+        Predicate<Food> mustBeOfRequiredFoodType = foodFiltered->foodFiltered.getType().equals(requiredFoodType);
+        Predicate<Food> mustBeOfRequiredFoodAge = foodFiltered->foodFiltered.getAge() == requiredFoodAge;
 
         Optional<Food> matchingFood = foods.stream()
                 .filter(mustBeOfRequiredFoodType.and(mustBeOfRequiredFoodAge))

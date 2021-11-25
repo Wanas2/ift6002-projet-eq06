@@ -1,6 +1,8 @@
 package ca.ulaval.glo4002.game.domain.food;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class FoodHistory {
@@ -16,19 +18,19 @@ public class FoodHistory {
 
     public void increaseExpiredQuantity(Food food) {
         int currentFoodQuantity = expiredFoodQuantities.get(food.getType());
-        int newFoodQuantity = currentFoodQuantity + food.quantity();
+        int newFoodQuantity = currentFoodQuantity+food.quantity();
         expiredFoodQuantities.put(food.getType(), newFoodQuantity);
     }
 
     public void increaseConsumedQuantity(Food food) {
         int currentFoodQuantity = consumedFoodQuantities.get(food.getType());
-        int newFoodQuantity = currentFoodQuantity + food.quantity();
+        int newFoodQuantity = currentFoodQuantity+food.quantity();
         consumedFoodQuantities.put(food.getType(), newFoodQuantity);
     }
 
     public void computeFreshFoodQuantities(List<Food> allFreshFoods) {
-        for(FoodType foodType : FoodType.values()) {
-            Predicate<Food> foodTypeFilter = foodFiltered -> foodFiltered.getType().equals(foodType);
+        for(FoodType foodType: FoodType.values()) {
+            Predicate<Food> foodTypeFilter = foodFiltered->foodFiltered.getType().equals(foodType);
             int foodQuantity = allFreshFoods.stream()
                     .filter(foodTypeFilter)
                     .mapToInt(Food::quantity).sum();

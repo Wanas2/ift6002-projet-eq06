@@ -7,10 +7,10 @@ import java.util.List;
 
 abstract public class Dinosaur {
 
-    private Species species;
+    private final Species species;
     protected int weight;
-    private String name;
-    private Gender gender;
+    private final String name;
+    private final Gender gender;
     protected final FoodConsumptionStrategy foodConsumptionStrategy;
     private boolean isAlive = true;
     protected boolean isStarving = true;
@@ -34,7 +34,7 @@ abstract public class Dinosaur {
 
     public List<FoodNeed> askForFood() {
         List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :
-                            foodConsumptionStrategy.getNonStarvingFoodNeeds(weight);
+                foodConsumptionStrategy.getNonStarvingFoodNeeds(weight);
         isStarving = false;
         return foodNeeds;
     }

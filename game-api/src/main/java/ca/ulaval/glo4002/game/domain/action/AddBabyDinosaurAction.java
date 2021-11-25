@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.game.domain.action;
 
-import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 

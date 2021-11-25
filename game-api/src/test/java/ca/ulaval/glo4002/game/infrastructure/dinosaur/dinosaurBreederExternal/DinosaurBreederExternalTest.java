@@ -49,10 +49,10 @@ public class DinosaurBreederExternalTest {
 
     @Test
     public void whenBreed_thenInvocationBuilderShouldPostTheEntity() throws SpeciesWillNotBreedException {
-        dinosaurBreederExternal.breed(externalService,breedingRequestExternalDTO);
+        dinosaurBreederExternal.breed(externalService, breedingRequestExternalDTO);
 
         ArgumentMatcher<Entity<BreedingRequestExternalDTO>> isTheEntityWithJsonMediaTypeAndContainingTheDTO =
-                entity -> entity.getEntity().equals(breedingRequestExternalDTO) &&
+                entity->entity.getEntity().equals(breedingRequestExternalDTO) &&
                         entity.getMediaType().toString().equals(MediaType.APPLICATION_JSON);
         verify(invocationBuilder).post(argThat(isTheEntityWithJsonMediaTypeAndContainingTheDTO));
     }
@@ -65,9 +65,9 @@ public class DinosaurBreederExternalTest {
                 .thenReturn(expectedBabyDinosaurResponseDTO);
 
         BabyDinosaurResponseDTO fetchedBabyDinosaurResponseDTO
-                = dinosaurBreederExternal.breed(externalService,breedingRequestExternalDTO);
+                = dinosaurBreederExternal.breed(externalService, breedingRequestExternalDTO);
 
-        assertEquals(expectedBabyDinosaurResponseDTO,fetchedBabyDinosaurResponseDTO);
+        assertEquals(expectedBabyDinosaurResponseDTO, fetchedBabyDinosaurResponseDTO);
     }
 
     @Test
@@ -75,6 +75,6 @@ public class DinosaurBreederExternalTest {
         when(responseOfExternalService.getStatus()).thenReturn(STATUS_400_BAD_REQUEST);
 
         assertThrows(SpeciesWillNotBreedException.class,
-                () -> dinosaurBreederExternal.breed(externalService,breedingRequestExternalDTO));
+                ()->dinosaurBreederExternal.breed(externalService, breedingRequestExternalDTO));
     }
 }

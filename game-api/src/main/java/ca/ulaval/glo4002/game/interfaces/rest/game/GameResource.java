@@ -23,7 +23,7 @@ public class GameResource {
     @POST
     @Path("/turn")
     public Response playTurn() {
-        int turnNumber =  gameService.playTurn();
+        int turnNumber = gameService.playTurn();
         TurnNumberDTO turnDTO = turnAssembler.toDTO(turnNumber);
 
         return Response.ok().entity(turnDTO).build();

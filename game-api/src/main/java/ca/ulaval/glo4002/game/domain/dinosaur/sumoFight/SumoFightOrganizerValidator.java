@@ -13,17 +13,17 @@ public class SumoFightOrganizerValidator {
     public void validateSumoFighters(List<Dinosaur> dinosaursAlreadyFighting, Dinosaur dinosaurChallenger,
                                      Dinosaur dinosaurChallengee) {
         if(dinosaursAlreadyFighting.contains(dinosaurChallenger)
-                || dinosaursAlreadyFighting.contains(dinosaurChallengee)){
+                || dinosaursAlreadyFighting.contains(dinosaurChallengee)) {
             throw new DinosaurAlreadyParticipatingException();
         }
-        if (dinosaurChallenger.getSpecies() == Species.TyrannosaurusRex
-                || dinosaurChallengee.getSpecies() == Species.TyrannosaurusRex){
+        if(dinosaurChallenger.getSpecies() == Species.TyrannosaurusRex
+                || dinosaurChallengee.getSpecies() == Species.TyrannosaurusRex) {
             throw new ArmsTooShortException();
         }
     }
 
     public void validateSumoFight(int numberOfFightDone, int maxFightToDo) {
-        if(numberOfFightDone >= maxFightToDo){
+        if(numberOfFightDone >= maxFightToDo) {
             throw new MaxCombatsReachedException();
         }
     }

@@ -1,18 +1,21 @@
 package ca.ulaval.glo4002.game.domain;
 
-import ca.ulaval.glo4002.game.domain.action.*;
+import ca.ulaval.glo4002.game.domain.action.AddAdultDinosaurAction;
+import ca.ulaval.glo4002.game.domain.action.AddBabyDinosaurAction;
+import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
+import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
 import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -64,7 +67,7 @@ class GameTest {
 
     @Test
     public void whenAddSumoFight_thenTurnShouldAcquireANewAction() {
-        game.addSumoFight(aDinosaur,anotherDinosaur);
+        game.addSumoFight(aDinosaur, anotherDinosaur);
 
         verify(turn).acquireNewAction(any(SumoFightAction.class));
     }
@@ -152,6 +155,6 @@ class GameTest {
     private List<Food> someFoods() {
         Food aFoodItem = mock(Food.class);
         Food anotherFoodItem = mock(Food.class);
-        return List.of(aFoodItem,anotherFoodItem);
+        return List.of(aFoodItem, anotherFoodItem);
     }
 }

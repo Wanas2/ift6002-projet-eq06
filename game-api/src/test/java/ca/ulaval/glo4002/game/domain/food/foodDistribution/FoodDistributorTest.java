@@ -5,12 +5,12 @@ import ca.ulaval.glo4002.game.domain.food.FoodHistory;
 import ca.ulaval.glo4002.game.domain.food.FoodType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 class FoodDistributorTest {
 
@@ -33,7 +33,7 @@ class FoodDistributorTest {
         int requestedFoodQuantity = 4;
         int quantityOfAvailableFreshBurgersBeforeGiving = 10;
         int quantityOfAvailableFreshSaladsBeforeGiving = 15;
-        int expectedRemainingBurgerQuantity = quantityOfAvailableFreshBurgersBeforeGiving - requestedFoodQuantity;
+        int expectedRemainingBurgerQuantity = quantityOfAvailableFreshBurgersBeforeGiving-requestedFoodQuantity;
         Food freshBurgers = new Food(A_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshBurgersBeforeGiving);
         Food freshSalads = new Food(ANOTHER_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshSaladsBeforeGiving);
         allFreshFoods.add(freshBurgers);
@@ -41,8 +41,8 @@ class FoodDistributorTest {
 
         foodDistributor.distributeExactOrMostPossibleFoodAsked(A_FOOD_TYPE_TO_PROVIDE, allFreshFoods,
                 requestedFoodQuantity, foodHistory);
-        int remainingBurgerQuantity  = allFreshFoods.get(0).quantity();
-        int remainingSaladQuantity  = allFreshFoods.get(1).quantity();
+        int remainingBurgerQuantity = allFreshFoods.get(0).quantity();
+        int remainingSaladQuantity = allFreshFoods.get(1).quantity();
 
         assertEquals(expectedRemainingBurgerQuantity, remainingBurgerQuantity);
         assertEquals(quantityOfAvailableFreshSaladsBeforeGiving, remainingSaladQuantity);
@@ -68,7 +68,6 @@ class FoodDistributorTest {
         allFreshFoods.add(food);
         int totalFoodGivenQuantity = foodDistributor.distributeExactOrMostPossibleFoodAsked(A_FOOD_TYPE_TO_PROVIDE,
                 allFreshFoods, requestedFoodQuantity, foodHistory);
-
 
         assertEquals(requestedFoodQuantity, totalFoodGivenQuantity);
     }
@@ -104,9 +103,9 @@ class FoodDistributorTest {
         int requestedFoodQuantity = 12;
         int quantityOfAvailableFreshBurgersInFirstBatch = 5;
         int quantityOfAvailableFreshBurgersInSecondBatch = 10;
-        int expectedRemainingFoodQuantity = quantityOfAvailableFreshBurgersInFirstBatch +
+        int expectedRemainingFoodQuantity = quantityOfAvailableFreshBurgersInFirstBatch+
                 quantityOfAvailableFreshBurgersInSecondBatch
-                - requestedFoodQuantity;
+                -requestedFoodQuantity;
         allFreshFoods.add(new Food(A_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshBurgersInFirstBatch));
         allFreshFoods.add(new Food(A_FOOD_TYPE_TO_PROVIDE, quantityOfAvailableFreshBurgersInSecondBatch));
 
@@ -114,7 +113,7 @@ class FoodDistributorTest {
                 requestedFoodQuantity, foodHistory);
 
         int remainingFoodQuantityAfterGiving = allFreshFoods.stream()
-                .filter(foodFiltered -> foodFiltered.getType().equals(A_FOOD_TYPE_TO_PROVIDE))
+                .filter(foodFiltered->foodFiltered.getType().equals(A_FOOD_TYPE_TO_PROVIDE))
                 .mapToInt(Food::quantity).sum();
 
         assertEquals(expectedRemainingFoodQuantity, remainingFoodQuantityAfterGiving);

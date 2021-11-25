@@ -3,8 +3,8 @@ package ca.ulaval.glo4002.game.domain.dinosaur.herd;
 import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizer;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizer;
 
 import java.util.*;
 
@@ -24,7 +24,7 @@ public class Herd {
     }
 
     public boolean hasDinosaurWithName(String name) {
-        for(Dinosaur dino : dinosaurs) {
+        for(Dinosaur dino: dinosaurs) {
             if(dino.getName().equals(name)) {
                 return true;
             }
@@ -47,10 +47,10 @@ public class Herd {
     }
 
     public void feedDinosaurs() {
-        Map<Dinosaur,List<FoodNeed>> dinosaursWithNeed = new HashMap<>();
-        dinosaurs.forEach(dinosaur -> dinosaursWithNeed.put(dinosaur,dinosaur.askForFood()));
+        Map<Dinosaur, List<FoodNeed>> dinosaursWithNeed = new HashMap<>();
+        dinosaurs.forEach(dinosaur->dinosaursWithNeed.put(dinosaur, dinosaur.askForFood()));
 
-        dinosaurFeeders.forEach(dinosaurFeeder -> dinosaurFeeder.feedDinosaurs(dinosaursWithNeed));
+        dinosaurFeeders.forEach(dinosaurFeeder->dinosaurFeeder.feedDinosaurs(dinosaursWithNeed));
 
         removeFastingDinosaurs();
         updateAdultDinosaursList();
@@ -64,7 +64,7 @@ public class Herd {
     }
 
     public Dinosaur getDinosaurWithName(String dinosaurName) {
-        for(Dinosaur dino : dinosaurs) {
+        for(Dinosaur dino: dinosaurs) {
             if(dino.getName().equals(dinosaurName)) {
                 return dino;
             }
@@ -77,7 +77,7 @@ public class Herd {
     }
 
     private void removeFastingDinosaurs() {
-        dinosaurs.removeIf((dinosaur) -> !dinosaur.isAlive());
+        dinosaurs.removeIf((dinosaur)->!dinosaur.isAlive());
     }
 
     public void organizeSumoFight(Dinosaur dinosaurChallenger, Dinosaur dinosaurChallengee) {
@@ -85,7 +85,7 @@ public class Herd {
                 dinosaurChallengee);
 
         List<Dinosaur> dinosaursLosers = new ArrayList<>();
-        Collections.addAll(dinosaursLosers,dinosaurChallenger,dinosaurChallengee);
+        Collections.addAll(dinosaursLosers, dinosaurChallenger, dinosaurChallengee);
         dinosaursLosers.removeAll(dinosaursWinners);
 
         dinosaursWinners.forEach(Dinosaur::winFight);
@@ -108,7 +108,7 @@ public class Herd {
 
     public void increasingBabiesWeight() {
         updateBabyDinosaursList();
-        for(BabyDinosaur babyDinosaur : babiesDinosaurs) {
+        for(BabyDinosaur babyDinosaur: babiesDinosaurs) {
             babyDinosaur.increaseWeight();
         }
 
@@ -117,7 +117,7 @@ public class Herd {
 
     private void updateAdultDinosaursList() {
         List<AdultDinosaur> dinosaursToRemove = new ArrayList<>();
-        for(AdultDinosaur adultDinosaur : adultDinosaurs) {
+        for(AdultDinosaur adultDinosaur: adultDinosaurs) {
             if(!hasDinosaurWithName(adultDinosaur.getName())) {
                 dinosaursToRemove.add(adultDinosaur);
             }
@@ -127,7 +127,7 @@ public class Herd {
 
     private void updateBabyDinosaursList() {
         List<BabyDinosaur> babiesToRemove = new ArrayList<>();
-        for(BabyDinosaur babyDinosaur : babiesDinosaurs) {
+        for(BabyDinosaur babyDinosaur: babiesDinosaurs) {
             if(!hasDinosaurWithName(babyDinosaur.getName())) {
                 babiesToRemove.add(babyDinosaur);
             }
@@ -138,7 +138,7 @@ public class Herd {
     private void growBabyToAdultDinosaur() {
         List<AdultDinosaur> babyToAdultDinosaur = new ArrayList<>();
         List<BabyDinosaur> babiesToRemove = new ArrayList<>();
-        for(BabyDinosaur babyDinosaur : babiesDinosaurs) {
+        for(BabyDinosaur babyDinosaur: babiesDinosaurs) {
             Optional<AdultDinosaur> adultDinosaur = babyDinosaur.becomeAdult();
             if(adultDinosaur.isPresent()) {
                 babyToAdultDinosaur.add(adultDinosaur.get());

@@ -2,7 +2,10 @@ package ca.ulaval.glo4002.game.domain.dinosaur.sumoFight;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class SumoFightOrganizer {
 

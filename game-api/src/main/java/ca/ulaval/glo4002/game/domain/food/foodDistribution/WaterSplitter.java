@@ -15,7 +15,7 @@ public class WaterSplitter {
     private Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
 
     public void splitWater(List<Food> allFreshFood) {
-        Predicate<Food> mustBeWater = foodFiltered -> foodFiltered.getType().equals(FoodType.WATER);
+        Predicate<Food> mustBeWater = foodFiltered->foodFiltered.getType().equals(FoodType.WATER);
         List<Food> allWater = allFreshFood.stream()
                 .filter(mustBeWater)
                 .collect(Collectors.toList());
@@ -35,14 +35,14 @@ public class WaterSplitter {
         List<Food> allMergedWaterBatches = new LinkedList<>();
         allMergedWaterBatches.addAll(waterForCarnivorous);
 
-        for(Food waterBatch : allMergedWaterBatches) {
+        for(Food waterBatch: allMergedWaterBatches) {
             addMatchingWaterBatchOfHerbivorous(waterBatch);
             int quantityOfWaterOfMatchingAgeLeftAfterSplit =
                     waterLeftOutAfterSplit.getOrDefault(waterBatch.getAge(), 0);
             waterBatch.increaseQuantity(quantityOfWaterOfMatchingAgeLeftAfterSplit);
             waterLeftOutAfterSplit.remove(waterBatch.getAge());
         }
-        if(!waterLeftOutAfterSplit.isEmpty()){
+        if(!waterLeftOutAfterSplit.isEmpty()) {
             waterLeftOutAfterSplit.forEach((age, quantity)->allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
         }
         allMergedWaterBatches.addAll(waterForHerbivorous);
@@ -58,24 +58,24 @@ public class WaterSplitter {
     public List<Food> getWaterForHerbivorous() {
         return waterForHerbivorous;
     }
-    
+
     private int splitBatchOfWaterInTwo(Food batchOfWater) {
-        if(batchOfWater.quantity() % 2 != 0) {
-            waterLeftOutAfterSplit.put(batchOfWater.getAge(), batchOfWater.quantity() % 2);
+        if(batchOfWater.quantity()%2 != 0) {
+            waterLeftOutAfterSplit.put(batchOfWater.getAge(), batchOfWater.quantity()%2);
         }
-        return batchOfWater.quantity() / 2;
+        return batchOfWater.quantity()/2;
     }
 
     private void addMatchingWaterBatchOfHerbivorous(Food waterBatchToAddTo) {
         Optional<Food> matchingWaterBatch =
                 getWaterBatchOfMatchingAge(waterForHerbivorous, waterBatchToAddTo.getAge());
 
-        matchingWaterBatch.ifPresent (
-                waterBatch -> {
+        matchingWaterBatch.ifPresent(
+                waterBatch->{
                     try {
                         waterBatchToAddTo.increaseQuantity(waterBatch);
                         waterForHerbivorous.remove(waterBatch);
-                    } catch (FoodTypesNotMatchingException e) {
+                    } catch(FoodTypesNotMatchingException e) {
                         e.printStackTrace();
                     }
                 }
@@ -83,7 +83,7 @@ public class WaterSplitter {
     }
 
     private Optional<Food> getWaterBatchOfMatchingAge(List<Food> waterBatches, int requiredAge) {
-        Predicate<Food> mustBeOfRequiredAge = foodFiltered -> foodFiltered.getAge() == requiredAge;
+        Predicate<Food> mustBeOfRequiredAge = foodFiltered->foodFiltered.getAge() == requiredAge;
 
         return waterBatches.stream()
                 .filter(mustBeOfRequiredAge)

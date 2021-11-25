@@ -31,8 +31,8 @@ public class GeneralNotFoundExceptionMapperTest {
     public void whenNotFoundResponse_thenResponseShouldContainErrorCodeAndMessage() {
         Response response = mapper.notFoundResponse(AN_ERROR_CODE, A_MESSAGE);
 
-        ExceptionDTO responseBody = (ExceptionDTO) response.getEntity();
+        ExceptionDTO responseBody = (ExceptionDTO)response.getEntity();
         assertEquals(AN_ERROR_CODE, responseBody.error);
-        assertEquals(A_MESSAGE,responseBody.description);
+        assertEquals(A_MESSAGE, responseBody.description);
     }
 }

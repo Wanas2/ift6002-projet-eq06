@@ -13,7 +13,7 @@ public class CarnivorousDinosaurFeeder implements DinosaurFeeder {
 
     private final WeakerToStrongerEatingOrder eatingOrder;
 
-    public CarnivorousDinosaurFeeder(WeakerToStrongerEatingOrder eatingOrder){
+    public CarnivorousDinosaurFeeder(WeakerToStrongerEatingOrder eatingOrder) {
         this.eatingOrder = eatingOrder;
     }
 
@@ -23,8 +23,8 @@ public class CarnivorousDinosaurFeeder implements DinosaurFeeder {
 
         List<FoodNeed> carnivorousFoodNeedFromStrongerToWeaker = dinosaursWithNeed.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey(comparator.reversed()))
-                .flatMap(entry -> entry.getValue().stream())
-                .filter(foodNeed -> foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)
+                .flatMap(entry->entry.getValue().stream())
+                .filter(foodNeed->foodNeed.getFoodConsumption() == FoodConsumption.CARNIVOROUS)
                 .collect(Collectors.toList());
 
         carnivorousFoodNeedFromStrongerToWeaker.forEach(FoodNeed::satisfy);

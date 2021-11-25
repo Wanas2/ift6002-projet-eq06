@@ -17,16 +17,16 @@ public class SumoFightActionTest {
 
     @BeforeEach
     public void setUp() {
-        anotherDinosaur= mock(Dinosaur.class);
+        anotherDinosaur = mock(Dinosaur.class);
         aDinosaur = mock(Dinosaur.class);
         herd = mock(Herd.class);
-        sumoFightAction = new SumoFightAction(herd,aDinosaur,anotherDinosaur);
+        sumoFightAction = new SumoFightAction(herd, aDinosaur, anotherDinosaur);
     }
 
     @Test
     public void whenExecute_thenHerdShouldOrganizeSumoFight() {
         sumoFightAction.execute();
 
-        verify(herd).organizeSumoFight(aDinosaur,anotherDinosaur);
+        verify(herd).organizeSumoFight(aDinosaur, anotherDinosaur);
     }
 }

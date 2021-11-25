@@ -7,7 +7,7 @@ public enum FoodConsumption {
 
     private final float consumptionFactor;
 
-    FoodConsumption(float consumptionFactor){
+    FoodConsumption(float consumptionFactor) {
         this.consumptionFactor = consumptionFactor;
     }
 

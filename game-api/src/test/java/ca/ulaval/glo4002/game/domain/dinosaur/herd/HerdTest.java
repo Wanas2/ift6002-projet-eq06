@@ -4,9 +4,9 @@ import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Gender;
 import ca.ulaval.glo4002.game.domain.dinosaur.Species;
-import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizer;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
@@ -19,14 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-
 public class HerdTest {
 
     private final static String DINOSAUR_NAME = "Bobi";
     private final static String ANOTHER_DINOSAUR_NAME = "Alyce";
     private final static String NON_EXISTING_DINOSAUR_NAME = "Alfred";
     private final static int DINOSAUR_WEIGHT = 80;
-    private final static int ANOTHER_DINOSAUR_WEIGHT= 100;
+    private final static int ANOTHER_DINOSAUR_WEIGHT = 100;
 
     private FoodConsumptionStrategy dinosaurStrategy;
     private FoodConsumptionStrategy anotherDinosaurStrategy;
@@ -58,13 +57,13 @@ public class HerdTest {
         sumoFightOrganizer = mock(SumoFightOrganizer.class);
         aDinosaurFeeder = mock(DinosaurFeeder.class);
         anotherDinosaurFeeder = mock(DinosaurFeeder.class);
-        herd = new Herd(dinosaurs, sumoFightOrganizer, List.of(aDinosaurFeeder,anotherDinosaurFeeder));
+        herd = new Herd(dinosaurs, sumoFightOrganizer, List.of(aDinosaurFeeder, anotherDinosaurFeeder));
     }
 
     @Test
     public void givenADinosaurWithNameNotAlreadyExisting_addDinosaur_thenDinosaurShouldBeAdded() {
-        AdultDinosaur aDinosaurWithNonExistingName = new AdultDinosaur(Species.Allosaurus,DINOSAUR_WEIGHT,
-                NON_EXISTING_DINOSAUR_NAME, Gender.M,dinosaurStrategy);
+        AdultDinosaur aDinosaurWithNonExistingName = new AdultDinosaur(Species.Allosaurus, DINOSAUR_WEIGHT,
+                NON_EXISTING_DINOSAUR_NAME, Gender.M, dinosaurStrategy);
 
         herd.addAdultDinosaur(aDinosaurWithNonExistingName);
 
@@ -73,8 +72,8 @@ public class HerdTest {
 
     @Test
     public void givenADinosaurWithNameAlreadyExisting_whenAddDinosaur_thenDinosaurShouldNotBeAdded() {
-        AdultDinosaur aDinosaurWithExistingName = new AdultDinosaur(Species.Allosaurus,DINOSAUR_WEIGHT,
-                DINOSAUR_NAME, Gender.M,dinosaurStrategy);
+        AdultDinosaur aDinosaurWithExistingName = new AdultDinosaur(Species.Allosaurus, DINOSAUR_WEIGHT,
+                DINOSAUR_NAME, Gender.M, dinosaurStrategy);
 
         herd.addAdultDinosaur(aDinosaurWithExistingName);
 
@@ -97,14 +96,14 @@ public class HerdTest {
 
     @Test
     public void givenANameOfANonExistingDinosaurInHerd_whenGetDinosaurWithName_thenShouldThrowNonExistentNameException() {
-        assertThrows(NonExistentNameException.class, () -> herd.getDinosaurWithName(NON_EXISTING_DINOSAUR_NAME));
+        assertThrows(NonExistentNameException.class, ()->herd.getDinosaurWithName(NON_EXISTING_DINOSAUR_NAME));
     }
 
     @Test
     public void givenANameOfAnExistingDinosaurInHerd_whenGetDinosaurWithName_thenDinosaurShouldBeFound() {
         Dinosaur dinosaurWithTheName = herd.getDinosaurWithName(DINOSAUR_NAME);
 
-        assertEquals(aDinosaurInHerd,dinosaurWithTheName);
+        assertEquals(aDinosaurInHerd, dinosaurWithTheName);
     }
 
     @Test
@@ -129,8 +128,8 @@ public class HerdTest {
 
         herd.feedDinosaurs();
 
-        ArgumentMatcher<Map<Dinosaur,List<FoodNeed>>> isCorrectDinosaursWithNeed =
-                map -> map.get(aDinosaurInHerd).equals(dinosaurFoodNeeds)
+        ArgumentMatcher<Map<Dinosaur, List<FoodNeed>>> isCorrectDinosaursWithNeed =
+                map->map.get(aDinosaurInHerd).equals(dinosaurFoodNeeds)
                         && map.get(anotherDinosaurInHerd).equals(anotherDinosaurFoodNeeds);
         verify(aDinosaurFeeder).feedDinosaurs(argThat(isCorrectDinosaursWithNeed));
         verify(anotherDinosaurFeeder).feedDinosaurs(argThat(isCorrectDinosaursWithNeed));
@@ -185,7 +184,7 @@ public class HerdTest {
     }
 
     @Test
-    public void whenGetAllDinosaurs_thenAllDinosaursShouldBeReturned(){
+    public void whenGetAllDinosaurs_thenAllDinosaursShouldBeReturned() {
         List<Dinosaur> allDinosaursInHerd = herd.getAllDinosaurs();
 
         assertEquals(dinosaurs, allDinosaursInHerd);

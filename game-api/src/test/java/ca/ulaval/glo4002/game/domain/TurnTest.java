@@ -9,10 +9,11 @@ import org.mockito.InOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 
 class TurnTest {
-    
+
     private static final int INITIAL_TURN_NUMBER = 1;
 
     private ExecutableAction aFirstAction;
@@ -37,7 +38,7 @@ class TurnTest {
     public void givenMultipleActionsHaveBeenAcquired_whenPlayActions_thenActionsShouldBeExecutedInOrderOfAcquisition() {
         turn.acquireNewAction(aFirstAction);
         turn.acquireNewAction(aSecondAction);
-        InOrder fromFirstToLastOrder = inOrder(aFirstAction,aSecondAction);
+        InOrder fromFirstToLastOrder = inOrder(aFirstAction, aSecondAction);
 
         turn.playActions();
 
@@ -56,7 +57,7 @@ class TurnTest {
     public void whenPlayActions_thenTheTurnNumberShouldIncreaseByOne() {
         turn.playActions();
         int expectedTurnNumber = 2;
-        
+
         int currentTurnNumber = turn.playActions();
 
         assertEquals(expectedTurnNumber, currentTurnNumber);
@@ -65,7 +66,7 @@ class TurnTest {
     @Test
     public void whenReset_thenTheTurnNumberIsSetToOne() {
         turn.reset();
-        
+
         int turnNumberAfterReset = turn.playActions();
         assertEquals(INITIAL_TURN_NUMBER, turnNumberAfterReset);
     }

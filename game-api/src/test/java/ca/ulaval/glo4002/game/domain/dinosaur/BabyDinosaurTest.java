@@ -72,14 +72,14 @@ public class BabyDinosaurTest {
     public void givenBabyWithAdultWeight_whenBecomeAdult_thenAdultDinosaurShouldBeReturned() {
         makeBabyWithAdultWeight();
 
-        Optional<AdultDinosaur> potentialAdultDinosaur  = aBabyDinosaur.becomeAdult();
+        Optional<AdultDinosaur> potentialAdultDinosaur = aBabyDinosaur.becomeAdult();
 
         assertTrue(potentialAdultDinosaur.isPresent());
     }
 
     @Test
     public void givenBabyWithNoAdultWeight_whenBecomeAdult_thenAdultDinosaurShouldBeReturned() {
-        Optional<AdultDinosaur> potentialAdultDinosaur  = aBabyDinosaur.becomeAdult();
+        Optional<AdultDinosaur> potentialAdultDinosaur = aBabyDinosaur.becomeAdult();
 
         assertTrue(potentialAdultDinosaur.isEmpty());
     }
@@ -95,7 +95,7 @@ public class BabyDinosaurTest {
         int aWeight = 1;
 
         assertThrows(InvalidBabyWeightChangeException.class,
-                () -> aBabyDinosaur.validateWeightVariation(aWeight)
+                ()->aBabyDinosaur.validateWeightVariation(aWeight)
         );
     }
 }

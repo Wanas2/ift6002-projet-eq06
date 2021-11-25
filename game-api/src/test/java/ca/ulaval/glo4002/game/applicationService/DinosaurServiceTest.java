@@ -13,7 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class DinosaurServiceTest {
@@ -80,7 +81,7 @@ class DinosaurServiceTest {
 
         assertThrows(
                 DuplicateNameException.class,
-                () -> dinosaurService.addAdultDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString())
+                ()->dinosaurService.addAdultDinosaur(A_NAME, A_WEIGHT, A_GENDER, ANOTHER_SPECIES.toString())
         );
     }
 
