@@ -39,7 +39,7 @@ public class AdultDinosaurTest {
         int weightVariation = -(DINOSAUR_WEIGHT + 1);
 
         assertThrows(InvalidWeightChangeException.class,
-                () -> aDinosaur.modifyWeight(weightVariation)
+                () -> aDinosaur.validateWeightVariation(weightVariation)
         );
     }
 }

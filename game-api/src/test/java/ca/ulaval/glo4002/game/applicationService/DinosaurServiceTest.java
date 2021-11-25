@@ -146,6 +146,6 @@ class DinosaurServiceTest {
 
         dinosaurService.updateDinosaurWeight(A_NAME, A_WEIGHT);
 
-        verify(theDinosaur).modifyWeight(A_WEIGHT);
+        verify(theDinosaur).validateWeightVariation(A_WEIGHT);
     }
 }

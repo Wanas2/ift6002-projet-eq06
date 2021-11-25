@@ -47,7 +47,8 @@ public class DinosaurService {
 
     public void updateDinosaurWeight(String dinosaurName, int weight){
         Dinosaur dinosaur = herd.getDinosaurWithName(dinosaurName);
-        dinosaur.modifyWeight(weight);
+        dinosaur.validateWeightVariation(weight);
+        game.modifyDinosaurWeight(weight, dinosaur);
     }
 
     public Dinosaur showDinosaur(String dinosaurName) {

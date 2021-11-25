@@ -30,6 +30,8 @@ abstract public class Dinosaur {
 
     abstract public void modifyWeight(int weightValue);
 
+    abstract public void validateWeightVariation(int weightVariation);
+
     public List<FoodNeed> askForFood() {
         List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :
                             foodConsumptionStrategy.getNonStarvingFoodNeeds(weight);
