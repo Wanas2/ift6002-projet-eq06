@@ -32,7 +32,7 @@ public class DinosaurResource {
 
     @POST
     @Path("/dinosaurs")
-    public Response addAdultDinosaur(DinosaurDTO dinosaurDTO) {
+    public Response addAdultDinosaur(DinosaurDTO dinosaurDTO) {//TODO enlever la vérification du poids
         if(dinosaurDTO.weight <= 0) {
             throw new InvalidWeightException();
         }
