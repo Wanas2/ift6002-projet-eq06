@@ -15,7 +15,6 @@ public class WaterSplitter {
     private Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
 
     public void splitWater(List<Food> allFreshFood) {
-        allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
         Predicate<Food> mustBeWater = foodFiltered -> foodFiltered.getType().equals(FoodType.WATER);
         List<Food> allWater = allFreshFood.stream()
                 .filter(mustBeWater)
