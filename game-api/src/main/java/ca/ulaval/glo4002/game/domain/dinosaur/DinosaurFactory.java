@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightException;
 
 public class DinosaurFactory {
 
@@ -17,17 +18,21 @@ public class DinosaurFactory {
         this.herbivorousFoodStorage = herbivorousFoodStorage;
     }
 
-    public Dinosaur create(String genderName, int weight, String speciesName, String name) {
+    public AdultDinosaur createAdultDinosaur(String genderName, int weight, String speciesName, String name) {
+        if(weight < 100) {
+            throw new InvalidWeightException();
+        }
+
         Gender gender = findCorrespondingGender(genderName);
         Species species = findCorrespondingSpecies(speciesName);
         FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);
 
-        return new Dinosaur(species, weight, name, gender, foodConsumptionStrategy);
+        return new AdultDinosaur(species, weight, name, gender, foodConsumptionStrategy);
     }
 
     public BabyDinosaur createBaby(String genderName, String speciesName, String name, Dinosaur fatherDinosaur,
                                    Dinosaur motherDinosaur) {
-        validateParentsGender(fatherDinosaur,motherDinosaur);
+        validateParentsGender(fatherDinosaur, motherDinosaur);
         Gender gender = findCorrespondingGender(genderName);
         Species species = findCorrespondingSpecies(speciesName);
         FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);
@@ -36,10 +41,10 @@ public class DinosaurFactory {
     }
 
     private void validateParentsGender(Dinosaur fatherDinosaur, Dinosaur motherDinosaur) {
-        if (fatherDinosaur.getGender() != Gender.M){
+        if(fatherDinosaur.getGender() != Gender.M) {
             throw new InvalidFatherException();
         }
-        if (motherDinosaur.getGender() != Gender.F){
+        if(motherDinosaur.getGender() != Gender.F) {
             throw new InvalidMotherException();
         }
     }
@@ -48,7 +53,7 @@ public class DinosaurFactory {
         gender = gender.toUpperCase();
         try {
             return Gender.valueOf(gender);
-        } catch (IllegalArgumentException e) {
+        } catch(IllegalArgumentException e) {
             throw new InvalidGenderException();
         }
     }

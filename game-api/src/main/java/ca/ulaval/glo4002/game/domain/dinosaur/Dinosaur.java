@@ -5,14 +5,15 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 
 import java.util.List;
 
-public class Dinosaur implements Comparable<Dinosaur> {
+abstract public class Dinosaur {
 
-    private Species species;
-    private int weight;
-    private String name;
-    private Gender gender;
-    private final FoodConsumptionStrategy foodConsumptionStrategy;
-    private int age;
+    private final Species species;
+    protected int weight;
+    private final String name;
+    private final Gender gender;
+    protected final FoodConsumptionStrategy foodConsumptionStrategy;
+    private boolean isAlive = true;
+    protected boolean isStarving = true;
 
     public Dinosaur(Species species, int weight, String name, Gender gender,
                     FoodConsumptionStrategy foodConsumptionStrategy) {
@@ -21,25 +22,29 @@ public class Dinosaur implements Comparable<Dinosaur> {
         this.name = name;
         this.gender = gender;
         this.foodConsumptionStrategy = foodConsumptionStrategy;
-        this.age = 0;
     }
 
     public boolean isAlive() {
-        return foodConsumptionStrategy.areFoodNeedsSatisfied();
+        return isAlive && foodConsumptionStrategy.areFoodNeedsSatisfied();
     }
+
+    abstract public void modifyWeight(int weightValue);
+
+    abstract public void validateWeightVariation(int weightVariation);
 
     public List<FoodNeed> askForFood() {
-        return foodConsumptionStrategy.getFoodNeeds(weight,age);
+        List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :
+                foodConsumptionStrategy.getNonStarvingFoodNeeds(weight);
+        isStarving = false;
+        return foodNeeds;
     }
 
-    @Override
-    public int compareTo(Dinosaur dinosaur) {
-        int comparingStrength = Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
-        return comparingStrength != 0 ? comparingStrength : -this.name.compareTo(dinosaur.name);
+    public void loseFight() {
+        isAlive = false;
     }
 
-    public void age() {
-        age++;
+    public void winFight() {
+        isStarving = true;
     }
 
     public String getName() {
@@ -56,6 +61,10 @@ public class Dinosaur implements Comparable<Dinosaur> {
 
     public Species getSpecies() {
         return species;
+    }
+
+    public int compareStrength(Dinosaur dinosaur) {
+        return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
     }
 
     private int calculateStrength() {

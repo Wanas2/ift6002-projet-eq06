@@ -19,16 +19,11 @@ public class Food {
         this.age = age;
     }
 
-    public void setQuantity(int quantity){
-        this.quantity=quantity;
-    }
-
     public void increaseQuantity(Food food) throws FoodTypesNotMatchingException {
         if((food.type).equals(type)) {
             quantity += food.quantity;
-        }
-        else {
-            throw new FoodTypesNotMatchingException("Trying to add two foods whose types are different"); // Todo Déplacer ce text vers l'exception. Et modifier le text; il est aussi utilisE par decreaseQty()
+        } else {
+            throw new FoodTypesNotMatchingException();
         }
     }
 
@@ -52,24 +47,8 @@ public class Food {
         this.quantity -= quantity;
     }
 
-    public void decreaseQuantity(Food food) throws FoodTypesNotMatchingException {
-        if((food.type).equals(type)) {
-            if(food.quantity > this.quantity) {
-                this.quantity = 0;
-                return;
-            }
-            this.quantity -= quantity;
-        } else {
-            throw new FoodTypesNotMatchingException("Trying to add two foods whose types are different");
-        }
-    }
-
     public boolean isExpired() {
         return age >= type.numberOfTurnBeforeExpiry();
-    }
-
-    public FoodState getState() {
-        return foodState;
     }
 
     public int getAge() {

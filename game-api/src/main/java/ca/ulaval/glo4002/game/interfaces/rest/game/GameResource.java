@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.game.interfaces.rest.game;
 
 import ca.ulaval.glo4002.game.applicationService.GameService;
-import ca.ulaval.glo4002.game.applicationService.TurnAssembler;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -24,7 +23,7 @@ public class GameResource {
     @POST
     @Path("/turn")
     public Response playTurn() {
-        int turnNumber =  gameService.playTurn();
+        int turnNumber = gameService.playTurn();
         TurnNumberDTO turnDTO = turnAssembler.toDTO(turnNumber);
 
         return Response.ok().entity(turnDTO).build();

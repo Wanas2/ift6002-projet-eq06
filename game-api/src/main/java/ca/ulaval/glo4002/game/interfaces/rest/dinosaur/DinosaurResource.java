@@ -1,8 +1,13 @@
 package ca.ulaval.glo4002.game.interfaces.rest.dinosaur;
 
-import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.DinosaurAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.SumoAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.BreedingRequestDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.DinosaurDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.SumoRequestDTO;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.dto.SumoResponseDTO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,19 +21,19 @@ public class DinosaurResource {
 
     private final DinosaurService dinosaurService;
     private final DinosaurAssembler dinosaurAssembler;
+    private final SumoAssembler sumoAssembler;
 
-    public DinosaurResource(DinosaurService dinosaurService, DinosaurAssembler dinosaurAssembler) {
+    public DinosaurResource(DinosaurService dinosaurService, DinosaurAssembler dinosaurAssembler,
+                            SumoAssembler sumoAssembler) {
         this.dinosaurService = dinosaurService;
         this.dinosaurAssembler = dinosaurAssembler;
+        this.sumoAssembler = sumoAssembler;
     }
 
     @POST
     @Path("/dinosaurs")
-    public Response addDinosaur(DinosaurDTO dinosaurDTO) {
-        if(dinosaurDTO.weight <= 0) {
-            throw new InvalidWeightException();
-        }
-        dinosaurService.addDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
+    public Response addAdultDinosaur(DinosaurDTO dinosaurDTO) {
+        dinosaurService.addAdultDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
         return Response.ok().build();
     }
 
@@ -57,5 +62,21 @@ public class DinosaurResource {
                 .collect(Collectors.toList());
 
         return Response.ok().entity(dinosaurDTOs).build();
+    }
+
+    @POST
+    @Path("/sumodino")
+    public Response sumoFight(SumoRequestDTO sumoRequestDTO) {
+        String predictedWinner = dinosaurService.prepareSumoFight(sumoRequestDTO.challenger,
+                sumoRequestDTO.challengee);
+        SumoResponseDTO sumoResponseDTO = sumoAssembler.toDTO(predictedWinner);
+        return Response.ok().entity(sumoResponseDTO).build();
+    }
+
+    @PATCH
+    @Path("/dinosaurs/{name}")
+    public Response updateDinosaur(@PathParam("name") String name, GrowDTO growDTO) {
+        dinosaurService.updateDinosaurWeight(name, growDTO.weight);
+        return Response.ok().build();
     }
 }

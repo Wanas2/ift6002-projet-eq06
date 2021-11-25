@@ -1,29 +1,44 @@
 package ca.ulaval.glo4002.game;
 
-import ca.ulaval.glo4002.game.applicationService.*;
-import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurAssembler;
+import ca.ulaval.glo4002.game.applicationService.GameService;
 import ca.ulaval.glo4002.game.applicationService.dinosaur.DinosaurService;
-import ca.ulaval.glo4002.game.applicationService.food.FoodAssembler;
-import ca.ulaval.glo4002.game.applicationService.food.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.applicationService.food.ResourceService;
 import ca.ulaval.glo4002.game.domain.Game;
+import ca.ulaval.glo4002.game.domain.GameRepository;
 import ca.ulaval.glo4002.game.domain.Turn;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyFetcher;
+import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.DinosaurFactory;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
-import ca.ulaval.glo4002.game.domain.food.*;
-import ca.ulaval.glo4002.game.infrastructure.PantryRepositoryInMemoryImpl;
-import ca.ulaval.glo4002.game.domain.dinosaur.HerdRepository;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.HerdRepositoryInMemoryImpl;
-import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.CarnivorousDinosaurFeeder;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.HerbivorousDinosaurFeeder;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.WeakerToStrongerEatingOrder;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizer;
+import ca.ulaval.glo4002.game.domain.dinosaur.sumoFight.SumoFightOrganizerValidator;
+import ca.ulaval.glo4002.game.domain.food.CookItSubscription;
+import ca.ulaval.glo4002.game.domain.food.FoodHistory;
+import ca.ulaval.glo4002.game.domain.food.FoodProvider;
+import ca.ulaval.glo4002.game.domain.food.Pantry;
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.FoodDistributor;
+import ca.ulaval.glo4002.game.domain.food.foodDistribution.WaterSplitter;
+import ca.ulaval.glo4002.game.infrastructure.GameRepositoryInMemory;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.BabyFetcherFromExternalAPI;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.DinosaurBreederExternal;
+import ca.ulaval.glo4002.game.infrastructure.dinosaur.dinosaurBreederExternal.ParentsGenderValidator;
 import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.DinosaurResource;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.DinosaurAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.assembler.SumoAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodResource;
 import ca.ulaval.glo4002.game.interfaces.rest.food.FoodValidator;
+import ca.ulaval.glo4002.game.interfaces.rest.food.assembler.FoodAssembler;
+import ca.ulaval.glo4002.game.interfaces.rest.food.assembler.FoodSummaryAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.game.GameResource;
+import ca.ulaval.glo4002.game.interfaces.rest.game.TurnAssembler;
 import ca.ulaval.glo4002.game.interfaces.rest.mappers.*;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectConfig extends ResourceConfig {
 
@@ -33,22 +48,15 @@ public class ProjectConfig extends ResourceConfig {
     }
 
     private void registerResources() {
-        PantryRepository pantryRepository = new PantryRepositoryInMemoryImpl();
-        HerdRepository herdRepository = new HerdRepositoryInMemoryImpl();
+        GameRepository gameRepository = new GameRepositoryInMemory();
 
-        Turn turn = new Turn();
-        FoodProvider foodProvider = new CookItSubscription();
-        Pantry pantry = pantryRepository.find().
-                orElse(new Pantry(foodProvider));
+        Game game = gameRepository.find().orElse(provideNewGame());
 
-        FoodQuantitySummaryCalculator foodQuantitySummaryCalculator = new FoodQuantitySummaryCalculator();
-        Herd herd = herdRepository.
-                find()
-                .orElse(new Herd(new ArrayList<>()));
-        Game game = new Game(herd, pantry, turn);
+        Pantry pantry = game.getPantry();
+        Herd herd = game.getHerd();
+
         FoodValidator foodValidator = new FoodValidator();
-
-        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry,pantry);
+        DinosaurFactory dinosaurFactory = new DinosaurFactory(pantry, pantry);
 
         DinosaurBreederExternal dinoBreeder = new DinosaurBreederExternal();
         ParentsGenderValidator parentsGenderValidator = new ParentsGenderValidator();
@@ -58,16 +66,18 @@ public class ProjectConfig extends ResourceConfig {
         TurnAssembler turnAssembler = new TurnAssembler();
         FoodAssembler foodAssembler = new FoodAssembler();
         DinosaurAssembler dinosaurAssembler = new DinosaurAssembler();
-        FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler();
+        SumoAssembler sumoAssembler = new SumoAssembler();
+        FoodSummaryAssembler foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
 
-        ResourceService resourceService = new ResourceService(foodQuantitySummaryCalculator, pantry, game);
+        ResourceService resourceService = new ResourceService(pantry, game);
         DinosaurService dinosaurService = new DinosaurService(dinosaurFactory, herd, game, dinosaurBabyFetcher);
-        GameService gameService = new GameService(game, herd, pantry, pantryRepository, herdRepository);
+        GameService gameService = new GameService(game, gameRepository);
 
         GameResource gameResource = new GameResource(gameService, turnAssembler);
         FoodResource foodResource = new FoodResource(resourceService, foodValidator, foodAssembler,
                 foodSummaryAssembler);
-        DinosaurResource dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler);
+        DinosaurResource dinosaurResource = new DinosaurResource(dinosaurService, dinosaurAssembler,
+                sumoAssembler);
 
         register(gameResource);
         register(foodResource);
@@ -83,5 +93,30 @@ public class ProjectConfig extends ResourceConfig {
         register(new InvalidResourceQuantityExceptionMapper());
         register(new InvalidFatherExceptionMapper());
         register(new InvalidMotherExceptionMapper());
+        register(new MaxCombatsReachedExceptionMapper());
+        register(new ArmsTooShortExceptionMapper());
+        register(new DinosaurAlreadyParticipatingExceptionMapper());
+        register(new InvalidWeightChangeExceptionMapper());
+        register(new InvalidBabyWeightChangeExceptionMapper());
+    }
+
+    private Game provideNewGame() {
+        FoodProvider foodProvider = new CookItSubscription();
+        FoodDistributor foodDistributor = new FoodDistributor();
+        WaterSplitter waterSplitter = new WaterSplitter();
+        FoodHistory foodHistory = new FoodHistory();
+        Pantry pantry = new Pantry(foodProvider, foodDistributor, waterSplitter, foodHistory);
+
+        WeakerToStrongerEatingOrder eatingOrder = new WeakerToStrongerEatingOrder();
+        CarnivorousDinosaurFeeder carnivorousDinosaurFeeder = new CarnivorousDinosaurFeeder(eatingOrder);
+        HerbivorousDinosaurFeeder herbivorousDinosaurFeeder = new HerbivorousDinosaurFeeder(eatingOrder);
+        List<Dinosaur> dinosaurs = new ArrayList<>();
+        SumoFightOrganizerValidator sumoFightOrganizerValidator = new SumoFightOrganizerValidator();
+        SumoFightOrganizer sumoFightOrganizer = new SumoFightOrganizer(sumoFightOrganizerValidator);
+        Herd herd = new Herd(dinosaurs, sumoFightOrganizer,
+                List.of(carnivorousDinosaurFeeder, herbivorousDinosaurFeeder));
+
+        Turn turn = new Turn();
+        return new Game(herd, pantry, turn);
     }
 }

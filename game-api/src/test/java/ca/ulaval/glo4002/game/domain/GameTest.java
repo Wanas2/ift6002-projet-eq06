@@ -1,57 +1,83 @@
 package ca.ulaval.glo4002.game.domain;
 
-import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
+import ca.ulaval.glo4002.game.domain.action.AddAdultDinosaurAction;
+import ca.ulaval.glo4002.game.domain.action.AddBabyDinosaurAction;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
+import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
+import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
-import ca.ulaval.glo4002.game.domain.dinosaur.Herd;
+import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
-import ca.ulaval.glo4002.game.domain.food.FoodType;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.mockito.BDDMockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 class GameTest {
+
+    private static final int WEIGHT_VARIATION = 110;
 
     private Turn turn;
     private Herd herd;
     private Dinosaur aDinosaur;
+    private Dinosaur anotherDinosaur;
+    private AdultDinosaur adultDinosaur;
+    private BabyDinosaur babyDinosaur;
     private Game game;
     private Pantry pantry;
-    private Food aFoodItem1;
-    private Food aFoodItem2;
-    private Food aFoodItem3;
-    private List<Food> food;
 
     @BeforeEach
     void setUp() {
-        initializesFood();
         turn = mock(Turn.class);
         herd = mock(Herd.class);
-        aDinosaur = mock(Dinosaur.class);
+        aDinosaur = mock(AdultDinosaur.class);
+        anotherDinosaur = mock(Dinosaur.class);
+        adultDinosaur = mock(AdultDinosaur.class);
+        babyDinosaur = mock(BabyDinosaur.class);
         pantry = mock(Pantry.class);
         game = new Game(herd, pantry, turn);
     }
 
     @Test
     public void whenAddFood_thenTurnShouldAcquireANewAction() {
-        game.addFood(food);
+        List<Food> foods = someFoods();
+
+        game.addFood(foods);
 
         verify(turn).acquireNewAction(any(AddFoodAction.class));
     }
 
     @Test
-    public void whenAddDino_thenTurnShouldAcquireANewAction() {
-        game.addDinosaur(aDinosaur);
+    public void whenAddAdultDinosaur_thenTurnShouldAcquireANewAction() {
+        game.addAdultDinosaur(adultDinosaur);
 
-        verify(turn).acquireNewAction(any(AddDinosaurAction.class));
+        verify(turn).acquireNewAction(any(AddAdultDinosaurAction.class));
+    }
+
+    @Test
+    public void whenAddBabyDinosaur_thenTurnShouldAcquireANewAction() {
+        game.addBabyDinosaur(babyDinosaur);
+
+        verify(turn).acquireNewAction(any(AddBabyDinosaurAction.class));
+    }
+
+    @Test
+    public void whenModifyDinosaurWeight_thenTurnShouldAcquireANewAction() {
+        game.modifyDinosaurWeight(WEIGHT_VARIATION,aDinosaur);
+
+        verify(turn).acquireNewAction(any(ModifyWeightAction.class));
+    }
+
+    @Test
+    public void whenAddSumoFight_thenTurnShouldAcquireANewAction() {
+        game.addSumoFight(aDinosaur, anotherDinosaur);
+
+        verify(turn).acquireNewAction(any(SumoFightAction.class));
     }
 
     @Test
@@ -69,20 +95,48 @@ class GameTest {
     }
 
     @Test
-    public void whenPlayTurn_thenPantryShouldAddNewFoodToFreshFood() {
-//        game.playTurn();
-//
-//        verify(pantry).addCurrentTurnFoodBatchToFreshFood();
+    public void whenPlayTurn_thenPantryShouldStoreAllNewlyOrderedFoods() {
+        game.playTurn();
+
+        verify(pantry).storeAllNewlyOrderedFoods();
     }
 
     @Test
-    public void whenPlayTurn_thenShouldReturnTheTurnNumber() {
-//        int expectedTurnNumber = 12;
-//        willReturn(expectedTurnNumber).given(turn).playActions();
-//
-//        int turnNumber = game.playTurn();
-//
-//        assertSame(expectedTurnNumber, turnNumber);
+    public void whenPlayTurn_thenPantryShouldSplitWaterInTwo() {
+        game.playTurn();
+
+        verify(pantry).splitWaterInTwo();
+    }
+
+    @Test
+    public void whenPlayTurn_thenHerdShouldFeedDinosaurs() {
+        game.playTurn();
+
+        verify(herd).feedDinosaurs();
+    }
+
+    @Test
+    public void whenPlayTurn_thenPantryShouldMergeWater() {
+        game.playTurn();
+
+        verify(pantry).mergeWater();
+    }
+
+    @Test
+    public void whenPlayTurn_thenHerdShouldResetSumoFight() {
+        game.playTurn();
+
+        verify(herd).resetSumoFight();
+    }
+
+    @Test
+    public void whenPlayTurn_thenTheReturnedNumberShouldBeTheTurnNumber() {
+        int expectedTurnNumber = 12;
+        when(turn.playActions()).thenReturn(expectedTurnNumber);
+
+        int turnNumber = game.playTurn();
+
+        assertEquals(expectedTurnNumber, turnNumber);
     }
 
     @Test
@@ -99,13 +153,16 @@ class GameTest {
         verify(pantry).reset();
     }
 
-    private void initializesFood() {
-        aFoodItem1 = mock(Food.class);
-        aFoodItem2 = mock(Food.class);
-        aFoodItem3 = mock(Food.class);
-        food = new ArrayList<>();
-        food.add(aFoodItem1);
-        food.add(aFoodItem2);
-        food.add(aFoodItem3);
+    @Test
+    public void whenReset_thenHerdShouldBeReset() {
+        game.reset();
+
+        verify(herd).reset();
+    }
+
+    private List<Food> someFoods() {
+        Food aFoodItem = mock(Food.class);
+        Food anotherFoodItem = mock(Food.class);
+        return List.of(aFoodItem, anotherFoodItem);
     }
 }

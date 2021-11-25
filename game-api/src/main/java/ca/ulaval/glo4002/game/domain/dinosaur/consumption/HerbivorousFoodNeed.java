@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.domain.dinosaur.consumption;
 
-public class HerbivorousFoodNeed implements FoodNeed{
+public class HerbivorousFoodNeed implements FoodNeed {
 
     private final FoodConsumption foodConsumption = FoodConsumption.HERBIVOROUS;
     private final HerbivorousFoodStorage foodStorage;
@@ -27,7 +27,7 @@ public class HerbivorousFoodNeed implements FoodNeed{
         isSatisfied = saladNeeded == saladConsumed && waterNeeded == waterConsumed;
     }
 
-    public boolean isSatisfied(){
+    public boolean isSatisfied() {
         return isSatisfied;
     }
 }
