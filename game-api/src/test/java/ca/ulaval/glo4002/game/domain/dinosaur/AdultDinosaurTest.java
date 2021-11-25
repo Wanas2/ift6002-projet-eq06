@@ -19,7 +19,6 @@ public class AdultDinosaurTest {
         FoodConsumptionStrategy aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
         aDinosaur = new AdultDinosaur(Species.Ankylosaurus, 150, "Bobi", Gender.F,
                 aFoodConsumptionStrategy);
-
     }
 
     @Test
