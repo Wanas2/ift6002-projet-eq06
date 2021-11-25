@@ -27,9 +27,11 @@ class DinosaurTest {
     public void setup() {
         foodNeed = mock(FoodNeed.class);
         aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaurImpl = new DinosaurImpl(Species.Ankylosaurus, DINOSAUR_WEIGHT, "Bobi", Gender.F,
+        String aDinosaurName = "Bobi";
+        String anotherDinosaurName = "Bob";
+        aDinosaurImpl = new DinosaurImpl(Species.Ankylosaurus, DINOSAUR_WEIGHT, aDinosaurName, Gender.F,
                 aFoodConsumptionStrategy);
-        aStrongerDinosaurImpl = new DinosaurImpl(Species.Ankylosaurus, STRONGER_DINOSAUR_WEIGHT, "Bob",
+        aStrongerDinosaurImpl = new DinosaurImpl(Species.Ankylosaurus, STRONGER_DINOSAUR_WEIGHT, anotherDinosaurName,
                 Gender.F, aFoodConsumptionStrategy);
     }
 
@@ -99,49 +101,15 @@ class DinosaurTest {
         assertEquals(WEAKER_THAN,strengthComparison);
     }
 
-    static class DinosaurImpl {
-        private Species species;
-        protected int weight;
-        private String name;
-        private Gender gender;
-        protected final FoodConsumptionStrategy foodConsumptionStrategy;
-        private boolean isAlive = true;
-        protected boolean isStarving = true;
+    class DinosaurImpl extends Dinosaur{
 
         public DinosaurImpl(Species species, int weight, String name, Gender gender,
-                        FoodConsumptionStrategy foodConsumptionStrategy) {
-            this.species = species;
-            this.weight = weight;
-            this.name = name;
-            this.gender = gender;
-            this.foodConsumptionStrategy = foodConsumptionStrategy;
+                            FoodConsumptionStrategy foodConsumptionStrategy) {
+            super(species, weight, name, gender, foodConsumptionStrategy);
         }
 
-        public boolean isAlive() {
-            return isAlive && foodConsumptionStrategy.areFoodNeedsSatisfied();
-        }
-
-        public List<FoodNeed> askForFood() {
-            List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :
-                    foodConsumptionStrategy.getNonStarvingFoodNeeds(weight);
-            isStarving = false;
-            return foodNeeds;
-        }
-
-        public void loseFight() {
-            isAlive = false;
-        }
-
-        public void winFight() {
-            isStarving = true;
-        }
-
-        public int compareStrength(DinosaurImpl dinosaur) {
-            return Integer.compare(this.calculateStrength(), dinosaur.calculateStrength());
-        }
-
-        private int calculateStrength() {
-            return (int)Math.ceil(weight*gender.getGenderFactor()*species.getConsumptionStrength());
+        @Override
+        public void modifyWeight(int weightValue) {
         }
     }
 }

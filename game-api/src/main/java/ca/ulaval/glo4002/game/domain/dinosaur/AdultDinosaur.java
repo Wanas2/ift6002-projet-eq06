@@ -6,7 +6,8 @@ public class AdultDinosaur extends Dinosaur{
 
     private final static int MINIMUM_WEIGHT = 100;
 
-    public AdultDinosaur(Species species, int weight, String name, Gender gender, FoodConsumptionStrategy foodConsumptionStrategy) {
+    public AdultDinosaur(Species species, int weight, String name, Gender gender,
+                         FoodConsumptionStrategy foodConsumptionStrategy) {
         super(species, weight, name, gender, foodConsumptionStrategy);
     }
 
