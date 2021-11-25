@@ -5,15 +5,15 @@ import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodNeed;
 
 import java.util.List;
 
-public class Dinosaur{
+abstract public class Dinosaur {
 
     private Species species;
-    private int weight;
+    protected int weight;
     private String name;
     private Gender gender;
-    private final FoodConsumptionStrategy foodConsumptionStrategy;
+    protected final FoodConsumptionStrategy foodConsumptionStrategy;
     private boolean isAlive = true;
-    private boolean isStarving = true;
+    protected boolean isStarving = true;
 
     public Dinosaur(Species species, int weight, String name, Gender gender,
                     FoodConsumptionStrategy foodConsumptionStrategy) {
@@ -27,6 +27,8 @@ public class Dinosaur{
     public boolean isAlive() {
         return isAlive && foodConsumptionStrategy.areFoodNeedsSatisfied();
     }
+
+    abstract public void modifyWeight(int weightValue);
 
     public List<FoodNeed> askForFood() {
         List<FoodNeed> foodNeeds = isStarving ? foodConsumptionStrategy.getStarvingFoodNeeds(weight) :

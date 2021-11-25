@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.game.domain;
 
-import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
+import ca.ulaval.glo4002.game.domain.action.AddAdultDinosaurAction;
 import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
 import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ class TurnTest {
     @BeforeEach
     void setUp() {
         aFirstAction = mock(AddFoodAction.class);
-        aSecondAction = mock(AddDinosaurAction.class);
+        aSecondAction = mock(AddAdultDinosaurAction.class);
         turn = new Turn();
     }
 

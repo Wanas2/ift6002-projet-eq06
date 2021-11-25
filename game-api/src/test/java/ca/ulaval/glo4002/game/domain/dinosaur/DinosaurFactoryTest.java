@@ -40,7 +40,7 @@ public class DinosaurFactoryTest {
         String anInvalidGender = "X";
 
         assertThrows(InvalidGenderException.class,
-                ()->dinosaurFactory.create(anInvalidGender, A_WEIGHT, A_SPECIES, A_NAME));
+                ()->dinosaurFactory.createAdultDinosaur(anInvalidGender, A_WEIGHT, A_SPECIES, A_NAME));
     }
 
     @Test
@@ -48,12 +48,12 @@ public class DinosaurFactoryTest {
         String anInvalidSpecies = "Labrador";
 
         assertThrows(InvalidSpeciesException.class,
-                ()->dinosaurFactory.create(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
+                ()->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
     }
 
     @Test
     public void givenCorrectParameters_whenCreateDinosaur_thenShouldNotThrow() {
-        assertDoesNotThrow(()->dinosaurFactory.create(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
+        assertDoesNotThrow(()->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
     }
 
     @Test
@@ -80,11 +80,11 @@ public class DinosaurFactoryTest {
 
     private Dinosaur createAMaleDinosaur() {
         FoodConsumptionStrategy foodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        return new Dinosaur(Species.Spinosaurus,7,"Joe",Gender.M,foodConsumptionStrategy);
+        return new AdultDinosaur(Species.Spinosaurus,7,"Joe",Gender.M,foodConsumptionStrategy);
     }
 
     private Dinosaur createAFemaleDinosaur() {
         FoodConsumptionStrategy foodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        return new Dinosaur(Species.Ankylosaurus,7,"Berta",Gender.F,foodConsumptionStrategy);
+        return new AdultDinosaur(Species.Ankylosaurus,7,"Berta",Gender.F,foodConsumptionStrategy);
     }
 }

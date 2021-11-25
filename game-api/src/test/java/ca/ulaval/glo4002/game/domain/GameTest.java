@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.game.domain;
 
-import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
-import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
-import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
+import ca.ulaval.glo4002.game.domain.action.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
@@ -22,6 +22,8 @@ class GameTest {
     private Herd herd;
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
+    private AdultDinosaur adultDinosaur;
+    private BabyDinosaur babyDinosaur;
     private Game game;
     private Pantry pantry;
 
@@ -29,8 +31,10 @@ class GameTest {
     void setUp() {
         turn = mock(Turn.class);
         herd = mock(Herd.class);
-        aDinosaur = mock(Dinosaur.class);
+        aDinosaur = mock(AdultDinosaur.class);
         anotherDinosaur = mock(Dinosaur.class);
+        adultDinosaur = mock(AdultDinosaur.class);
+        babyDinosaur = mock(BabyDinosaur.class);
         pantry = mock(Pantry.class);
         game = new Game(herd, pantry, turn);
     }
@@ -45,10 +49,17 @@ class GameTest {
     }
 
     @Test
-    public void whenAddDinosaur_thenTurnShouldAcquireANewAction() {
-        game.addDinosaur(aDinosaur);
+    public void whenAddAdultDinosaur_thenTurnShouldAcquireANewAction() {
+        game.addAdultDinosaur(adultDinosaur);
 
-        verify(turn).acquireNewAction(any(AddDinosaurAction.class));
+        verify(turn).acquireNewAction(any(AddAdultDinosaurAction.class));
+    }
+
+    @Test
+    public void whenAddBabyDinosaur_thenTurnShouldAcquireANewAction() {
+        game.addBabyDinosaur(babyDinosaur);
+
+        verify(turn).acquireNewAction(any(AddBabyDinosaurAction.class));
     }
 
     @Test
