@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
-import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.InvalidWeightException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

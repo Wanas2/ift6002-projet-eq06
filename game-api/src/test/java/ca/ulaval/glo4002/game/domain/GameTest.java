@@ -20,6 +20,8 @@ import static org.mockito.Mockito.*;
 
 class GameTest {
 
+    private static final int WEIGHT_VARIATION = 110;
+
     private Turn turn;
     private Herd herd;
     private Dinosaur aDinosaur;
@@ -62,6 +64,13 @@ class GameTest {
         game.addBabyDinosaur(babyDinosaur);
 
         verify(turn).acquireNewAction(any(AddBabyDinosaurAction.class));
+    }
+
+    @Test
+    public void whenModifyDinosaurWeight_thenTurnShouldAcquireANewAction() {
+        game.modifyDinosaurWeight(WEIGHT_VARIATION,aDinosaur);
+
+        verify(turn).acquireNewAction(any(ModifyWeightAction.class));
     }
 
     @Test
