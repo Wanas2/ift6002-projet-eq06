@@ -46,7 +46,8 @@ public class DinosaurService {
     }
 
     public void updateDinosaurWeight(String dinosaurName, int weight){
-        //TODO
+        Dinosaur dinosaur = herd.getDinosaurWithName(dinosaurName);
+        dinosaur.modifyWeight(weight);
     }
 
     public Dinosaur showDinosaur(String dinosaurName) {

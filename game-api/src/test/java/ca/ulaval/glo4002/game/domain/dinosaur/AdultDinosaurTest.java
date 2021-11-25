@@ -1,10 +1,12 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightChangeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 public class AdultDinosaurTest {
@@ -12,12 +14,12 @@ public class AdultDinosaurTest {
     private final static int A_POSITIVE_WEIGHT_VARIATION = 27;
 
     private AdultDinosaur aDinosaur;
+    int dinosaurWeight = 150;
+    String dinosaurName = "Bobi";
 
     @BeforeEach
     public void setup() {
         FoodConsumptionStrategy aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        int dinosaurWeight = 150;
-        String dinosaurName = "Bobi";
         aDinosaur = new AdultDinosaur(Species.Ankylosaurus, dinosaurWeight, dinosaurName, Gender.F,
                 aFoodConsumptionStrategy);
     }
@@ -34,5 +36,14 @@ public class AdultDinosaurTest {
 
     @Test void givenANegativeWeightVariation_whenModifyWeight_thenTheWeightVariationShouldBeSubtractedToTheDinosaurWeight(){
 
+    }
+
+    @Test
+    public void givenANegativeWeightVariationMoreThanACurrentWeight_whenModifyWeight_ThenShouldThrowInvalidWeightChangeException() {
+        final int WEIGHT_VARIATION = -(dinosaurWeight + 1);
+
+        assertThrows(InvalidWeightChangeException.class,
+                () -> aDinosaur.modifyWeight(WEIGHT_VARIATION)
+        );
     }
 }

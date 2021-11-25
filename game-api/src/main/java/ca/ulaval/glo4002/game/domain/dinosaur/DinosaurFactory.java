@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.InvalidWeightException;
 
 public class DinosaurFactory {
 
@@ -18,6 +19,10 @@ public class DinosaurFactory {
     }
 
     public AdultDinosaur createAdultDinosaur(String genderName, int weight, String speciesName, String name) {
+        if(weight <= 0) {
+            throw new InvalidWeightException();
+        }
+
         Gender gender = findCorrespondingGender(genderName);
         Species species = findCorrespondingSpecies(speciesName);
         FoodConsumptionStrategy foodConsumptionStrategy = findCorrespondingFoodConsumptionStrategy(species);

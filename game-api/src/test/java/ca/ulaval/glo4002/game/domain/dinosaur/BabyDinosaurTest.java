@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidBabyWeightChangeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,6 @@ import static org.mockito.Mockito.when;
 public class BabyDinosaurTest {
 
     private final static int WEIGHT = 34;
-    private final static int ADULT_WEIGHT = 100;
     private final static String name = "Baby";
 
     private Dinosaur fatherDinosaur;
@@ -88,5 +88,14 @@ public class BabyDinosaurTest {
         aBabyDinosaur.increaseWeight();
         aBabyDinosaur.increaseWeight();
         aBabyDinosaur.increaseWeight();
+    }
+
+    @Test
+    public void whenModifiedWeight_thenShouldThrowInvalidBabyWeightChangeException() {
+        final int A_WEIGHT = 1;
+
+        assertThrows(InvalidBabyWeightChangeException.class,
+                () -> aBabyDinosaur.modifyWeight(A_WEIGHT)
+        );
     }
 }
