@@ -7,14 +7,14 @@ import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class GameTest {
 
@@ -73,20 +73,48 @@ class GameTest {
     }
 
     @Test
-    public void whenPlayTurn_thenPantryShouldAddNewFoodToFreshFood() {
-//        game.playTurn();
-//
-//        verify(pantry).addCurrentTurnFoodBatchToFreshFood();
+    public void whenPlayTurn_thenPantryShouldStoreAllNewlyOrderedFoods() {
+        game.playTurn();
+
+        verify(pantry).storeAllNewlyOrderedFoods();
     }
 
     @Test
-    public void whenPlayTurn_thenShouldReturnTheTurnNumber() {
-//        int expectedTurnNumber = 12;
-//        willReturn(expectedTurnNumber).given(turn).playActions();
-//
-//        int turnNumber = game.playTurn();
-//
-//        assertSame(expectedTurnNumber, turnNumber);
+    public void whenPlayTurn_thenPantryShouldSplitWaterInTwo() {
+        game.playTurn();
+
+        verify(pantry).splitWaterInTwo();
+    }
+
+    @Test
+    public void whenPlayTurn_thenHerdShouldFeedDinosaurs() {
+        game.playTurn();
+
+        verify(herd).feedDinosaurs();
+    }
+
+    @Test
+    public void whenPlayTurn_thenPantryShouldMergeWater() {
+        game.playTurn();
+
+        verify(pantry).mergeWater();
+    }
+
+    @Test
+    public void whenPlayTurn_thenHerdShouldResetSumoFight() {
+        game.playTurn();
+
+        verify(herd).resetSumoFight();
+    }
+
+    @Test
+    public void whenPlayTurn_thenTheReturnedNumberShouldBeTheTurnNumber() {
+        int expectedTurnNumber = 12;
+        when(turn.playActions()).thenReturn(expectedTurnNumber);
+
+        int turnNumber = game.playTurn();
+
+        assertEquals(expectedTurnNumber, turnNumber);
     }
 
     @Test
