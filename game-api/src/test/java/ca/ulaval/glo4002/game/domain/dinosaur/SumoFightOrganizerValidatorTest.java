@@ -29,9 +29,9 @@ public class SumoFightOrganizerValidatorTest {
     @BeforeEach
     public void setUp() {
         FoodConsumptionStrategy foodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaur = new Dinosaur(Species.Allosaurus,476,"David",Gender.M,foodConsumptionStrategy);
-        anotherDinosaur = new Dinosaur(Species.Allosaurus,276,"Bob",Gender.M,foodConsumptionStrategy);
-        aTyrannosaurusRex = new Dinosaur(Species.TyrannosaurusRex,152,"Jean",Gender.F,
+        aDinosaur = new AdultDinosaur(Species.Allosaurus,476,"David",Gender.M,foodConsumptionStrategy);
+        anotherDinosaur = new AdultDinosaur(Species.Allosaurus,276,"Bob",Gender.M,foodConsumptionStrategy);
+        aTyrannosaurusRex = new AdultDinosaur(Species.TyrannosaurusRex,152,"Jean",Gender.F,
                 foodConsumptionStrategy);
 
         sumoFightOrganizerValidator = new SumoFightOrganizerValidator();

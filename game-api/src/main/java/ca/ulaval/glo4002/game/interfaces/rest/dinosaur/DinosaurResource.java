@@ -32,8 +32,8 @@ public class DinosaurResource {
 
     @POST
     @Path("/dinosaurs")
-    public Response addDinosaur(DinosaurDTO dinosaurDTO) {
-        dinosaurService.addDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
+    public Response addAdultDinosaur(DinosaurDTO dinosaurDTO) {//TODO enlever la vérification du poids
+        dinosaurService.addAdultDinosaur(dinosaurDTO.name, dinosaurDTO.weight, dinosaurDTO.gender, dinosaurDTO.species);
         return Response.ok().build();
     }
 

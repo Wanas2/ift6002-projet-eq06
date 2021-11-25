@@ -1,14 +1,13 @@
 package ca.ulaval.glo4002.game.domain;
 
 
-import ca.ulaval.glo4002.game.domain.action.AddDinosaurAction;
-import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
+import ca.ulaval.glo4002.game.domain.action.*;
+import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
+import ca.ulaval.glo4002.game.domain.dinosaur.BabyDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.herd.Herd;
 import ca.ulaval.glo4002.game.domain.food.Food;
 import ca.ulaval.glo4002.game.domain.food.Pantry;
-import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
-import ca.ulaval.glo4002.game.domain.action.ExecutableAction;
 
 import java.util.*;
 
@@ -24,9 +23,14 @@ public class Game {
         this.turn = turn;
     }
 
-    public void addDinosaur(Dinosaur dinosaur) {
-        ExecutableAction addDinosaurAction = new AddDinosaurAction(herd, dinosaur);
-        turn.acquireNewAction(addDinosaurAction);
+    public void addAdultDinosaur(AdultDinosaur adultDinosaur) {
+        ExecutableAction addAdultDinosaurAction = new AddAdultDinosaurAction(herd, adultDinosaur);
+        turn.acquireNewAction(addAdultDinosaurAction);
+    }
+
+    public void addBabyDinosaur(BabyDinosaur babyDinosaur) {
+        ExecutableAction addBabyDinosaurAction = new AddBabyDinosaurAction(herd, babyDinosaur);
+        turn.acquireNewAction(addBabyDinosaurAction);
     }
 
     public void addFood(List<Food> foods) {
@@ -49,6 +53,8 @@ public class Game {
         pantry.mergeWater();
 
         herd.resetSumoFight();
+
+        herd.increasingBabiesWeight();
 
         return turnNumber;
     }
