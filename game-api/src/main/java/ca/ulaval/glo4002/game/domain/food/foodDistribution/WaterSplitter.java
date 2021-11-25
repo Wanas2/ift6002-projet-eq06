@@ -14,14 +14,6 @@ public class WaterSplitter {
     private List<Food> waterForHerbivorous = new LinkedList<>();
     private Map<Integer, Integer> waterLeftOutAfterSplit = new HashMap<>();
 
-    public List<Food> getWaterForCarnivorous() {
-        return waterForCarnivorous;
-    }
-
-    public List<Food> getWaterForHerbivorous() {
-        return waterForHerbivorous;
-    }
-
     public void splitWater(List<Food> allFreshFood) {
         Predicate<Food> mustBeWater = foodFiltered -> foodFiltered.getType().equals(FoodType.WATER);
         List<Food> allWater = allFreshFood.stream()
@@ -48,14 +40,25 @@ public class WaterSplitter {
             int quantityOfWaterOfMatchingAgeLeftAfterSplit =
                     waterLeftOutAfterSplit.getOrDefault(waterBatch.getAge(), 0);
             waterBatch.increaseQuantity(quantityOfWaterOfMatchingAgeLeftAfterSplit);
+            waterLeftOutAfterSplit.remove(waterBatch.getAge());
         }
-
+        if(!waterLeftOutAfterSplit.isEmpty()){
+            waterLeftOutAfterSplit.forEach((age, quantity)->allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
+        }
         allMergedWaterBatches.addAll(waterForHerbivorous);
         allFreshFood.addAll(allMergedWaterBatches);
-        resetWatterSplitter();
+        resetWaterSplitter();
         allFreshFood.sort(Comparator.comparing(Food::getAge).reversed());
     }
 
+    public List<Food> getWaterForCarnivorous() {
+        return waterForCarnivorous;
+    }
+
+    public List<Food> getWaterForHerbivorous() {
+        return waterForHerbivorous;
+    }
+    
     private int splitBatchOfWaterInTwo(Food batchOfWater) {
         if(batchOfWater.quantity() % 2 != 0) {
             waterLeftOutAfterSplit.put(batchOfWater.getAge(), batchOfWater.quantity() % 2);
@@ -87,7 +90,7 @@ public class WaterSplitter {
                 .findFirst();
     }
 
-    private void resetWatterSplitter() {
+    private void resetWaterSplitter() {
         waterLeftOutAfterSplit = new HashMap<>();
         waterForCarnivorous = new LinkedList<>();
         waterForHerbivorous = new LinkedList<>();

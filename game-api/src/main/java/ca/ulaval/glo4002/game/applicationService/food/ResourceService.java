@@ -20,6 +20,6 @@ public class ResourceService {
     }
 
     public FoodHistory getFoodQuantitySummary() {
-        return pantry.getFoodHistory();
+        return pantry.obtainFoodHistory();
     }
 }

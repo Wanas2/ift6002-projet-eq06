@@ -20,9 +20,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTest {
@@ -53,9 +51,9 @@ public class DinosaurResourceTest {
         aSumoRequestDTO = new SumoRequestDTO(A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
         aGrowDTO = new GrowDTO(A_WEIGHT);
         consumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, A_WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         anotherDinosaur =
-                new AdultDinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+                new AdultDinosaur(Species.Ankylosaurus, A_WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         aSumoRequestDTO = new SumoRequestDTO(A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
