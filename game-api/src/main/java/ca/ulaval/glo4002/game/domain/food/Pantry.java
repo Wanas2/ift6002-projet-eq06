@@ -109,7 +109,7 @@ public class Pantry implements FoodStorage {
         waterSplitter.mergeWater(allFreshFoods);
     }
 
-    public FoodHistory getFoodHistory() {
+    public FoodHistory obtainFoodHistory() {
         foodHistory.computeFreshFoodQuantities(allFreshFoods);
         return foodHistory;
     }

@@ -40,8 +40,11 @@ public class WaterSplitter {
             int quantityOfWaterOfMatchingAgeLeftAfterSplit =
                     waterLeftOutAfterSplit.getOrDefault(waterBatch.getAge(), 0);
             waterBatch.increaseQuantity(quantityOfWaterOfMatchingAgeLeftAfterSplit);
+            waterLeftOutAfterSplit.remove(waterBatch.getAge());
         }
-
+        if(!waterLeftOutAfterSplit.isEmpty()){
+            waterLeftOutAfterSplit.forEach((age, quantity)->allFreshFood.add(new Food(FoodType.WATER, quantity, age)));
+        }
         allMergedWaterBatches.addAll(waterForHerbivorous);
         allFreshFood.addAll(allMergedWaterBatches);
         resetWaterSplitter();

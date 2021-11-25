@@ -50,7 +50,7 @@ class ResourceServiceTest {
     public void whenGetFoodQuantitySummary_thenSummaryShouldBeCalculated() {
         resourceService.getFoodQuantitySummary();
 
-        verify(pantry).getFoodHistory();
+        verify(pantry).obtainFoodHistory();
     }
 
     private void initializeSomeFood() {
