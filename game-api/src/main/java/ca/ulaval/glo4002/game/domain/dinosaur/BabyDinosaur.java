@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.game.domain.dinosaur;
 
 import ca.ulaval.glo4002.game.domain.dinosaur.consumption.FoodConsumptionStrategy;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidBabyWeightChangeException;
+import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidWeightChangeException;
 
 import java.util.Optional;
 
@@ -29,7 +30,6 @@ public class BabyDinosaur extends Dinosaur {
 
     @Override
     public void modifyWeight(int weightValue) {
-        throw new InvalidBabyWeightChangeException();
     }
 
     public void increaseWeight() {
@@ -48,5 +48,10 @@ public class BabyDinosaur extends Dinosaur {
         }
 
         return potentialAdultDinosaur;
+    }
+
+    @Override
+    public void validateWeightVariation(int weightVariation) {
+        throw new InvalidBabyWeightChangeException();
     }
 }

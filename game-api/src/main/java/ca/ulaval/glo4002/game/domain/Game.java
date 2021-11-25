@@ -43,6 +43,11 @@ public class Game {
         turn.acquireNewAction(addSumoFightAction);
     }
 
+    public void modifyDinosaurWeight(int weightVariation, Dinosaur dinosaur) {
+        ExecutableAction modifyWeightAction = new ModifyWeightAction(weightVariation, dinosaur);
+        turn.acquireNewAction(modifyWeightAction);
+    }
+
     public int playTurn() {
         int turnNumber = turn.playActions();
 

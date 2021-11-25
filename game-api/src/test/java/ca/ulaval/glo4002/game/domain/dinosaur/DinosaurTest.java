@@ -111,5 +111,9 @@ class DinosaurTest {
         @Override
         public void modifyWeight(int weightValue) {
         }
+
+        @Override
+        public void validateWeightVariation(int weightVariation) {
+        }
     }
 }
