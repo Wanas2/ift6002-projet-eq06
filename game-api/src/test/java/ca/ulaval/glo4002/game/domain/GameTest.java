@@ -1,9 +1,6 @@
 package ca.ulaval.glo4002.game.domain;
 
-import ca.ulaval.glo4002.game.domain.action.AddAdultDinosaurAction;
-import ca.ulaval.glo4002.game.domain.action.AddBabyDinosaurAction;
-import ca.ulaval.glo4002.game.domain.action.AddFoodAction;
-import ca.ulaval.glo4002.game.domain.action.SumoFightAction;
+import ca.ulaval.glo4002.game.domain.action.*;
 import ca.ulaval.glo4002.game.domain.dinosaur.AdultDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.BabyDinosaur;
 import ca.ulaval.glo4002.game.domain.dinosaur.Dinosaur;
