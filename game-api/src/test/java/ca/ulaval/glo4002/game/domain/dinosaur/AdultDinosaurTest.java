@@ -12,15 +12,15 @@ import static org.mockito.Mockito.mock;
 public class AdultDinosaurTest {
 
     private final static int A_POSITIVE_WEIGHT_VARIATION = 27;
+    private final static int DINOSAUR_WEIGHT = 150;
+    private final static String DINOSAUR_NAME = "Bobi";
 
     private AdultDinosaur aDinosaur;
-    int dinosaurWeight = 150;
-    String dinosaurName = "Bobi";
 
     @BeforeEach
     public void setup() {
         FoodConsumptionStrategy aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, dinosaurWeight, dinosaurName, Gender.F,
+        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, DINOSAUR_WEIGHT, DINOSAUR_NAME, Gender.F,
                 aFoodConsumptionStrategy);
     }
 
@@ -34,16 +34,12 @@ public class AdultDinosaurTest {
         assertEquals(dinosaurWeightAfterWeightIncrease, newDinosaurWeight);
     }
 
-    @Test void givenANegativeWeightVariation_whenModifyWeight_thenTheWeightVariationShouldBeSubtractedToTheDinosaurWeight(){
-
-    }
-
     @Test
     public void givenANegativeWeightVariationMoreThanACurrentWeight_whenModifyWeight_ThenShouldThrowInvalidWeightChangeException() {
-        final int WEIGHT_VARIATION = -(dinosaurWeight + 1);
+        int weightVariation = -(DINOSAUR_WEIGHT + 1);
 
         assertThrows(InvalidWeightChangeException.class,
-                () -> aDinosaur.modifyWeight(WEIGHT_VARIATION)
+                () -> aDinosaur.modifyWeight(weightVariation)
         );
     }
 }

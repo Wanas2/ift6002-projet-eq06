@@ -19,7 +19,7 @@ public class DinosaurFactory {
     }
 
     public AdultDinosaur createAdultDinosaur(String genderName, int weight, String speciesName, String name) {
-        if(weight <= 0) {
+        if(weight < 100) {
             throw new InvalidWeightException();
         }
 

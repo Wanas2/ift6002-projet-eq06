@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 public class DinosaurFactoryTest {
 
     private final static String A_NAME = "Bobi";
-    private final static int A_WEIGHT = 17;
+    private final static int A_WEIGHT = 176;
     private final static String A_GENDER = "f";
     private final static String A_SPECIES = "Ankylosaurus";
 
@@ -38,26 +38,26 @@ public class DinosaurFactoryTest {
 
     @Test
     public void givenAGenderNeitherMNorF_whenCreateAdultDinosaur_thenShouldThrowInvalidGenderException() {
-        final String AN_INVALID_GENDER = "X";
+        String anInvalidGender = "X";
 
         assertThrows(InvalidGenderException.class,
-                ()->dinosaurFactory.createAdultDinosaur(AN_INVALID_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
+                ()->dinosaurFactory.createAdultDinosaur(anInvalidGender, A_WEIGHT, A_SPECIES, A_NAME));
     }
 
     @Test
     public void givenAnInvalidSpecies_whenCreateAdultDinosaur_thenShouldThrowInvalidSpeciesException() {
-        final String AN_INVALID_SPECIES = "Labrador";
+        String anInvalidSpecies = "Labrador";
 
         assertThrows(InvalidSpeciesException.class,
-                () ->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, AN_INVALID_SPECIES, A_NAME));
+                () ->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
     }
 
     @Test
     public void givenAnInvalidWeight_whenCreateAdultDinosaur_thenShouldThrowInvalidWeightException() {
-        final int AN_INVALID_WEIGHT = -1;
+        int anInvalidWeight = -1;
 
         assertThrows(InvalidWeightException.class,
-                () ->dinosaurFactory.createAdultDinosaur(A_GENDER, AN_INVALID_WEIGHT, A_SPECIES, A_NAME));
+                () ->dinosaurFactory.createAdultDinosaur(A_GENDER, anInvalidWeight, A_SPECIES, A_NAME));
     }
 
     @Test

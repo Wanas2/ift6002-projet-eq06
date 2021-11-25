@@ -92,10 +92,10 @@ public class BabyDinosaurTest {
 
     @Test
     public void whenModifiedWeight_thenShouldThrowInvalidBabyWeightChangeException() {
-        final int A_WEIGHT = 1;
+        int aWeight = 1;
 
         assertThrows(InvalidBabyWeightChangeException.class,
-                () -> aBabyDinosaur.modifyWeight(A_WEIGHT)
+                () -> aBabyDinosaur.modifyWeight(aWeight)
         );
     }
 }
