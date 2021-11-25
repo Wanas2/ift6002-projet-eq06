@@ -18,7 +18,7 @@ public class DinosaurBreederExternal {
                 .entity(breedingRequestExternalDTO, MediaType.APPLICATION_JSON));
 
         if(response.getStatus() == 400)
-            throw new SpeciesWillNotBreedException("Impossibles to breed these species");
+            throw new SpeciesWillNotBreedException();
 
         return response.readEntity(BabyDinosaurResponseDTO.class);
     }
