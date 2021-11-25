@@ -85,13 +85,6 @@ class DinosaurServiceTest {
     }
 
     @Test
-    public void givenADinosaurName_whenShowDinosaur_thenDinosaurWithNameShouldBeReceived() {
-        dinosaurService.showDinosaur(A_NAME);
-
-        verify(herd).getDinosaurWithName(A_NAME);
-    }
-
-    @Test
     public void givenADinosaurName_whenShowDinosaur_thenTheDinosaurShouldBeReturned() {
         when(herd.getDinosaurWithName(A_NAME)).thenReturn(adultDinosaur);
 
@@ -108,13 +101,6 @@ class DinosaurServiceTest {
         List<Dinosaur> DinosaursReturned = dinosaurService.showAllDinosaurs();
 
         assertEquals(allDinosaursExpected, DinosaursReturned);
-    }
-
-    @Test
-    public void whenShowAllDinosaurs_thenHerdShouldGetAllDinosaurs() {
-        dinosaurService.showAllDinosaurs();
-
-        verify(herd).getAllDinosaurs();
     }
 
     @Test
@@ -142,16 +128,6 @@ class DinosaurServiceTest {
     }
 
     @Test
-    public void givenAMaleAndAFemaleDinosaur_whenBreedDino_thenShouldFetchTheBabyDinosaur() {
-        when(herd.getDinosaurWithName(A_FATHER_NAME)).thenReturn(adultDinosaur);
-        when(herd.getDinosaurWithName(A_MOTHER_NAME)).thenReturn(anotherAdultDinosaur);
-
-        dinosaurService.breedDinosaur(A_BABY_NAME, A_FATHER_NAME, A_MOTHER_NAME);
-
-        verify(babyFetcher).fetch(adultDinosaur, anotherAdultDinosaur, A_BABY_NAME);
-    }
-
-    @Test
     public void givenTwoDinosaurs_whenPrepareSumoFight_thenThePredictedWinnerNameShouldBeReturned() {
         String expectedWinnerName = "winner";
         when(herd.getDinosaurWithName(A_NAME)).thenReturn(adultDinosaur);
@@ -161,5 +137,15 @@ class DinosaurServiceTest {
         String predictedNameReturned = dinosaurService.prepareSumoFight(A_NAME, ANOTHER_NAME);
 
         assertEquals(expectedWinnerName, predictedNameReturned);
+    }
+
+    @Test
+    public void givenADinosaurNameInHerd_whenUpdateDinosaurWeight_thenTheWeightOfTheDinosaurWithThatNameShouldBeModified() {
+        Dinosaur theDinosaur = mock(Dinosaur.class);
+        when(herd.getDinosaurWithName(A_NAME)).thenReturn(theDinosaur);
+
+        dinosaurService.updateDinosaurWeight(A_NAME, A_WEIGHT);
+
+        verify(theDinosaur).modifyWeight(A_WEIGHT);
     }
 }

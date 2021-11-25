@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidFatherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidGenderException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidMotherException;
 import ca.ulaval.glo4002.game.domain.dinosaur.exceptions.InvalidSpeciesException;
+import ca.ulaval.glo4002.game.interfaces.rest.dinosaur.InvalidWeightException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.mock;
 public class DinosaurFactoryTest {
 
     private final static String A_NAME = "Bobi";
-    private final static int A_WEIGHT = 17;
+    private final static int A_WEIGHT = 176;
     private final static String A_GENDER = "f";
     private final static String A_SPECIES = "Ankylosaurus";
 
@@ -36,7 +37,7 @@ public class DinosaurFactoryTest {
     }
 
     @Test
-    public void givenAGenderNeitherMNorF_whenCreateDinosaur_thenShouldThrowInvalidGenderException() {
+    public void givenAGenderNeitherMNorF_whenCreateAdultDinosaur_thenShouldThrowInvalidGenderException() {
         String anInvalidGender = "X";
 
         assertThrows(InvalidGenderException.class,
@@ -44,15 +45,23 @@ public class DinosaurFactoryTest {
     }
 
     @Test
-    public void givenAnInvalidSpecies_whenCreateDinosaur_thenShouldThrowInvalidSpeciesException() {
+    public void givenAnInvalidSpecies_whenCreateAdultDinosaur_thenShouldThrowInvalidSpeciesException() {
         String anInvalidSpecies = "Labrador";
 
         assertThrows(InvalidSpeciesException.class,
-                ()->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
+                () ->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, anInvalidSpecies, A_NAME));
     }
 
     @Test
-    public void givenCorrectParameters_whenCreateDinosaur_thenShouldNotThrow() {
+    public void givenAnInvalidWeight_whenCreateAdultDinosaur_thenShouldThrowInvalidWeightException() {
+        int anInvalidWeight = -1;
+
+        assertThrows(InvalidWeightException.class,
+                () ->dinosaurFactory.createAdultDinosaur(A_GENDER, anInvalidWeight, A_SPECIES, A_NAME));
+    }
+
+    @Test
+    public void givenCorrectParameters_whenCreateAdultDinosaur_thenShouldNotThrow() {
         assertDoesNotThrow(()->dinosaurFactory.createAdultDinosaur(A_GENDER, A_WEIGHT, A_SPECIES, A_NAME));
     }
 

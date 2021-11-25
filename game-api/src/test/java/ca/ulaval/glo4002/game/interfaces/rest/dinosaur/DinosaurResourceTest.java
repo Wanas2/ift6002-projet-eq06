@@ -78,15 +78,6 @@ public class DinosaurResourceTest {
     }
 
     @Test
-    public void givenADinosaurDTOWithWeightNotStrictlyPositive_whenAddDinosaur_thenShouldThrowInvalidWeightException() {
-        int anInvalidWeight = -5;
-        aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, anInvalidWeight, GENDER, SPECIES);
-
-        assertThrows(InvalidWeightException.class,
-                ()->dinosaurResource.addAdultDinosaur(aDinosaurDTO));
-    }
-
-    @Test
     public void givenABreedingRequestDTO_whenBreedDinosaur_thenDinosaurShouldBeBred() {
         dinosaurResource.breedDinosaur(aBreedingRequestDTO);
 
