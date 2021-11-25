@@ -17,13 +17,14 @@ public class AdultDinosaurTest {
     @BeforeEach
     public void setup() {
         FoodConsumptionStrategy aFoodConsumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, 150, "Bobi", Gender.F,
+        int dinosaurWeight = 150;
+        String dinosaurName = "Bobi";
+        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, dinosaurWeight, "dinosaurName", Gender.F,
                 aFoodConsumptionStrategy);
-
     }
 
     @Test
-    public void whenModifyWeight_thenWeightShouldBeModified() {
+    public void givenWeightVariation_whenModifyWeight_thenWeightShouldBeModified() {
         int expectedWeight = 177;
 
         aDinosaur.modifyWeight(WEIGHT_VARIATION);
