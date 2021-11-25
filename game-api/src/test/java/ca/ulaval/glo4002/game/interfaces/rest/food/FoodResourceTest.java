@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.mock;
 import static org.mockito.BDDMockito.verify;
+import static org.mockito.Mockito.when;
 
 class FoodResourceTest {
 
@@ -27,10 +28,6 @@ class FoodResourceTest {
     private final static int A_QUANTITY_OF_SALAD = 2;
     private final static int A_QUANTITY_OF_WATER_IN_LITERS = 10;
 
-    private Food aFoodItem1;
-    private Food aFoodItem2;
-    private Food aFoodItem3;
-    private List<Food> someFood;
     private FoodDTO aFoodDTO;
     private FoodHistory foodHistory;
     private ResourceService resourceService;
@@ -41,71 +38,42 @@ class FoodResourceTest {
 
     @BeforeEach
     void setUp() {
-        aFoodDTO = new FoodDTO(A_QUANTITY_OF_BURGER, A_QUANTITY_OF_SALAD, A_QUANTITY_OF_WATER_IN_LITERS);
-
         foodHistory = mock(FoodHistory.class);
         resourceService = mock(ResourceService.class);
-        foodValidator = new FoodValidator();
-        foodAssembler = new FoodAssembler();
-        foodSummaryAssembler = new FoodSummaryAssembler(foodAssembler);
+        foodValidator = mock(FoodValidator.class);
+        foodAssembler = mock(FoodAssembler.class);
+        foodSummaryAssembler = mock(FoodSummaryAssembler.class);
         foodResource = new FoodResource(resourceService, foodValidator, foodAssembler, foodSummaryAssembler);
     }
 
-    /*@Test
-    public void givenAFoodDTO_whenAddFood_thenTheFoodCorrespondingToTheDTOShouldBeAdded() {
-        initializeSomeFood();
-
-        foodResource.addFood(aFoodDTO);
-
-        verify(resourceService).addFood(argThat(this::isTheSameAsSomeFood));
-    }*/
-
     @Test
     public void givenAFoodDTO_whenAddFood_thenResponseStatusShouldBe200() {
+        aFoodDTO = new FoodDTO(A_QUANTITY_OF_BURGER, A_QUANTITY_OF_SALAD, A_QUANTITY_OF_WATER_IN_LITERS);
+
         Response response = foodResource.addFood(aFoodDTO);
 
         assertEquals(STATUS_200_OK, response.getStatus());
     }
 
-//    @Test
-//    public void whenGetFoodQuantitySummary_thenGameServiceShouldGetFoodQuantitySummary() {
-//        when(resourceService.getFoodQuantitySummary()).thenReturn(foodHistory);
-//
-//        Response response = foodResource.getFoodQuantitySummary();
-//        FoodSummaryDTO expectedFoodSummaryDTO = (FoodSummaryDTO) response.getEntity();
-//
-//        assertTrue(isTheSameFoodDTO(expectedFoodSummaryDTO.fresh));
-//        assertTrue(isTheSameFoodDTO(expectedFoodSummaryDTO.consumed));
-//        assertTrue(isTheSameFoodDTO(expectedFoodSummaryDTO.expired));
-//    }
+    @Test
+    public void whenGetFoodQuantitySummary_thenShouldGetFoodQuantitySummary(){
+        foodResource.getFoodQuantitySummary();
 
-//    @Test
-//    public void whenGetFoodQuantitySummary_thenResponseStatusShouldBe200() {
-//        when(resourceService.getFoodQuantitySummary()).thenReturn(foodHistory);
-//
-//        Response response = foodResource.getFoodQuantitySummary();
-//
-//        assertEquals(STATUS_200_OK, response.getStatus());
-//    }
-
-    private void initializeSomeFood() {
-        aFoodItem1 = new Food(FoodType.BURGER, A_QUANTITY_OF_BURGER);
-        aFoodItem2 = new Food(FoodType.SALAD, A_QUANTITY_OF_SALAD);
-        aFoodItem3 = new Food(FoodType.WATER, A_QUANTITY_OF_WATER_IN_LITERS);
-        someFood = new ArrayList<>();
-        someFood.add(aFoodItem1);
-        someFood.add(aFoodItem2);
-        someFood.add(aFoodItem3);
+        verify(resourceService).getFoodQuantitySummary();
     }
 
-    /*private boolean isTheSameAsSomeFood(Map<FoodType, Food> matcher){
-        return matcher.get(FoodType.SALAD).quantity() == someFood.get(FoodType.SALAD).quantity() &&
-                matcher.get(FoodType.BURGER).quantity() == someFood.get(FoodType.BURGER).quantity() &&
-                matcher.get(FoodType.WATER).quantity() == someFood.get(FoodType.WATER).quantity();
-    }*/
+    @Test
+    public void whenGetFoodQuantitySummary_thenShouldPrepareDTO(){
+        when(resourceService.getFoodQuantitySummary()).thenReturn(foodHistory);
+        foodResource.getFoodQuantitySummary();
 
-    private boolean isTheSameFoodDTO(FoodDTO foodDTO) {
-        return foodDTO.qtySalad == aFoodDTO.qtySalad && foodDTO.qtyBurger == aFoodDTO.qtyBurger
-                && foodDTO.qtyWater == aFoodDTO.qtyWater;
+        verify(foodSummaryAssembler).toDTO(foodHistory);
+    }
+
+    @Test
+    public void whenGetFoodQuantitySummary_thenResponseStatusShouldBe200(){
+        Response response = foodResource.getFoodQuantitySummary();
+
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 }

@@ -45,6 +45,10 @@ public class DinosaurService {
         return predictedWinner;
     }
 
+    public void updateDinosaurWeight(String dinosaurName, int weight){
+        //TODO
+    }
+
     public Dinosaur showDinosaur(String dinosaurName) {
         return herd.getDinosaurWithName(dinosaurName);
     }

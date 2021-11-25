@@ -11,7 +11,7 @@ public class InvalidWeightExceptionMapper extends GeneralBadRequestExceptionMapp
         implements ExceptionMapper<InvalidWeightException> {
 
     private final static String ERROR_CODE = "INVALID_WEIGHT";
-    private final static String ERROR_MESSAGE = "The specified weight must be greater than 0.";
+    private final static String ERROR_MESSAGE = "The specified weight must be equal or greater than 100 kg.";
 
     @Override
     public Response toResponse(InvalidWeightException exception) {

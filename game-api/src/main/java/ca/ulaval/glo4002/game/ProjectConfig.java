@@ -89,6 +89,8 @@ public class ProjectConfig extends ResourceConfig {
         register(new MaxCombatsReachedExceptionMapper());
         register(new ArmsTooShortExceptionMapper());
         register(new DinosaurAlreadyParticipatingExceptionMapper());
+        register(new InvalidWeightChangeExceptionMapper());
+        register(new InvalidBabyWeightChangeExceptionMapper());
     }
 
     private Game provideNewGame(){

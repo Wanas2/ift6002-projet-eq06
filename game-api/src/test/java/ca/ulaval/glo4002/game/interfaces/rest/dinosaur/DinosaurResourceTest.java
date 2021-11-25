@@ -20,9 +20,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class DinosaurResourceTest {
@@ -31,13 +29,14 @@ public class DinosaurResourceTest {
     private final static String A_BABY_DINOSAUR_NAME = "Junior";
     private final static String A_DINOSAUR_NAME = "Bobi";
     private final static String ANOTHER_DINOSAUR_NAME = "Bob";
-    private final static int WEIGHT = 17;
+    private final static int A_WEIGHT = 235;
     private final static String GENDER = "f";
     private final static String SPECIES = "Ankylosaurus";
     private FoodConsumptionStrategy consumptionStrategy;
 
     private BreedingRequestDTO aBreedingRequestDTO;
     private DinosaurDTO aDinosaurDTO;
+    private GrowDTO aGrowDTO;
     private SumoRequestDTO aSumoRequestDTO;
     private Dinosaur aDinosaur;
     private Dinosaur anotherDinosaur;
@@ -47,12 +46,14 @@ public class DinosaurResourceTest {
 
     @BeforeEach
     public void setup() {
-        aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, WEIGHT, GENDER, SPECIES);
+        aDinosaurDTO = new DinosaurDTO(A_DINOSAUR_NAME, A_WEIGHT, GENDER, SPECIES);
         aBreedingRequestDTO = new BreedingRequestDTO(A_BABY_DINOSAUR_NAME, A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
+        aSumoRequestDTO = new SumoRequestDTO(A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
+        aGrowDTO = new GrowDTO(A_WEIGHT);
         consumptionStrategy = mock(FoodConsumptionStrategy.class);
-        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+        aDinosaur = new AdultDinosaur(Species.Ankylosaurus, A_WEIGHT, A_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         anotherDinosaur =
-                new AdultDinosaur(Species.Ankylosaurus, WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
+                new AdultDinosaur(Species.Ankylosaurus, A_WEIGHT, ANOTHER_DINOSAUR_NAME, Gender.F, consumptionStrategy);
         aSumoRequestDTO = new SumoRequestDTO(A_DINOSAUR_NAME, ANOTHER_DINOSAUR_NAME);
         dinosaurs = new ArrayList<>();
         dinosaurService = mock(DinosaurService.class);
@@ -174,8 +175,22 @@ public class DinosaurResourceTest {
         String expectedPredictedWinner = dinosaurService.prepareSumoFight(aSumoRequestDTO.challenger,
                 aSumoRequestDTO.challengee);
         Response response = dinosaurResource.sumoFight(aSumoRequestDTO);
-        SumoResponseDTO sumoResponseDTO = (SumoResponseDTO) response.getEntity();
+        SumoResponseDTO sumoResponseDTO = (SumoResponseDTO)response.getEntity();
 
-        assertEquals(expectedPredictedWinner,sumoResponseDTO.predictedWinner);
+        assertEquals(expectedPredictedWinner, sumoResponseDTO.predictedWinner);
+    }
+
+    @Test
+    public void givenADinosaurNameAndAGrowDTO_whenUpdateDinosaur_thenTheServiceShouldBeCalledWithThoseArguments(){
+        dinosaurResource.updateDinosaur(A_DINOSAUR_NAME, aGrowDTO);
+
+        verify(dinosaurService).updateDinosaurWeight(A_DINOSAUR_NAME, A_WEIGHT);
+    }
+
+    @Test
+    public void givenADinosaurNameAndAGrowDTO_whenUpdateDinosaur_thenResponseStatusShouldBe200(){
+        Response response = dinosaurResource.updateDinosaur(A_DINOSAUR_NAME, aGrowDTO);
+
+        assertEquals(STATUS_200_OK, response.getStatus());
     }
 }
